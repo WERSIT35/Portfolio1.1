@@ -35,23 +35,19 @@ export class MainComponent implements AfterViewInit, OnInit{
         arrows: false,
         width: '100%',
         fixedWidth: '30%',
-        fixedHeight: '200px',
         padding: '7.5%',
         mediaQuery: 'max',
         breakpoints: {
           1200: {
             fixedWidth: '40%',
-            fixedHeight: '250px',
             padding: '7.5%',
           },
           768: {
             fixedWidth: '50%',
-            fixedHeight: '150px',
             padding: '7.5%',
           },
           480: {
             fixedWidth: '70%',
-            fixedHeight: '200px',
             gap: '1.5rem',
           }
         }

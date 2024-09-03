@@ -11,6 +11,7 @@ export class EducationService {
     {
       name: [
         'Javascript',
+        'Typescript',
         'Java',
         'C#',
         'C++',
@@ -19,6 +20,8 @@ export class EducationService {
         'Oracle',
         'Angular',
         'React',
+        'Azure',
+        'Aws',
       ],
       color: [
         '#F0DB4F', // Javascript
@@ -30,7 +33,9 @@ export class EducationService {
         '#005BA1', // SQL
         '#EA1B22', // Oracle
         '#DD0031', // Angular
-        '#60D7F5'  //React
+        '#60D7F5',  //React
+        '#0C8BBE',  //Azure
+        '#FF9900',  //Aws
       ],
       icon: [
         'devicon-javascript-plain',
@@ -42,7 +47,9 @@ export class EducationService {
         'devicon-azuresqldatabase-plain',
         'devicon-oracle-plain',
         'devicon-angular-plain',
-        'devicon-react-original'
+        'devicon-react-original',
+        'devicon-azure-plain colored',
+        'devicon-amazonwebservices-plain-wordmark colored'
       ],
     },
   ];
