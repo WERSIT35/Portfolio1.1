@@ -1,0 +1,49 @@
+
+h1,
+p,
+li {
+  font-family: "Inter", sans-serif;
+}
+.skills {
+    .skillSec {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .killTitle {
+        width: 85%;
+        padding: 15px 0 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        justify-content: space-between;
+        h1 {
+          font-size: 18px;
+          text-transform: uppercase;
+        }
+        p {
+          font-size: 12px;
+          color: #a4a4a4;
+          i {
+            padding-left: 8px;
+          }
+        }
+      }
+    }
+  }
+
+
+.skills{
+    padding: 15px 0 0 0;
+    #slider1{
+        div{
+            ul{
+                li{
+                    i{
+                        font-size: 40px;
+                    }
+                }
+            }
+        }
+    }
+}

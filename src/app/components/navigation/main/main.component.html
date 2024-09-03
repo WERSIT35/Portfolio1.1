@@ -1,0 +1,67 @@
+<div class="body">
+    <section class="intro">
+        <div class="inintro">
+            <div class="profile">
+                <div class="image">
+                    <img src="/assets/profile/last.png" alt="otar davitashvili">
+                </div>
+                <div class="text">
+                    <h1 class="name">
+                        otar 
+                        davitashvili
+                    </h1>
+                    <p class="title">
+                        Software Engineer | Angular / React
+                    </p>
+                </div>
+            </div>
+            <ul class="options">
+                <li class="resume">Resume<i class="fa-solid fa-file"></i></li>
+                <li class="project">Projects<i class="fa-solid fa-rocket"></i></li>
+                <li class="contact">Contact<i class="fa-solid fa-comment"></i></li>
+            </ul>
+        </div>
+    </section>
+    <app-skills></app-skills>
+    <section class="education">
+        <div class="eduSec">
+            <div class="eduTitle">
+                <h1>Education</h1>
+                <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+            </div>
+            <section id="education" class="splide">
+                <div class="splide__track">
+                      <ul class="splide__list">
+                        @for (item of educationList; track $index) {
+                          <li class="splide__slide">
+                            <div class="eduCard">
+                                <div class="eduTitle">
+                                    <div class="eduTitleCont">
+                                        <img [src]="item.img" alt="">
+                                        <h2>{{item.name}}</h2>
+                                    </div>
+                                </div>
+                                <div class="eduInfo">
+                                    <div class="eduInfoName">
+                                        <h2>{{item.title}}</h2>
+                                        <div class="eduInfoDes">
+                                            <h2>{{item.degree}}</h2>
+                                            <div class="eduSubInfo">
+                                                @for (subject of item.subjects; track $index) {
+                                                    <p>{{subject}}</p>
+                                                }
+                                            </div>
+                                        </div>
+                                        <p>{{item.date}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                          </li>
+                        }
+                      </ul>
+                </div>
+              </section>
+        </div>
+    </section>
+    <app-experience></app-experience>
+</div>

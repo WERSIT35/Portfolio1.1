@@ -1,0 +1,20 @@
+<section class="skills">
+    <div class="skillSec">
+      <div class="killTitle">
+          <h1>Skills</h1>
+          <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+      </div>
+    </div>
+    <section id="slider1" class="splide" aria-label="Skills Carousel">
+      <div class="splide__track">
+        <ul class="splide__list">
+          @for (item of skillsList; track $index) {
+            @for (i of item.name; track $index) {
+          <li class="splide__slide">
+            <i [ngClass]="item.icon[$index]"  [ngStyle]="{'color': item.color[$index]}"></i>
+          </li>
+          }}
+        </ul>
+      </div>
+    </section>
+  </section>

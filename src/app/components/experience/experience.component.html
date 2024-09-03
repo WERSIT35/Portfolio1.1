@@ -1,0 +1,45 @@
+<section class="experience">
+  <div class="exSec">
+    <div class="exTitle">
+      <h1>Experience</h1>
+      <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+    </div>
+  </div>
+  <section id="experience" class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        @for (item of experienceList; track $index) {
+        <li class="splide__slide">
+          <div class="exCard">
+            <div class="exTitle">
+              <div class="subTitle">
+                <h2>{{ item.name }} </h2>
+                <i class="fa-solid fa-ellipsis"></i>
+              </div>
+            </div>
+            <div class="exInfo">
+              <div class="subname">
+                <h2>{{item.subname}}:</h2>
+                <div class="subnameTxt">
+                  @for (tool of item.subnameText; track $index) {
+                    <p>{{tool}}</p>
+                  }
+                </div>
+              </div>
+              <div class="subname1">
+                <h2>{{item.subname1}}:</h2>
+                <div class="subnameTxt1">
+                  @for (resp of item.subname1Text; track $index) {
+                    <p>{{resp}}</p>
+                  }
+                </div>
+              </div>
+              <p class="date">{{item.date}}</p>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </section>
+</section>
