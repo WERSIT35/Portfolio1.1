@@ -11,11 +11,12 @@ import { ExperienceService } from '../../services/experience.service';
 import { isPlatformBrowser } from '@angular/common';
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-certificate',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './certificate.component.html',
   styleUrl: './certificate.component.scss',
 })
@@ -55,6 +56,7 @@ export class CertificateComponent implements AfterViewInit, OnInit {
             },
             480: {
               perPage:1,
+              padding: '7.5%',
             },
           },
         }).mount();
