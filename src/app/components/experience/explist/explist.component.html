@@ -1,0 +1,27 @@
+<div class="exCard">
+  <div class="exTitle">
+    <div class="subTitle">
+      <h2>{{ exp?.name }}</h2>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div>
+  </div>
+  <div class="exInfo">
+    <div class="subname">
+      <h2>{{ exp?.subname }}:</h2>
+      <div class="subnameTxt">
+        @for (tool of exp?.subnameText; track $index) {
+        <p>{{ tool }}</p>
+        }
+      </div>
+    </div>
+    <div class="subname1">
+      <h2>{{ exp?.subname1 }}:</h2>
+      <div class="subnameTxt1">
+        @for (resp of exp?.subname1Text; track $index) {
+        <p>{{ resp }}</p>
+        }
+      </div>
+    </div>
+    <p class="date">{{ exp?.date }}</p>
+  </div>
+</div>

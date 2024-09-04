@@ -8,5 +8,6 @@ export interface Experience {
     subname1:string,
     subname1Text:string[],
 
+    description:string,
     date:string,
 }

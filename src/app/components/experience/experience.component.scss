@@ -34,6 +34,8 @@ li {
         font-size: 18px;
         text-transform: uppercase;
       }
+      a{
+        text-decoration: none;
       p {
         font-size: 12px;
         color: #a4a4a4;
@@ -41,6 +43,7 @@ li {
           padding-left: 8px;
         }
       }
+    }
     }
   }
   #experience {
@@ -53,8 +56,16 @@ li {
           height: 100%;
           padding-bottom: 15px;
           display: flex;
+          
+          a{
+            width: 100%;
+            text-decoration: none;
+            h2{
+              color: black;
+            }
           .exCard {
             width: 100%;
+            height: 100%;
             border-radius: 15px;
             background-color: white;
             display: flex;
@@ -62,9 +73,11 @@ li {
             align-items: end;
             .exTitle {
               background: linear-gradient(90deg, #909090, #090909);
+              
               border-top-left-radius: 15px;
               border-top-right-radius: 15px;
               width: 100%;
+              height: 60px;
               @include centerRow;
               .subTitle{
                 @include centerRow;
@@ -134,7 +147,12 @@ li {
               }
             }
           }
+        }
           margin: 0;
+
+
+
+          
         }
       }
     }

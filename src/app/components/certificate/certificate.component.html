@@ -1,0 +1,23 @@
+<section class="certificate">
+  <div class="exSec">
+    <div class="exTitle">
+      <h1>certificate</h1>
+      <a href="">
+        <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+      </a>
+    </div>
+  </div>
+  <section id="certificate" class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        @for (item of certificationList; track $index) {
+        <li class="splide__slide">
+          <a>
+            <img [src]="item.image" alt="" />
+          </a>
+        </li>
+        }
+      </ul>
+    </div>
+  </section>
+</section>

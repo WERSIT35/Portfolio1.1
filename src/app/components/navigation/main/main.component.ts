@@ -6,11 +6,13 @@ import { Education } from '../../../interfaces/education';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SkillsComponent } from '../../skills/skills.component';
 import { ExperienceComponent } from "../../experience/experience.component";
+import { RouterLink } from '@angular/router';
+import { CertificateComponent } from "../../certificate/certificate.component";
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, SkillsComponent, ExperienceComponent],
+  imports: [CommonModule, SkillsComponent, ExperienceComponent, RouterLink, CertificateComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
@@ -35,6 +37,7 @@ export class MainComponent implements AfterViewInit, OnInit{
         arrows: false,
         width: '100%',
         fixedWidth: '30%',
+        height:'30vh',
         padding: '7.5%',
         mediaQuery: 'max',
         breakpoints: {
@@ -43,12 +46,14 @@ export class MainComponent implements AfterViewInit, OnInit{
             padding: '7.5%',
           },
           768: {
-            fixedWidth: '50%',
+            fixedWidth: '60%',
             padding: '7.5%',
           },
           480: {
             fixedWidth: '70%',
             gap: '1.5rem',
+            height:'23vh',
+            // height:'32vh',
           }
         }
       });

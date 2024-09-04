@@ -27,35 +27,39 @@
         <div class="eduSec">
             <div class="eduTitle">
                 <h1>Education</h1>
-                <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+                <a href="">
+                    <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+                </a>
             </div>
             <section id="education" class="splide">
                 <div class="splide__track">
                       <ul class="splide__list">
                         @for (item of educationList; track $index) {
                           <li class="splide__slide">
-                            <div class="eduCard">
-                                <div class="eduTitle">
-                                    <div class="eduTitleCont">
-                                        <img [src]="item.img" alt="">
-                                        <h2>{{item.name}}</h2>
-                                    </div>
-                                </div>
-                                <div class="eduInfo">
-                                    <div class="eduInfoName">
-                                        <h2>{{item.title}}</h2>
-                                        <div class="eduInfoDes">
-                                            <h2>{{item.degree}}</h2>
-                                            <div class="eduSubInfo">
-                                                @for (subject of item.subjects; track $index) {
-                                                    <p>{{subject}}</p>
-                                                }
-                                            </div>
+                            <a [routerLink]="['/edulist', item.id]">
+                                <div class="eduCard">
+                                    <div class="eduTitle">
+                                        <div class="eduTitleCont">
+                                            <img [src]="item.img" alt="">
+                                            <h2>{{item.name}}</h2>
                                         </div>
-                                        <p class="date">{{item.date}}</p>
+                                    </div>
+                                    <div class="eduInfo">
+                                        <div class="eduInfoName">
+                                            <h2>{{item.title}}</h2>
+                                            <div class="eduInfoDes">
+                                                <h2>{{item.degree}}</h2>
+                                                <div class="eduSubInfo">
+                                                    @for (subject of item.subjects; track $index) {
+                                                        <p>{{subject}}</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p class="date">{{item.date}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                           </li>
                         }
                       </ul>
@@ -64,4 +68,5 @@
         </div>
     </section>
     <app-experience></app-experience>
+    <app-certificate></app-certificate>
 </div>

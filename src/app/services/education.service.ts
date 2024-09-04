@@ -55,6 +55,7 @@ export class EducationService {
   ];
   protected education: Education[] = [
     {
+      id:1,
       img: '/assets/education/Universities/ug.png',
       name: 'University Of Georgia',
       title: 'Information Technologies',
@@ -63,6 +64,7 @@ export class EducationService {
       date: '2019 | 2025',
     },
     {
+      id:2,
       img: '/assets/education/Universities/w3.png',
       name: 'University of New York',
       title: 'Bachelor of Science',
@@ -71,17 +73,22 @@ export class EducationService {
       date: '2019 | 2025',
     },
     {
+      id:3,
       img: '/assets/education/Universities/fcc.svg',
       name: 'FreeCodeCamp',
-      title: 'Bachelor of Science',
-      degree: 'Computer Science',
-      subjects: ['Data Structures', 'Algorithms', '...See all'],
+      title: 'Information Technologies',
+      degree: '',
+      subjects: ['Responsive Web Design', 'JavaScript Algorithms and Data Structures','Front End Development Libraries Certification', '...See all'],
       date: '2019 | 2025',
     },
   ];
 
   getEducation(): Education[] {
     return this.education;
+  }
+
+  getEduId(id:number):Education |undefined{
+    return this.education.find(sitem=>sitem.id === id);
   }
 
   getSkills(): Skills[] {

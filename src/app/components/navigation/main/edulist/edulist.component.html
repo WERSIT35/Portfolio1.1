@@ -1,0 +1,26 @@
+<li class="splide__slide">
+  <a href="">
+    <div class="eduCard">
+      <div class="eduTitle">
+        <div class="eduTitleCont">
+          <img [src]="edu?.img" alt="" />
+          <h2>{{ edu?.name }}</h2>
+        </div>
+      </div>
+      <div class="eduInfo">
+        <div class="eduInfoName">
+          <h2>{{ edu?.title }}</h2>
+          <div class="eduInfoDes">
+            <h2>{{ edu?.degree }}</h2>
+            <div class="eduSubInfo">
+              @for (subject of edu?.subjects; track $index) {
+              <p>{{ subject }}</p>
+              }
+            </div>
+          </div>
+          <p class="date">{{ edu?.date }}</p>
+        </div>
+      </div>
+    </div>
+  </a>
+</li>
