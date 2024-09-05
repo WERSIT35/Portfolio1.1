@@ -33,9 +33,9 @@ export class EducationService {
         '#005BA1', // SQL
         '#EA1B22', // Oracle
         '#DD0031', // Angular
-        '#60D7F5',  //React
-        '#0C8BBE',  //Azure
-        '#FF9900',  //Aws
+        '#60D7F5', //React
+        '#0C8BBE', //Azure
+        '#FF9900', //Aws
       ],
       icon: [
         'devicon-javascript-plain',
@@ -49,36 +49,71 @@ export class EducationService {
         'devicon-angular-plain',
         'devicon-react-original',
         'devicon-azure-plain colored',
-        'devicon-amazonwebservices-plain-wordmark colored'
+        'devicon-amazonwebservices-plain-wordmark colored',
       ],
     },
   ];
   protected education: Education[] = [
     {
-      id:1,
+      id: 1,
       img: '/assets/education/Universities/ug.png',
       name: 'University Of Georgia',
       title: 'Information Technologies',
       degree: 'Bachelor of Science',
-      subjects: ['java/C#/C++/OOP', 'Aws/Azure', '...See all'],
+      subjects: [
+        'Introduction to Cyber Security',
+        'IT Services and Project Management',
+        'Calculus II',
+        'Operating System Linux',
+        'Programming Language Java I',
+        'Computer Networks I',
+        'Oracle Database Design and Programming',
+        'Microsoft Azure Security Technologies',
+        'Amazon AWS Security Technologies',
+        'Microsoft Azure Administration',
+        'Amazon AWS Architecture',
+        'Geoinformatics',
+        'Visual Programming (C#) I',
+        'Fundamentals of Economics and Business',
+        'Fundamentals of Physics',
+        'English Language VI (B2/2)',
+        'Introduction to Web Technologies',
+        'Academic Writing',
+        'Discrete Mathematics',
+        'Data Structures and Algorithms',
+        'Operating System (Windows)',
+        'Computer Architecture',
+        'Object-Oriented Programming C++',
+        'Data Structures and Algorithms',
+        'Calculus II',
+        'Fundamentals of Physics',
+        'English Language IV (B1/2)',
+        'Office Systems',
+        'Programming Fundamentals (C++)',
+        'Linear Algebra and Analytical Geometry'
+      ],
       date: '2019 | 2025',
     },
     {
-      id:2,
+      id: 2,
       img: '/assets/education/Universities/w3.png',
-      name: 'University of New York',
-      title: 'Bachelor of Science',
+      name: 'w3schools',
+      title: 'Information Technologies',
       degree: 'Computer Science',
-      subjects: ['Data Structures', 'Algorithms', '...See all'],
+      subjects: ['Aws', 'Sass', 'Python'],
       date: '2019 | 2025',
     },
     {
-      id:3,
+      id: 3,
       img: '/assets/education/Universities/fcc.svg',
       name: 'FreeCodeCamp',
       title: 'Information Technologies',
       degree: '',
-      subjects: ['Responsive Web Design', 'JavaScript Algorithms and Data Structures','Front End Development Libraries Certification', '...See all'],
+      subjects: [
+        'Responsive Web Design',
+        'JavaScript Algorithms and Data Structures',
+        'Front End Development Libraries Certification',
+      ],
       date: '2019 | 2025',
     },
   ];
@@ -87,8 +122,8 @@ export class EducationService {
     return this.education;
   }
 
-  getEduId(id:number):Education |undefined{
-    return this.education.find(sitem=>sitem.id === id);
+  getEduId(id: number): Education | undefined {
+    return this.education.find((sitem) => sitem.id === id);
   }
 
   getSkills(): Skills[] {
