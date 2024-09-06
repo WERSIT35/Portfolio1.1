@@ -36,7 +36,6 @@ export class CertificateComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      document.addEventListener('DOMContentLoaded', () => {
         new Splide('#certificate', {
           type: 'loop',
           autoplay: true,
@@ -60,7 +59,6 @@ export class CertificateComponent implements AfterViewInit, OnInit {
             },
           },
         }).mount();
-      });
     }
   }
 }

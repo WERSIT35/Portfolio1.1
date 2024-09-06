@@ -49,8 +49,8 @@ li {
   font-family: "Inter", sans-serif;
 }
 .body {
+  padding-bottom: 100px;
   background-color: #f9fafa;
-  height: 100%;
   .intro {
     @include centerRow;
     background-color: #1e1e1e;
@@ -61,7 +61,8 @@ li {
       .profile {
         @include centerRow;
         width: 100%;
-        justify-content: space-between;
+        justify-content: start;
+        gap: 10px;
         .image {
           img {
             width: 96px;
@@ -94,23 +95,27 @@ li {
         gap: 10px;
         a {
           text-decoration: none;
-
+          width: 30%;
           .resume,
           .project,
           .contact {
             @include centerRow;
             align-items: center;
-            width: 90px;
+            width: 100%;
             color: white;
             background-color: #a4a4a4;
             border-radius: 15px;
-            padding: 10px;
             font-size: 15px;
             display: flex;
             gap: 10px;
             height: 18px;
             background-size: 200% 100%;
             transition: 0.3s;
+            padding: 10px 0;
+            h2{
+              font-size: 15px;
+              font-weight: 500;
+            }
           }
           .resume {
             background-image: linear-gradient(90deg, #262626, #737373, #262626);

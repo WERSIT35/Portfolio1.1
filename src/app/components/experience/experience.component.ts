@@ -29,7 +29,6 @@ export class ExperienceComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      document.addEventListener('DOMContentLoaded', () => {
         new Splide('#experience', {
           gap: '3.4rem',
         pagination: false,
@@ -56,7 +55,6 @@ export class ExperienceComponent implements AfterViewInit, OnInit {
           }
         }
         }).mount();
-      })
     }
     }
 

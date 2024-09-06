@@ -1,0 +1,61 @@
+@mixin centerRow(){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin centerCol(){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+h1,
+p,
+li {
+  font-family: "Inter", sans-serif;
+}
+header {
+    background-color: white;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed; /* Change from absolute to fixed */
+    bottom: 0;
+    height: max-content;
+    width: 100%;
+    z-index: 10; /* Ensure it's on top of other content */
+    @include centerRow();
+    nav {
+        width: 100%;
+        @include centerRow();
+        ul {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            a {
+                text-decoration: none;
+                list-style: none;
+                @include centerCol();
+                width: calc(100% / 4);
+                transition: 0.3s;
+                &:hover {
+                    background-color: #eeeeee;
+                }
+                li {
+                    list-style: none;
+                    @include centerCol();
+                    width: calc(100% / 4);
+                    img {
+                        padding-top: 10px;
+                        width: 30px;
+                    }
+                    p {
+                        padding: 5px 0;
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}

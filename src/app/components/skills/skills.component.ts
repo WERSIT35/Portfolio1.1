@@ -36,7 +36,6 @@ export class SkillsComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      document.addEventListener('DOMContentLoaded', () => {
         new Splide('#slider1', {
           type: 'loop',
           pauseOnHover: true,
@@ -56,7 +55,6 @@ export class SkillsComponent implements AfterViewInit, OnInit {
             },
           }
         }).mount({ AutoScroll });
-      });
     }
   }
 }

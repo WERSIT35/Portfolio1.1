@@ -30,7 +30,6 @@ export class MainComponent implements AfterViewInit, OnInit{
   }
   ngAfterViewInit(): void {
   if (isPlatformBrowser(this.platformId)) {
-    document.addEventListener('DOMContentLoaded', () => {
       var splide = new Splide('#education', {
         gap: '3.4rem',
         pagination: false,
@@ -58,7 +57,6 @@ export class MainComponent implements AfterViewInit, OnInit{
         }
       });
       splide.mount();
-    });
   }
 }
 }
