@@ -116,6 +116,10 @@ li {
               font-size: 15px;
               font-weight: 500;
             }
+            img{
+              width: 20px;
+              filter: invert(100%);
+            }
           }
           .resume {
             background-image: linear-gradient(90deg, #262626, #737373, #262626);
