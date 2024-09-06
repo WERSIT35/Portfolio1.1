@@ -12,11 +12,12 @@ import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.scss'], // Corrected from 'styleUrl'
 })

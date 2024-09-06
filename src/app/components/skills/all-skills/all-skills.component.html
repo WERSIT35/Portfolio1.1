@@ -1,0 +1,6 @@
+@for (item of skillsList; track $index) {
+    @for (i of item.name; track $index) {
+  <li class="splide__slide">
+    <i [ngClass]="item.icon[$index]"  [ngStyle]="{'color': item.color[$index]}"></i>
+  </li>
+  }}

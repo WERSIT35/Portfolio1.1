@@ -1,1 +1,7 @@
-<p>all-certificate works!</p>
+@for (item of certificationList; track $index) {
+    <li class="splide__slide">
+      <a [routerLink]="['/cert', item.id]">
+        <img style="width: 100%;" [src]="item.image" alt="" />
+      </a>
+    </li>
+    }
