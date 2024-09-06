@@ -38,9 +38,9 @@ header {
                 @include centerCol();
                 width: calc(100% / 4);
                 transition: 0.3s;
-                &:hover {
-                    background-color: #eeeeee;
-                }
+                // &:hover {
+                //     background-color: #eeeeee;
+                // }
                 li {
                     list-style: none;
                     @include centerCol();
