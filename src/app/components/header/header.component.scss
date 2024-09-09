@@ -1,78 +1,120 @@
 @mixin centerRow(){
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 @mixin centerCol(){
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
 h1,
 p,
 li {
   font-family: "Inter", sans-serif;
 }
+
 header {
-    background: rgba(255, 255, 255, 0.8); /* Slightly more opaque background */
-    backdrop-filter: blur(5px);
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    bottom: 0;
-    height: max-content;
+  background: rgba(255, 255, 255, 0.8); /* Slightly more opaque background */
+  backdrop-filter: blur(5px);
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  bottom: 0;
+  height: max-content;
+  width: 100%;
+  z-index: 10;
+  @include centerRow();
+  
+  /* Optional: Add a subtle gradient overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    z-index: 10;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.8));
+    z-index: -1;
+  }
+  
+  nav {
+    width: 100%;
     @include centerRow();
     
-    /* Optional: Add a subtle gradient overlay */
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+    ul {
       width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.8));
-      z-index: -1;
-    }
-    
-    nav {
-      width: 100%;
-      @include centerRow();
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       
-      ul {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+      a {
+        text-decoration: none;
+        list-style: none;
+        @include centerCol();
+        width: calc(100% / 4);
+        transition: 0.3s;
         
-        a {
-          text-decoration: none;
+        
+        
+        li {
           list-style: none;
           @include centerCol();
           width: calc(100% / 4);
           transition: 0.3s;
           
-          li {
-            list-style: none;
-            @include centerCol();
-            width: calc(100% / 4);
-            
-            img {
-              padding-top: 10px;
-              width: 25px;
+          i {
+            color: black;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 30px;
+          }
+          
+          p {
+            padding-bottom: 7px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #333;
+          }
+          p,i{
+            transition: 0.3s;
+          }
+        }
+        &.active {
+          li{
+            i{
+              @include centerRow();
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              background-color: #023235;
             }
-            
-            p {
-              padding: 5px 0;
-              font-size: 12px;
-              font-weight: 600;
-              color: #333; /* Ensure this contrasts well */
+            p,i{
+              color: white;
+            }
+            p{
+              animation: fadein-out ease 0.4s;
+              color: #023235;
             }
           }
         }
       }
     }
   }
-  
+}
+
+@keyframes fadein-out{
+  0%{
+    transform: translateY(-20px);
+    color: white;
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0);
+    color: #023235;
+    opacity: 1;
+  }
+}

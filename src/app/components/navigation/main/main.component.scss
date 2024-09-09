@@ -2,7 +2,7 @@ $breakpoint-small: 480px;
 $breakpoint-medium: 768px;
 
 
-$font-size-small: clamp(0.7rem, 2.5vw, 0.9rem);
+$font-size-small: clamp(0.8rem, 2.5vw, 2rem);
 $font-size-medium: clamp(0.9rem, 2.5vw, 1.2rem);
 $font-size-big: clamp(1.2rem, 2.5vw, 2rem);
 
@@ -105,20 +105,19 @@ li {
             color: white;
             background-color: #a4a4a4;
             border-radius: 15px;
-            font-size: $font-size-small;
             display: flex;
             gap: 10px;
             height: 18px;
             background-size: 200% 100%;
             transition: 0.3s;
-            padding: 10px 0;
+            padding: 8% 0;
             h2{
-              font-size: 15px;
+              font-size: $font-size-small;
               font-weight: 500;
             }
-            img{
-              width: 20px;
-              filter: invert(100%);
+            i{
+              @include centerRow();
+              font-size: 20px;
             }
           }
           .resume {
