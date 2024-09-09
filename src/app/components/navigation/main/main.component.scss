@@ -150,7 +150,7 @@ li {
       @include centerCol;
       .eduTitle {
         width: 85%;
-        padding: 25px 0;
+        padding: 7% 0;
         @include centerRow;
         justify-content: space-between;
         h1 {
@@ -228,6 +228,7 @@ li {
                         width: 41px;
                       }
                       h2 {
+                        margin-top: 3%;
                         color: white;
                         font-size: 18px;
                         margin-bottom: 5px;
@@ -322,7 +323,7 @@ li {
 
 .eduInfo {
   margin-bottom: 5%;
-  height: 40% !important;  // Updated to 60%
+  height: 45% !important;  // Updated to 60%
   padding: 5px 0 25px 0;
   width: 92%;
   overflow-y: auto;
