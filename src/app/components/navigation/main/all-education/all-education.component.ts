@@ -6,11 +6,12 @@ import { isPlatformBrowser } from '@angular/common';
 
 import '@splidejs/splide/css';
 import Splide from '@splidejs/splide';
+import { BackComponent } from "../../../back/back.component";
 
 @Component({
   selector: 'app-all-education',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BackComponent],
   templateUrl: './all-education.component.html',
   styleUrl: './all-education.component.scss'
 })

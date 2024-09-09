@@ -2,11 +2,12 @@ import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { Skills } from '../../../interfaces/skills';
 import { EducationService } from '../../../services/education.service';
 import { CommonModule } from '@angular/common';
+import { BackComponent } from "../../back/back.component";
 
 @Component({
   selector: 'app-all-skills',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BackComponent],
   templateUrl: './all-skills.component.html',
   styleUrl: './all-skills.component.scss'
 })

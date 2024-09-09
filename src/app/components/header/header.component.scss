@@ -55,15 +55,10 @@ header {
         list-style: none;
         @include centerCol();
         width: calc(100% / 4);
-        transition: 0.3s;
-        
-        
-        
         li {
           list-style: none;
           @include centerCol();
           width: calc(100% / 4);
-          transition: 0.3s;
           
           i {
             color: black;
@@ -80,7 +75,7 @@ header {
             color: #333;
           }
           p,i{
-            transition: 0.3s;
+            transition: 0.5s;
           }
         }
         &.active {
@@ -99,7 +94,6 @@ header {
               
             }
             p{
-              animation: fadein-out ease 0.4s;
               color: black;
               padding-bottom: 0;
             }
@@ -107,18 +101,5 @@ header {
         }
       }
     }
-  }
-}
-
-@keyframes fadein-out{
-  0%{
-    transform: translateY(-20px);
-    color: white;
-    opacity: 0;
-  }
-  100%{
-    transform: translateY(0);
-    color: #023235;
-    opacity: 1;
   }
 }

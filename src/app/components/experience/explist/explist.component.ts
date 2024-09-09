@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExperienceService } from '../../../services/experience.service';
 import { Experience } from '../../../interfaces/experience';
+import { BackComponent } from "../../back/back.component";
 
 @Component({
   selector: 'app-explist',
   standalone: true,
-  imports: [],
+  imports: [BackComponent],
   templateUrl: './explist.component.html',
   styleUrl: './explist.component.scss'
 })

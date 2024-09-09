@@ -2,11 +2,12 @@ import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { Certifications } from '../../../interfaces/certifications';
 import { ExperienceService } from '../../../services/experience.service';
 import { RouterLink } from '@angular/router';
+import { BackComponent } from "../../back/back.component";
 
 @Component({
   selector: 'app-all-certificate',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BackComponent],
   templateUrl: './all-certificate.component.html',
   styleUrl: './all-certificate.component.scss'
 })

@@ -28,4 +28,8 @@
 }
 html{
     @include scrollbar();
+    background-color: #EDF1F1;
+    body{
+        background-color: #EDF1F1;
+    }
 }

@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { MainComponent } from '../main.component';
 import { EducationService } from '../../../../services/education.service';
 import { Education } from '../../../../interfaces/education';
+import { BackComponent } from "../../../back/back.component";
 
 @Component({
   selector: 'app-edulist',
   standalone: true,
-  imports: [],
+  imports: [BackComponent],
   templateUrl: './edulist.component.html',
   styleUrl: './edulist.component.scss'
 })
