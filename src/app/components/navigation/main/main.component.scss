@@ -149,7 +149,7 @@ li {
       @include centerCol;
       .eduTitle {
         width: 85%;
-        padding: 7% 0;
+        padding: 25px 0;
         @include centerRow;
         justify-content: space-between;
         h1 {
@@ -192,7 +192,7 @@ li {
                 }
                 .eduInfo{
                   p{
-                    font-size: $font-size-small;
+                    font-size: 12px;
                   }
                 }
               }
@@ -257,7 +257,7 @@ li {
                       }
                       h2 {
                         width: 100%;
-                        font-size: $font-size-medium;
+                        font-size: 14px;
                         font-weight: 500;
                       }
 
@@ -287,7 +287,7 @@ li {
                             color: #a4a4a4;
                             position: relative;
                             padding: 0 20px;
-                            font-size: $font-size-small;
+                            font-size: 12px;
                           }
                         }
                       }
