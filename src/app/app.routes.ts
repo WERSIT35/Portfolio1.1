@@ -13,7 +13,7 @@ import { AllSkillsComponent } from './components/skills/all-skills/all-skills.co
 
 export const routes: Routes = [
     {path: '', component:MainComponent},
-    {path: 'edulist/:id', component:EdulistComponent},
+    {path: 'edu/edulist/:id', component:EdulistComponent},
     {path: 'alledu', component:AllEducationComponent},
 
     {path: 'exp/:id', component:ExplistComponent},
