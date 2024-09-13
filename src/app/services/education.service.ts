@@ -113,7 +113,7 @@ export class EducationService {
       img: '/assets/education/Universities/fcc.svg',
       name: 'FreeCodeCamp',
       title: 'Information Technologies',
-      degree: '',
+      degree: 'Computer Science',
       subjects: [
         'Responsive Web Design',
         'JavaScript Algorithms and Data Structures',

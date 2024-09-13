@@ -21,9 +21,11 @@
                 <h2>{{ item.title }}</h2>
                 <div class="eduInfoDes">
                   <h2>{{ item.degree }}</h2>
-                  <div class="description" [innerHTML]="'Description: '+item.description"></div>
+                  <p>Description: </p>
+                  <div class="description" [innerHTML]="item.description"></div>
+                  <p>Subjects:</p>
                   <ul class="eduSubInfo">
-                    Subjects:
+                    
                     @for (subject of item.subjects; track $index) {
                     <li>{{ subject }}</li>
                     }

@@ -127,11 +127,19 @@ a {
                   .description {
                     font-size: 14px;
                     color: black;
+                    width: 90%;
+                    transform: translateX(10px);
                   }
                   .eduSubInfo {
                     color: black;
-                    p {
+                    li {
+                        transform: translateX(30px);
+                        width: 90%;
                     }
+                  }
+                  p{
+                    color: black;
+                    padding: 5px 0;
                   }
                 }
               }
