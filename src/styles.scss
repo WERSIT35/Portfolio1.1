@@ -26,6 +26,11 @@
     margin: 0;
     padding: 0;
 }
+h1,
+p,
+li {
+  font-family: "Inter", sans-serif;
+}
 html{
     @include scrollbar();
     background-color: #EDF1F1;

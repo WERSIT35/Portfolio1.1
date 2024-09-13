@@ -1,0 +1,144 @@
+$ug-image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23fde6e6' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23fbcece' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23f9b5b5' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23f79d9d' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23F58484' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E";
+$w3-image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23e4fdea' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23cafbd5' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23aff9c1' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%2395f7ac' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%237AF597' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E";
+$fcc-image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23d1d1d6' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23a4a4ad' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23767684' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%2349495b' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%231B1B32' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E";
+
+@mixin centerRow() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+@mixin centerCol() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    font-size: 25px;
+    padding: 20px;
+    width: 80%;
+    text-align: center;
+    font-weight: 700;
+    color: #000000;
+    border-bottom: 2px solid #dfdfdf;
+  }
+}
+a {
+  text-decoration: none;
+}
+
+.splide {
+    margin-bottom: 100px;
+  .splide__track {
+    .splide__list {
+      .splide__slide {
+        @include centerRow();
+        height: 100%;
+        &:nth-child(1) {
+          a {
+            .eduCard {
+              background-image: url($ug-image);
+              background-attachment: fixed;
+              background-size: cover;
+            }
+          }
+        }
+        &:nth-child(2) {
+          a {
+            .eduCard {
+              background-image: url($w3-image);
+              background-attachment: fixed;
+              background-size: cover;
+            }
+          }
+        }
+        &:nth-child(3) {
+          a {
+            .eduCard {
+              background-image: url($fcc-image);
+              background-attachment: fixed;
+              background-size: cover;
+            }
+          }
+        }
+        a {
+          width: 100%;
+          @include centerRow();
+          margin-top: 20px;
+          .eduCard {
+            background-color: white;
+            border-radius: 15px;
+            width: 95%;
+            filter: drop-shadow(4px 4px 5px #00000021);
+            .eduTitle {
+              width: 100%;
+              @include centerRow();
+              .eduTitleCont {
+                padding: 10px 0;
+                gap: 15px;
+                width: 70%;
+                @include centerRow();
+                position: relative;
+                border-bottom: 2px solid #dddddd;
+                img {
+                  width: 84px;
+                }
+                h2 {
+                  color: black;
+                }
+                p {
+                  right: 0;
+                  bottom: 5px;
+                  position: absolute;
+                  text-wrap: nowrap;
+                  color: #a4a4a4;
+                }
+              }
+            }
+            .eduInfo {
+              .eduInfoName {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+              justify-content: center;
+              align-items: center;
+                h2 {
+                  color: black;
+                  width: 100%;
+                  text-align: center;
+                }
+                .eduInfoDes {
+                  width: 90%;
+                  backdrop-filter: blur(10px);
+                  border-radius: 10px;
+                  margin: 20px 0;
+                  padding: 10px;
+                  background-color: #ffffff59;
+                  gap: 15px;
+                  h2 {
+                    color: #a4a4a4;
+                    font-size: 18px;
+                  }
+                  .description {
+                    font-size: 14px;
+                    color: black;
+                  }
+                  .eduSubInfo {
+                    color: black;
+                    p {
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
