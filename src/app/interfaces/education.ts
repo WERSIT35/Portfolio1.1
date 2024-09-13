@@ -5,5 +5,6 @@ export interface Education {
     title:string,
     degree:string,
     subjects:string[],
+    description:string,
     date:string,
 }

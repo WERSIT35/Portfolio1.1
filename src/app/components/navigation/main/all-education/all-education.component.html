@@ -17,6 +17,7 @@
                                 <h2>{{item.title}}</h2>
                                 <div class="eduInfoDes">
                                     <h2>{{item.degree}}</h2>
+                                    <div class="description" [innerHTML]="item.description"></div>
                                     <div class="eduSubInfo">
                                         @for (subject of item.subjects; track $index) {
                                             <p>{{subject}}</p>

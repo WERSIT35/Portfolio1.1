@@ -1,25 +1,32 @@
 <app-back></app-back>
-<a href="">
-  <div class="eduCard">
-    <div class="eduTitle">
-      <div class="eduTitleCont">
-        <img style="width: 30%" [src]="edu?.img" alt="" />
-        <h2>{{ edu?.name }}</h2>
-      </div>
-    </div>
-    <div class="eduInfo">
-      <div class="eduInfoName">
-        <h2>{{ edu?.title }}</h2>
-        <div class="eduInfoDes">
-          <h2>{{ edu?.degree }}</h2>
-          <div class="eduSubInfo">
-            @for (subject of edu?.subjects; track $index) {
-            <p>{{ subject }}</p>
-            }
-          </div>
-        </div>
-        <p class="date">{{ edu?.date }}</p>
-      </div>
+<div class="eduCard">
+  <div class="eduTitle">
+    <div class="eduTitleCont">
+      <img style="width: 30%" [src]="edu?.img" alt="" />
+      <h2>{{ edu?.name }}</h2>
     </div>
   </div>
-</a>
+  <div class="eduInfo">
+    <div class="eduInfoName">
+      <h2>{{ edu?.title }}</h2>
+      <div class="eduInfoDes">
+        <h2>{{ edu?.degree }}</h2>
+        <div class="description" [innerHTML]="edu?.description"></div>
+        <div class="eduSubInfo">
+          <p *ngFor="let subject of edu?.subjects">{{ subject }}</p>
+        </div>
+      </div>
+      <p class="date">{{ edu?.date }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="suggestions">
+  <h3>Other Programs You May Like</h3>
+  <div *ngFor="let suggestion of suggestions" class="suggestion-card">
+    <h4>{{ suggestion.name }}</h4>
+    <p>{{ suggestion.title }} - {{ suggestion.degree }}</p>
+    <p>{{ suggestion.date }}</p>
+    <a [routerLink]="['/edulist', suggestion.id]">View Details</a>
+  </div>
+</div>

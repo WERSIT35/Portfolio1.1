@@ -92,6 +92,8 @@ export class EducationService {
         'Programming Fundamentals (C++)',
         'Linear Algebra and Analytical Geometry'
       ],
+      description: `<p>During my Bachelor of Science in Information Technologies at the University of Georgia, I acquired a strong foundation in both theoretical and practical aspects of IT. I developed skills in cybersecurity, programming, and cloud technologies, gaining hands-on experience in Amazon AWS and Microsoft Azure platforms. My coursework also covered key subjects such as database design, operating systems, and computer networks, helping me build a comprehensive understanding of modern IT infrastructure.</p>
+                <p>In addition to technical skills, I enhanced my problem-solving abilities through challenging courses in discrete mathematics, data structures, and algorithms. I also gained insights into business and project management through courses like IT Services and Project Management and Fundamentals of Economics and Business, which equipped me with the knowledge to effectively manage IT projects. This multidisciplinary approach prepared me to tackle real-world IT challenges with a holistic view.</p>`,
       date: '2019 | 2025',
     },
     {
@@ -101,6 +103,7 @@ export class EducationService {
       title: 'Information Technologies',
       degree: 'Computer Science',
       subjects: ['Aws', 'Sass', 'Python'],
+      description:'',
       date: '2019 | 2025',
     },
     {
@@ -114,6 +117,7 @@ export class EducationService {
         'JavaScript Algorithms and Data Structures',
         'Front End Development Libraries Certification',
       ],
+      description:'',
       date: '2019 | 2025',
     },
   ];

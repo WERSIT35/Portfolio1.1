@@ -53,7 +53,7 @@ export class MainComponent implements AfterViewInit, OnInit{
           480: {
             fixedWidth: '70%',
             gap: '1.5rem',
-            height:'30vh',
+            height:'25vh'
           }
         }
       });
