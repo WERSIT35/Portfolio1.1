@@ -133,12 +133,14 @@ a {
                   .eduSubInfo {
                     color: black;
                     li {
+                      font-size: 14px;
                         transform: translateX(30px);
                         width: 90%;
                     }
                   }
                   p{
                     color: black;
+                    font-weight: 600;
                     padding: 5px 0;
                   }
                 }
