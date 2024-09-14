@@ -35,6 +35,7 @@ export class AllEducationComponent implements OnInit{
           gap: '3.4rem',
           width: '100%',
           mediaQuery: 'max',
+          height:'60vh',
           breakpoints: {
             1200: {
             },
