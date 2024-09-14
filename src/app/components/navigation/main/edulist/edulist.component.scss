@@ -153,6 +153,7 @@ $fcc-image: "data:image/svg+xml,...";
 }
 
 .sugCont {
+    margin-bottom: 100px;
   @include centerRow();
   .suggestions {
     width: 90%;
