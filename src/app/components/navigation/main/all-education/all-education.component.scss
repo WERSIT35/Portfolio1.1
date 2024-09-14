@@ -59,8 +59,7 @@ a {
   .splide__track {
     .splide__list {
       .splide__slide {
-        @include centerRow();
-        height: 100%;
+        margin-bottom: 100px;
         &:nth-child(1) {
           a {
             .eduCard {
@@ -202,4 +201,5 @@ a {
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+  height: max-content;
 }
