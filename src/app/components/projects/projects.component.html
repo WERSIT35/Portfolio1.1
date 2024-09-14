@@ -1,1 +1,31 @@
 <app-back></app-back>
+<div class="title">
+    <h1>Portfolio | Projects</h1>
+</div>
+<div class="projsec">
+    @for (item of projectsList; track $index) {
+    <div class="projects">
+        <section [id]="['projects'+$index]" class="splide">
+            <div class="splide__track">
+                  <ul class="splide__list">
+                    @for (img of item.img; track $index) {
+                      <li class="splide__slide">
+                        <img [src]="img" alt="">
+                      </li>
+                    }
+                  </ul>
+            </div>
+        </section>
+        <div class="projInfo" [style]="item.gradient">
+            <div class="subinfo">
+                <h2>{{item.projName}}</h2>
+                <p>{{item.subname}}</p>
+                <p>{{item.duration}}</p>
+                <p>{{item.date}}</p>
+                <i class="bi bi-three-dots"></i>
+                <button><a [href]="item.link" target="_blank" [style]="item.gradient">Visit Website</a></button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
