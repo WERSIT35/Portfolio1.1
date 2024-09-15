@@ -34,6 +34,7 @@
     margin-top: 20px;
     border-radius: 15px;
     .splide {
+        height: 180px;
       .splide__track {
         .splide__list {
           .splide__slide {
@@ -91,3 +92,23 @@
     }
   }
 }
+
+
+// @keyframes gradientMove {
+//     0% {
+//       background-position: 0% 50%;
+//     }
+//     50% {
+//       background-position: 100% 50%;
+//     }
+//     100% {
+//       background-position: 0% 50%;
+//     }
+//   }
+  
+//   .loading-gradient {
+//     background: linear-gradient(270deg, #ff7e5f, #feb47b, #86a8e7, #d4fc79);
+//     background-size: 400% 400%;
+//     animation: gradientMove 6s ease infinite;
+// }
+  

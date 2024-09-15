@@ -19,22 +19,46 @@
     &::-webkit-scrollbar-corner {
         background-color: transparent;
     }
-  
-  }
+}
 
-*{
+* {
     margin: 0;
     padding: 0;
 }
-h1,h2,div,
-p,
-li,h4,h3{
-  font-family: "Inter", sans-serif;
+
+h1, h2, div, p, li, h4, h3 {
+    font-family: "Inter", sans-serif;
 }
-html{
+
+html {
     @include scrollbar();
     background-color: #EDF1F1;
-    body{
-        background-color: #EDF1F1;
+}
+
+body {
+    background-color: #EDF1F1;
+    position: relative;
+}
+
+.coming-soon {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.coming-soon h1 {
+    font-size: 3rem;
+    color: #333;
+}
+
+@media (min-width: 768px) {
+    .coming-soon {
+        display: flex;
     }
 }
