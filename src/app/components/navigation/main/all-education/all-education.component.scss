@@ -140,7 +140,7 @@ a {
                 }
                 .eduInfoDes {
                   width: 90%;
-                  height: 90%;
+                  height: 80%;
                   backdrop-filter: blur(10px);
                   border-radius: 10px;
                   margin: 20px 0;
@@ -152,14 +152,16 @@ a {
                     font-size: 18px;
                   }
                   .description {
-                    height: 150px;
+                    min-height: 20%;
+                    max-height: 30%;
                     font-size: 14px;
                     color: black;
                     width: 98%;
                     transform: translateX(10px);
                   }
                   .eduSubInfo {
-                    height: 150px;
+                    min-height: 20%;
+                    max-height: 30%;
                     color: black;
                     li {
                       font-size: 14px;
