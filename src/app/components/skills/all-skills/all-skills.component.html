@@ -5,7 +5,9 @@
 <div class="skills-container">
 @for (item of skillsList; track $index) { 
   @for (i of item.name; track $index) {
-    <div class="skill-card" [style]="'background:linear-gradient(90deg,#100404,'+item.color[$index]+')'">
+    <div class="skill-card"
+
+     >
   <div class="name">
     <i [ngClass]="item.icon[$index]" [ngStyle]="{ color: item.color[$index] }"></i>
     <h2>{{item.name[$index]}}</h2>
@@ -24,3 +26,6 @@
 }}
 
 </div>
+
+
+<!--      [style]="'background:linear-gradient(90deg,#100404,'+item.color[$index]+')'" -->
