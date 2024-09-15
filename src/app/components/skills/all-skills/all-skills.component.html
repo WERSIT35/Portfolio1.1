@@ -1,7 +1,26 @@
 <app-back></app-back>
-@for (item of skillsList; track $index) {
-    @for (i of item.name; track $index) {
-  <li class="splide__slide">
-    <i [ngClass]="item.icon[$index]"  [ngStyle]="{'color': item.color[$index]}"></i>
-  </li>
-  }}
+<div class="title">
+  <h1>Skills</h1>
+</div>
+<div class="skills-container">
+@for (item of skillsList; track $index) { 
+  @for (i of item.name; track $index) {
+    <div class="skill-card" [style]="'background:linear-gradient(90deg,#100404,'+item.color[$index]+')'">
+  <div class="name">
+    <i [ngClass]="item.icon[$index]" [ngStyle]="{ color: item.color[$index] }"></i>
+    <h2>{{item.name[$index]}}</h2>
+  </div>
+  <div class="content">
+    <div class="text">
+      <p>{{item.learned[$index]}}</p>
+      <p>{{item.geined[$index]}}</p>
+    </div>
+    <div class="star-rating">
+        <i style="color: gold;" *ngFor="let j of range(item.rating[$index])" class="bi bi-star-fill"></i>
+        <i style="color: gold;" *ngFor="let j of range(5 - item.rating[$index])" class="bi bi-star"></i>
+    </div>
+  </div>
+</div>
+}}
+
+</div>

@@ -51,6 +51,37 @@ export class EducationService {
         'devicon-azure-plain colored',
         'devicon-amazonwebservices-plain-wordmark colored',
       ],
+      learned:[
+        ['University Of Georgia','FreeCodeCamp','YouTube'],
+        ['FreeCodeCamp','Coursearea','YouTube'],
+        ['University Of Georgia','FreeCodeCamp','YouTube'],
+        ['University Of Georgia','FreeCodeCamp','Micorosoft Learn','YouTube'],
+        ['University Of Georgia','YouTube'],
+        ['University Of Georgia','FreeCodeCamp','YouTube'],
+        ['University Of Georgia','FreeCodeCamp','YouTube'],
+        ['University Of Georgia','YouTube'],
+        ['FreeCodeCamp','Coursearea','YouTube'],
+        ['FreeCodeCamp','Coursearea','YouTube'],
+        ['University Of Georgia','Microsoft Learn','YouTube'],
+        ['University Of Georgia','Coursearea','w3schools','YouTube'],
+      ],
+      geined:[
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+      ],
+      rating:[
+        5,5,3,4,4,5,5,5,5,4,5,5
+      ]
     },
   ];
   protected education: Education[] = [

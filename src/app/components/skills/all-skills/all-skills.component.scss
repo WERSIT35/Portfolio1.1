@@ -1,0 +1,94 @@
+@mixin centerRow() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+  @mixin centerCol() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      font-size: 25px;
+      padding: 20px;
+      width: 80%;
+      text-align: center;
+      font-weight: 700;
+    //   color: #000000;
+      border-bottom: 2px solid #dfdfdf;
+      text-transform: uppercase;
+    }
+  }
+
+  .skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 100px;
+  }
+  
+  .skill-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 90%;
+    padding: 15px;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+  
+    .name {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      i {
+        font-size: 40px;
+        margin-right: 10px;
+      }
+  
+      h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        color: white;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+    }
+  
+    .content {
+      .text {
+        p {
+          font-size: 14px;
+          color: white;
+          margin: 5px 0;
+        }
+      }
+  
+      .star-rating {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+  
+        i {
+          font-size: 16px;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+  

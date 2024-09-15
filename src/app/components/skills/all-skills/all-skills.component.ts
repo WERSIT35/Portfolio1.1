@@ -21,6 +21,10 @@ export class AllSkillsComponent implements OnInit{
     private educationService: EducationService
   ) {}
 
+  range(size: number): number[] {
+    return Array.from({ length: size }, (_, i) => i);
+  }
+
   ngOnInit(): void {
     this.skillsList = this.educationService.getSkills();
   }
