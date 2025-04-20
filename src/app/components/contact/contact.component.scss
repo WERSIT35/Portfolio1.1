@@ -1,0 +1,169 @@
+// ----------------------------------
+// 🎨 Variables
+// ----------------------------------
+$breakpoint-small: 480px;
+$breakpoint-medium: 768px;
+
+$font-size-small: clamp(0.8rem, 2.5vw, 1rem);
+$font-size-medium: clamp(0.9rem, 2.5vw, 1.2rem);
+$font-size-big: clamp(1.2rem, 2.5vw, 2rem);
+
+$mobile-width: 85%;
+$main-color: #007bff;
+$main-color-hover: #0056b3;
+
+// ----------------------------------
+// 🧩 Mixins
+// ----------------------------------
+@mixin centerRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+@mixin centerCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+// ----------------------------------
+// 📦 Components
+// ----------------------------------
+.intro {
+  @include centerRow;
+  background-color: #ffffff;
+  padding: 40px 0;
+
+  .inintro {
+    @include centerCol;
+    width: $mobile-width;
+
+    .profile {
+      @include centerRow;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+
+      @media (max-width: $breakpoint-medium) {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .image {
+        cursor: pointer;
+
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .text {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-size: $font-size-big;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: rgb(70, 70, 70);
+          margin-bottom: 4px;
+          word-break: break-word;
+        }
+
+        .title {
+          font-size: $font-size-medium;
+          color: #a4a4a4;
+          font-weight: 400;
+        }
+      }
+
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 10px;
+
+        @media (max-width: $breakpoint-medium) {
+          align-items: center;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+          font-size: $font-size-medium;
+          color: $main-color;
+          transition: color 0.3s ease;
+
+          i {
+            font-size: 1.2rem;
+          }
+
+          &:hover {
+            color: $main-color-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ----------------------------------
+// 🖼️ Modal for Profile Image
+// ----------------------------------
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+// ----------------------------------
+// 📱 Mobile Adjustments
+// ----------------------------------
+@media (max-width: $breakpoint-small) {
+  .text {
+    .name {
+      font-size: 1.5rem;
+    }
+
+    .title {
+      font-size: 0.9rem;
+    }
+  }
+
+  .contact-links {
+    a {
+      font-size: 1rem;
+    }
+  }
+}

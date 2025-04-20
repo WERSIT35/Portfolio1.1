@@ -19,6 +19,15 @@ import { CertificateComponent } from "../../certificate/certificate.component";
 export class MainComponent implements AfterViewInit, OnInit{
   @Input() education!:Education;
   
+  showImageModal: boolean = false;
+  openImageModal() {
+    this.showImageModal = true;
+  }
+  
+  closeImageModal() {
+    this.showImageModal = false;
+  }
+
   educationList:Education[]=[];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,

@@ -53,7 +53,7 @@ li {
   background-color: #f9fafa;
   .intro {
     @include centerRow;
-    background-color: #1e1e1e;
+    background-color: #ffffff;
     .inintro {
       @include centerCol;
       padding-top: 50px;
@@ -73,7 +73,7 @@ li {
 
         .text {
           .name {
-            color: white;
+            color: rgb(70, 70, 70);
             width: min-content;
             text-transform: uppercase;
             font-size: 35px;
@@ -352,4 +352,19 @@ li {
   position: absolute;
   bottom: 10px;
   right: 25px;
+}
+.image-modal {
+  position: fixed;
+  inset: 0; // shorthand for top: 0; right: 0; bottom: 0; left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  .modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+  }
 }
