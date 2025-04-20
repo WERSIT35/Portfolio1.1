@@ -9,8 +9,10 @@ $font-size-medium: clamp(0.9rem, 2.5vw, 1.2rem);
 $font-size-big: clamp(1.2rem, 2.5vw, 2rem);
 
 $mobile-width: 85%;
-$main-color: #007bff;
-$main-color-hover: #0056b3;
+
+// Primary button color
+$button-color: #353535; // Blue color
+$button-hover-color: #181818; // Darker blue for hover effect
 
 // ----------------------------------
 // 🧩 Mixins
@@ -35,11 +37,13 @@ $main-color-hover: #0056b3;
 .intro {
   @include centerRow;
   background-color: #ffffff;
-  padding: 40px 0;
+  height: 100vh;
+  padding: 0;
 
   .inintro {
     @include centerCol;
     width: $mobile-width;
+    height: 100%; // Take full height
 
     .profile {
       @include centerRow;
@@ -92,7 +96,7 @@ $main-color-hover: #0056b3;
       .contact-links {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; // Centering buttons for consistency
         gap: 10px;
         margin-top: 10px;
 
@@ -102,19 +106,27 @@ $main-color-hover: #0056b3;
 
         a {
           display: flex;
+          justify-content: center;
           align-items: center;
           gap: 10px;
-          text-decoration: none;
+          padding: 12px 20px;
+          border-radius: 6px;
+          width: 250px;
           font-size: $font-size-medium;
-          color: $main-color;
-          transition: color 0.3s ease;
+          text-decoration: none;
+          color: #fff;
+          background-color: $button-color; // Set the uniform button color
+          transition: all 0.3s ease;
+          backdrop-filter: blur(3px);
+          text-align: center;
 
           i {
             font-size: 1.2rem;
           }
 
           &:hover {
-            color: $main-color-hover;
+            background-color: $button-hover-color; // Darken on hover
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.425));
           }
         }
       }
