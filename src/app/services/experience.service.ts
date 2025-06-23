@@ -36,7 +36,7 @@ export class ExperienceService {
     },
     {
       id: 2,
-      name: "Google sollution challenge hackathon",
+      name: "Google solution challenge hackathon",
       subname: "Winner",
       subnameText:[ 
         "Team: Convoy",
