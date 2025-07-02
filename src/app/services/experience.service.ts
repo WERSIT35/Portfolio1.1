@@ -13,6 +13,16 @@ export class ExperienceService {
   private experienceList:Experience[]=[
     {
       id: 1,
+      name: "Founder & Team Lead | LeanTech",
+      subname: "",
+      subnameText:[],
+      subname1: "",
+      subname1Text: [],
+      description:' Founded and led a startup focused on building innovative products using STM32 microcontrollers. Assembled and managed a skilled  team to develop solutions utilizing GPIO, UART, I2C, SPI, and other embedded system technologies. Coordinated product  development from concept to implementation, driving the creation of high-quality, reliable products',
+      date: "2023 | Present",
+    },
+    {
+      id: 2,
       name: "Freelancer Web Developer",
       subname: "Tools",
       subnameText:[ 
@@ -35,7 +45,7 @@ export class ExperienceService {
       date: "2023 | Present",
     },
     {
-      id: 2,
+      id: 3,
       name: "Google sollution challenge hackathon",
       subname: "Winner",
       subnameText:[ 
@@ -56,7 +66,7 @@ export class ExperienceService {
       date: " 17 Dec 2023",
     },
     {
-      id: 3,
+      id: 4,
       name: "IT Specialist | MyOffice",
       subname: "Responsibilities",
       subnameText: [
