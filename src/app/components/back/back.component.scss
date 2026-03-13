@@ -1,12 +1,12 @@
 button{
     animation: 0.5s ease-out appear;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.233);
+    background-color: rgba(20, 26, 36, 0.8);
     backdrop-filter: blur(5px);
     bottom: 90px;
     border-radius: 15px;
-    border: 2px solid #333;
-    color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-ink);
     display: flex;
     font-size: 16px;
     font-weight: 600;
@@ -17,6 +17,7 @@ button{
     right: 15px;
     width: 90px;
     z-index: 999;
+    box-shadow: var(--shadow-1);
 }
 
 @keyframes appear {

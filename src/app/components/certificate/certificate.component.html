@@ -1,23 +1,29 @@
 <section class="certificate">
-  <div class="exSec">
-    <div class="exTitle">
+  <div class="page">
+    <header class="section-header">
       <h1>certificate</h1>
       <a routerLink="allcert">
         <p>See all<i class="fa-solid fa-chevron-right"></i></p>
       </a>
-    </div>
+    </header>
+    <section id="certificate" class="splide">
+      <div class="splide__track">
+        <ul class="splide__list">
+          @for (item of certificationList; track $index) {
+            <li class="splide__slide">
+              <a [routerLink]="['/cert', item.id]">
+                <div class="cert-card">
+                  <img [src]="item.image[0]" alt="" />
+                  <div class="cert-meta">
+                    <h2>{{ item.name }}</h2>
+                    <p>{{ item.imageName[0] }}</p>
+                  </div>
+                </div>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
   </div>
-  <section id="certificate" class="splide">
-    <div class="splide__track">
-      <ul class="splide__list">
-        @for (item of certificationList; track $index) {
-        <li class="splide__slide">
-          <a [routerLink]="['/cert', item.id]">
-            <img [src]="item.image" alt="" />
-          </a>
-        </li>
-        }
-      </ul>
-    </div>
-  </section>
 </section>

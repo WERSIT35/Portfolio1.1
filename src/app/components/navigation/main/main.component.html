@@ -1,75 +1,82 @@
-<div class="body">
-    <section class="intro">
-        <div class="inintro">
-            <div class="profile">
-                <div class="image" (click)="openImageModal()">
-                    <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
-                </div>
-                <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
-                    <img src="/assets/profile/last.png" alt="otar davitashvili" class="modal-image">
-                  </div>
-                <div class="text">
-                    <h1 class="name">
-                        otar 
-                        davitashvili
-                    </h1>
-                    <p class="title">
-                        Software Engineer | Angular / React
-                    </p>
-                </div>
-            </div>
-            <ul class="options">
-                <a routerLink="assets/me/OTAR DAVITASHVILI.pdf" target="_blank" download="Oto_Resume.pdf" class="resume-button"><li class="resume"><h2>Resume</h2><i class="bi bi-file-earmark-person"></i></li></a>
-                <a routerLink="projects"><li class="project"><h2>Projects</h2><i class="bi bi-file-earmark-code"></i></li></a>
-                <a routerLink="contact"><li class="contact"><h2>Contact</h2><i class="bi bi-chat-left"></i></li></a>
-            </ul>
+<main class="home">
+  <section class="hero">
+    <div class="page hero-grid">
+      <div class="hero-panel">
+        <div class="image" (click)="openImageModal()">
+          <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
         </div>
-    </section>
-    <app-skills></app-skills>
-    <section class="education">
-        <div class="eduSec">
-            <div class="eduTitle">
-                <h1>Education</h1>
-                <a routerLink="alledu">
-                    <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+        <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
+          <img src="/assets/profile/last.png" alt="otar davitashvili" class="modal-image">
+        </div>
+        <div class="text">
+          <h1 class="name"><span>otar</span><span>davitashvili</span></h1>
+          <p class="title">Software Engineer | Angular / React</p>
+        </div>
+      </div>
+      <div class="cta-grid">
+        <a href="/assets/me/OTAR DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="cta-card resume">
+          <h2>Resume</h2>
+          <i class="bi bi-file-earmark-person"></i>
+        </a>
+        <a routerLink="projects" class="cta-card project">
+          <h2>Projects</h2>
+          <i class="bi bi-file-earmark-code"></i>
+        </a>
+        <a routerLink="contact" class="cta-card contact">
+          <h2>Contact</h2>
+          <i class="bi bi-chat-left"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <app-skills></app-skills>
+
+  <section class="education">
+    <div class="page">
+      <header class="section-header">
+        <h1>Education</h1>
+        <a routerLink="alledu">
+          <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+        </a>
+      </header>
+      <section id="education" class="splide">
+        <div class="splide__track">
+          <ul class="splide__list">
+            @for (item of educationList; track $index) {
+              <li class="splide__slide">
+                <a [routerLink]="['/edu/edulist', item.id]">
+                  <article class="eduCard">
+                    <div class="eduTitle">
+                      <div class="eduTitleCont">
+                        <img [src]="item.img" alt="">
+                        <h2>{{item.name}}</h2>
+                      </div>
+                    </div>
+                    <div class="eduInfo">
+                      <div class="eduInfoName">
+                        <h2>{{item.title}}</h2>
+                        <div class="eduInfoDes">
+                          <h2>{{item.degree}}</h2>
+                          <div class="eduSubInfo">
+                            @for (subject of item.subjects; track $index) {
+                              <p>{{subject}}</p>
+                            }
+                          </div>
+                        </div>
+                        <p class="date">{{item.date}}</p>
+                      </div>
+                    </div>
+                  </article>
                 </a>
-            </div>
-            <section id="education" class="splide">
-                <div class="splide__track">
-                      <ul class="splide__list">
-                        @for (item of educationList; track $index) {
-                          <li class="splide__slide">
-                            <a [routerLink]="['/edu/edulist', item.id]">
-                                <div class="eduCard">
-                                    <div class="eduTitle">
-                                        <div class="eduTitleCont">
-                                            <img [src]="item.img" alt="">
-                                            <h2>{{item.name}}</h2>
-                                        </div>
-                                    </div>
-                                    <div class="eduInfo">
-                                        <div class="eduInfoName">
-                                            <h2>{{item.title}}</h2>
-                                            <div class="eduInfoDes">
-                                                <h2>{{item.degree}}</h2>
-                                                <div class="eduSubInfo">
-                                                    @for (subject of item.subjects; track $index) {
-                                                        <p>{{subject}}</p>
-                                                    }
-                                                </div>
-                                            </div>
-                                            <p class="date">{{item.date}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                          </li>
-                        }
-                      </ul>
-                </div>
-              </section>
+              </li>
+            }
+          </ul>
         </div>
-    </section>
-    <app-experience></app-experience>
-    <app-certificate></app-certificate>
-</div>
+      </section>
+    </div>
+  </section>
+
+  <app-experience></app-experience>
+  <app-certificate></app-certificate>
+</main>

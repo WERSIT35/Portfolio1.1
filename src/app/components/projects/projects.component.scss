@@ -1,283 +1,115 @@
-@mixin centerRow() {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-}
-@mixin centerCol() {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+$bp-md: 900px;
+$bp-lg: 1200px;
+
+.projects-page {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
+  padding: clamp(1.6rem, 4vw, 2.8rem) 0 clamp(2.8rem, 6vw, 4.2rem);
 }
 
 .title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   h1 {
-    font-size: 25px;
-    padding: 20px;
-    width: 80%;
-    text-align: center;
-    font-weight: 700;
-    color: #000000;
-    border-bottom: 2px solid #dfdfdf;
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    letter-spacing: 1px;
     text-transform: uppercase;
   }
 }
 
 .projsec {
-  margin-bottom: 100px;
-  @include centerCol();
-  
-  .projects {
-    width: 85%;
-    margin-top: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-    .splide {
-      .splide__track {
-        .splide__list {
-          .splide__slide {
-            img {
-              width: 100%;
-              border-radius: 15px 15px 0 0;
-              height: auto;
-              display: block;
-            }
-          }
-        }
-      }
-    }
-    
-    .projInfo {
-      border-radius: 0 0 15px 15px;
-      @include centerRow();
-      padding: 15px 0;
-      
-      .subinfo {
-        width: 90%;
-        position: relative;
-        height: max-content;
-        
-        h2 {
-          color: white;
-          font-size: 20px;
-          margin-bottom: 5px;
-        }
-        
-        p {
-          margin-top: 5px;
-          color: #a4a4a4;
-          font-weight: 600;
-          font-size: 14px;
-        }
-        
-        i {
-          color: white;
-          position: absolute;
-          right: 8px;
-          top: 0;
-          font-size: 30px;
-          cursor: pointer;
-        }
-        
-        button {
-          position: absolute;
-          height: 30px;
-          right: 0;
-          transform: translateX(5px);
-          bottom: 0;
-          border-radius: 15px;
-          background-color: white;
-          border: none;
-          cursor: pointer;
-          transition: transform 0.2s;
-          
-          &:hover {
-            transform: translateX(5px) scale(1.05);
-          }
-          
-          a {
-            padding: 8px 15px;
-            -webkit-background-clip: text;
-            background-clip: text;
-            font-weight: 600;
-            color: transparent;
-            text-shadow: 0 0 1px rgba(0, 0, 0, 0);
-            font-size: 14px;
-            text-decoration: none;
-          }
-        }
-      }
-    }
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2rem);
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-2);
+  background: var(--color-card);
+}
+
+.project-media {
+  width: 100%;
+}
+
+.project-media img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.projInfo {
+  padding: clamp(1.2rem, 2.6vw, 1.8rem);
+  position: relative;
+}
+
+.subinfo {
+  display: grid;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.topline {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.subinfo h2 {
+  color: #ffffff;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+.meta {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.subinfo p {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 500;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+}
+
+.subinfo i {
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.visit {
+  margin-top: clamp(0.6rem, 2vw, 1rem);
+  justify-self: start;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #11151c;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.visit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+@media (min-width: $bp-md) {
+  .project-card {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .project-media img {
+    height: 100%;
   }
 }
 
-// Tablet and small desktop styles
-@media (min-width: 768px) {
+@media (min-width: $bp-lg) {
   .projsec {
-    .projects {
-      width: 70%;
-      
-      .projInfo {
-        .subinfo {
-          h2 {
-            font-size: 22px;
-          }
-          
-          p {
-            font-size: 15px;
-          }
-          
-          i {
-            font-size: 35px;
-          }
-        }
-      }
-    }
-  }
-}
-
-// Large desktop styles
-@media (min-width: 1024px) {
-  .projsec {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: stretch;
-    
-    .projects {
-      width: 45%;
-      margin: 20px 10px;
-      display: flex;
-      flex-direction: column;
-      
-      .splide {
-        flex: 1;
-        
-        .splide__track {
-          height: 100%;
-          
-          .splide__list {
-            height: 100%;
-            
-            .splide__slide {
-              height: 100%;
-              
-              img {
-                height: 100%;
-                object-fit: cover;
-              }
-            }
-          }
-        }
-      }
-      
-      .projInfo {
-        .subinfo {
-          h2 {
-            font-size: 24px;
-          }
-          
-          p {
-            font-size: 16px;
-          }
-          
-          button {
-            height: 35px;
-            
-            a {
-              font-size: 15px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// Extra large screens
-@media (min-width: 1440px) {
-  .projsec {
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    
-    .projects {
-      width: 30%;
-    }
-  }
-}
-
-// Mobile landscape orientation
-@media (max-width: 767px) and (orientation: landscape) {
-  .projsec {
-    .projects {
-      width: 70%;
-      
-      .splide {
-        height: 250px;
-        
-        .splide__track {
-          height: 100%;
-          
-          .splide__list {
-            height: 100%;
-            
-            .splide__slide {
-              height: 100%;
-              
-              img {
-                height: 100%;
-                object-fit: cover;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// Small mobile devices
-@media (max-width: 480px) {
-  .title {
-    h1 {
-      font-size: 22px;
-      padding: 15px;
-      width: 90%;
-    }
-  }
-  
-  .projsec {
-    margin-bottom: 60px;
-    
-    .projects {
-      width: 90%;
-      
-      .projInfo {
-        .subinfo {
-          h2 {
-            font-size: 18px;
-          }
-          
-          p {
-            font-size: 13px;
-          }
-          
-          button {
-            height: 28px;
-            
-            a {
-              padding: 6px 12px;
-              font-size: 13px;
-            }
-          }
-        }
-      }
-    }
+    gap: clamp(2rem, 4vw, 3rem);
   }
 }

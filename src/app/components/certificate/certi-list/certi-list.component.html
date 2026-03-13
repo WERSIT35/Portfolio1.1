@@ -1,2 +1,12 @@
 <app-back></app-back>
-<img style="width: 100%;" [src]="cert?.image" alt="">
+<main class="cert-detail page">
+  <article class="cert-card">
+    <img [src]="cert?.image?.[0]" alt="">
+    <div class="cert-body">
+      <h2>{{ cert?.name }}</h2>
+      <p>{{ cert?.imageName?.[0] }}</p>
+      <p>{{ cert?.date }}</p>
+      <div class="cert-desc">{{ cert?.description }}</div>
+    </div>
+  </article>
+</main>

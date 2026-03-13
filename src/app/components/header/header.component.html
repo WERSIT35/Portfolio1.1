@@ -1,31 +1,30 @@
-    <header>
-        <nav>
-        <ul>
-            <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <li>
-                <i class="bi bi-house"></i>
-                <p>Home</p>
-            </li>
-            </a>
-            <a routerLink="projects" routerLinkActive="active">
-            <li>
-                <i class="bi bi-file-earmark-code"></i>
-                <p>Projects</p>
-            </li>
-            </a>
-            <a routerLink="edu" routerLinkActive="active">
-            <li>
-                <i class="bi bi-book"></i>
-                <p>Education</p>
-            </li>
-            </a>
-            <a routerLink="contact" routerLinkActive="active">
-            <li>
-                <i class="bi bi-chat-left"></i> 
-                <p>Contact</p>
-            </li>
-            </a>
-        </ul>
-        </nav>
-    </header>
-    
+<header class="site-header">
+  <nav class="nav">
+    <ul class="nav-list">
+      <li>
+        <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="bi bi-house"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="projects" routerLinkActive="active">
+          <i class="bi bi-file-earmark-code"></i>
+          <span>Projects</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="edu" routerLinkActive="active">
+          <i class="bi bi-book"></i>
+          <span>Education</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="contact" routerLinkActive="active">
+          <i class="bi bi-chat-left"></i>
+          <span>Contact</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>

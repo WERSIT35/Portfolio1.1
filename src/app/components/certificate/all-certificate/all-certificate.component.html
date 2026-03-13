@@ -1,8 +1,20 @@
 <app-back></app-back>
-@for (item of certificationList; track $index) {
-<li class="splide__slide">
-  <a [routerLink]="['/cert', item.id]">
-    <img style="width: 100%" [src]="item.image" alt="" />
-  </a>
-</li>
-}
+<main class="all-certificates">
+  <header class="title page">
+    <h1>Certificates</h1>
+  </header>
+  <section class="cert-grid page">
+    @for (item of certificationList; track $index) {
+      <article class="cert-card">
+        <a [routerLink]="['/cert', item.id]">
+          <img [src]="item.image[0]" alt="" />
+          <div class="cert-meta">
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.imageName[0] }}</p>
+            <p>{{ item.date }}</p>
+          </div>
+        </a>
+      </article>
+    }
+  </section>
+</main>
