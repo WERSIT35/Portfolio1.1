@@ -37,25 +37,29 @@ export class SkillsComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-        new Splide('#slider1', {
-          type: 'loop',
-          pauseOnHover: true,
-          pagination: false,
-          arrows: false,
-          perPage: 3,
-          mediaQuery: 'min',
-          breakpoints: {
-            1200: {
-              perPage:6,
-            },
-            768: {
-              perPage:5,
-            },
-            480: {
-              perPage:3,
-            },
-          }
-        }).mount({ AutoScroll });
+      new Splide('#slider1', {
+        type: 'loop',
+        pauseOnHover: true,
+        pagination: false,
+        arrows: false,
+        perPage: 8,
+        gap: '0.9rem',
+        mediaQuery: 'max',
+        breakpoints: {
+          1100: {
+            perPage: 6,
+          },
+          840: {
+            perPage: 5,
+          },
+          640: {
+            perPage: 4,
+          },
+          460: {
+            perPage: 3,
+          },
+        }
+      }).mount({ AutoScroll });
     }
   }
 }

@@ -5,8 +5,25 @@
     <div class="cert-body">
       <h2>{{ cert?.name }}</h2>
       <p>{{ cert?.imageName?.[0] }}</p>
-      <p>{{ cert?.date }}</p>
+      <p>{{ cert?.issuer }} | {{ cert?.issued }}</p>
+      <p>Time spent: {{ cert?.timeSpent }}</p>
       <div class="cert-desc">{{ cert?.description }}</div>
+      <div class="cert-extra">
+        <h3>Tasks Made</h3>
+        <ul>
+          @for (task of cert?.tasksMade; track $index) {
+            <li>{{ task }}</li>
+          }
+        </ul>
+      </div>
+      <div class="cert-extra">
+        <h3>What It Validates</h3>
+        <ul>
+          @for (skill of cert?.skills; track $index) {
+            <li>{{ skill }}</li>
+          }
+        </ul>
+      </div>
     </div>
   </article>
 </main>

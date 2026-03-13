@@ -66,6 +66,13 @@ $bp-md: 900px;
   color: var(--color-muted);
 }
 
+.profile-block .summary {
+  font-size: clamp(0.85rem, 1.3vw, 0.98rem);
+  color: var(--color-subtle);
+  max-width: 62ch;
+  line-height: 1.45;
+}
+
 .contact-panel {
   padding: clamp(1.2rem, 3.2vw, 2.2rem);
   background: var(--color-card);

@@ -7,84 +7,15 @@ import { Projects } from '../interfaces/projects';
 export class ProjectsService {
   protected projectsList: Projects[] = [
     {
-      projName: 'HeatFlow',
-      subname: 'Tubular Heating Elements',
+      projName: 'GiftShop',
+      subname: 'Modular Full-Stack E-Commerce Platform',
 
-      date: '18/6/2024',
+      date: 'Flagship Project',
 
       about:
-        'One of my proudest projects was creating an industrial website for HeatFlow. Built using Angular, the website showcases hundreds of tubular heating elements, complete with detailed product specifications and company information. I was responsible for both the front-end development and UI/UX design, ensuring that the site was user-friendly, visually appealing, and responsive across all devices. The goal was to provide a seamless experience for users in the industrial sector, allowing easy navigation through a vast inventory of products.',
+        'Architect modular e-commerce platform with separated frontend/backend layers. Develop reusable Angular components integrated with REST services. Implement cart, order validation, and secure authentication. Configure Dockerized development and deployment environments.',
       numOfPage: 5,
-      duration: '1 Week',
-
-      img: [
-        'assets/projects/heatFlow/1.png',
-        'assets/projects/heatFlow/2.png',
-        'assets/projects/heatFlow/3.png',
-        'assets/projects/heatFlow/4.png',
-      ],
-
-      link: 'https://heatflow.netlify.app',
-
-      iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #100404, #5A1212);'
-    },
-    {
-      projName: 'Akhali Sakhli',
-      subname: 'Development Company',
-
-      date: '4/5/2024',
-
-      about:
-        "Another project I worked on was for Akhali Sakhli, a development company that specializes in designing and repairing houses. For this website, I focused on creating the front end and designing a clean and modern UI/UX. The site was designed to highlight the company's services and portfolio, ensuring a user-friendly experience for potential clients and homeowners interested in their work.",
-      numOfPage: 26,
-      duration: '1 month',
-
-      img: [
-        'assets/projects/newHouse/landing.png',
-        'assets/projects/newHouse/pic1.png',
-        'assets/projects/newHouse/pic2.png',
-        'assets/projects/newHouse/pic3.png',
-      ],
-
-      link: 'https://akhalisakhli.com/',
-
-      iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #100404,#07342F);'
-    },
-    {
-      projName: 'Cyber Blog',
-      subname: 'Blog about cyber security',
-
-      date: '1/1/2023',
-
-      about:
-        'Built a sleek cyber blog website for cybersecurity enthusiasts. Features latest trends, news, and interactive discussions. Responsive design ensures seamless browsing on all devices. Engaging content and visuals enhance user experience.',
-      numOfPage: 12,
-      duration: '1 month',
-
-      img: [
-        'assets/projects/cyberBlog/landing.png',
-        'assets/projects/cyberBlog/pic1.png',
-        'assets/projects/cyberBlog/pic2.png',
-        'assets/projects/cyberBlog/pic3.png',
-      ],
-
-      link: 'https://cyberblogug.netlify.app/',
-
-      iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #100404,#08A045);'
-    },
-    {
-      projName: 'Achuke Gift Store',
-      subname:'Balloon bouquet store',
-
-      date: '4/2/2023',
-
-      about:
-        "Designed and developed Achuke Gift Store's online presence, featuring shop, and company details. Built with user-friendly navigation and responsive design for seamless viewing across devices. Incorporated engaging graphics and intuitive UI elements for an enhanced user experience.",
-      numOfPage: 5,
-      duration: '3 Day',
+      duration: 'Angular + Node.js + Docker',
 
       img: [
         'assets/projects/achuke/landing.png',
@@ -96,7 +27,53 @@ export class ProjectsService {
       link: 'http://achukegiftstore.netlify.app/',
 
       iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #100404,#0897A0);'
+      gradient:'background-image: linear-gradient(90deg, #10222A, #1E4A54);'
+    },
+    {
+      projName: 'PetC Platform',
+      subname: 'Production-Grade Angular Application',
+
+      date: 'Dec 2025-Present',
+
+      about:
+        "Own development of 4 core platform features within a production-grade Angular environment. Architect frontend using Standalone Components, Signals, Lazy Loading, and modular structure while improving load performance through structured code splitting.",
+      numOfPage: 4,
+      duration: 'Angular Architecture',
+
+      img: [
+        'assets/projects/newHouse/landing.png',
+        'assets/projects/newHouse/pic1.png',
+        'assets/projects/newHouse/pic2.png',
+        'assets/projects/newHouse/pic3.png',
+      ],
+
+      link: 'https://akhalisakhli.com/',
+
+      iflink: true,
+      gradient:'background-image: linear-gradient(90deg, #121829,#22315A);'
+    },
+    {
+      projName: 'HeatFlow',
+      subname: 'Industrial Product Website',
+
+      date: 'Client Delivery',
+
+      about:
+        'Production-focused frontend delivery with clear information architecture, responsive layout, and structured component composition for catalog-heavy product content.',
+      numOfPage: 5,
+      duration: 'Frontend Delivery',
+
+      img: [
+        'assets/projects/heatFlow/1.png',
+        'assets/projects/heatFlow/2.png',
+        'assets/projects/heatFlow/3.png',
+        'assets/projects/heatFlow/4.png',
+      ],
+
+      link: 'https://heatflow.netlify.app',
+
+      iflink: true,
+      gradient:'background-image: linear-gradient(90deg, #221411,#643C2E);'
     },
   ];
 

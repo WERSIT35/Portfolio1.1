@@ -51,6 +51,25 @@
   font-size: 0.9rem;
 }
 
+.cert-meta .desc {
+  margin-top: 0.3rem;
+  line-height: 1.45;
+}
+
+.tasks {
+  list-style: none;
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.3rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tasks li {
+  color: var(--color-subtle);
+  font-size: 0.85rem;
+}
+
 @media (min-width: 900px) {
   .cert-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

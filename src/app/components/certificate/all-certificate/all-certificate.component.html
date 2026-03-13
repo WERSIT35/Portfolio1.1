@@ -11,7 +11,14 @@
           <div class="cert-meta">
             <h2>{{ item.name }}</h2>
             <p>{{ item.imageName[0] }}</p>
-            <p>{{ item.date }}</p>
+            <p>{{ item.issuer }} | {{ item.issued }}</p>
+            <p>Time spent: {{ item.timeSpent }}</p>
+            <p class="desc">{{ item.description }}</p>
+            <ul class="tasks">
+              @for (task of item.tasksMade; track $index) {
+                <li>{{ task }}</li>
+              }
+            </ul>
           </div>
         </a>
       </article>

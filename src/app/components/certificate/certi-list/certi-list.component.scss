@@ -39,6 +39,31 @@
 .cert-desc {
   color: var(--color-muted);
   font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cert-extra {
+  margin-top: 0.45rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.cert-extra h3 {
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+}
+
+.cert-extra ul {
+  list-style: none;
+  display: grid;
+  gap: 0.25rem;
+  padding-left: 0.7rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cert-extra li {
+  color: var(--color-subtle);
+  font-size: 0.9rem;
 }
 
 @media (min-width: 960px) {

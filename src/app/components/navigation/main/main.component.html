@@ -1,31 +1,52 @@
 <main class="home">
   <section class="hero">
-    <div class="page hero-grid">
+    <div class="page">
       <div class="hero-panel">
-        <div class="image" (click)="openImageModal()">
-          <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
+        <div class="hero-main">
+          <div class="image" (click)="openImageModal()">
+            <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
+          </div>
+          <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
+            <img src="/assets/profile/last.png" alt="otar davitashvili" class="modal-image">
+          </div>
+          <div class="text">
+            <p class="eyebrow">OTAR DAVITASHVILI</p>
+            <h1 class="name">Product-Focused Full-Stack Engineer</h1>
+            <p class="title">Angular &amp; React Architecture Specialist</p>
+            <p class="summary">
+              I build scalable frontend and full-stack systems with strong focus on clean architecture, performance, and production readiness.
+            </p>
+          </div>
         </div>
-        <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
-          <img src="/assets/profile/last.png" alt="otar davitashvili" class="modal-image">
+        <div class="cta-grid">
+          <a href="/assets/me/OTAR DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="cta-card cta-resume">
+            <div class="cta-copy">
+              <h2>Resume PDF</h2>
+              <p>One-page profile</p>
+            </div>
+            <span class="cta-icon">
+              <i class="bi bi-download"></i>
+            </span>
+          </a>
+          <a routerLink="projects" class="cta-card cta-projects">
+            <div class="cta-copy">
+              <h2>Selected Work</h2>
+              <p>Production projects</p>
+            </div>
+            <span class="cta-icon">
+              <i class="bi bi-kanban"></i>
+            </span>
+          </a>
+          <a routerLink="contact" class="cta-card cta-contact">
+            <div class="cta-copy">
+              <h2>Contact Me</h2>
+              <p>Mail, GitHub, LinkedIn</p>
+            </div>
+            <span class="cta-icon">
+              <i class="bi bi-send"></i>
+            </span>
+          </a>
         </div>
-        <div class="text">
-          <h1 class="name"><span>otar</span><span>davitashvili</span></h1>
-          <p class="title">Software Engineer | Angular / React</p>
-        </div>
-      </div>
-      <div class="cta-grid">
-        <a href="/assets/me/OTAR DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="cta-card resume">
-          <h2>Resume</h2>
-          <i class="bi bi-file-earmark-person"></i>
-        </a>
-        <a routerLink="projects" class="cta-card project">
-          <h2>Projects</h2>
-          <i class="bi bi-file-earmark-code"></i>
-        </a>
-        <a routerLink="contact" class="cta-card contact">
-          <h2>Contact</h2>
-          <i class="bi bi-chat-left"></i>
-        </a>
       </div>
     </div>
   </section>
@@ -49,7 +70,7 @@
                   <article class="eduCard">
                     <div class="eduTitle">
                       <div class="eduTitleCont">
-                        <img [src]="item.img" alt="">
+                        <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
                         <h2>{{item.name}}</h2>
                       </div>
                     </div>
