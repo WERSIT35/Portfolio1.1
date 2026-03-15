@@ -52,7 +52,7 @@ export class MainComponent implements AfterViewInit, OnInit{
             perPage: 1.35,
             padding: { left: '1.5%', right: '1.5%' },
           },
-          700: {
+          720: {
             perPage: 1,
             padding: { left: '6%', right: '6%' },
           },

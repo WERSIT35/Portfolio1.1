@@ -434,4 +434,22 @@ button,
   letter-spacing: 0;
 }
 
+/* Keep slider controls above side blur overlays */
+.splide__arrows,
+.splide__arrow {
+  z-index: 12 !important;
+}
+
+.splide__arrow {
+  transition: none !important;
+  transform: translateY(-50%) !important;
+}
+
+.splide__arrow:hover,
+.splide__arrow:focus-visible,
+.splide__arrow:active {
+  transform: translateY(-50%) !important;
+  box-shadow: none !important;
+}
+
 

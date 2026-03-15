@@ -1,4 +1,4 @@
-$bp-sm: 640px;
+$bp-sm: 720px;
 $bp-md: 900px;
 $bp-lg: 1200px;
 
@@ -79,7 +79,7 @@ $bp-lg: 1200px;
   font-weight: 700;
   letter-spacing: 1.3px;
   text-transform: uppercase;
-  color: #cfd4dc;
+  color: var(--color-muted);
 }
 
 .hero-panel .name {
@@ -91,7 +91,7 @@ $bp-lg: 1200px;
 
 .hero-panel .title {
   font-size: clamp(0.86rem, 1.2vw, 0.98rem);
-  color: #cfd4dc;
+  color: var(--color-muted);
   font-weight: 700;
   letter-spacing: 0.12px;
 }
@@ -117,7 +117,7 @@ $bp-lg: 1200px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.3rem;
   min-height: 48px;
   padding: 0.34rem 0.5rem 0.34rem 0.64rem;
   border-radius: 16px;
@@ -140,11 +140,12 @@ $bp-lg: 1200px;
   font-weight: 700;
   line-height: 1.05;
   white-space: nowrap;
+  color: var(--color-ink);
 }
 
 .cta-copy p {
   font-size: 0.66rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--color-subtle);
   line-height: 1.05;
   white-space: nowrap;
 }
@@ -154,13 +155,15 @@ $bp-lg: 1200px;
   height: 34px;
   display: grid;
   place-items: center;
+  align-self: center;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(31, 35, 41, 0.2);
+  background: rgba(31, 35, 41, 0.08);
 }
 
 .cta-card i {
   font-size: 0.95rem;
+  color: var(--color-ink);
 }
 
 .cta-card:hover {
@@ -174,8 +177,8 @@ $bp-lg: 1200px;
 }
 
 .cta-card.cta-resume .cta-icon {
-  background: rgba(207, 212, 220, 0.17);
-  border-color: rgba(207, 212, 220, 0.32);
+  background: rgba(31, 35, 41, 0.1);
+  border-color: rgba(31, 35, 41, 0.24);
 }
 
 .cta-card.cta-projects {
@@ -184,8 +187,8 @@ $bp-lg: 1200px;
 }
 
 .cta-card.cta-projects .cta-icon {
-  background: rgba(143, 149, 158, 0.15);
-  border-color: rgba(143, 149, 158, 0.3);
+  background: rgba(31, 35, 41, 0.1);
+  border-color: rgba(31, 35, 41, 0.24);
 }
 
 .cta-card.cta-contact {
@@ -194,8 +197,8 @@ $bp-lg: 1200px;
 }
 
 .cta-card.cta-contact .cta-icon {
-  background: rgba(143, 149, 158, 0.15);
-  border-color: rgba(143, 149, 158, 0.3);
+  background: rgba(31, 35, 41, 0.1);
+  border-color: rgba(31, 35, 41, 0.24);
 }
 
 .education {

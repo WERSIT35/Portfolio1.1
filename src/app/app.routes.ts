@@ -4,6 +4,7 @@ import { EdulistComponent } from './components/navigation/main/edulist/edulist.c
 import { ExplistComponent } from './components/experience/explist/explist.component';
 import { CertiListComponent } from './components/certificate/certi-list/certi-list.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
 
 import { ContactComponent } from './components/contact/contact.component';
 import { AllEducationComponent } from './components/navigation/main/all-education/all-education.component';
@@ -24,6 +25,7 @@ export const routes: Routes = [
 
     {path:'skills', component:AllSkillsComponent},
 
+    {path: 'projects/:id', component:ProjectDetailComponent},
     {path: 'projects', component:ProjectsComponent},
     {path: 'edu', component:AllEducationComponent},
     {path: 'contact', component:ContactComponent},

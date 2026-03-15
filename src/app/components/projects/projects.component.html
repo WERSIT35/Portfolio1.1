@@ -5,29 +5,49 @@
   </header>
   <section class="projsec page">
     <article *ngFor="let item of projectsList; let index = index" class="project-card">
-      <section [id]="'projects' + index" class="splide project-media">
+      <section [id]="'projects' + index" class="splide project-media project-slider" [class.mobile-media]="isProjectMobile(index)">
+        <button type="button" class="view-toggle media-toggle" *ngIf="hasSplitMedia(item)" (click)="toggleProjectView(index)">
+          <i class="bi" [ngClass]="isProjectMobile(index) ? 'bi-display' : 'bi-phone'"></i>
+          <span>{{ isProjectMobile(index) ? 'Switch To Web' : 'Switch To Mobile' }}</span>
+        </button>
         <div class="splide__track">
           <ul class="splide__list">
-            <li *ngFor="let img of item.img" class="splide__slide">
-              <img [src]="img" alt="">
+            <li *ngFor="let img of getVisibleImages(item, index)" class="splide__slide">
+              <img [src]="img" alt="" (click)="openPreview(img)">
             </li>
           </ul>
         </div>
       </section>
+
       <div class="projInfo">
         <div class="subinfo">
           <div class="topline">
             <h2>{{item.projName}}</h2>
-            <i class="bi bi-three-dots"></i>
           </div>
           <div class="meta">
             <p>{{item.subname}}</p>
             <p>{{item.duration}}</p>
             <p>{{item.date}}</p>
+            <p>{{item.numOfPage}} pages</p>
           </div>
-          <a class="visit" [href]="item.link" target="_blank">Visit Website</a>
+          <p class="about">{{item.about}}</p>
+          <ul class="highlights" *ngIf="item.highlights?.length">
+            <li *ngFor="let point of item.highlights | slice:0:3">{{ point }}</li>
+          </ul>
+          <a class="details-toggle" [routerLink]="['/projects', index]">Open Detailed Info</a>
+          <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
+            <span>Open Live Site</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </a>
         </div>
       </div>
     </article>
   </section>
 </main>
+
+<div class="image-preview" *ngIf="previewImage" (click)="closePreview()">
+  <button type="button" class="preview-close" (click)="closePreview(); $event.stopPropagation()" aria-label="Close image">
+    <i class="bi bi-x-lg"></i>
+  </button>
+  <img [src]="previewImage" alt="" (click)="$event.stopPropagation()">
+</div>

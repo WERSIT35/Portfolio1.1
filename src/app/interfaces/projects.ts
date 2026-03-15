@@ -11,4 +11,5 @@ export interface Projects {
     iflink:boolean,
 
     gradient:string,
+    highlights?: string[],
 }
