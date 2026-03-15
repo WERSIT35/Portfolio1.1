@@ -12,12 +12,4 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent {
-  showImageModal: boolean = false;
-  openImageModal() {
-    this.showImageModal = true;
-  }
-  
-  closeImageModal() {
-    this.showImageModal = false;
-  }
 }

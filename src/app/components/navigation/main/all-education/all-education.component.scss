@@ -16,10 +16,12 @@
 }
 
 .eduCard {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  background: linear-gradient(145deg, rgba(51, 51, 51, 0.62), rgba(51, 51, 51, 0.38));
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--shadow-2);
   overflow: hidden;
 }
 
@@ -35,7 +37,7 @@
   align-items: center;
   padding: var(--space-4);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(20, 26, 36, 0.6);
+  background: linear-gradient(90deg, rgba(207, 212, 220, 0.3), rgba(143, 149, 158, 0.2));
 }
 
 .eduHeader img {
@@ -76,7 +78,9 @@
   display: grid;
   gap: 0.4rem;
   padding-left: var(--space-3);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   max-height: 220px;
   overflow: auto;
   color: var(--color-subtle);
@@ -100,3 +104,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
 @mixin scrollbar() {
   &::-webkit-scrollbar {
     width: 12px;
@@ -5,7 +7,7 @@
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 999px;
-    background: rgba(16, 24, 40, 0.25);
+    background: rgba(143, 149, 158, 0.45);
     border: 3px solid rgba(0, 0, 0, 0);
     background-clip: padding-box;
   }
@@ -15,21 +17,25 @@
 }
 
 :root {
-  --font-display: "Bahnschrift", "Segoe UI Variable Display", "Segoe UI", "Arial", sans-serif;
-  --font-body: "Segoe UI Variable Text", "Segoe UI", "Calibri", "Arial", sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", "Arial", sans-serif;
+  --font-body: "Manrope", "Segoe UI", "Arial", sans-serif;
 
-  --color-ink: #f5f7fb;
-  --color-muted: #c7cdd6;
-  --color-subtle: #9aa3b2;
-  --color-surface: #0f131b;
-  --color-card: #141a24;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-accent: #7bd4c6;
-  --color-accent-strong: #3ba89a;
-  --color-warm: #f0a66b;
+  --color-ink: #1f2329;
+  --color-muted: #343942;
+  --color-subtle: #5f6670;
+  --color-surface: #eceff3;
+  --color-card: #ffffff;
+  --color-border: rgba(31, 35, 41, 0.14);
+  --color-accent: #cfd4dc;
+  --color-accent-strong: #8f959e;
+  --color-warm: #8f959e;
+  --color-glass: rgba(255, 255, 255, 0.74);
+  --color-glass-strong: rgba(255, 255, 255, 0.9);
+  --color-glass-border: rgba(31, 35, 41, 0.16);
+  --color-glass-highlight: rgba(255, 255, 255, 0.9);
 
-  --shadow-1: 0 10px 25px rgba(0, 0, 0, 0.35);
-  --shadow-2: 0 18px 45px rgba(0, 0, 0, 0.45);
+  --shadow-1: 0 8px 22px rgba(23, 28, 35, 0.12);
+  --shadow-2: 0 16px 36px rgba(23, 28, 35, 0.16);
 
   --radius-xs: 8px;
   --radius-sm: 12px;
@@ -61,26 +67,20 @@ html {
   @include scrollbar();
   font-family: var(--font-body);
   color: var(--color-ink);
-  background-color: #0b0f16;
+  background-color: #eceff3;
 }
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(85% 60% at 8% 12%, rgba(123, 212, 198, 0.12), transparent 60%),
-    radial-gradient(75% 55% at 92% 5%, rgba(240, 166, 107, 0.12), transparent 55%),
-    linear-gradient(180deg, #0a0d12 0%, #0f141d 45%, #101621 100%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      rgba(255, 255, 255, 0.03) 1px,
-      transparent 1px,
-      transparent 4px
-    );
+  background: linear-gradient(180deg, #f2f4f7 0%, #e9edf2 55%, #e5e9ee 100%);
   background-attachment: fixed;
   line-height: 1.55;
   padding-top: 70px;
   overflow-x: hidden;
+}
+
+body::before {
+  content: none;
 }
 
 @media (max-width: 720px) {
@@ -127,7 +127,7 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(43, 93, 95, 0.4);
+  outline: 2px solid rgba(207, 212, 220, 0.8);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -156,33 +156,31 @@ button {
   gap: 0.45rem;
 }
 
-.section-header h1::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(123, 212, 198, 1), rgba(123, 212, 198, 0.4));
-  box-shadow: 0 0 0 3px rgba(123, 212, 198, 0.14);
-}
-
 .section-header a p {
-  color: #d5e2f1;
+  color: #1f2329;
   font-size: clamp(0.7rem, 1.3vw, 0.84rem);
   letter-spacing: 0;
   line-height: 1.1;
-  display: inline-flex;
+  display: inline-grid;
+  grid-auto-flow: column;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
+  min-width: 78px;
   padding: 0.34rem 0.55rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--color-glass-border);
   border-radius: 999px;
-  background: rgba(20, 27, 38, 0.86);
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.8));
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: none;
 }
 
 .section-header a p:hover {
-  border-color: rgba(123, 212, 198, 0.35);
-  background: rgba(27, 40, 56, 0.95);
+  transform: none;
+  border-color: var(--color-glass-border);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.8));
 }
 
 .section-card {
@@ -191,3 +189,249 @@ button {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-1);
 }
+
+.glass-surface {
+  background: linear-gradient(145deg, var(--color-glass-strong), var(--color-glass));
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--shadow-1);
+}
+
+.glass-button {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.62rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-glass-border);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(14px) saturate(145%);
+  -webkit-backdrop-filter: blur(14px) saturate(145%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 10px 24px rgba(0, 0, 0, 0.26);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.glass-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(207, 212, 220, 0.45);
+  background: linear-gradient(145deg, rgba(207, 212, 220, 0.24), rgba(255, 255, 255, 0.05));
+}
+
+/* Monochrome cleanup for a strict black/white/gray look */
+.hero-panel,
+.hero-panel .text,
+.cta-card,
+.nav-list a,
+.project-card,
+.profile-block,
+.contact-panel,
+.eduCard,
+.exCard,
+.cert-card,
+.suggestion-card {
+  background: rgba(255, 255, 255, 0.86) !important;
+  border-color: rgba(31, 35, 41, 0.16) !important;
+  box-shadow: 0 10px 24px rgba(23, 28, 35, 0.12) !important;
+}
+
+.project-card,
+.eduCard,
+.exCard,
+.cert-card,
+.skill-card,
+.suggestion-card,
+.contact-links a,
+.cta-card,
+.nav-list a,
+.section-header a p,
+.visit,
+button,
+.back button {
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast) !important;
+}
+
+.project-card:hover,
+.eduCard:hover,
+.exCard:hover,
+.cert-card:hover,
+.skill-card:hover,
+.suggestion-card:hover,
+.contact-links a:hover,
+.cta-card:hover,
+.nav-list a:hover,
+.section-header a p:hover,
+.visit:hover,
+button:hover,
+.back button:hover {
+  transform: none !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(31, 35, 41, 0.24) !important;
+  box-shadow: 0 12px 26px rgba(23, 28, 35, 0.14) !important;
+}
+
+.cta-card.cta-resume,
+.cta-card.cta-projects,
+.cta-card.cta-contact {
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+.hero-panel::before,
+.eduCard::before,
+.exCard::before,
+.cert-card::before {
+  display: none !important;
+}
+
+.eduTitle,
+.exTitle,
+.eduHeader {
+  background: rgba(31, 35, 41, 0.08) !important;
+}
+
+.nav-list a:hover {
+  transform: none !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(31, 35, 41, 0.24) !important;
+}
+
+.nav-list a.active {
+  background: rgba(31, 35, 41, 0.12) !important;
+  border-color: rgba(31, 35, 41, 0.3) !important;
+  color: #1f2329 !important;
+}
+
+.splide__slide.is-active .eduCard,
+.splide__slide.is-active .exCard,
+.splide__slide.is-active .cert-card {
+  border-color: rgba(31, 35, 41, 0.34) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 16px 30px rgba(23, 28, 35, 0.18) !important;
+}
+
+.education .splide__slide .eduCard,
+.experience .splide__slide .exCard,
+.certificate .splide__slide .cert-card {
+  opacity: 0.62;
+  filter: grayscale(10%);
+  border-color: rgba(31, 35, 41, 0.14) !important;
+  box-shadow: 0 8px 18px rgba(23, 28, 35, 0.1) !important;
+  transition: opacity var(--transition-fast), filter var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast) !important;
+}
+
+.education .splide__slide.is-active .eduCard,
+.experience .splide__slide.is-active .exCard,
+.certificate .splide__slide.is-active .cert-card {
+  opacity: 1;
+  filter: none;
+}
+
+.hero-panel,
+.hero-panel .name,
+.hero-panel .title,
+.hero-panel .summary,
+.hero-panel .eyebrow,
+.section-header h1,
+.section-header a p,
+.nav-list a,
+.nav-list a.active,
+.eduTitleCont h2,
+.eduInfoName h2,
+.eduInfoDes h2,
+.eduSubInfo p,
+.exTitle h2,
+.subname h2,
+.subname1 h2,
+.cert-meta h2,
+.cert-meta p,
+.contact-links a,
+.project-card h2,
+.project-card p,
+.visit {
+  color: #1f2329 !important;
+}
+
+/* Full-site minimal light harmonization */
+.site-header {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-bottom: 1px solid rgba(31, 35, 41, 0.12) !important;
+  box-shadow: 0 6px 18px rgba(23, 28, 35, 0.08);
+}
+
+.home,
+.projects-page,
+.contact-page,
+.all-education,
+.all-experience,
+.all-certificates,
+.edu-detail,
+.exp-detail,
+.cert-detail {
+  color: var(--color-ink) !important;
+}
+
+.eduInfoDes,
+.subnameTxt,
+.subnameTxt1,
+.cert-meta,
+.suggestion-card,
+.contact-links a,
+.visit,
+.tasks,
+.eduSection,
+.eduScroll {
+  background: rgba(31, 35, 41, 0.04) !important;
+  border-color: rgba(31, 35, 41, 0.14) !important;
+  color: var(--color-ink) !important;
+}
+
+.eduSubInfo p {
+  background: rgba(31, 35, 41, 0.04) !important;
+  border-color: rgba(31, 35, 41, 0.12) !important;
+  color: var(--color-ink) !important;
+}
+
+.section-header a p,
+.visit,
+button,
+.back button {
+  color: var(--color-ink) !important;
+  border-color: rgba(31, 35, 41, 0.18) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.project-card:hover,
+.eduCard:hover,
+.exCard:hover,
+.cert-card:hover,
+.skill-card:hover,
+.suggestion-card:hover,
+.contact-links a:hover,
+.cta-card:hover,
+.profile-block:hover,
+.contact-panel:hover {
+  transform: none !important;
+}
+
+.topline i,
+.subTitle i {
+  color: var(--color-subtle) !important;
+}
+
+.education .date,
+.all-education .date,
+.edu-detail .eduHeading .date {
+  display: inline-block;
+  margin-top: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 35, 41, 0.2);
+  background: rgba(31, 35, 41, 0.06);
+  color: #1f2329 !important;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+

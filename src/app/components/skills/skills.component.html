@@ -12,8 +12,14 @@
           @for (item of skillsList; track $index) {
             @for (i of item.name; track $index) {
               <li class="splide__slide">
-                <div class="skill-pill">
+                <div class="skill-pill"
+                  tabindex="0"
+                  (mouseenter)="pauseSkillsSlider()"
+                  (mouseleave)="resumeSkillsSlider()"
+                  (focus)="pauseSkillsSlider()"
+                  (blur)="resumeSkillsSlider()">
                   <i [ngClass]="item.icon[$index]" [ngStyle]="{'color': item.color[$index]}"></i>
+                  <span class="skill-label">{{ i }}</span>
                 </div>
               </li>
             }

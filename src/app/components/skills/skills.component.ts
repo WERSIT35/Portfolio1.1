@@ -25,6 +25,7 @@ export class SkillsComponent implements AfterViewInit, OnInit {
   @Input() skills!: Skills;
 
   skillsList: Skills[] = [];
+  private skillsSplide?: Splide;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -37,13 +38,17 @@ export class SkillsComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      new Splide('#slider1', {
+      this.skillsSplide = new Splide('#slider1', {
         type: 'loop',
-        pauseOnHover: true,
         pagination: false,
         arrows: false,
         perPage: 8,
         gap: '0.9rem',
+        autoScroll: {
+          pauseOnHover: true,
+          pauseOnFocus: true,
+          speed: 0.7,
+        },
         mediaQuery: 'max',
         breakpoints: {
           1100: {
@@ -61,5 +66,13 @@ export class SkillsComponent implements AfterViewInit, OnInit {
         }
       }).mount({ AutoScroll });
     }
+  }
+
+  pauseSkillsSlider(): void {
+    this.skillsSplide?.Components?.AutoScroll?.pause();
+  }
+
+  resumeSkillsSlider(): void {
+    this.skillsSplide?.Components?.AutoScroll?.play();
   }
 }

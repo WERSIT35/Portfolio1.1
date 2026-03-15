@@ -3,11 +3,8 @@
     <div class="page">
       <div class="hero-panel">
         <div class="hero-main">
-          <div class="image" (click)="openImageModal()">
+          <div class="image">
             <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
-          </div>
-          <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
-            <img src="/assets/profile/last.png" alt="otar davitashvili" class="modal-image">
           </div>
           <div class="text">
             <p class="eyebrow">OTAR DAVITASHVILI</p>
@@ -19,7 +16,7 @@
           </div>
         </div>
         <div class="cta-grid">
-          <a href="/assets/me/OTAR DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="cta-card cta-resume">
+          <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" type="application/pdf" class="cta-card cta-resume">
             <div class="cta-copy">
               <h2>Resume PDF</h2>
               <p>One-page profile</p>
