@@ -93,6 +93,10 @@ export class ProjectsComponent implements AfterViewInit, OnInit{
       : this.getWebImages(project);
   }
 
+  hasMedia(project: Projects): boolean {
+    return Array.isArray(project.img) && project.img.length > 0;
+  }
+
   isProjectMobile(index: number): boolean {
     return this.projectViewMode[index] === 'mobile';
   }

@@ -1,0 +1,26 @@
+<main class="admin-login page">
+  <section class="card">
+    <h1>Admin Login</h1>
+    <p>Use your admin credentials to edit portfolio content.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="admin@portfolio.local" />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input type="password" formControlName="password" placeholder="••••••••" />
+      </label>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Signing In...' : 'Sign In' }}
+      </button>
+    </form>
+
+    <a routerLink="/">Back To Portfolio</a>
+  </section>
+</main>

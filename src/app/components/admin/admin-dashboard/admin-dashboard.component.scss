@@ -1,0 +1,128 @@
+.admin-page {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem 0 2.2rem;
+}
+
+.admin-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 35, 41, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.admin-header p {
+  color: var(--color-subtle);
+  font-size: 0.82rem;
+}
+
+.admin-header button,
+.actions button,
+.create-user button {
+  border: 1px solid rgba(31, 35, 41, 0.2);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
+  background: #1f2329;
+  color: #fff;
+  cursor: pointer;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0.75rem;
+}
+
+.menu,
+.editor,
+.users {
+  border-radius: 14px;
+  border: 1px solid rgba(31, 35, 41, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.75rem;
+}
+
+.menu {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+.menu button {
+  text-align: left;
+  border: 1px solid rgba(31, 35, 41, 0.14);
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.45rem 0.55rem;
+  cursor: pointer;
+}
+
+.menu button.active {
+  background: rgba(31, 35, 41, 0.08);
+  border-color: rgba(31, 35, 41, 0.24);
+}
+
+.editor {
+  display: grid;
+  gap: 0.55rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 420px;
+  border: 1px solid rgba(31, 35, 41, 0.18);
+  border-radius: 12px;
+  padding: 0.65rem;
+  font-family: Consolas, monospace;
+  font-size: 0.82rem;
+}
+
+.msg {
+  font-size: 0.82rem;
+  color: #067647;
+}
+
+.msg.error {
+  color: #b42318;
+}
+
+.create-user {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.create-user input,
+.create-user select {
+  border: 1px solid rgba(31, 35, 41, 0.18);
+  border-radius: 10px;
+  padding: 0.45rem 0.55rem;
+}
+
+.users-list {
+  margin-top: 0.7rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.users-list article {
+  border: 1px solid rgba(31, 35, 41, 0.12);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: grid;
+  gap: 0.1rem;
+}
+
+@media (max-width: 860px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .create-user {
+    grid-template-columns: 1fr;
+  }
+}

@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent implements OnInit{
   loading$ = this.loadingService.loading$;
+  hideHeader = false;
 
   constructor(private router: Router, private loadingService: LoadingService) {}
 
@@ -25,8 +26,10 @@ export class AppComponent implements OnInit{
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.loadingService.show();
+        this.hideHeader = event.url.startsWith('/admin');
       } else if (event instanceof NavigationEnd) {
         this.loadingService.hide();
+        this.hideHeader = event.urlAfterRedirects.startsWith('/admin');
       }
     });
   }
