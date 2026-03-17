@@ -41,58 +41,26 @@ export class ProjectsService {
       ],
 
       link: 'https://shellotech.eu.org',
+      github: 'https://github.com/WERSIT35/Shello-Demo',
 
       iflink: true,
       gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
     },
     {
-      projName: 'GiftShop',
-      subname: 'Modular Full-Stack E-Commerce Platform',
+      projName: 'Akhali Sakhli',
+      subname: 'Real Estate Platform Website',
 
-      date: 'Flagship Project',
-
-      about:
-        'GiftShop is a modular full-stack e-commerce platform with clearly separated frontend and backend architecture. The application focuses on reusable Angular UI blocks, predictable state flow, and clean REST integration for product browsing, cart operations, and order processing. Backend modules are structured around authentication, catalog management, and transactional order handling, while containerized setup is used to keep development and deployment behavior consistent across environments.',
-      numOfPage: 5,
-      duration: 'Angular + Node.js + Docker',
-      highlights: [
-        'Modular frontend/backend separation with structured REST contracts',
-        'Reusable Angular component system for catalog, cart, and checkout flows',
-        'Secure authentication and validation pipeline for customer actions',
-        'Order management workflow with consistent request/response handling',
-        'Containerized runtime for reliable local and deployment parity',
-        'Production-oriented folder structure for maintainability and scaling',
-      ],
-
-      img: [
-        'assets/projects/achuke/landing.png',
-        'assets/projects/achuke/pic1.png',
-        'assets/projects/achuke/pic2.png',
-        'assets/projects/achuke/pic3.png',
-      ],
-
-      link: 'http://achukegiftstore.netlify.app/',
-
-      iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #10222A, #1E4A54);'
-    },
-    {
-      projName: 'PetC Platform',
-      subname: 'Production-Grade Angular Application',
-
-      date: 'Dec 2025-Present',
+      date: 'Client Delivery',
 
       about:
-        "PetC Platform is a production-grade Angular application focused on shipping high-impact features with long-term maintainability. The frontend architecture uses Standalone Components, Signals, Lazy Loading, and modular boundaries to improve team velocity and reduce coupling between feature areas. Delivery work included feature stabilization, cleaner route-level loading strategy, and performance improvements through intentional code splitting aligned with real product usage.",
+        'Akhali Sakhli is a real estate platform website focused on clear property presentation, responsive browsing, and conversion-friendly structure. The delivery emphasized clean sectioning, maintainable Angular components, and consistent page behavior across mobile and desktop views.',
       numOfPage: 4,
-      duration: 'Angular Architecture',
+      duration: 'Angular Frontend Delivery',
       highlights: [
-        'Built and stabilized core production features in an active platform',
-        'Applied Standalone Components, Signals, and Lazy Loading patterns',
-        'Designed cleaner module boundaries for easier onboarding and ownership',
-        'Optimized loading behavior with structured route-level code splitting',
-        'Improved implementation consistency across shared product sections',
-        'Aligned frontend architecture decisions with product delivery priorities',
+        'Responsive property-focused layouts for desktop and mobile',
+        'Structured content hierarchy for faster listing exploration',
+        'Reusable Angular UI sections for maintainable page growth',
+        'Improved readability and information flow for conversion paths',
       ],
 
       img: [
@@ -103,9 +71,37 @@ export class ProjectsService {
       ],
 
       link: 'https://akhalisakhli.com/',
+      github: 'https://github.com/WERSIT35/angular-wedding-landing',
 
       iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #121829,#22315A);'
+      gradient: 'background-image: linear-gradient(90deg, #121829, #22315A);',
+    },
+    {
+      projName: 'PetC Platform',
+      subname: 'Production-Grade Angular Application',
+
+      date: 'Dec 2025-Present',
+
+      about:
+        'PetC Platform is a production-grade Angular application focused on shipping high-impact features with long-term maintainability. The frontend architecture uses Standalone Components, Signals, Lazy Loading, and modular boundaries to improve team velocity and reduce coupling between feature areas. Delivery work included feature stabilization, cleaner route-level loading strategy, and performance improvements through intentional code splitting aligned with real product usage.',
+      numOfPage: 0,
+      duration: 'Angular Architecture',
+      highlights: [
+        'Built and stabilized core production features in an active platform',
+        'Applied Standalone Components, Signals, and Lazy Loading patterns',
+        'Designed cleaner module boundaries for easier onboarding and ownership',
+        'Optimized loading behavior with structured route-level code splitting',
+        'Improved implementation consistency across shared product sections',
+        'Aligned frontend architecture decisions with product delivery priorities',
+      ],
+
+      img: [],
+
+      link: '#',
+      github: 'https://github.com/WERSIT35/BetPilot',
+
+      iflink: false,
+      gradient: 'background-image: linear-gradient(90deg, #0f1722, #2a3e5f);',
     },
     {
       projName: 'HeatFlow',
@@ -134,6 +130,7 @@ export class ProjectsService {
       ],
 
       link: 'https://heatflow.netlify.app',
+      github: 'https://github.com/WERSIT35/Artisan-Marketplace',
 
       iflink: true,
       gradient:'background-image: linear-gradient(90deg, #221411,#643C2E);'

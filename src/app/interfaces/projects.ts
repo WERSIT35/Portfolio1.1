@@ -8,6 +8,7 @@ export interface Projects {
     duration:string,
     img:string[],
     link:string,
+    github:string,
     iflink:boolean,
 
     gradient:string,

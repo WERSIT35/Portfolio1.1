@@ -87,6 +87,19 @@
   background: rgba(255, 255, 255, 0.9);
 }
 
+.detail-media-empty {
+  min-height: clamp(280px, 46vw, 560px);
+  border-radius: 16px;
+  border: 1px solid rgba(31, 35, 41, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  display: grid;
+  place-items: center;
+}
+
+.detail-media-empty p {
+  color: var(--color-subtle);
+}
+
 .detail-highlights {
   list-style: none;
   display: grid;
@@ -110,6 +123,17 @@
   gap: 0.38rem;
   justify-self: start;
   margin-top: 0.4rem;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.github-link {
+  padding: 0.48rem 0.8rem;
 }
 
 .visit i {

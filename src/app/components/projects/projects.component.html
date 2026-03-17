@@ -5,7 +5,7 @@
   </header>
   <section class="projsec page">
     <article *ngFor="let item of projectsList; let index = index" class="project-card">
-      <section [id]="'projects' + index" class="splide project-media project-slider" [class.mobile-media]="isProjectMobile(index)">
+      <section *ngIf="hasMedia(item); else mediaFallback" [id]="'projects' + index" class="splide project-media project-slider" [class.mobile-media]="isProjectMobile(index)">
         <button type="button" class="view-toggle media-toggle" *ngIf="hasSplitMedia(item)" (click)="toggleProjectView(index)">
           <i class="bi" [ngClass]="isProjectMobile(index) ? 'bi-display' : 'bi-phone'"></i>
           <span>{{ isProjectMobile(index) ? 'Switch To Web' : 'Switch To Mobile' }}</span>
@@ -18,6 +18,11 @@
           </ul>
         </div>
       </section>
+      <ng-template #mediaFallback>
+        <section class="project-media project-media-empty">
+          <p>Project media will be added soon</p>
+        </section>
+      </ng-template>
 
       <div class="projInfo">
         <div class="subinfo">
@@ -35,10 +40,16 @@
             <li *ngFor="let point of item.highlights | slice:0:3">{{ point }}</li>
           </ul>
           <a class="details-toggle" [routerLink]="['/projects', index]">Open Detailed Info</a>
-          <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
-            <span>Open Live Site</span>
-            <i class="bi bi-arrow-up-right"></i>
-          </a>
+          <div class="project-actions">
+            <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
+              <span>Open Live Site</span>
+              <i class="bi bi-arrow-up-right"></i>
+            </a>
+            <a class="visit github-link" [href]="item.github" target="_blank" rel="noopener noreferrer">
+              <i class="bi bi-github"></i>
+              <span>GitHub</span>
+            </a>
+          </div>
         </div>
       </div>
     </article>

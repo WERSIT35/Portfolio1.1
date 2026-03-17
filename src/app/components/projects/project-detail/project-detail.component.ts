@@ -39,7 +39,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   }
 
   private mountSlider(): void {
-    if (!isPlatformBrowser(this.platformId) || !this.project) return;
+    if (!isPlatformBrowser(this.platformId) || !this.project || !this.project.img.length) return;
     if (this.slider) {
       this.slider.destroy(true);
     }
@@ -68,6 +68,10 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   get currentImages(): string[] {
     if (!this.project) return [];
     return this.viewMode === 'mobile' ? this.getMobileImages(this.project) : this.getWebImages(this.project);
+  }
+
+  hasMedia(project: Projects): boolean {
+    return Array.isArray(project.img) && project.img.length > 0;
   }
 
   toggleView(): void {
