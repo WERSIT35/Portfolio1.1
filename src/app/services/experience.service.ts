@@ -32,8 +32,13 @@ export class ExperienceService {
     },
     {
       id: 2,
+ codex/fix-typo-in-experience-service
+      name: "Google solution challenge hackathon",
+      subname: "Winner",
+
       name: "Full-Stack Developer | Freelance",
       subname: "Core Contributions",
+main
       subnameText:[ 
         "Architect and ship modular full-stack systems using Angular, React and Node.js",
         "Design REST endpoints supporting authentication, cart, and order workflows",
