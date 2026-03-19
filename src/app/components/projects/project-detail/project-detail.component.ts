@@ -5,7 +5,6 @@ import { ProjectsService } from '../../../services/projects.service';
 import { BackComponent } from '../../back/back.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import Splide from '@splidejs/splide';
-import '@splidejs/splide/css';
 
 @Component({
   selector: 'app-project-detail',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -8,6 +8,19 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  isScrolled = false;
 
+  ngOnInit(): void {
+    this.updateScrollState();
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.updateScrollState();
+  }
+
+  private updateScrollState(): void {
+    this.isScrolled = window.scrollY > 20;
+  }
 }

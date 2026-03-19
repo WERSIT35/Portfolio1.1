@@ -11,8 +11,8 @@
   gap: 0.7rem;
   padding: 1rem;
   border-radius: 16px;
-  border: 1px solid rgba(31, 35, 41, 0.14);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.86));
 }
 
 form {
@@ -32,18 +32,18 @@ span {
 
 input {
   width: 100%;
-  border: 1px solid rgba(31, 35, 41, 0.18);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
   border-radius: 10px;
   padding: 0.55rem 0.65rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 button {
-  border: 1px solid rgba(31, 35, 41, 0.2);
+  border: 1px solid rgba(var(--brand-rgb), 0.28);
   border-radius: 10px;
   padding: 0.55rem 0.75rem;
-  background: #1f2329;
-  color: #fff;
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.24), rgba(var(--brand-cool-rgb), 0.12));
+  color: var(--color-ink);
   cursor: pointer;
 }
 

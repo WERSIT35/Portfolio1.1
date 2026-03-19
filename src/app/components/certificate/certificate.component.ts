@@ -10,7 +10,6 @@ import { Certifications } from '../../interfaces/certifications';
 import { ExperienceService } from '../../services/experience.service';
 import { isPlatformBrowser } from '@angular/common';
 import Splide from '@splidejs/splide';
-import '@splidejs/splide/css';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -51,12 +50,12 @@ export class CertificateComponent implements AfterViewInit, OnInit {
         mediaQuery: 'max',
         breakpoints: {
           1100: {
-            perPage: 1.7,
-            padding: { left: '2%', right: '2%' },
+            perPage: 1,
+            padding: { left: '4%', right: '4%' },
           },
           820: {
-            perPage: 1.35,
-            padding: { left: '1.5%', right: '1.5%' },
+            perPage: 1,
+            padding: { left: '3%', right: '3%' },
           },
           720: {
             perPage: 1,

@@ -3,10 +3,20 @@
   top: 0;
   inset-inline: 0;
   z-index: 20;
-  background: linear-gradient(180deg, rgba(51, 51, 51, 0.88), rgba(51, 51, 51, 0.7));
+  background: transparent !important;
+  backdrop-filter: blur(0) saturate(100%);
+  -webkit-backdrop-filter: blur(0) saturate(100%);
+  border-bottom: 1px solid transparent;
+  box-shadow: none !important;
+  transition: background 280ms ease, backdrop-filter 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
+}
+
+.site-header.scrolled {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(246, 250, 255, 0.24)) !important;
   backdrop-filter: blur(16px) saturate(155%);
   -webkit-backdrop-filter: blur(16px) saturate(155%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(var(--brand-rgb), 0.2);
+  box-shadow: 0 8px 22px rgba(23, 28, 35, 0.12) !important;
 }
 
 .nav {
@@ -31,12 +41,12 @@
   gap: 0.55rem;
   padding: 0.55rem 0.7rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cfd4dc;
+  border: 1px solid rgba(var(--brand-rgb), 0.16);
+  color: var(--color-muted);
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.2px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(var(--brand-cool-rgb), 0.06));
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -52,15 +62,15 @@
 .nav-list a:hover {
   color: var(--color-ink);
   transform: translateY(-1px);
-  border-color: rgba(207, 212, 220, 0.4);
-  background: linear-gradient(145deg, rgba(207, 212, 220, 0.2), rgba(255, 255, 255, 0.05));
+  border-color: rgba(var(--brand-rgb), 0.36);
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.14), rgba(var(--brand-cool-rgb), 0.08));
 }
 
 .nav-list a.active {
-  color: #ffffff;
-  border-color: rgba(207, 212, 220, 0.62);
-  background: linear-gradient(145deg, rgba(207, 212, 220, 0.36), rgba(143, 149, 158, 0.22));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 14px 24px rgba(0, 0, 0, 0.32);
+  color: #132735;
+  border-color: rgba(var(--brand-rgb), 0.46);
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.28), rgba(var(--brand-cool-rgb), 0.14));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .nav-list a.active i {

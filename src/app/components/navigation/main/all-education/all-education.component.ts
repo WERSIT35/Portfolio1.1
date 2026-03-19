@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { EducationService } from '../../../../services/education.service';
 import { isPlatformBrowser } from '@angular/common';
 
-import '@splidejs/splide/css';
 import Splide from '@splidejs/splide';
 import { BackComponent } from "../../../back/back.component";
 

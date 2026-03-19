@@ -10,8 +10,8 @@
   align-items: center;
   padding: 0.8rem;
   border-radius: 14px;
-  border: 1px solid rgba(31, 35, 41, 0.14);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.86));
 }
 
 .admin-header p {
@@ -22,11 +22,11 @@
 .admin-header button,
 .actions button,
 .create-user button {
-  border: 1px solid rgba(31, 35, 41, 0.2);
+  border: 1px solid rgba(var(--brand-rgb), 0.28);
   border-radius: 10px;
   padding: 0.45rem 0.65rem;
-  background: #1f2329;
-  color: #fff;
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.24), rgba(var(--brand-cool-rgb), 0.12));
+  color: var(--color-ink);
   cursor: pointer;
 }
 
@@ -40,8 +40,8 @@
 .editor,
 .users {
   border-radius: 14px;
-  border: 1px solid rgba(31, 35, 41, 0.14);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.86));
   padding: 0.75rem;
 }
 
@@ -53,16 +53,16 @@
 
 .menu button {
   text-align: left;
-  border: 1px solid rgba(31, 35, 41, 0.14);
-  background: #fff;
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
+  background: rgba(255, 255, 255, 0.96);
   border-radius: 10px;
   padding: 0.45rem 0.55rem;
   cursor: pointer;
 }
 
 .menu button.active {
-  background: rgba(31, 35, 41, 0.08);
-  border-color: rgba(31, 35, 41, 0.24);
+  background: rgba(var(--brand-rgb), 0.12);
+  border-color: rgba(var(--brand-rgb), 0.3);
 }
 
 .editor {
@@ -73,7 +73,7 @@
 textarea {
   width: 100%;
   min-height: 420px;
-  border: 1px solid rgba(31, 35, 41, 0.18);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
   border-radius: 12px;
   padding: 0.65rem;
   font-family: Consolas, monospace;
@@ -98,7 +98,7 @@ textarea {
 
 .create-user input,
 .create-user select {
-  border: 1px solid rgba(31, 35, 41, 0.18);
+  border: 1px solid rgba(var(--brand-rgb), 0.2);
   border-radius: 10px;
   padding: 0.45rem 0.55rem;
 }
@@ -110,7 +110,7 @@ textarea {
 }
 
 .users-list article {
-  border: 1px solid rgba(31, 35, 41, 0.12);
+  border: 1px solid rgba(var(--brand-rgb), 0.18);
   border-radius: 10px;
   padding: 0.5rem;
   display: grid;

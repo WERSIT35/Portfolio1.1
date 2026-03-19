@@ -9,7 +9,6 @@ import {
 import { Skills } from '../../interfaces/skills';
 import { EducationService } from '../../services/education.service';
 import Splide from '@splidejs/splide';
-import '@splidejs/splide/css';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import { RouterLink } from '@angular/router';

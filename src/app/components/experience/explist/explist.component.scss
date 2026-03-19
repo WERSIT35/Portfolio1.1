@@ -5,8 +5,8 @@
 }
 
 .exCard {
-  background: linear-gradient(145deg, rgba(51, 51, 51, 0.62), rgba(51, 51, 51, 0.38));
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.93), rgba(244, 249, 255, 0.86));
+  border: 1px solid rgba(var(--brand-rgb), 0.22);
   border-radius: var(--radius-lg);
   overflow: hidden;
   backdrop-filter: blur(18px) saturate(145%);
@@ -27,12 +27,12 @@
 }
 
 .subTitle h2 {
-  color: #ffffff;
+  color: var(--color-ink);
   font-size: 1.1rem;
 }
 
 .subTitle i {
-  color: #ffffff;
+  color: var(--color-ink);
   font-size: 1.4rem;
 }
 
@@ -73,6 +73,8 @@
   font-size: 0.85rem;
   color: var(--color-subtle);
 }
+
+
 
 
 

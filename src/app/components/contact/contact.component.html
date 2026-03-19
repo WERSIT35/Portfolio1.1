@@ -1,21 +1,32 @@
 <main class="contact-page">
   <section class="contact-hero">
     <div class="page contact-grid">
-      <div class="profile-block">
-        <div class="image">
-          <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
+      <article class="profile-block">
+        <p class="eyebrow">Available for freelance and full-time roles</p>
+        <div class="profile-top">
+          <div class="image">
+            <img src="/assets/profile/last.png" alt="otar davitashvili" class="profile-pic">
+          </div>
+          <div class="identity">
+            <h1 class="name">otar davitashvili</h1>
+            <p class="title">Product-Focused Full-Stack Engineer</p>
+            <p class="focus">Angular, React, Node.js, Architecture</p>
+          </div>
         </div>
 
         <div class="text">
-          <h1 class="name">otar davitashvili</h1>
-          <p class="title">Product-Focused Full-Stack Engineer | Angular &amp; React Architecture Specialist</p>
           <p class="summary">
-            Experienced in shipping production-grade applications using Angular, React, and Node.js with strong emphasis on performance optimization, modular design, REST API architecture, and containerized deployment strategies.
+            I help teams ship polished web products that are fast, maintainable, and built for real users, not just demos.
+          </p>
+          <p class="summary alt">
+            If you need someone who can design clean frontend architecture, deliver features quickly, and stabilize production, I can take ownership.
           </p>
         </div>
-      </div>
+      </article>
 
-      <div class="contact-panel">
+      <aside class="contact-panel">
+        <h2>Let&apos;s Build Something Serious</h2>
+        <p class="panel-subtitle">Best for startup MVPs, dashboard products, and frontend modernization.</p>
         <div class="contact-links">
           <a href="mailto:otowork3@gmail.com" target="_blank" class="email">
             <i class="bi bi-envelope-fill"></i> Email Me
@@ -33,6 +44,23 @@
             <i class="bi bi-linkedin"></i> LinkedIn
           </a>
         </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="offers">
+    <div class="page">
+      <div class="offers-head">
+        <h2>What I Can Offer You</h2>
+        <p>End-to-end engineering support with product-focused execution.</p>
+      </div>
+
+      <div class="offer-grid">
+        <article class="offer-card" *ngFor="let offer of offers">
+          <i [class]="offer.icon"></i>
+          <h3>{{ offer.title }}</h3>
+          <p>{{ offer.detail }}</p>
+        </article>
       </div>
     </div>
   </section>

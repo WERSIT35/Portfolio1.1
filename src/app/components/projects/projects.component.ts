@@ -3,7 +3,6 @@ import { BackComponent } from "../back/back.component";
 import { Projects } from '../../interfaces/projects';
 import { ProjectsService } from '../../services/projects.service';
 import { RouterLink } from '@angular/router';
-import '@splidejs/splide/css';
 import Splide from '@splidejs/splide';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 

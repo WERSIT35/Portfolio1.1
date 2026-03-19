@@ -132,8 +132,22 @@
   gap: 0.55rem;
 }
 
+.detail-actions .visit {
+  margin-top: 0;
+  padding: 0.52rem 0.88rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(var(--brand-cool-rgb), 0.1));
+  color: var(--color-ink);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  line-height: 1;
+}
+
 .github-link {
-  padding: 0.48rem 0.8rem;
+  border-color: rgba(var(--brand-rgb), 0.32);
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.18), rgba(var(--brand-cool-rgb), 0.12));
 }
 
 .visit i {
@@ -172,3 +186,4 @@
   place-items: center;
   cursor: pointer;
 }
+

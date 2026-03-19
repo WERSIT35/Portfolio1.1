@@ -33,6 +33,13 @@
   --color-glass-strong: rgba(255, 255, 255, 0.9);
   --color-glass-border: rgba(31, 35, 41, 0.16);
   --color-glass-highlight: rgba(255, 255, 255, 0.9);
+  --color-brand: #2f8f84;
+  --color-brand-soft: #5fa79d;
+  --color-brand-warm: #d18a58;
+  --color-brand-cool: #5a83bf;
+  --brand-rgb: 47, 143, 132;
+  --brand-warm-rgb: 209, 138, 88;
+  --brand-cool-rgb: 90, 131, 191;
 
   --shadow-1: 0 8px 22px rgba(23, 28, 35, 0.12);
   --shadow-2: 0 16px 36px rgba(23, 28, 35, 0.16);
@@ -53,6 +60,8 @@
   --content-max: 1040px;
   --transition-fast: 160ms ease;
   --transition-smooth: 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --hover-glow-a: rgba(var(--brand-rgb), 0.34);
+  --hover-glow-b: rgba(var(--brand-warm-rgb), 0.22);
 }
 
 *,
@@ -72,15 +81,43 @@ html {
 
 body {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f2f4f7 0%, #e9edf2 55%, #e5e9ee 100%);
+  position: relative;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(var(--brand-rgb), 0.14) 0%, rgba(var(--brand-rgb), 0) 38%),
+    radial-gradient(circle at 88% 20%, rgba(var(--brand-warm-rgb), 0.12) 0%, rgba(var(--brand-warm-rgb), 0) 40%),
+    radial-gradient(circle at 62% 88%, rgba(var(--brand-cool-rgb), 0.1) 0%, rgba(var(--brand-cool-rgb), 0) 42%),
+    linear-gradient(180deg, #f2f4f7 0%, #e9edf2 55%, #e5e9ee 100%);
   background-attachment: fixed;
   line-height: 1.55;
   padding-top: 70px;
   overflow-x: hidden;
+  isolation: isolate;
 }
 
 body::before {
-  content: none;
+  content: "";
+  position: fixed;
+  width: clamp(200px, 32vw, 420px);
+  height: clamp(200px, 32vw, 420px);
+  top: clamp(65px, 8vw, 130px);
+  right: clamp(-140px, -7vw, -35px);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(var(--brand-rgb), 0.2) 0%, rgba(var(--brand-rgb), 0.02) 68%, rgba(var(--brand-rgb), 0) 74%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: clamp(180px, 28vw, 360px);
+  height: clamp(180px, 28vw, 360px);
+  left: clamp(-120px, -8vw, -40px);
+  bottom: clamp(40px, 8vh, 100px);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(var(--brand-warm-rgb), 0.16) 0%, rgba(var(--brand-warm-rgb), 0.02) 68%, rgba(var(--brand-warm-rgb), 0) 74%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 @media (max-width: 720px) {
@@ -232,9 +269,9 @@ button {
 .exCard,
 .cert-card,
 .suggestion-card {
-  background: rgba(255, 255, 255, 0.86) !important;
-  border-color: rgba(31, 35, 41, 0.16) !important;
-  box-shadow: 0 10px 24px rgba(23, 28, 35, 0.12) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.93), rgba(244, 249, 255, 0.86)) !important;
+  border-color: rgba(var(--brand-rgb), 0.22) !important;
+  box-shadow: 0 12px 28px rgba(23, 28, 35, 0.12) !important;
 }
 
 .project-card,
@@ -259,17 +296,12 @@ button,
 .cert-card:hover,
 .skill-card:hover,
 .suggestion-card:hover,
-.contact-links a:hover,
-.cta-card:hover,
-.nav-list a:hover,
-.section-header a p:hover,
-.visit:hover,
-button:hover,
-.back button:hover {
-  transform: none !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(31, 35, 41, 0.24) !important;
-  box-shadow: 0 12px 26px rgba(23, 28, 35, 0.14) !important;
+.contact-panel:hover,
+.profile-block:hover {
+  transform: translateY(-2px) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 255, 0.9)) !important;
+  border-color: rgba(var(--brand-rgb), 0.3) !important;
+  box-shadow: 0 16px 30px rgba(23, 28, 35, 0.16) !important;
 }
 
 .cta-card.cta-resume,
@@ -292,23 +324,23 @@ button:hover,
 }
 
 .nav-list a:hover {
-  transform: none !important;
-  background: rgba(255, 255, 255, 0.92) !important;
-  border-color: rgba(31, 35, 41, 0.24) !important;
+  transform: translateY(-2px) !important;
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.12), rgba(var(--brand-cool-rgb), 0.08)) !important;
+  border-color: rgba(var(--brand-rgb), 0.34) !important;
 }
 
 .nav-list a.active {
-  background: rgba(31, 35, 41, 0.12) !important;
-  border-color: rgba(31, 35, 41, 0.3) !important;
-  color: #1f2329 !important;
+  background: linear-gradient(145deg, rgba(var(--brand-rgb), 0.22), rgba(var(--brand-cool-rgb), 0.12)) !important;
+  border-color: rgba(var(--brand-rgb), 0.4) !important;
+  color: #163243 !important;
 }
 
 .splide__slide.is-active .eduCard,
 .splide__slide.is-active .exCard,
 .splide__slide.is-active .cert-card {
-  border-color: rgba(31, 35, 41, 0.34) !important;
-  background: rgba(255, 255, 255, 0.96) !important;
-  box-shadow: 0 16px 30px rgba(23, 28, 35, 0.18) !important;
+  border-color: rgba(var(--brand-rgb), 0.4) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 247, 255, 0.92)) !important;
+  box-shadow: 0 16px 30px rgba(23, 28, 35, 0.16) !important;
 }
 
 .education .splide__slide .eduCard,
@@ -316,7 +348,7 @@ button:hover,
 .certificate .splide__slide .cert-card {
   opacity: 0.62;
   filter: grayscale(10%);
-  border-color: rgba(31, 35, 41, 0.14) !important;
+  border-color: rgba(var(--brand-rgb), 0.2) !important;
   box-shadow: 0 8px 18px rgba(23, 28, 35, 0.1) !important;
   transition: opacity var(--transition-fast), filter var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast) !important;
 }
@@ -355,9 +387,7 @@ button:hover,
 
 /* Full-site minimal light harmonization */
 .site-header {
-  background: rgba(255, 255, 255, 0.88) !important;
-  border-bottom: 1px solid rgba(31, 35, 41, 0.12) !important;
-  box-shadow: 0 6px 18px rgba(23, 28, 35, 0.08);
+  transition: background 280ms ease, border-color 280ms ease, box-shadow 280ms ease, backdrop-filter 280ms ease;
 }
 
 .home,
@@ -381,15 +411,19 @@ button:hover,
 .visit,
 .tasks,
 .eduSection,
-.eduScroll {
-  background: rgba(31, 35, 41, 0.04) !important;
-  border-color: rgba(31, 35, 41, 0.14) !important;
+.eduScroll,
+.detail-info,
+.detail-media,
+.detail-media-empty,
+.view-toggle {
+  background: rgba(var(--brand-cool-rgb), 0.08) !important;
+  border-color: rgba(var(--brand-rgb), 0.2) !important;
   color: var(--color-ink) !important;
 }
 
 .eduSubInfo p {
-  background: rgba(31, 35, 41, 0.04) !important;
-  border-color: rgba(31, 35, 41, 0.12) !important;
+  background: rgba(var(--brand-cool-rgb), 0.08) !important;
+  border-color: rgba(var(--brand-rgb), 0.18) !important;
   color: var(--color-ink) !important;
 }
 
@@ -398,21 +432,121 @@ button:hover,
 button,
 .back button {
   color: var(--color-ink) !important;
-  border-color: rgba(31, 35, 41, 0.18) !important;
+  border-color: rgba(var(--brand-rgb), 0.22) !important;
   background: rgba(255, 255, 255, 0.9) !important;
 }
 
-.project-card:hover,
-.eduCard:hover,
-.exCard:hover,
-.cert-card:hover,
-.skill-card:hover,
-.suggestion-card:hover,
+.subTitle h2,
+.subTitle i,
+.detail-head p,
+.detail-highlights li,
+.detail-media-empty p,
+.eduHeading h2,
+.eduBody h3,
+.eduBody h4,
+.cert-body h2,
+.cert-body p,
+.cert-desc,
+.cert-extra h3,
+.cert-extra li {
+  color: var(--color-ink) !important;
+}
+
+/* High-energy button hover system */
+.contact-links a,
+.visit,
+button,
+.back button,
+.glass-button,
+.section-header a p,
+.nav-list a,
+.cta-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 260ms ease,
+    background 260ms ease,
+    color 240ms ease !important;
+}
+
+.contact-links a::before,
+.visit::before,
+button::before,
+.back button::before,
+.glass-button::before,
+.section-header a p::before,
+.nav-list a::before,
+.cta-card::before {
+  content: "";
+  position: absolute;
+  inset: -45% auto -45% -75%;
+  width: 60%;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  transform: translateX(-145%) skewX(-24deg);
+  transition: transform 640ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-links a > *,
+.visit > *,
+button > *,
+.back button > *,
+.glass-button > *,
+.section-header a p > *,
+.nav-list a > *,
+.cta-card > * {
+  position: relative;
+  z-index: 1;
+}
+
 .contact-links a:hover,
-.cta-card:hover,
-.profile-block:hover,
-.contact-panel:hover {
-  transform: none !important;
+.visit:hover,
+button:hover,
+.back button:hover,
+.glass-button:hover,
+.section-header a p:hover,
+.nav-list a:hover,
+.cta-card:hover {
+  transform: translateY(-4px) scale(1.015) !important;
+  border-color: var(--hover-glow-a) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(var(--brand-cool-rgb), 0.12)) !important;
+  box-shadow:
+    0 14px 28px rgba(22, 32, 46, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.42) inset,
+    0 0 0 4px var(--hover-glow-b) !important;
+}
+
+.contact-links a:hover::before,
+.visit:hover::before,
+button:hover::before,
+.back button:hover::before,
+.glass-button:hover::before,
+.section-header a p:hover::before,
+.nav-list a:hover::before,
+.cta-card:hover::before {
+  transform: translateX(235%) skewX(-24deg);
+}
+
+.contact-links a:active,
+.visit:active,
+button:active,
+.back button:active,
+.glass-button:active,
+.section-header a p:active,
+.nav-list a:active,
+.cta-card:active {
+  transform: translateY(-1px) scale(0.995) !important;
+  box-shadow:
+    0 8px 18px rgba(22, 32, 46, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.36) inset !important;
+}
+
+.nav-list a.active {
+  box-shadow: 0 10px 18px rgba(22, 32, 46, 0.15), 0 0 0 1px rgba(31, 35, 41, 0.08) inset !important;
 }
 
 .topline i,
