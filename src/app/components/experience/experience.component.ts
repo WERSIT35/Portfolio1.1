@@ -29,33 +29,38 @@ export class ExperienceComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-        new Splide('#experience', {
-          gap: '3.4rem',
+      new Splide('#experience', {
+        type: 'loop',
+        start: 1,
+        gap: '0.8rem',
         pagination: false,
         arrows: false,
-        fixedWidth: '30%',
-        height:'40vh',
-        width: '100%',  
-        padding: '7.5%',
+        drag: true,
+        width: '100%',
+        focus: 'center',
+        trimSpace: false,
+        perPage: 2,
+        padding: { left: '2%', right: '2%' },
         mediaQuery: 'max',
         breakpoints: {
-          1200: {
-            fixedWidth: '40%',
-            padding: '7.5%',
-            
+          1100: {
+            perPage: 1.7,
+            padding: { left: '2%', right: '2%' },
           },
-          768: {
-            fixedWidth: '60%',
-            padding: '7.5%',
+          820: {
+            perPage: 1.35,
+            padding: { left: '1.5%', right: '1.5%' },
+          },
+          720: {
+            perPage: 1,
+            padding: { left: '6%', right: '6%' },
           },
           480: {
-            fixedWidth: '70%',
-            gap: '1.5rem',
-            height:'35vh',
-          }
+            padding: { left: '0', right: '0' },
+          },
         }
-        }).mount();
+      }).mount();
     }
-    }
+  }
 
 }

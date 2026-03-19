@@ -1,0 +1,54 @@
+<app-back></app-back>
+
+<main class="project-detail page" *ngIf="project as item">
+  <header class="detail-head">
+    <h1>{{ item.projName }}</h1>
+    <p>{{ item.subname }}</p>
+  </header>
+
+  <section *ngIf="hasMedia(item); else detailMediaFallback" id="projectDetailAll" class="splide detail-media" [class.mobile-view]="viewMode === 'mobile'">
+    <button type="button" class="view-toggle media-toggle" *ngIf="hasSplitMedia(item)" (click)="toggleView()">
+      <i class="bi" [ngClass]="viewMode === 'web' ? 'bi-phone' : 'bi-display'"></i>
+      <span>{{ viewMode === 'web' ? 'Switch To Mobile' : 'Switch To Web' }}</span>
+    </button>
+    <div class="splide__track">
+      <ul class="splide__list">
+        <li *ngFor="let img of currentImages" class="splide__slide">
+          <img [src]="img" alt="" (click)="openPreview(img)">
+        </li>
+      </ul>
+    </div>
+  </section>
+  <ng-template #detailMediaFallback>
+    <section class="detail-media-empty">
+      <p>Project media will be added soon</p>
+    </section>
+  </ng-template>
+
+  <section class="detail-info">
+    <p><strong>Stack:</strong> {{ item.duration }}</p>
+    <p><strong>Period:</strong> {{ item.date }}</p>
+    <p><strong>Pages:</strong> {{ item.numOfPage }}</p>
+    <p>{{ item.about }}</p>
+    <ul class="detail-highlights" *ngIf="item.highlights?.length">
+      <li *ngFor="let point of item.highlights">{{ point }}</li>
+    </ul>
+    <div class="detail-actions">
+      <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
+        <span>Open Live Site</span>
+        <i class="bi bi-arrow-up-right"></i>
+      </a>
+      <a class="visit github-link" [href]="item.github" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-github"></i>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<div class="image-preview" *ngIf="previewImage" (click)="closePreview()">
+  <button type="button" class="preview-close" (click)="closePreview(); $event.stopPropagation()" aria-label="Close image">
+    <i class="bi bi-x-lg"></i>
+  </button>
+  <img [src]="previewImage" alt="" (click)="$event.stopPropagation()">
+</div>

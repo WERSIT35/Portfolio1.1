@@ -9,15 +9,7 @@ import { CommonModule } from '@angular/common';
     
   ],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss'
+  styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent {
-  showImageModal: boolean = false;
-  openImageModal() {
-    this.showImageModal = true;
-  }
-  
-  closeImageModal() {
-    this.showImageModal = false;
-  }
 }

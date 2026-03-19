@@ -1,22 +1,31 @@
 <section class="skills">
-    <div class="skillSec">
-      <div class="killTitle">
-          <h1>Skills</h1>
-          <a routerLink="skills">
-            <p>See all<i class="fa-solid fa-chevron-right"></i></p>
-          </a>
-      </div>
-    </div>
+  <div class="page">
+    <header class="section-header">
+      <h1>Skills</h1>
+      <a routerLink="skills">
+        <p>See all<i class="fa-solid fa-chevron-right"></i></p>
+      </a>
+    </header>
     <section id="slider1" class="splide" aria-label="Skills Carousel">
       <div class="splide__track">
         <ul class="splide__list">
           @for (item of skillsList; track $index) {
             @for (i of item.name; track $index) {
-          <li class="splide__slide">
-            <i [ngClass]="item.icon[$index]"  [ngStyle]="{'color': item.color[$index]}"></i>
-          </li>
-          }}
+              <li class="splide__slide">
+                <div class="skill-pill"
+                  tabindex="0"
+                  (mouseenter)="pauseSkillsSlider()"
+                  (mouseleave)="resumeSkillsSlider()"
+                  (focus)="pauseSkillsSlider()"
+                  (blur)="resumeSkillsSlider()">
+                  <i [ngClass]="item.icon[$index]" [ngStyle]="{'color': item.color[$index]}"></i>
+                  <span class="skill-label">{{ i }}</span>
+                </div>
+              </li>
+            }
+          }
         </ul>
       </div>
     </section>
-  </section>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+<main class="admin-page page">
+  <header class="admin-header">
+    <div>
+      <h1>Admin Panel</h1>
+      <p *ngIf="currentUser">{{ currentUser.fullName }} • {{ currentUser.role }}</p>
+    </div>
+    <button type="button" (click)="logout()">Logout</button>
+  </header>
+
+  <section class="admin-grid">
+    <aside class="menu">
+      <h2>Sections</h2>
+      <button
+        type="button"
+        *ngFor="let section of sections"
+        [class.active]="selectedSection === section"
+        (click)="loadSection(section)"
+      >
+        {{ section }}
+      </button>
+    </aside>
+
+    <section class="editor">
+      <h2>Edit: {{ selectedSection }}</h2>
+      <textarea [(ngModel)]="jsonEditor" spellcheck="false"></textarea>
+      <div class="actions">
+        <button type="button" (click)="saveSection()" [disabled]="loading">
+          {{ loading ? 'Saving...' : 'Save Section' }}
+        </button>
+      </div>
+      <p class="msg" [class.error]="messageType === 'error'" *ngIf="message">{{ message }}</p>
+    </section>
+  </section>
+
+  <section class="users" *ngIf="currentUser?.role === 'super_admin'">
+    <h2>Admin Users</h2>
+    <div class="create-user">
+      <input type="text" placeholder="Full name" [(ngModel)]="newUser.fullName" />
+      <input type="email" placeholder="Email" [(ngModel)]="newUser.email" />
+      <input type="password" placeholder="Password" [(ngModel)]="newUser.password" />
+      <select [(ngModel)]="newUser.role">
+        <option value="super_admin">super_admin</option>
+        <option value="editor">editor</option>
+        <option value="viewer">viewer</option>
+      </select>
+      <button type="button" (click)="createUser()">Create User</button>
+    </div>
+
+    <div class="users-list">
+      <article *ngFor="let user of users">
+        <h3>{{ user.fullName }}</h3>
+        <p>{{ user.email }}</p>
+        <p>{{ user.role }}</p>
+      </article>
+    </div>
+  </section>
+</main>

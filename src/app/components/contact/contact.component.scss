@@ -1,286 +1,152 @@
-// ----------------------------------
-// 🎨 Variables
-// ----------------------------------
-$breakpoint-small: 480px;
-$breakpoint-medium: 768px;
-$breakpoint-large: 1024px;
+$bp-sm: 720px;
+$bp-md: 900px;
 
-$font-size-small: clamp(0.8rem, 2.5vw, 1rem);
-$font-size-medium: clamp(0.9rem, 2.5vw, 1.2rem);
-$font-size-big: clamp(1.2rem, 2.5vw, 2rem);
+.contact-page {
+  padding: clamp(2rem, 6vw, 3.6rem) 0 clamp(3rem, 8vw, 4.8rem);
+}
 
-$content-width: min(90%, 1200px);
-$profile-image-size: clamp(100px, 25vw, 180px);
+.contact-hero {
+  display: grid;
+}
 
-// Color palette
-$primary-color: #353535;
-$primary-hover: #181818;
-$text-color: #464646;
-$secondary-text: #a4a4a4;
-$background: #ffffff;
-
-// ----------------------------------
-// 🧩 Mixins
-// ----------------------------------
-@mixin centerRow {
-  display: flex;
-  justify-content: center;
+.contact-grid {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: 1fr;
   align-items: center;
 }
 
-@mixin centerCol {
-  display: flex;
-  justify-content: center;
+.profile-block {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
   align-items: center;
-  flex-direction: column;
+  padding: clamp(1.2rem, 3.2vw, 2.2rem);
+  background: linear-gradient(145deg, rgba(51, 51, 51, 0.62), rgba(51, 51, 51, 0.38));
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadow-2);
 }
 
-// ----------------------------------
-// 📦 Components
-// ----------------------------------
-.intro {
-  @include centerRow;
-  background-color: $background;
-  min-height: 100vh;
-  padding: 2rem 1rem;
+.profile-block .image {
+  width: clamp(120px, 16vw, 170px);
+  height: clamp(120px, 16vw, 170px);
+  border-radius: 50%;
+  overflow: hidden;
+  justify-self: center;
+  border: 3px solid rgba(207, 212, 220, 0.25);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+.profile-block .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
+
+.profile-block .text {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.profile-block .name {
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.profile-block .title {
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  color: var(--color-muted);
+}
+
+.profile-block .summary {
+  font-size: clamp(0.85rem, 1.3vw, 0.98rem);
+  color: var(--color-subtle);
+  max-width: 62ch;
+  line-height: 1.45;
+}
+
+.contact-panel {
+  padding: clamp(1.2rem, 3.2vw, 2.2rem);
+  background: linear-gradient(145deg, rgba(51, 51, 51, 0.62), rgba(51, 51, 51, 0.38));
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadow-1);
   position: relative;
   overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(245,245,245,0.8) 0%, rgba(255,255,255,0) 70%);
-    z-index: 0;
-  }
-
-  .inintro {
-    @include centerCol;
-    width: $content-width;
-    max-width: 800px;
-    gap: 2.5rem;
-    z-index: 1;
-    position: relative;
-
-    .profile {
-      @include centerCol;
-      width: 100%;
-      gap: 2rem;
-      text-align: center;
-
-      @media (min-width: $breakpoint-medium) {
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-        gap: 3rem;
-      }
-
-      .image {
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        position: relative;
-        
-        img {
-          width: $profile-image-size;
-          height: $profile-image-size;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 3px solid rgba($primary-color, 0.1);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-          transition: all 0.3s ease;
-        }
-
-        &:hover {
-          transform: translateY(-5px);
-          
-          img {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: rgba($primary-color, 0.2);
-          }
-        }
-      }
-
-      .text {
-        @include centerCol;
-        gap: 0.5rem;
-        align-items: center;
-
-        @media (min-width: $breakpoint-medium) {
-          align-items: flex-start;
-        }
-
-        .name {
-          font-size: $font-size-big;
-          font-weight: 700;
-          color: $text-color;
-          margin: 0;
-          line-height: 1.2;
-          letter-spacing: 0.5px;
-        }
-
-        .title {
-          font-size: $font-size-medium;
-          color: $secondary-text;
-          font-weight: 400;
-          margin: 0;
-          max-width: 30ch;
-        }
-      }
-
-      .contact-links {
-        @include centerCol;
-        gap: 1rem;
-        width: 100%;
-        margin-top: 1.5rem;
-
-        a {
-          @include centerRow;
-          gap: 0.8rem;
-          padding: 0.8rem 1.5rem;
-          border-radius: 50px;
-          width: 100%;
-          max-width: 280px;
-          font-size: $font-size-medium;
-          text-decoration: none;
-          color: white;
-          background-color: $primary-color;
-          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          position: relative;
-          overflow: hidden;
-          
-          &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-          }
-
-          i {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-          }
-
-          &:hover {
-            background-color: $primary-hover;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            
-            &::before {
-              left: 100%;
-            }
-            
-            i {
-              transform: scale(1.1);
-            }
-          }
-
-          &:active {
-            transform: translateY(0);
-          }
-        }
-      }
-    }
-  }
 }
 
-// ----------------------------------
-// 🖼️ Modal for Profile Image
-// ----------------------------------
-.image-modal {
-  position: fixed;
+.contact-panel::before {
+  content: "";
+  position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
+  background: radial-gradient(circle at top right, rgba(207, 212, 220, 0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.contact-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.75rem, 2vw, 1.1rem);
+}
+
+.contact-links a {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
   align-items: center;
-  z-index: 1000;
-  cursor: pointer;
-  backdrop-filter: blur(5px);
-  transition: opacity 0.3s ease;
+  padding: 0.9rem 1.2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  font-weight: 600;
+  color: var(--color-ink);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
 
-  .modal-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.contact-links a i {
+  font-size: 1.3rem;
+  color: var(--color-accent);
+}
+
+.contact-links a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(207, 212, 220, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadow-1);
+}
+
+@media (min-width: $bp-md) {
+  .contact-grid {
+    grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
   }
 
-  .modal-image {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  .close-btn {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: rotate(90deg);
-    }
+  .contact-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
+@media (max-width: $bp-sm) {
+  .profile-block {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 
-// ----------------------------------
-// 📱 Responsive Adjustments
-// ----------------------------------
-@media (max-width: $breakpoint-medium) {
-  .intro {
-    padding: 1.5rem 1rem;
-    
-    .inintro {
-      gap: 2rem;
-      
-      .profile {
-        gap: 1.5rem;
-      }
-    }
+  .profile-block .text {
+    justify-items: center;
   }
 }
 
-@media (max-width: $breakpoint-small) {
-  .intro {
-    .inintro {
-      .profile {
-        .text {
-          .name {
-            font-size: clamp(1.5rem, 6vw, 2rem);
-          }
-          
-          .title {
-            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-          }
-        }
-        
-        .contact-links {
-          a {
-            padding: 0.7rem 1.2rem;
-            font-size: $font-size-small;
-          }
-        }
-      }
-    }
-  }
-}
+
+
+

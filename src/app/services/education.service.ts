@@ -10,77 +10,112 @@ export class EducationService {
   protected skills: Skills[] = [
     {
       name: [
-        'Javascript',
-        'Typescript',
-        'Java',
-        'C#',
-        'C++',
-        'Algorithms',
-        'SQL',
-        'Oracle',
         'Angular',
         'React',
-        'Azure',
-        'Aws',
+        'TypeScript',
+        'JavaScript',
+        'RxJS',
+        'SCSS',
+        'Node.js (Express)',
+        'Java (Spring Boot)',
+        'FastAPI',
+        'REST API Design',
+        'Docker',
+        'Kubernetes',
+        'CI/CD (GitHub Actions)',
+        'AWS',
+        'NGINX',
+        'PostgreSQL',
+        'MySQL',
+        'MongoDB',
+        'Oracle',
       ],
       color: [
-        '#F0DB4F', // Javascript
-        '#007ACC', // Typescript
-        '#EA2D2E', // Java
-        '#68217A', // C#
-        '#004482', // C++
-        '#4D5360', // Algorithms
-        '#005BA1', // SQL
-        '#EA1B22', // Oracle
         '#DD0031', // Angular
-        '#60D7F5', //React
-        '#0C8BBE', //Azure
-        '#FF9900', //Aws
+        '#61DAFB', // React
+        '#3178C6', // TypeScript
+        '#F0DB4F', // JavaScript
+        '#B7178C', // RxJS
+        '#CC6699', // SCSS
+        '#68A063', // Node.js
+        '#EA2D2E', // Java
+        '#009688', // FastAPI
+        '#7BD4C6', // REST
+        '#2496ED', // Docker
+        '#326CE5', // Kubernetes
+        '#2088FF', // GitHub Actions
+        '#FF9900', // AWS
+        '#5FCF80', // NGINX
+        '#336791', // PostgreSQL
+        '#4479A1', // MySQL
+        '#47A248', // MongoDB
+        '#EA1B22', // Oracle
       ],
       icon: [
-        'devicon-javascript-plain',
-        'devicon-typescript-plain',
-        'devicon-java-plain',
-        'devicon-csharp-plain',
-        'devicon-cplusplus-plain',
-        'devicon-thealgorithms-plain',
-        'devicon-azuresqldatabase-plain',
-        'devicon-oracle-plain',
         'devicon-angular-plain',
         'devicon-react-original',
-        'devicon-azure-plain colored',
+        'devicon-typescript-plain',
+        'devicon-javascript-plain',
+        'devicon-rxjs-plain',
+        'devicon-sass-original',
+        'devicon-nodejs-plain',
+        'devicon-java-plain',
+        'devicon-fastapi-plain',
+        'devicon-swagger-plain',
+        'devicon-docker-plain',
+        'devicon-kubernetes-plain',
+        'devicon-githubactions-plain',
         'devicon-amazonwebservices-plain-wordmark colored',
+        'devicon-nginx-original',
+        'devicon-postgresql-plain',
+        'devicon-mysql-plain',
+        'devicon-mongodb-plain',
+        'devicon-oracle-plain',
       ],
       learned:[
-        ['University Of Georgia','FreeCodeCamp','YouTube'],
-        ['FreeCodeCamp','Coursearea','YouTube'],
-        ['University Of Georgia','FreeCodeCamp','YouTube'],
-        ['University Of Georgia','FreeCodeCamp','Micorosoft Learn','YouTube'],
-        ['University Of Georgia','YouTube'],
-        ['University Of Georgia','FreeCodeCamp','YouTube'],
-        ['University Of Georgia','FreeCodeCamp','YouTube'],
-        ['University Of Georgia','YouTube'],
-        ['FreeCodeCamp','Coursearea','YouTube'],
-        ['FreeCodeCamp','Coursearea','YouTube'],
-        ['University Of Georgia','Microsoft Learn','YouTube'],
-        ['University Of Georgia','Coursearea','w3schools','YouTube'],
+        ['Freelance Production Work','PetC'],
+        ['Freelance Production Work','PetC'],
+        ['Freelance Production Work','University of Georgia'],
+        ['Freelance Production Work','University of Georgia'],
+        ['Angular Production Work'],
+        ['Angular + React Frontend Architecture'],
+        ['Freelance Full-Stack Work'],
+        ['Academic + Production Projects'],
+        ['Backend Service Development'],
+        ['Production API Contract Work'],
+        ['Containerized Deployment Workflows'],
+        ['Container Orchestration Practice'],
+        ['Release Pipelines & Automation'],
+        ['Cloud Deployment Practice'],
+        ['Production Deployment Strategies'],
+        ['E-Commerce Data Layer'],
+        ['Relational Data Modeling'],
+        ['Product Data Storage'],
+        ['University of Georgia Coursework'],
       ],
       geined:[
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
+        ['Modular architecture','Lazy loading','Signals'],
+        ['Component-driven systems','Reusable UI patterns'],
+        ['Type-safe contracts','Maintainability'],
+        ['ES6+ patterns','Performance-aware code'],
+        ['Reactive state composition'],
+        ['Structured design systems'],
+        ['Auth/cart/order workflow support'],
+        ['Enterprise backend integration'],
+        ['Secure API implementation'],
+        ['Contract-first thinking'],
+        ['Portable environments'],
+        ['Scalable deployments'],
+        ['Reliable release flow'],
+        ['Cloud-ready deployment'],
+        ['Reverse proxy + serving strategy'],
+        ['SQL optimization'],
+        ['Relational query tuning'],
+        ['Document data handling'],
+        ['Schema and query fundamentals'],
       ],
       rating:[
-        5,5,3,4,4,5,5,5,5,4,5,5
+        5,5,5,5,4,5,5,4,4,5,5,3,4,4,4,4,4,4,4
       ]
     },
   ];
@@ -88,71 +123,56 @@ export class EducationService {
     {
       id: 1,
       img: '/assets/education/Universities/ug.png',
-      name: 'University Of Georgia',
-      title: 'Information Technologies',
-      degree: 'Bachelor of Science',
+      name: 'University of Georgia',
+      title: 'Computer Science',
+      degree: 'BSc Computer Science',
       subjects: [
-        'Introduction to Cyber Security',
-        'IT Services and Project Management',
-        'Calculus II',
-        'Operating System Linux',
-        'Programming Language Java I',
-        'Computer Networks I',
+        'Data Structures and Algorithms',
+        'Computer Networks',
+        'Operating Systems',
+        'Object-Oriented Programming',
         'Oracle Database Design and Programming',
-        'Microsoft Azure Security Technologies',
-        'Amazon AWS Security Technologies',
-        'Microsoft Azure Administration',
-        'Amazon AWS Architecture',
-        'Geoinformatics',
-        'Visual Programming (C#) I',
-        'Fundamentals of Economics and Business',
-        'Fundamentals of Physics',
-        'English Language VI (B2/2)',
         'Introduction to Web Technologies',
-        'Academic Writing',
+        'IT Services and Project Management',
         'Discrete Mathematics',
-        'Data Structures and Algorithms',
-        'Operating System (Windows)',
         'Computer Architecture',
-        'Object-Oriented Programming C++',
-        'Data Structures and Algorithms',
-        'Calculus II',
-        'Fundamentals of Physics',
-        'English Language IV (B1/2)',
-        'Office Systems',
-        'Programming Fundamentals (C++)',
-        'Linear Algebra and Analytical Geometry',
       ],
-      description: `<p>During my Bachelor of Science in Information Technologies at the University of Georgia, I acquired a strong foundation in both theoretical and practical aspects of IT. I developed skills in cybersecurity, programming, and cloud technologies, gaining hands-on experience in Amazon AWS and Microsoft Azure platforms. My coursework also covered key subjects such as database design, operating systems, and computer networks, helping me build a comprehensive understanding of modern IT infrastructure.</p>
-                <p>In addition to technical skills, I enhanced my problem-solving abilities through challenging courses in discrete mathematics, data structures, and algorithms. I also gained insights into business and project management through courses like IT Services and Project Management and Fundamentals of Economics and Business, which equipped me with the knowledge to effectively manage IT projects. This multidisciplinary approach prepared me to tackle real-world IT challenges with a holistic view.</p>`,
-      date: '2019 | 2025',
+      description: `<p>Completed Bachelor-level computer science studies with focus on software engineering foundations and system-oriented coursework.</p>
+                <p>Built strong fundamentals in algorithms, backend logic, architecture thinking, and database systems that now support production full-stack delivery.</p>`,
+      date: '2019-2025',
     },
     {
       id: 2,
-      img: '/assets/education/Universities/w3.png',
-      name: 'w3schools',
-      title: 'Information Technologies',
-      degree: 'Computer Science',
-      subjects: ['AWS', 'Sass', 'Python'],
+      img: '/assets/education/Universities/btu.png',
+      name: 'Business and Technology University',
+      title: 'DevOps',
+      degree: 'MSc DevOps - In Progress',
+      subjects: [
+        'Containerization and orchestration',
+        'Cloud infrastructure',
+        'CI/CD systems',
+        'Production deployment strategies',
+      ],
       description:
-        'Focused on acquiring in-depth knowledge in cloud computing with AWS, mastering web styling techniques using Sass, and building proficiency in Python for back-end development. This curriculum provided hands-on learning through interactive tutorials and real-world projects, enhancing both theoretical knowledge and practical problem-solving skills.',
-      date: '2019 | 2025',
+        'Currently pursuing MSc DevOps with expected graduation in 2026, focused on production-grade deployment standards and scalable infrastructure practices.',
+      date: 'Expected 2026',
     },
 
     {
       id: 3,
       img: '/assets/education/Universities/fcc.svg',
       name: 'FreeCodeCamp',
-      title: 'Information Technologies',
-      degree: 'Computer Science',
+      title: 'Frontend + Cloud Foundations',
+      degree: 'Professional Certificates',
       subjects: [
         'Responsive Web Design',
         'JavaScript Algorithms and Data Structures',
-        'Front End Development Libraries Certification',
+        'Front-End Development Libraries',
+        'Introduction to AWS Solutions',
       ],
       description:
-        'Completed several certifications in web development, focusing on modern front-end technologies such as responsive design, advanced JavaScript concepts, and popular development libraries like React. Gained hands-on experience by building various projects, mastering problem-solving skills, and refining knowledge in web design and development.',
-      date: '2021 | 2025',
+        'Completed focused certification path to strengthen practical frontend architecture and cloud fundamentals used in production work.',
+      date: 'Ongoing',
     },
   ];
 

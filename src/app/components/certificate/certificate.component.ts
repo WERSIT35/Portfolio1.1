@@ -36,29 +36,37 @@ export class CertificateComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-        new Splide('#certificate', {
-          type: 'loop',
-          autoplay: true,
-          pagination: false,
-          arrows: false,
-          perPage:3,
-          padding: '7.5%',
-          mediaQuery: 'max',
-          breakpoints: {
-            1200: {
-              perPage:3,
-              padding: '7.5%',
-            },
-            768: {
-              perPage:2,
-              padding: '7.5%',
-            },
-            480: {
-              perPage:1,
-              padding: '7.5%',
-            },
+      new Splide('#certificate', {
+        type: 'loop',
+        start: 1,
+        autoplay: true,
+        pagination: false,
+        arrows: false,
+        drag: true,
+        focus: 'center',
+        trimSpace: false,
+        perPage: 2,
+        gap: '0.8rem',
+        padding: { left: '2%', right: '2%' },
+        mediaQuery: 'max',
+        breakpoints: {
+          1100: {
+            perPage: 1.7,
+            padding: { left: '2%', right: '2%' },
           },
-        }).mount();
+          820: {
+            perPage: 1.35,
+            padding: { left: '1.5%', right: '1.5%' },
+          },
+          720: {
+            perPage: 1,
+            padding: { left: '6%', right: '6%' },
+          },
+          480: {
+            padding: { left: '0', right: '0' },
+          },
+        },
+      }).mount();
     }
   }
 }

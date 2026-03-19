@@ -5,4 +5,9 @@ export interface Certifications {
     image:string[],
     description:string,
     date:string,
+    issuer:string,
+    issued:string,
+    skills:string[],
+    timeSpent:string,
+    tasksMade:string[],
 }

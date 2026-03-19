@@ -18,15 +18,6 @@ import { CertificateComponent } from "../../certificate/certificate.component";
 })
 export class MainComponent implements AfterViewInit, OnInit{
   @Input() education!:Education;
-  
-  showImageModal: boolean = false;
-  openImageModal() {
-    this.showImageModal = true;
-  }
-  
-  closeImageModal() {
-    this.showImageModal = false;
-  }
 
   educationList:Education[]=[];
   constructor(
@@ -38,35 +29,39 @@ export class MainComponent implements AfterViewInit, OnInit{
       this.educationList = this.educationService.getEducation();
   }
   ngAfterViewInit(): void {
-  if (isPlatformBrowser(this.platformId)) {
-      var splide = new Splide('#education', {
-        gap: '3.4rem',
+    if (isPlatformBrowser(this.platformId)) {
+      const splide = new Splide('#education', {
+        type: 'loop',
+        start: 1,
+        gap: '0.8rem',
         pagination: false,
         arrows: false,
+        drag: true,
         width: '100%',
-        fixedWidth: '30%',
-        height:'30vh',
-        padding: '7.5%',
+        focus: 'center',
+        trimSpace: false,
+        perPage: 2,
+        padding: { left: '2%', right: '2%' },
         mediaQuery: 'max',
         breakpoints: {
-          1200: {
-            fixedWidth: '40%',
-            padding: '7.5%',
-            height:'30vh',
+          1100: {
+            perPage: 1.7,
+            padding: { left: '2%', right: '2%' },
           },
-          768: {
-            fixedWidth: '60%',
-            padding: '7.5%',
-            height:'30vh',
+          820: {
+            perPage: 1.35,
+            padding: { left: '1.5%', right: '1.5%' },
+          },
+          720: {
+            perPage: 1,
+            padding: { left: '6%', right: '6%' },
           },
           480: {
-            fixedWidth: '70%',
-            gap: '1.5rem',
-            height:'25vh'
-          }
-        }
+            padding: { left: '0', right: '0' },
+          },
+        },
       });
       splide.mount();
+    }
   }
-}
 }

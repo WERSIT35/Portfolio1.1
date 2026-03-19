@@ -1,44 +1,44 @@
 <app-back></app-back>
-<section id="alleducation">
-          <div class="eduCard">
-            <div class="eduTitle">
-              <div class="eduTitleCont">
-                <img [src]="edu?.img" alt="" />
-                <h2>{{ edu?.name }}</h2>
-                <p class="date">{{ edu?.date }}</p>
-              </div>
-            </div>
-            <div class="eduInfo">
-              <div class="eduInfoName">
-                <h2>{{ edu?.title }}</h2>
-                <div class="eduInfoDes">
-                  <h2>{{ edu?.degree }}</h2>
-                  <p>Description: </p>
-                  <div class="description" [innerHTML]="edu?.description"></div>
-                  <p>Subjects:</p>
-                  <ul class="eduSubInfo">
-                    
-                    @for (subject of edu?.subjects; track $index) {
-                    <li>{{ subject }}</li>
-                  }
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-</section>
-<div class="sugCont">
-  <div class="suggestions">
+<main class="edu-detail page">
+  <article class="eduCard">
+    <header class="eduHeader">
+      <img [src]="edu?.img" alt="" />
+      <div class="eduHeading">
+        <h2>{{ edu?.name }}</h2>
+        <p class="date">{{ edu?.date }}</p>
+      </div>
+    </header>
+    <section class="eduBody">
+      <h3>{{ edu?.title }}</h3>
+      <h4>{{ edu?.degree }}</h4>
+      <div class="eduSection">
+        <p>Description: </p>
+        <div class="description" [innerHTML]="edu?.description"></div>
+      </div>
+      <div class="eduSection">
+        <p>Subjects:</p>
+        <ul class="eduSubInfo">
+          @for (subject of edu?.subjects; track $index) {
+            <li>{{ subject }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+  </article>
+
+  <aside class="suggestions">
     <h3>Suggestions</h3>
     @for (suggestion of suggestions; track $index) {
-    <a [routerLink]="['/edu/edulist', suggestion.id]">
-    <div class="suggestion-card">
-      <img [src]="suggestion.img" alt="">
-      <h4>{{ suggestion.name }}</h4>
-      <p>{{ suggestion.title }} - {{ suggestion.degree }}</p>
-      <p>{{ suggestion.date }}</p>
-    </div>
-  </a>
-  }
-  </div>
-</div>
+      <a [routerLink]="['/edu/edulist', suggestion.id]">
+        <div class="suggestion-card">
+          <img [src]="suggestion.img" alt="">
+          <div>
+            <h4>{{ suggestion.name }}</h4>
+            <p>{{ suggestion.title }} - {{ suggestion.degree }}</p>
+            <p>{{ suggestion.date }}</p>
+          </div>
+        </div>
+      </a>
+    }
+  </aside>
+</main>

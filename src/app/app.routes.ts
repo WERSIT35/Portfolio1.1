@@ -4,12 +4,16 @@ import { EdulistComponent } from './components/navigation/main/edulist/edulist.c
 import { ExplistComponent } from './components/experience/explist/explist.component';
 import { CertiListComponent } from './components/certificate/certi-list/certi-list.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
 
 import { ContactComponent } from './components/contact/contact.component';
 import { AllEducationComponent } from './components/navigation/main/all-education/all-education.component';
 import { AllExperienceComponent } from './components/experience/all-experience/all-experience.component';
 import { AllCertificateComponent } from './components/certificate/all-certificate/all-certificate.component';
 import { AllSkillsComponent } from './components/skills/all-skills/all-skills.component';
+import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { adminAuthGuard } from './guards/admin-auth.guard';
 
 export const routes: Routes = [
     {path: '', component:MainComponent},
@@ -24,7 +28,10 @@ export const routes: Routes = [
 
     {path:'skills', component:AllSkillsComponent},
 
+    {path: 'projects/:id', component:ProjectDetailComponent},
     {path: 'projects', component:ProjectsComponent},
+    {path: 'admin/login', component: AdminLoginComponent},
+    {path: 'admin', component: AdminDashboardComponent, canActivate: [adminAuthGuard]},
     {path: 'edu', component:AllEducationComponent},
     {path: 'contact', component:ContactComponent},
     // {path: '**' , }
