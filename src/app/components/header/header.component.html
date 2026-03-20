@@ -26,5 +26,18 @@
         </a>
       </li>
     </ul>
+
+    <div class="theme-switch" aria-label="Theme switcher">
+      @for (option of themeOptions; track option) {
+        <button
+          type="button"
+          class="theme-btn"
+          [class.active]="themeService.preference() === option"
+          (click)="setTheme(option)"
+        >
+          {{ option }}
+        </button>
+      }
+    </div>
   </nav>
 </header>

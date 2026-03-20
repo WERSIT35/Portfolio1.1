@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemePreference, ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isScrolled = false;
+  readonly themeOptions: ThemePreference[] = ['light', 'dark', 'system'];
+
+  constructor(public themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.updateScrollState();
@@ -22,5 +26,9 @@ export class HeaderComponent implements OnInit {
 
   private updateScrollState(): void {
     this.isScrolled = window.scrollY > 20;
+  }
+
+  setTheme(theme: ThemePreference): void {
+    this.themeService.setTheme(theme);
   }
 }

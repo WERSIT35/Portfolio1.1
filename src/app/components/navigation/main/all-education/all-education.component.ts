@@ -1,10 +1,7 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Education } from '../../../../interfaces/education';
 import { RouterLink } from '@angular/router';
 import { EducationService } from '../../../../services/education.service';
-import { isPlatformBrowser } from '@angular/common';
-
-import Splide from '@splidejs/splide';
 import { BackComponent } from "../../../back/back.component";
 
 @Component({
@@ -21,29 +18,10 @@ export class AllEducationComponent implements OnInit{
 
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     private educationService:EducationService,
   ) {}
 
   ngOnInit(): void {
       this.educationList = this.educationService.getEducation();
-  }
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-        var splide = new Splide('#alleducation', {
-          gap: '3.4rem',
-          width: '100%',
-          mediaQuery: 'max',
-          breakpoints: {
-            1200: {
-            },
-            768: {
-            },
-            480: {
-            }
-          }
-        });
-        splide.mount();
-    }
   }
 }

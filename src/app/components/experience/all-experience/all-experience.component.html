@@ -6,31 +6,30 @@
   <section class="exp page">
     @for (item of experienceList; track $index) {
       <article class="exCard">
-        <a [routerLink]="['/exp',item.id]">
-          <div class="exTitle">
-            <div class="subTitle">
-              <h2>{{ item.name }} </h2>
-              <i class="fa-solid fa-ellipsis"></i>
+        <a [routerLink]="['/exp',item.id]" class="exLink">
+          <div class="exTop">
+            <div class="exTitleRow">
+              <h2>{{ item.name }}</h2>
+              <p class="date">{{item.date}}</p>
             </div>
           </div>
           <div class="exInfo">
-            <div class="subname">
-              <h2>{{item.subname}}:</h2>
-              <div class="subnameTxt">
-                @for (tool of item.subnameText; track $index) {
-                  <p>{{tool}}</p>
-                }
-              </div>
+            <p class="eyebrow">{{item.subname}}</p>
+            <div class="subnameTxt">
+              @for (tool of item.subnameText; track $index) {
+                <p>{{tool}}</p>
+              }
             </div>
-            <div class="subname1">
-              <h2>{{item.subname1}}:</h2>
-              <div class="subnameTxt1">
-                @for (resp of item.subname1Text; track $index) {
-                  <p>{{resp}}</p>
-                }
-              </div>
+            <p class="eyebrow">{{item.subname1}}</p>
+            <div class="subnameTxt1">
+              @for (resp of item.subname1Text; track $index) {
+                <p>{{resp}}</p>
+              }
             </div>
-            <p class="date">{{item.date}}</p>
+          </div>
+          <div class="exFooter">
+            <span>View full details</span>
+            <i class="fa-solid fa-arrow-right"></i>
           </div>
         </a>
       </article>

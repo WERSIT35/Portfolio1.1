@@ -16,13 +16,26 @@
 }
 
 .cert-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.93), rgba(244, 249, 255, 0.86));
-  border: 1px solid rgba(var(--brand-rgb), 0.22);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--shadow-2);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
+  border: 1px solid rgba(var(--brand-rgb), 0.26);
+  border-radius: 22px;
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 30px rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  position: relative;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cert-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 95% 8%, rgba(155, 190, 255, 0.24), transparent 38%),
+    radial-gradient(circle at 6% 94%, rgba(150, 200, 180, 0.2), transparent 42%);
+  pointer-events: none;
+  opacity: 0.86;
 }
 
 .cert-card a {
@@ -30,6 +43,8 @@
   gap: var(--space-3);
   padding: var(--space-4);
   color: inherit;
+  position: relative;
+  z-index: 1;
 }
 
 .cert-card img {

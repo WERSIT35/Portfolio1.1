@@ -106,6 +106,35 @@ $bp-lg: 1200px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+:root[data-theme-resolved="dark"] .home .hero-panel {
+  background: var(--card-dark-bg) !important;
+  border-color: var(--card-dark-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 22px 42px rgba(2, 6, 23, 0.5) !important;
+}
+
+:root[data-theme-resolved="dark"] .home .hero-panel::before {
+  opacity: 0.58;
+}
+
+:root[data-theme-resolved="dark"] .home .hero-panel .text {
+  background: rgba(148, 163, 184, 0.08) !important;
+  border-color: rgba(148, 163, 184, 0.26) !important;
+}
+
+:root[data-theme-resolved="dark"] .home .hero-panel .name,
+:root[data-theme-resolved="dark"] .home .hero-panel .title {
+  color: var(--card-dark-title) !important;
+}
+
+:root[data-theme-resolved="dark"] .home .hero-panel .eyebrow {
+  color: var(--card-dark-muted) !important;
+}
+
+:root[data-theme-resolved="dark"] .home .hero-panel .summary {
+  color: var(--card-dark-text) !important;
+  border-top-color: rgba(148, 163, 184, 0.24);
+}
+
 .cta-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -120,18 +149,36 @@ $bp-lg: 1200px;
   gap: 0.3rem;
   min-height: 48px;
   padding: 0.34rem 0.5rem 0.34rem 0.64rem;
-  border-radius: 16px;
-  border: 1px solid rgba(var(--brand-rgb), 0.22);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
-  backdrop-filter: blur(16px) saturate(145%);
-  -webkit-backdrop-filter: blur(16px) saturate(145%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 14px 24px rgba(0, 0, 0, 0.25);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  border-radius: 22px;
+  border: 1px solid rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 30px rgba(0, 0, 0, 0.35);
+  transition:
+    box-shadow 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 95% 8%, rgba(155, 190, 255, 0.24), transparent 38%),
+    radial-gradient(circle at 6% 94%, rgba(150, 200, 180, 0.2), transparent 42%);
+  pointer-events: none;
+  opacity: 0.86;
 }
 
 .cta-copy {
   display: grid;
   gap: 0.16rem;
+  position: relative;
+  z-index: 1;
 }
 
 .cta-copy h2 {
@@ -159,6 +206,8 @@ $bp-lg: 1200px;
   border-radius: 12px;
   border: 1px solid rgba(31, 35, 41, 0.2);
   background: rgba(31, 35, 41, 0.08);
+  position: relative;
+  z-index: 1;
 }
 
 .cta-card i {
@@ -166,14 +215,9 @@ $bp-lg: 1200px;
   color: var(--color-ink);
 }
 
-.cta-card:hover {
-  transform: translateY(-1px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 20px 32px rgba(0, 0, 0, 0.3);
-}
-
 .cta-card.cta-resume {
-  border-color: rgba(207, 212, 220, 0.44);
-  background: linear-gradient(145deg, rgba(207, 212, 220, 0.22), rgba(255, 255, 255, 0.03));
+  border-color: rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
 }
 
 .cta-card.cta-resume .cta-icon {
@@ -182,8 +226,8 @@ $bp-lg: 1200px;
 }
 
 .cta-card.cta-projects {
-  border-color: rgba(143, 149, 158, 0.38);
-  background: linear-gradient(145deg, rgba(143, 149, 158, 0.28), rgba(255, 255, 255, 0.03));
+  border-color: rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
 }
 
 .cta-card.cta-projects .cta-icon {
@@ -192,8 +236,8 @@ $bp-lg: 1200px;
 }
 
 .cta-card.cta-contact {
-  border-color: rgba(143, 149, 158, 0.38);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(143, 149, 158, 0.2));
+  border-color: rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
 }
 
 .cta-card.cta-contact .cta-icon {
@@ -204,7 +248,7 @@ $bp-lg: 1200px;
 .education {
   .page {
     display: grid;
-    gap: clamp(0.55rem, 1.5vw, 0.9rem);
+    gap: clamp(0.8rem, 1.8vw, 1.1rem);
   }
 
   .splide {
@@ -247,24 +291,29 @@ $bp-lg: 1200px;
   }
 
   .splide__slide {
-    padding-bottom: 0.4rem;
+    padding-bottom: 0.45rem;
     height: auto;
+  }
+
+  .eduLink {
+    display: block;
+    height: 100%;
+    color: inherit;
   }
 
   .eduCard {
     display: grid;
-    grid-template-rows: auto 1fr;
-    min-height: 0;
+    grid-template-rows: auto 1fr auto;
     height: 100%;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.93), rgba(244, 249, 255, 0.86));
-    border: 1px solid rgba(var(--brand-rgb), 0.22);
-    border-radius: 20px;
-    backdrop-filter: blur(18px) saturate(145%);
-    -webkit-backdrop-filter: blur(18px) saturate(145%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 34px rgba(0, 0, 0, 0.36);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
+    border: 1px solid rgba(var(--brand-rgb), 0.26);
+    border-radius: 22px;
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 30px rgba(0, 0, 0, 0.35);
     overflow: hidden;
     position: relative;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   .eduCard::before {
@@ -272,140 +321,119 @@ $bp-lg: 1200px;
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 90% 5%, rgba(207, 212, 220, 0.2), transparent 35%),
-      radial-gradient(circle at 5% 95%, rgba(143, 149, 158, 0.18), transparent 40%);
+      radial-gradient(circle at 95% 8%, rgba(155, 190, 255, 0.24), transparent 38%),
+      radial-gradient(circle at 6% 94%, rgba(150, 200, 180, 0.2), transparent 42%);
     pointer-events: none;
-    opacity: 0.85;
+    opacity: 0.88;
   }
 
-  .eduCard::after {
-    content: "";
-    position: absolute;
-    inset: auto 10px 10px 10px;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(207, 212, 220, 0), rgba(207, 212, 220, 0.55), rgba(207, 212, 220, 0));
-  }
-
-  .eduCard:hover {
-    border-color: rgba(207, 212, 220, 0.42);
-    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.44), inset 0 0 0 1px rgba(207, 212, 220, 0.12);
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .eduTitle {
+  .eduTop {
     display: grid;
     align-items: center;
-    min-height: 66px;
-    padding: 0.62rem var(--space-3);
-    background: linear-gradient(90deg, rgba(207, 212, 220, 0.3), rgba(143, 149, 158, 0.2));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    min-height: 76px;
+    padding: 0.75rem var(--space-3);
+    background: linear-gradient(100deg, rgba(155, 190, 255, 0.33), rgba(150, 200, 180, 0.2));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     position: relative;
-  }
-
-  .eduTitle::before {
-    content: "";
-    position: absolute;
-    left: 0.65rem;
-    right: 0.65rem;
-    top: 0.35rem;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(207, 212, 220, 0), rgba(207, 212, 220, 0.42), rgba(207, 212, 220, 0));
   }
 
   .eduTitleCont {
     display: grid;
     grid-template-columns: auto 1fr;
-    justify-content: stretch;
     align-items: center;
-    gap: 0.82rem;
-    color: var(--color-ink);
+    gap: 0.78rem;
     width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eduLogo {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.46);
   }
 
   .eduTitleCont img {
     width: 42px;
     height: 42px;
     object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
-    padding: 0.28rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(207, 212, 220, 0.24);
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
   }
 
   .eduTitleCont img.logo-plain {
     filter: none;
     padding: 0;
     background: transparent;
-    border: 0;
-    border-radius: 0;
   }
 
-  .eduTitleCont h2 {
-    font-size: 1.02rem;
+  .eduOrg {
+    font-size: 1rem;
     color: var(--color-ink);
     font-weight: 700;
-    letter-spacing: 0.1px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-    line-height: 1.2;
+    line-height: 1.1;
+  }
+
+  .eduMeta {
+    display: grid;
+    gap: 0.28rem;
+    justify-items: start;
+  }
+
+  .eduTrack,
+  .eduDate {
+    font-size: 0.76rem;
+    color: var(--color-subtle);
+    font-weight: 600;
+    padding: 0.2rem 0.46rem;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--brand-rgb), 0.2);
+    background: rgba(255, 255, 255, 0.25);
+    line-height: 1.1;
   }
 
   .eduInfo {
     padding: var(--space-3);
     display: grid;
-    gap: 0.55rem;
+    gap: 0.48rem;
     align-content: start;
     position: relative;
     z-index: 1;
   }
 
-  .eduInfoName h2 {
+  .eduInfo h3 {
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #cfd4dc;
-    letter-spacing: 0.15px;
-  }
-
-  .eduInfoDes {
-    display: grid;
-    gap: 0.38rem;
-    padding: 0.52rem 0.62rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    backdrop-filter: blur(3px);
-  }
-
-  .eduInfoDes h2 {
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    color: #cfd4dc;
+    font-size: 1rem;
+    color: var(--color-ink);
     font-weight: 700;
+    line-height: 1.25;
   }
 
   .eduSubInfo {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.34rem;
-    color: #cfd4dc;
-    font-size: 0.78rem;
+    gap: 0.38rem;
+    color: var(--color-subtle);
+    font-size: 0.8rem;
   }
 
   .eduSubInfo p {
-    padding: 0.22rem 0.45rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
+    padding: 0.25rem 0.52rem;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--brand-rgb), 0.2);
+    background: rgba(255, 255, 255, 0.2);
     line-height: 1.2;
   }
 
-  .eduSubInfo p:nth-child(n + 4) {
+  .eduSubInfo p:nth-child(n + 5) {
     display: none;
   }
 
-  .eduInfoName > h2,
-  .eduInfoDes > h2,
+  .eduTrack,
+  .eduInfo > h3,
   .eduSubInfo p {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -413,24 +441,33 @@ $bp-lg: 1200px;
     -webkit-box-orient: vertical;
   }
 
-  .eduInfoName > h2 {
+  .eduTrack {
     -webkit-line-clamp: 1;
   }
 
-  .eduInfoDes > h2 {
-    -webkit-line-clamp: 1;
+  .eduInfo > h3 {
+    -webkit-line-clamp: 2;
   }
 
   .eduSubInfo p {
     -webkit-line-clamp: 1;
   }
 
-  .date {
-    margin-top: 0.3rem;
-    font-size: 0.76rem;
-    color: #cfd4dc;
+  .eduAction {
+    margin-top: 0.35rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(var(--brand-rgb), 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--color-ink);
     font-weight: 500;
-    letter-spacing: 0.1px;
+    letter-spacing: 0.04px;
+  }
+
+  .eduAction i {
+    font-size: 0.8rem;
   }
 }
 

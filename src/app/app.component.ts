@@ -4,6 +4,7 @@ import { HeaderComponent } from "./components/header/header.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { LoadingService } from './services/loading.service';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +21,15 @@ export class AppComponent implements OnInit{
   loading$ = this.loadingService.loading$;
   hideHeader = false;
 
-  constructor(private router: Router, private loadingService: LoadingService) {}
+  constructor(
+    private router: Router,
+    private loadingService: LoadingService,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
+    this.themeService.initTheme();
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.loadingService.show();
