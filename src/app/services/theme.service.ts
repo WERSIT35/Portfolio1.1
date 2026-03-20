@@ -11,6 +11,7 @@ export class ThemeService {
   private mediaQuery: MediaQueryList | null = null;
   private mediaListenerAttached = false;
   private initialized = false;
+  private themeTransitionTimeout: number | null = null;
 
   readonly preference = signal<ThemePreference>('system');
   readonly resolved = signal<ThemeResolved>('light');
@@ -25,12 +26,12 @@ export class ThemeService {
 
     const saved = this.readStoredTheme();
     this.preference.set(saved);
-    this.applyTheme(saved);
+    this.applyTheme(saved, false);
 
     if (this.mediaQuery && !this.mediaListenerAttached) {
       this.mediaQuery.addEventListener('change', () => {
         if (this.preference() === 'system') {
-          this.applyTheme('system');
+          this.applyTheme('system', true);
         }
       });
       this.mediaListenerAttached = true;
@@ -40,7 +41,7 @@ export class ThemeService {
   setTheme(preference: ThemePreference): void {
     this.preference.set(preference);
     this.storeTheme(preference);
-    this.applyTheme(preference);
+    this.applyTheme(preference, true);
   }
 
   private readStoredTheme(): ThemePreference {
@@ -67,11 +68,26 @@ export class ThemeService {
     return this.mediaQuery?.matches ? 'dark' : 'light';
   }
 
-  private applyTheme(preference: ThemePreference): void {
+  private applyTheme(preference: ThemePreference, withTransition: boolean): void {
     if (typeof document === 'undefined') return;
 
     const root = document.documentElement;
     const resolved = this.getResolvedTheme(preference);
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      'matchMedia' in window &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (withTransition && !reduceMotion) {
+      root.setAttribute('data-theme-animating', 'true');
+      if (this.themeTransitionTimeout !== null) {
+        window.clearTimeout(this.themeTransitionTimeout);
+      }
+      this.themeTransitionTimeout = window.setTimeout(() => {
+        root.removeAttribute('data-theme-animating');
+        this.themeTransitionTimeout = null;
+      }, 300);
+    }
 
     root.setAttribute('data-theme', preference);
     root.setAttribute('data-theme-resolved', resolved);
@@ -80,4 +96,3 @@ export class ThemeService {
     this.resolved.set(resolved);
   }
 }
-

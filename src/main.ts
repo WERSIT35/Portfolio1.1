@@ -4,7 +4,7 @@ import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, appConfig)
   .then(() => {
-    const cardSelector = '.eduCard, .exCard, .cert-card, .project-card, .offer-card, .skill-card, .cta-card, .suggestion-card, .card';
+    const cardSelector = '.eduCard, .exCard, .cert-card, .project-card, .offer-card, .profile-block, .contact-panel, .contact-links a, .skill-card, .cta-card, .suggestion-card, .card';
 
     type CardState = {
       currentX: number;

@@ -16,8 +16,8 @@
 }
 
 .cert-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(239, 247, 255, 0.84));
-  border: 1px solid rgba(var(--brand-rgb), 0.26);
+  background: linear-gradient(145deg, var(--color-glass-strong), var(--color-glass));
+  border: 1px solid var(--color-border);
   border-radius: 22px;
   backdrop-filter: blur(16px) saturate(150%);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
@@ -32,8 +32,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 95% 8%, rgba(155, 190, 255, 0.24), transparent 38%),
-    radial-gradient(circle at 6% 94%, rgba(150, 200, 180, 0.2), transparent 42%);
+    radial-gradient(circle at 95% 8%, rgba(var(--brand-rgb), 0.14), transparent 38%),
+    radial-gradient(circle at 6% 94%, rgba(var(--brand-warm-rgb), 0.12), transparent 42%);
   pointer-events: none;
   opacity: 0.86;
 }
@@ -79,12 +79,36 @@
   gap: 0.2rem;
   margin-top: 0.3rem;
   padding-left: 0.6rem;
-  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 1px solid var(--color-glass-border);
 }
 
 .tasks li {
   color: var(--color-subtle);
   font-size: 0.85rem;
+}
+
+:root[data-theme-resolved="dark"] .all-certificates .cert-card {
+  background: var(--card-dark-bg) !important;
+  border-color: var(--card-dark-border) !important;
+}
+
+:root[data-theme-resolved="dark"] .all-certificates .cert-card::before {
+  background:
+    radial-gradient(circle at 95% 8%, rgba(170, 175, 184, 0.14), transparent 38%),
+    radial-gradient(circle at 6% 94%, rgba(143, 149, 158, 0.1), transparent 42%) !important;
+  opacity: 0.58;
+}
+
+:root[data-theme-resolved="dark"] .all-certificates .cert-meta h2 {
+  color: var(--card-dark-title) !important;
+}
+
+:root[data-theme-resolved="dark"] .all-certificates :where(.cert-meta p, .tasks li) {
+  color: var(--card-dark-text) !important;
+}
+
+:root[data-theme-resolved="dark"] .all-certificates .tasks {
+  border-left-color: var(--card-dark-chip-border) !important;
 }
 
 @media (min-width: 900px) {
