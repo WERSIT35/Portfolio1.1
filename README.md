@@ -1,27 +1,108 @@
-# Portfolio11
+# Otar Davitashvili Portfolio
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+Personal portfolio website for Otar Davitashvili, focused on presenting production work, technical strengths, education, certifications, and direct contact paths in a clean, responsive single-brand experience.
 
-## Development server
+Live website: [otodavitashvili.netlify.app](https://otodavitashvili.netlify.app/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Overview
 
-## Code scaffolding
+This project is built as an Angular portfolio application with an additional Express + TypeScript admin backend for managing portfolio content through a protected admin panel.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The site highlights:
 
-## Build
+- Hero section with resume download
+- Selected projects with image galleries, web/mobile view switching, and detail pages
+- Skills, education, experience, and certifications sections
+- Contact page with email, phone, GitHub, and LinkedIn links
+- Admin login and JSON-based content editor for portfolio sections
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Tech Stack
 
-## Running unit tests
+- Angular 18
+- TypeScript
+- SCSS
+- RxJS
+- Splide.js
+- Bootstrap Icons
+- Node.js
+- Express
+- JWT authentication
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Project Structure
 
-## Running end-to-end tests
+```text
+src/       Angular frontend
+public/    Static assets, project media, resume PDF
+backend/   Express admin API, auth, and file-based content store
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Local Development
 
-## Further help
+### Frontend
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Install dependencies and start the Angular app:
+
+```bash
+npm install
+npm start
+```
+
+Frontend runs at `http://localhost:4200`.
+
+### Admin Backend
+
+Install backend dependencies and start the admin API:
+
+```bash
+npm --prefix backend install
+npm run backend:dev
+```
+
+Backend runs at `http://localhost:4300`.
+
+The backend uses `backend/.env` with these defaults:
+
+```env
+PORT=4300
+JWT_SECRET=dev_change_this_secret
+JWT_EXPIRES_IN=8h
+CORS_ORIGIN=http://localhost:4200
+DATA_FILE_PATH=data/db.json
+```
+
+## Admin Panel
+
+The admin panel is available at `/admin/login` and supports:
+
+- Authenticated admin login
+- Section-based portfolio content editing
+- Role-aware access
+- Admin user creation for `super_admin`
+
+Default seeded users are documented in [backend/README.md](backend/README.md).
+
+## Featured Content Areas
+
+- Home / hero presentation
+- Projects showcase
+- Education timeline
+- Experience section
+- Certifications
+- Contact page
+
+## Scripts
+
+```bash
+npm start
+npm run build
+npm run test
+npm run backend:dev
+npm run backend:build
+npm run backend:start
+```
+
+## Contact
+
+- Email: `otowork3@gmail.com`
+- GitHub: [WERSIT35](https://github.com/WERSIT35)
+- LinkedIn: [otar-davitashvili](https://www.linkedin.com/in/otar-davitashvili/)

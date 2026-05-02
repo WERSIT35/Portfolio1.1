@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "5979c30f-71cc-4439-9554-43977d3a51c6",
+      "fullName": "Main Super Admin",
+      "email": "admin@portfolio.local",
+      "passwordHash": "$2a$12$4xNHGuFk0te1EcDSPhZrVulKH9IN6s6xGjNEA2NvlkGW7hFEvNbey",
+      "role": "super_admin",
+      "isActive": true,
+      "createdAt": "2026-03-15T19:42:37.790Z",
+      "updatedAt": "2026-03-15T19:42:37.790Z"
+    },
+    {
+      "id": "8ac30b30-984d-4aee-99ca-f80b06dffef9",
+      "fullName": "Content Editor",
+      "email": "editor@portfolio.local",
+      "passwordHash": "$2a$12$9zGC3WK24uLsM8BdGAQQdekSP2Qf9GgzBBRh40ROGJqj.3hxZX0/6",
+      "role": "editor",
+      "isActive": true,
+      "createdAt": "2026-03-15T19:42:37.790Z",
+      "updatedAt": "2026-03-15T19:42:37.790Z"
+    }
+  ],
+  "content": {
+    "hero": {
+      "fullName": "OTAR DAVITASHVILI",
+      "headline": "Product-Focused Full-Stack Engineer",
+      "subheadline": "Angular & React Architecture Specialist",
+      "summary": "I build scalable frontend and full-stack systems with strong focus on clean architecture, performance, and production readiness.",
+      "image": "/assets/profile/last.png"
+    },
+    "ctas": {
+      "resumeUrl": "/assets/me/OTAR DAVITASHVILI.pdf",
+      "projectsRoute": "/projects",
+      "contactRoute": "/contact"
+    },
+    "skills": [],
+    "education": [],
+    "experience": [],
+    "certificates": [],
+    "projects": [],
+    "contact": {
+      "email": "otowork3@gmail.com",
+      "phone": "+995557282616",
+      "github": "https://github.com/WERSIT35",
+      "linkedin": "https://www.linkedin.com/in/otar-davitashvili/"
+    },
+    "meta": {
+      "updatedAt": "2026-03-15T19:42:38.620Z"
+    }
+  }
+}
