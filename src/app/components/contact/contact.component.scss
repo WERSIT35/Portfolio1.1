@@ -358,3 +358,172 @@ $bp-md: 980px;
     box-shadow: var(--contact-link-dark-hover-shadow) !important;
   }
 }
+
+/* Editorial contact overrides */
+.contact-page .contact-body { padding-bottom: 3rem; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+.contact-portrait {
+  margin: 0 0 1rem;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+  background: var(--paper-3);
+}
+.contact-portrait img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.04);
+  transition: filter 380ms ease;
+}
+.contact-portrait:hover img { filter: grayscale(0); }
+.contact-name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+.contact-role {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  margin-top: 0.3rem;
+}
+.contact-channels {
+  display: grid;
+  border-top: 1px solid var(--rule);
+}
+.contact-line {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  transition: color 220ms ease, padding-left 220ms ease, border-color 220ms ease;
+}
+.contact-line:hover {
+  color: var(--accent-primary);
+  padding-left: 0.4rem;
+  border-bottom-color: var(--accent-primary);
+}
+.cl-label {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+.cl-value {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.6vw, 1.32rem);
+  letter-spacing: -0.005em;
+}
+.contact-line i { color: inherit; font-size: 1.1rem; }
+
+.contact-cta { margin: 2rem 0 3rem; }
+
+.offers {
+  border-top: 1px solid var(--rule);
+  padding-top: 2.4rem;
+}
+.offers-head { margin-bottom: 1.4rem; }
+.offers-head .eyebrow { display: inline-block; margin-bottom: 0.4rem; }
+.offers-head h2 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  letter-spacing: -0.01em;
+}
+.offer-list { list-style: none; margin: 0; padding: 0; }
+.offer-row {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 1rem;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+.offer-row:last-child { border-bottom: 0; }
+.offer-icon {
+  font-size: 1.25rem;
+  color: var(--accent-primary);
+  margin-top: 0.15rem;
+}
+.offer-row h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.offer-row p {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+/* Availability strip + sitemap */
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+}
+.availability-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  font-weight: 600;
+}
+.availability .masthead-now-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #1f9d6f;
+  box-shadow: 0 0 0 3px rgba(31, 157, 111, 0.18);
+}
+
+.contact-sitemap {
+  margin-top: 3rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.contact-sitemap .cs-label { color: var(--ink-mute); }
+.contact-sitemap a {
+  color: var(--ink);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.contact-sitemap a:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
+
+/* Hide legacy offer styles (now removed from template) */
+.offers, .offer-list, .offer-row { display: none; }

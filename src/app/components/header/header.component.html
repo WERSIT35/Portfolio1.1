@@ -1,43 +1,33 @@
-<header class="site-header" [class.scrolled]="isScrolled">
-  <nav class="nav">
-    <ul class="nav-list">
-      <li>
-        <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-grid-1x2"></i>
-          <span>Home</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="projects" routerLinkActive="active">
-          <i class="bi bi-window-stack"></i>
-          <span>Projects</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="edu" routerLinkActive="active">
-          <i class="bi bi-mortarboard"></i>
-          <span>Education</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="contact" routerLinkActive="active">
-          <i class="bi bi-person-lines-fill"></i>
-          <span>Contact</span>
-        </a>
-      </li>
-    </ul>
+<header class="ed-header" [class.scrolled]="isScrolled">
+  <div class="ed-header-inner">
+    <a routerLink="" class="ed-wordmark">
+      <span class="ed-wordmark-name">Oto Davitashvili</span>
+      <span class="ed-wordmark-role">Full-stack engineer</span>
+    </a>
 
-    <div class="theme-switch" aria-label="Theme switcher">
+    <nav class="ed-nav" aria-label="Primary">
+      <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Index</a>
+      <a routerLink="projects" routerLinkActive="active">Work</a>
+      <a routerLink="allexp" routerLinkActive="active">Experience</a>
+      <a routerLink="alledu" routerLinkActive="active">Education</a>
+      <a routerLink="allcert" routerLinkActive="active">Certificates</a>
+      <a routerLink="contact" routerLinkActive="active">Contact</a>
+    </nav>
+
+    <div class="ed-theme" aria-label="Theme switcher">
       @for (option of themeOptions; track option) {
         <button
           type="button"
-          class="theme-btn"
+          class="ed-theme-btn"
           [class.active]="themeService.preference() === option"
           (click)="setTheme(option)"
+          [attr.aria-label]="'Set theme to ' + option"
         >
-          {{ option }}
+          @if (option === 'light') { <i class="bi bi-sun"></i> }
+          @else if (option === 'dark') { <i class="bi bi-moon"></i> }
+          @else { <i class="bi bi-circle-half"></i> }
         </button>
       }
     </div>
-  </nav>
+  </div>
 </header>

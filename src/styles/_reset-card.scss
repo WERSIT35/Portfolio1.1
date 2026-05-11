@@ -1,0 +1,118 @@
+/* Editorial reset — neutralize legacy glass/glow/blur on shared selectors */
+
+:where(
+  .eduCard,
+  .exCard,
+  .cert-card,
+  .project-card,
+  .offer-card,
+  .profile-block,
+  .contact-panel,
+  .contact-links a,
+  .skill-card,
+  .cta-card,
+  .suggestion-card,
+  .card,
+  .section-card,
+  .glass-surface,
+  .glass-button,
+  .hero-panel,
+  .detail-info,
+  .detail-media,
+  .detail-media-empty
+) {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Kill the global radial-glow hover ::after */
+:where(
+  .eduCard,
+  .exCard,
+  .cert-card,
+  .project-card,
+  .offer-card,
+  .profile-block,
+  .contact-panel,
+  .contact-links a,
+  .skill-card,
+  .cta-card,
+  .suggestion-card,
+  .card
+)::after {
+  content: none !important;
+  background: transparent !important;
+  filter: none !important;
+  opacity: 0 !important;
+}
+
+/* Hairline border replacement */
+.eduCard,
+.exCard,
+.cert-card,
+.project-card,
+.offer-card,
+.cta-card,
+.suggestion-card {
+  border: 1px solid var(--rule) !important;
+  padding: 1.1rem 1.15rem;
+  transition: border-color 220ms ease, transform 220ms ease, background 220ms ease;
+}
+
+.eduCard:hover,
+.exCard:hover,
+.cert-card:hover,
+.project-card:hover,
+.offer-card:hover,
+.cta-card:hover,
+.suggestion-card:hover {
+  border-color: var(--accent-primary) !important;
+  transform: translateY(-2px);
+  background: rgba(var(--accent-rgb), 0.04) !important;
+}
+
+/* Section header inherits editorial type */
+.section-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.section-header a p {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  padding: 0 0 2px;
+  color: var(--ink-soft);
+}
+.section-header a p:hover {
+  background: transparent;
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* Body padding-top from existing nav (kept 70px) */
+
+/* Body radial orbs — disable */
+body::before,
+body::after {
+  display: none !important;
+}
+
+/* Sharper focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent-primary) !important;
+  outline-offset: 2px;
+  border-radius: 0 !important;
+}

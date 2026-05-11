@@ -1,0 +1,19 @@
+<div class="wid-prose prose" [appReveal]="'up'">
+  <p class="dropcap">
+    I build full-stack systems where the frontend and the backend agree on contracts, the deploy
+    pipeline is honest, and the production failure modes are understood before launch.
+    Angular and TypeScript are home; FastAPI and Node carry the business logic; AWS and Docker
+    put it all where users can reach it.
+  </p>
+  <p>
+    I work best on products that have to keep working — not demos. The case studies below show
+    what that looks like in practice.
+  </p>
+
+  <p class="wid-now">
+    <span class="wid-now-label">Currently building with</span>
+    @for (s of currentStack; track s; let last = $last) {
+      <span class="ed-chip">{{ s }}</span>
+    }
+  </p>
+</div>

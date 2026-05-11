@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { ExperienceService } from '../../../services/experience.service';
 import { Experience } from '../../../interfaces/experience';
 import { BackComponent } from "../../back/back.component";
+import { CommonModule } from '@angular/common';
+import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
 
 @Component({
   selector: 'app-explist',
   standalone: true,
-  imports: [BackComponent],
+  imports: [BackComponent, CommonModule, RevealOnScrollDirective],
   templateUrl: './explist.component.html',
   styleUrl: './explist.component.scss'
 })

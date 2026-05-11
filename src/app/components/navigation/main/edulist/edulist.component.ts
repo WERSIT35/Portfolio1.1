@@ -4,11 +4,12 @@ import { EducationService } from '../../../../services/education.service';
 import { Education } from '../../../../interfaces/education';
 import { BackComponent } from "../../../back/back.component";
 import { CommonModule } from '@angular/common';
+import { RevealOnScrollDirective } from '../../../../directives/reveal-on-scroll.directive';
 
 @Component({
   selector: 'app-edulist',
   standalone: true,
-  imports: [BackComponent,RouterLink,CommonModule],
+  imports: [BackComponent, RouterLink, CommonModule, RevealOnScrollDirective],
   templateUrl: './edulist.component.html',
   styleUrl: './edulist.component.scss'
 })

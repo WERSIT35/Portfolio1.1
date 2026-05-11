@@ -1,32 +1,22 @@
-<section class="certificate">
-  <div class="page">
-    <header class="section-header">
-      <h1>certificate</h1>
-      <a routerLink="allcert">
-        <p>See all<i class="fa-solid fa-chevron-right"></i></p>
-      </a>
-    </header>
-    <section id="certificate" class="splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          @for (item of certificationList; track $index) {
-            <li class="splide__slide">
-              <a [routerLink]="['/cert', item.id]">
-                <div class="cert-card">
-                  <img [src]="item.image[0]" alt="" />
-                  <div class="cert-meta">
-                    <h2>{{ item.name }}</h2>
-                    <p>{{ item.imageName[0] }}</p>
-                    <p>{{ item.issuer }} | {{ item.issued }}</p>
-                    <p>Time spent: {{ item.timeSpent }}</p>
-                    <p class="desc">{{ item.description }}</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-          }
-        </ul>
-      </div>
-    </section>
+<section id="certificate" class="splide ed-splide">
+  <div class="splide__track">
+    <ul class="splide__list">
+      @for (item of certificationList; track $index) {
+        <li class="splide__slide">
+          <a [routerLink]="['/cert', item.id]" class="ed-slide-card">
+            <figure class="ed-slide-figure">
+              <img [src]="item.image[0]" [alt]="item.name" loading="lazy" />
+            </figure>
+            <div class="ed-slide-meta">
+              <span>{{ item.issuer }}</span>
+              <span>· {{ item.issued }}</span>
+            </div>
+            <h3 class="ed-slide-title">{{ item.name }}</h3>
+            <p class="ed-slide-sub">{{ item.imageName[0] }}</p>
+            <span class="ed-slide-cta">View certificate<i class="bi bi-arrow-right"></i></span>
+          </a>
+        </li>
+      }
+    </ul>
   </div>
 </section>

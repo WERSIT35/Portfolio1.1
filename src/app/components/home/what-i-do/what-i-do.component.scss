@@ -1,0 +1,26 @@
+.wid-prose { max-width: 720px; }
+.wid-prose p {
+  font-size: clamp(1.04rem, 1.5vw, 1.18rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.wid-prose p + p { margin-top: 0.95rem; }
+
+.wid-now {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.4rem !important;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.86rem !important;
+}
+.wid-now-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-right: 0.4rem;
+}

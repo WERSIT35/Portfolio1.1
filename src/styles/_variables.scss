@@ -88,6 +88,25 @@
   --contact-link-dark-hover-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 14px 26px rgba(2, 6, 23, 0.5);
   --profile-image-border: rgba(var(--brand-rgb), 0.35);
   --profile-image-shadow: 0 14px 24px rgba(23, 28, 35, 0.18);
+
+  /* Editorial tokens (light) */
+  --accent-primary: #1f3c88;
+  --accent-rgb: 31, 60, 136;
+  --accent-text: #1f3c88;
+  --accent-gradient: var(--accent-primary);
+  --accent-gradient-soft: rgba(31, 60, 136, 0.06);
+  --accent-glow: none;
+  --accent-ring: 0 0 0 3px rgba(31, 60, 136, 0.22);
+  --paper: #f4f1ec;
+  --paper-2: #efece6;
+  --paper-3: #e8e4dc;
+  --ink: #0e0f12;
+  --ink-soft: #2b2d33;
+  --ink-mute: #6b6e76;
+  --rule: rgba(14, 15, 18, 0.14);
+  --rule-strong: rgba(14, 15, 18, 0.28);
+  --font-serif: "Fraunces", "Space Grotesk", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 :root[data-theme-resolved="dark"] {
@@ -154,6 +173,23 @@
   --contact-link-dark-icon: var(--color-icon-accent);
   --contact-link-dark-hover-border: rgba(170, 175, 184, 0.56);
   --contact-link-dark-hover-bg: transparent;
+
+  /* Editorial tokens (dark) */
+  --accent-primary: #9eb3ff;
+  --accent-rgb: 158, 179, 255;
+  --accent-text: #9eb3ff;
+  --accent-gradient: var(--accent-primary);
+  --accent-gradient-soft: rgba(158, 179, 255, 0.10);
+  --accent-glow: none;
+  --accent-ring: 0 0 0 3px rgba(158, 179, 255, 0.28);
+  --paper: #0e0f12;
+  --paper-2: #131418;
+  --paper-3: #17181d;
+  --ink: #f1ede7;
+  --ink-soft: #d6d2cb;
+  --ink-mute: #9a9690;
+  --rule: rgba(241, 237, 231, 0.16);
+  --rule-strong: rgba(241, 237, 231, 0.32);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -196,5 +232,21 @@
     --contact-link-dark-icon: var(--color-icon-accent);
     --contact-link-dark-hover-border: rgba(170, 175, 184, 0.56);
     --contact-link-dark-hover-bg: transparent;
+
+    --accent-primary: #9eb3ff;
+    --accent-rgb: 158, 179, 255;
+    --accent-text: #9eb3ff;
+    --accent-gradient: var(--accent-primary);
+    --accent-gradient-soft: rgba(158, 179, 255, 0.10);
+    --accent-glow: none;
+    --accent-ring: 0 0 0 3px rgba(158, 179, 255, 0.28);
+    --paper: #0e0f12;
+    --paper-2: #131418;
+    --paper-3: #17181d;
+    --ink: #f1ede7;
+    --ink-soft: #d6d2cb;
+    --ink-mute: #9a9690;
+    --rule: rgba(241, 237, 231, 0.16);
+    --rule-strong: rgba(241, 237, 231, 0.32);
   }
 }

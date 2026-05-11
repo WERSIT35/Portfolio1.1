@@ -1,0 +1,23 @@
+<div class="sr-grid">
+  @for (cat of categories; track cat.label; let i = $index) {
+    <section class="sr-cat" [appReveal]="'up'" [revealDelay]="i * 80">
+      <header class="sr-cat-head">
+        <span class="sr-cat-num">0{{ i + 1 }}</span>
+        <h3 class="sr-cat-label">{{ cat.label }}</h3>
+      </header>
+      <ul class="sr-items">
+        @for (item of cat.items; track item.name) {
+          <li class="sr-item">
+            <i [class]="item.icon" [style.color]="item.color" aria-hidden="true"></i>
+            <span class="sr-item-name">{{ item.name }}</span>
+            <span class="sr-dots" [attr.aria-label]="item.rating + ' out of 5'">
+              @for (d of dots(item.rating); track $index) {
+                <span class="dot" [class.filled]="d === 1"></span>
+              }
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</div>

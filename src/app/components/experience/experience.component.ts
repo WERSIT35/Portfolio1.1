@@ -1,25 +1,25 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Experience } from '../../interfaces/experience';
 import { ExperienceService } from '../../services/experience.service';
 import Splide from '@splidejs/splide';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { editorialSplideOptions } from '../../shared/splide-config';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './experience.component.html',
   styleUrl: './experience.component.scss',
 })
-export class ExperienceComponent implements AfterViewInit, OnInit {
-  @Input() experience!: Experience;
-
+export class ExperienceComponent implements AfterViewInit, OnInit, OnDestroy {
   experienceList: Experience[] = [];
+  private slider?: Splide;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private experienceService: ExperienceService
+    private experienceService: ExperienceService,
   ) {}
 
   ngOnInit(): void {
@@ -27,39 +27,15 @@ export class ExperienceComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      new Splide('#experience', {
-        type: 'loop',
-        start: 1,
-        gap: '0.8rem',
-        pagination: false,
-        arrows: false,
-        drag: true,
-        width: '100%',
-        focus: 'center',
-        trimSpace: false,
-        perPage: 2,
-        padding: { left: '2%', right: '2%' },
-        mediaQuery: 'max',
-        breakpoints: {
-          1100: {
-            perPage: 1,
-            padding: { left: '4%', right: '4%' },
-          },
-          820: {
-            perPage: 1,
-            padding: { left: '3%', right: '3%' },
-          },
-          720: {
-            perPage: 1,
-            padding: { left: '6%', right: '6%' },
-          },
-          480: {
-            padding: { left: '0', right: '0' },
-          },
-        }
-      }).mount();
-    }
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.experienceList.length === 0) return;
+    const opts = editorialSplideOptions(2, { loop: this.experienceList.length > 2 });
+    opts.arrows = false;
+    this.slider = new Splide('#experience', opts).mount();
   }
 
+  ngOnDestroy(): void { this.slider?.destroy(true); }
+
+  prev(): void { this.slider?.go('<'); }
+  next(): void { this.slider?.go('>'); }
 }

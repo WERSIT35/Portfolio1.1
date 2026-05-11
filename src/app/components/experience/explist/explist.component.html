@@ -1,30 +1,41 @@
 <app-back></app-back>
-<main class="exp-detail page">
-  <article class="exCard">
-    <div class="exTitle">
-      <div class="subTitle">
-        <h2>{{ exp?.name }}</h2>
-        <i class="fa-solid fa-ellipsis"></i>
-      </div>
-    </div>
-    <div class="exInfo">
-      <div class="subname">
-        <h2>{{ exp?.subname }}:</h2>
-        <div class="subnameTxt">
+<main class="exp-detail">
+  <header class="title page" [appReveal]="'up'">
+    <span class="eyebrow">Experience</span>
+    <h1>{{ exp?.name }}</h1>
+    <p class="prose">{{ exp?.subname }} · {{ exp?.date }}</p>
+  </header>
+
+  <section class="page detail-body">
+    @if (exp?.subnameText?.length) {
+      <section id="ch-stack" class="case-chapter" [appReveal]="'up'">
+        <header class="case-chapter-head">
+          <span class="chapter-num">01 — {{ exp?.subname }}</span>
+          <h2 class="chapter-title">Tools &amp; stack</h2>
+        </header>
+        <div class="ex-tag-row">
           @for (tool of exp?.subnameText; track $index) {
-            <p>{{ tool }}</p>
+            <span class="ed-chip">{{ tool }}</span>
           }
         </div>
-      </div>
-      <div class="subname1">
-        <h2>{{ exp?.subname1 }}:</h2>
-        <div class="subnameTxt1">
-          @for (resp of exp?.subname1Text; track $index) {
-            <p>{{ resp }}</p>
+      </section>
+    }
+
+    @if (exp?.subname1Text?.length) {
+      <section id="ch-resp" class="case-chapter" [appReveal]="'up'">
+        <header class="case-chapter-head">
+          <span class="chapter-num">02 — {{ exp?.subname1 }}</span>
+          <h2 class="chapter-title">What I did</h2>
+        </header>
+        <ol class="case-approach">
+          @for (resp of exp?.subname1Text; track $index; let i = $index) {
+            <li>
+              <span class="case-approach-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+              <span class="case-approach-text">{{ resp }}</span>
+            </li>
           }
-        </div>
-      </div>
-      <p class="date">{{ exp?.date }}</p>
-    </div>
-  </article>
+        </ol>
+      </section>
+    }
+  </section>
 </main>

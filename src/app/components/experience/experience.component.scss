@@ -1,186 +1,22 @@
-.experience {
-  padding: clamp(0.8rem, 2.6vw, 1.3rem) 0;
+:host { display: block; }
 
-  .page {
-    display: grid;
-    gap: clamp(0.55rem, 1.5vw, 0.9rem);
-  }
-
-  .splide {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .splide::before,
-  .splide::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: clamp(20px, 4vw, 52px);
-    z-index: 2;
-    pointer-events: none;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-
-  .splide::before {
-    left: 0;
-    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  }
-
-  .splide::after {
-    right: 0;
-    mask-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-    -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  }
-
-  .splide__track {
-    overflow: visible;
-  }
-
-  .splide__list {
-    align-items: stretch;
-  }
-
-  .splide__slide {
-    padding-bottom: 0.4rem;
-    height: auto;
-  }
-
-  .exLink {
-    display: block;
-    height: 100%;
-    color: inherit;
-  }
-
-  .exCard {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(246, 246, 247, 0.86));
-    border: 1px solid rgba(var(--brand-rgb), 0.26);
-    border-radius: 22px;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 30px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
-    position: relative;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .exCard::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 95% 8%, rgba(170, 175, 184, 0.2), transparent 38%),
-      radial-gradient(circle at 6% 94%, rgba(143, 149, 158, 0.16), transparent 42%);
-    pointer-events: none;
-    opacity: 0.86;
-  }
-
-  .exTop {
-    min-height: 74px;
-    display: grid;
-    align-items: center;
-    background: linear-gradient(100deg, rgba(170, 175, 184, 0.28), rgba(143, 149, 158, 0.18));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 0.74rem var(--space-3);
-    position: relative;
-    z-index: 1;
-  }
-
-  .exTitleRow {
-    display: grid;
-    gap: 0.24rem;
-  }
-
-  .exOrg {
-    color: var(--color-ink);
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.15;
-  }
-
-  .exDate {
-    font-size: 0.76rem;
-    color: var(--color-subtle);
-    font-weight: 600;
-  }
-
-  .exInfo {
-    display: grid;
-    gap: 0.48rem;
-    padding: var(--space-3);
-    align-content: start;
-    position: relative;
-    z-index: 1;
-  }
-
-  .exInfo h2 {
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--color-subtle);
-    text-transform: uppercase;
-    letter-spacing: 0.14px;
-  }
-
-  .exInfo h3 {
-    margin-top: 0.2rem;
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--color-subtle);
-    text-transform: uppercase;
-    letter-spacing: 0.14px;
-  }
-
-  .subnameTxt,
-  .subnameTxt1 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.36rem;
-    color: var(--color-subtle);
-    font-size: 0.8rem;
-  }
-
-  .subnameTxt p,
-  .subnameTxt1 p {
-    padding: 0.25rem 0.52rem;
-    border-radius: 12px;
-    border: 1px solid rgba(var(--brand-rgb), 0.2);
-    background: rgba(255, 255, 255, 0.2);
-    line-height: 1.2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-  }
-
-  .subnameTxt p:nth-child(n + 5),
-  .subnameTxt1 p:nth-child(n + 5) {
-    display: none;
-  }
-
-  .exAction {
-    margin-top: 0.34rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(var(--brand-rgb), 0.14);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--color-ink);
-    font-weight: 500;
-  }
+.ex-resp {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
 }
-
-
-
-
-
-
+.ex-resp li {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  padding-left: 0.85rem;
+  position: relative;
+  line-height: 1.45;
+}
+.ex-resp li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--ink-mute);
+}

@@ -4,12 +4,16 @@ import { Projects } from '../../../interfaces/projects';
 import { ProjectsService } from '../../../services/projects.service';
 import { BackComponent } from '../../back/back.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Splide from '@splidejs/splide';
+import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
+import { RouterLink } from '@angular/router';
+import { editorialSplideOptions } from '../../../shared/splide-config';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [BackComponent, CommonModule],
+  imports: [BackComponent, CommonModule, RevealOnScrollDirective, RouterLink],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss',
 })
@@ -19,11 +23,46 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   private projectIndex = 0;
 
   project: Projects | undefined;
+  related: { project: Projects; index: number }[] = [];
   viewMode: 'web' | 'mobile' = 'web';
   private slider?: Splide;
   previewImage: string | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  /** chapter id → label for the anchor strip */
+  get availableChapters(): { id: string; label: string }[] {
+    if (!this.project) return [];
+    const out: { id: string; label: string }[] = [];
+    if (this.project.problem) out.push({ id: 'ch-problem', label: '01 Problem' });
+    if (this.project.approach?.length) out.push({ id: 'ch-approach', label: '02 Approach' });
+    if (this.hasMedia(this.project)) out.push({ id: 'ch-shots', label: '03 Screenshots' });
+    if (this.safeDemoUrl) out.push({ id: 'ch-demo', label: '04 Live demo' });
+    out.push({ id: 'ch-detail', label: '05 Detail' });
+    if (this.project.metrics?.length) out.push({ id: 'ch-results', label: '06 Results' });
+    if (this.project.lessons) out.push({ id: 'ch-lessons', label: '07 Lessons' });
+    out.push({ id: 'ch-links', label: '08 Links' });
+    return out;
+  }
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private sanitizer: DomSanitizer,
+  ) {}
+
+  get safeDemoUrl(): SafeResourceUrl | null {
+    const url = this.project?.demoEmbedUrl;
+    if (!url) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  statusLabel(): string {
+    switch (this.project?.status) {
+      case 'live': return 'Live';
+      case 'in-production': return 'In production';
+      case 'archived': return 'Archived';
+      case 'private': return 'Private';
+      default: return '';
+    }
+  }
 
   ngOnInit(): void {
     this.projectIndex = Number(this.route.snapshot.params['id']);
@@ -31,6 +70,12 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
     if (this.project && !this.hasSplitMedia(this.project)) {
       this.viewMode = 'web';
     }
+
+    const all = this.projectsService.getProjects();
+    this.related = all
+      .map((project, index) => ({ project, index }))
+      .filter((e) => e.index !== this.projectIndex && !e.project.projName.startsWith('TODO'))
+      .slice(0, 2);
   }
 
   ngAfterViewInit(): void {
@@ -42,14 +87,15 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
     if (this.slider) {
       this.slider.destroy(true);
     }
-    this.slider = new Splide('#projectDetailAll', {
-      type: 'slide',
-      pagination: false,
-      arrows: true,
-      drag: true,
-      gap: '0.7rem',
-    }).mount();
+    const opts = editorialSplideOptions(1);
+    opts.arrows = false;
+    opts.pagination = true;
+    opts.padding = { left: '0', right: '0' };
+    this.slider = new Splide('#projectDetailAll', opts).mount();
   }
+
+  shotsPrev(): void { this.slider?.go('<'); }
+  shotsNext(): void { this.slider?.go('>'); }
 
   getWebImages(project: Projects): string[] {
     const web = project.img.filter((image) => /web/i.test(image));

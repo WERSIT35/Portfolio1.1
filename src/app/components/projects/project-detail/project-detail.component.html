@@ -1,49 +1,205 @@
 <app-back></app-back>
 
 <main class="project-detail page" *ngIf="project as item">
-  <header class="detail-head">
-    <h1>{{ item.projName }}</h1>
-    <p>{{ item.subname }}</p>
+
+  <!-- 00 — Case Study Masthead -->
+  <header class="case-mast" [appReveal]="'up'">
+    <div class="case-mast-meta">
+      <span class="eyebrow">Case study</span>
+      @if (item.year) { <span class="case-mast-year">· {{ item.year }}</span> }
+      @if (item.role) { <span class="case-mast-role">· {{ item.role }}</span> }
+    </div>
+    <h1 class="case-mast-title">{{ item.projName }}</h1>
+    <p class="case-mast-sub">{{ item.subname }}</p>
+
+    <div class="case-mast-line">
+      @if (item.status) {
+        <span class="ed-status" [ngClass]="item.status">{{ statusLabel() }}</span>
+      }
+      @if (item.stack && item.stack.length > 0) {
+        <span class="case-mast-stack">
+          @for (s of item.stack; track s) { <span class="ed-chip">{{ s }}</span> }
+        </span>
+      }
+    </div>
   </header>
 
-  <section *ngIf="hasMedia(item); else detailMediaFallback" id="projectDetailAll" class="splide detail-media" [class.mobile-view]="viewMode === 'mobile'">
-    <button type="button" class="view-toggle media-toggle" *ngIf="hasSplitMedia(item)" (click)="toggleView()">
-      <i class="bi" [ngClass]="viewMode === 'web' ? 'bi-phone' : 'bi-display'"></i>
-      <span>{{ viewMode === 'web' ? 'Switch To Mobile' : 'Switch To Web' }}</span>
-    </button>
-    <div class="splide__track">
-      <ul class="splide__list">
-        <li *ngFor="let img of currentImages" class="splide__slide">
-          <img [src]="img" alt="" (click)="openPreview(img)">
-        </li>
-      </ul>
-    </div>
-  </section>
-  <ng-template #detailMediaFallback>
-    <section class="detail-media-empty">
-      <p>Project media will be added soon</p>
-    </section>
-  </ng-template>
+  <!-- Sticky chapter anchor strip -->
+  <nav class="case-anchors" aria-label="Case study sections">
+    @for (a of availableChapters; track a.id) {
+      <a [href]="'#' + a.id">{{ a.label }}</a>
+    }
+  </nav>
 
-  <section class="detail-info">
-    <p><strong>Stack:</strong> {{ item.duration }}</p>
-    <p><strong>Period:</strong> {{ item.date }}</p>
-    <p><strong>Pages:</strong> {{ item.numOfPage }}</p>
-    <p>{{ item.about }}</p>
-    <ul class="detail-highlights" *ngIf="item.highlights?.length">
+  <!-- 01 — The Problem -->
+  @if (item.problem) {
+    <section id="ch-problem" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">01 — Problem</span>
+        <h2 class="chapter-title">What needed solving</h2>
+      </header>
+      <p class="case-body">{{ item.problem }}</p>
+    </section>
+  }
+
+  <!-- 02 — My Approach -->
+  @if (item.approach && item.approach.length > 0) {
+    <section id="ch-approach" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">02 — Approach</span>
+        <h2 class="chapter-title">How I built it</h2>
+      </header>
+      <ol class="case-approach">
+        @for (a of item.approach; track a; let i = $index) {
+          <li>
+            <span class="case-approach-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <span class="case-approach-text">{{ a }}</span>
+          </li>
+        }
+      </ol>
+    </section>
+  }
+
+  <!-- 03 — Screenshots -->
+  @if (hasMedia(item)) {
+    <section id="ch-shots" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">03 — Screenshots</span>
+        <h2 class="chapter-title">What it looks like</h2>
+        <span class="chapter-spacer"></span>
+        <button *ngIf="hasSplitMedia(item)" type="button" class="case-toggle" (click)="toggleView()">
+          <i class="bi" [ngClass]="viewMode === 'web' ? 'bi-phone' : 'bi-display'"></i>
+          <span>{{ viewMode === 'web' ? 'Mobile' : 'Web' }}</span>
+        </button>
+        <span class="chapter-action-slot">
+          <button type="button" class="ed-arrow" (click)="shotsPrev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+          <button type="button" class="ed-arrow" (click)="shotsNext()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+        </span>
+      </header>
+      <div id="projectDetailAll" class="splide ed-splide shots has-pagination" [class.mobile-view]="viewMode === 'mobile'">
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li *ngFor="let img of currentImages" class="splide__slide">
+              <img [src]="img" alt="" (click)="openPreview(img)">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- 04 — Live demo (optional) -->
+  @if (safeDemoUrl) {
+    <section id="ch-demo" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">04 — Live demo</span>
+        <h2 class="chapter-title">Try it yourself</h2>
+      </header>
+      <div class="case-demo">
+        <iframe
+          [src]="safeDemoUrl"
+          title="Live demo"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        ></iframe>
+      </div>
+      <p class="case-demo-hint">If the embed is blocked by the host, use the live link below.</p>
+    </section>
+  }
+
+  <!-- 05 — Detail -->
+  <section id="ch-detail" class="case-chapter" [appReveal]="'up'">
+    <header class="case-chapter-head">
+      <span class="chapter-num">05 — Detail</span>
+      <h2 class="chapter-title">The longer version</h2>
+    </header>
+    <dl class="case-facts">
+      <div><dt>Stack</dt><dd>{{ item.duration }}</dd></div>
+      <div><dt>Period</dt><dd>{{ item.date }}</dd></div>
+      @if (item.numOfPage > 0) { <div><dt>Pages</dt><dd>{{ item.numOfPage }}</dd></div> }
+    </dl>
+    <p class="case-body">{{ item.about }}</p>
+    <ul class="case-highlights" *ngIf="item.highlights?.length">
       <li *ngFor="let point of item.highlights">{{ point }}</li>
     </ul>
-    <div class="detail-actions">
-      <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
-        <span>Open Live Site</span>
+  </section>
+
+  <!-- 06 — Results -->
+  @if (item.metrics && item.metrics.length > 0) {
+    <section id="ch-results" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">06 — Results</span>
+        <h2 class="chapter-title">What it shipped</h2>
+      </header>
+      <div class="case-metrics">
+        @for (m of item.metrics; track m.label) {
+          <div class="case-metric">
+            <strong>{{ m.value }}</strong>
+            <span>{{ m.label }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- 07 — Lessons -->
+  @if (item.lessons) {
+    <section id="ch-lessons" class="case-chapter" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">07 — Lessons</span>
+        <h2 class="chapter-title">What I'd do differently</h2>
+      </header>
+      <blockquote class="ed-quote case-lessons-quote">{{ item.lessons }}</blockquote>
+    </section>
+  }
+
+  <!-- 08 — Links -->
+  <section id="ch-links" class="case-chapter case-links" [appReveal]="'up'">
+    <header class="case-chapter-head">
+      <span class="chapter-num">08 — Links</span>
+      <h2 class="chapter-title">Open the work</h2>
+    </header>
+    <div class="case-link-row">
+      <a *ngIf="item.iflink && item.link" class="ed-btn" [href]="item.link" target="_blank" rel="noopener noreferrer">
         <i class="bi bi-arrow-up-right"></i>
+        Open live site
       </a>
-      <a class="visit github-link" [href]="item.github" target="_blank" rel="noopener noreferrer">
+      <a *ngIf="item.github" class="ed-btn ed-btn--ghost" [href]="item.github" target="_blank" rel="noopener noreferrer">
         <i class="bi bi-github"></i>
-        <span>GitHub</span>
+        GitHub repo
       </a>
     </div>
   </section>
+
+  <!-- Other case studies -->
+  @if (related.length > 0) {
+    <section class="case-related" [appReveal]="'up'">
+      <header class="case-related-head">
+        <span class="proj-section-label">Other case studies</span>
+      </header>
+      <div class="case-related-grid">
+        @for (r of related; track r.index) {
+          <a [routerLink]="['/projects', r.index]" class="case-related-card">
+            <figure class="case-related-figure">
+              @if (r.project.img && r.project.img.length > 0) {
+                <img [src]="r.project.img[0]" [alt]="r.project.projName" loading="lazy" />
+              } @else {
+                <div class="case-related-empty"><i class="bi bi-code-slash"></i></div>
+              }
+            </figure>
+            <div class="case-related-meta">
+              @if (r.project.year) { <span>{{ r.project.year }}</span> }
+              @if (r.project.role) { <span>· {{ r.project.role }}</span> }
+            </div>
+            <h3 class="case-related-title">{{ r.project.projName }}</h3>
+            <span class="ed-link">Read case study<i class="bi bi-arrow-right"></i></span>
+          </a>
+        }
+      </div>
+    </section>
+  }
+
 </main>
 
 <div class="image-preview" *ngIf="previewImage" (click)="closePreview()">

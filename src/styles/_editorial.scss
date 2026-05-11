@@ -1,0 +1,324 @@
+/* Editorial Magazine — global type, rhythm, and utility classes */
+
+html {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+body {
+  background:
+    radial-gradient(circle at 92% 6%, rgba(var(--accent-rgb), 0.05) 0%, transparent 38%),
+    linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%) !important;
+  background-attachment: fixed !important;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* Serif display for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.08;
+}
+
+p { color: var(--ink-soft); }
+
+a { color: inherit; }
+
+::selection {
+  background: var(--accent-primary);
+  color: var(--paper);
+}
+
+/* Page width */
+.page {
+  width: min(94vw, 1100px);
+  margin: 0 auto;
+}
+
+.prose {
+  max-width: 720px;
+}
+
+/* Chapter shell */
+.chapter {
+  padding: clamp(3rem, 7vw, 6rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.chapter:last-child {
+  border-bottom: 0;
+}
+
+.chapter-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 1.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.chapter-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1.05;
+  flex: 1;
+}
+
+.chapter-spacer { flex: 1; }
+
+.chapter-action {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 2px;
+  transition: color 200ms ease, border-color 200ms ease;
+  white-space: nowrap;
+}
+.chapter-action:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* Custom Splide arrow buttons mounted in chapter header */
+.ed-arrow {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+  font-size: 0.95rem;
+}
+.ed-arrow:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.ed-arrow:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+.ed-arrow + .ed-arrow { margin-left: 2px; }
+
+@media (max-width: 560px) {
+  .chapter-header { flex-wrap: wrap; }
+}
+
+/* Editorial primitives */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.rule { height: 1px; background: var(--rule); border: 0; margin: 0; }
+.rule-strong { height: 1px; background: var(--rule-strong); border: 0; margin: 0; }
+
+/* Editorial link with animated underline */
+.ed-link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.ed-link:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  transform: translateX(2px);
+}
+
+/* Editorial accent button */
+.ed-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.78rem 1.3rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 220ms ease, color 220ms ease, transform 200ms ease;
+}
+.ed-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+.ed-btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.ed-btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* Status bullet — flat editorial tag */
+.ed-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.ed-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--ink-mute);
+  flex-shrink: 0;
+}
+.ed-status.live::before { background: #1f9d6f; }
+.ed-status.in-production::before { background: var(--accent-primary); }
+.ed-status.archived::before { background: var(--ink-mute); }
+.ed-status.private::before { background: #c89a2a; }
+
+/* Editorial chip (stack labels, skills) */
+.ed-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.62rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  border-radius: 999px;
+}
+.ed-chip.solid {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* Hero name scale */
+.hero-name {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.hero-roleline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  color: var(--ink-soft);
+  max-width: 640px;
+}
+
+/* Imagery treatment */
+.ed-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+/* Pull-quote / lessons */
+.ed-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.8vw, 1.32rem);
+  line-height: 1.45;
+  color: var(--ink);
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent-primary);
+}
+
+/* Drop-cap helper for prose intros */
+.dropcap::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.85;
+  padding: 0.08em 0.16em 0 0;
+  color: var(--accent-primary);
+}
+
+/* Shared list-page header style */
+main > .title.page {
+  padding: clamp(2rem, 5vw, 3.6rem) 0 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: clamp(1.4rem, 3vw, 2.4rem);
+  display: grid;
+  gap: 0.7rem;
+}
+main > .title.page h1 {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--ink);
+}
+main > .title.page .eyebrow {
+  display: inline-block;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule-strong);
+  width: max-content;
+}
+main > .title.page .prose {
+  color: var(--ink-soft);
+  font-size: 1.04rem;
+  margin: 0;
+  max-width: 720px;
+}
+
+/* Removes blur/glass backdrop tokens for any element that still uses them */
+.ed-flat {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}

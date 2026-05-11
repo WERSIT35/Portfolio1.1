@@ -1,44 +1,58 @@
 <app-back></app-back>
-<main class="edu-detail page">
-  <article class="eduCard">
-    <header class="eduHeader">
-      <img [src]="edu?.img" alt="" />
-      <div class="eduHeading">
-        <h2>{{ edu?.name }}</h2>
-        <p class="date">{{ edu?.date }}</p>
-      </div>
-    </header>
-    <section class="eduBody">
-      <h3>{{ edu?.title }}</h3>
-      <h4>{{ edu?.degree }}</h4>
-      <div class="eduSection">
-        <p>Description: </p>
-        <div class="description" [innerHTML]="edu?.description"></div>
-      </div>
-      <div class="eduSection">
-        <p>Subjects:</p>
-        <ul class="eduSubInfo">
-          @for (subject of edu?.subjects; track $index) {
-            <li>{{ subject }}</li>
-          }
-        </ul>
-      </div>
-    </section>
-  </article>
+<main class="edu-detail">
+  <header class="title page" [appReveal]="'up'">
+    <span class="eyebrow">Education · {{ edu?.title }}</span>
+    <h1>{{ edu?.name }}</h1>
+    <p class="prose">{{ edu?.degree }} · {{ edu?.date }}</p>
+  </header>
 
-  <aside class="suggestions">
-    <h3>Suggestions</h3>
-    @for (suggestion of suggestions; track $index) {
-      <a [routerLink]="['/edu/edulist', suggestion.id]">
-        <div class="suggestion-card">
-          <img [src]="suggestion.img" alt="">
-          <div>
-            <h4>{{ suggestion.name }}</h4>
-            <p>{{ suggestion.title }} - {{ suggestion.degree }}</p>
-            <p>{{ suggestion.date }}</p>
-          </div>
-        </div>
-      </a>
-    }
-  </aside>
+  <section class="page detail-body">
+    <div class="detail-grid">
+      <div class="detail-main">
+        <section id="ch-program" class="case-chapter" [appReveal]="'up'">
+          <header class="case-chapter-head">
+            <span class="chapter-num">01 — Program</span>
+            <h2 class="chapter-title">What it covered</h2>
+          </header>
+          <div class="case-body" [innerHTML]="edu?.description"></div>
+        </section>
+
+        @if (edu?.subjects?.length) {
+          <section id="ch-subjects" class="case-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">02 — Subjects</span>
+              <h2 class="chapter-title">Core curriculum</h2>
+            </header>
+            <ul class="ed-subjects">
+              @for (subject of edu?.subjects; track $index) {
+                <li><span class="ed-chip">{{ subject }}</span></li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+
+      @if (suggestions?.length) {
+        <aside class="detail-aside">
+          <span class="proj-section-label">Other programs</span>
+          <ul class="related-list">
+            @for (suggestion of suggestions; track $index) {
+              <li>
+                <a [routerLink]="['/edu/edulist', suggestion.id]" class="related-row">
+                  <figure class="related-logo">
+                    <img [src]="suggestion.img" alt="" />
+                  </figure>
+                  <div>
+                    <h4>{{ suggestion.name }}</h4>
+                    <p>{{ suggestion.title }} · {{ suggestion.date }}</p>
+                  </div>
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </li>
+            }
+          </ul>
+        </aside>
+      }
+    </div>
+  </section>
 </main>

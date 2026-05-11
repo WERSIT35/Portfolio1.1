@@ -1,64 +1,81 @@
 <app-back></app-back>
 <main class="projects-page">
   <header class="title page">
-    <h1>Portfolio | Projects</h1>
+    <span class="eyebrow">Index · Work</span>
+    <h1>Selected projects.</h1>
+    <p class="prose">
+      Production builds, client deliveries, and platform work. Open any project for the full
+      case study — problem, approach, screenshots, metrics, and what I'd do differently.
+    </p>
   </header>
-  <section class="projsec page">
-    <article *ngFor="let item of projectsList; let index = index" class="project-card">
-      <section *ngIf="hasMedia(item); else mediaFallback" [id]="'projects' + index" class="splide project-media project-slider" [class.mobile-media]="isProjectMobile(index)">
-        <button type="button" class="view-toggle media-toggle" *ngIf="hasSplitMedia(item)" (click)="toggleProjectView(index)">
-          <i class="bi" [ngClass]="isProjectMobile(index) ? 'bi-display' : 'bi-phone'"></i>
-          <span>{{ isProjectMobile(index) ? 'Switch To Web' : 'Switch To Mobile' }}</span>
-        </button>
-        <div class="splide__track">
-          <ul class="splide__list">
-            <li *ngFor="let img of getVisibleImages(item, index)" class="splide__slide">
-              <img [src]="img" alt="" (click)="openPreview(img)">
-            </li>
-          </ul>
+
+  <section class="page projects-body">
+    @if (lead) {
+      <section class="proj-lead-wrap">
+        <span class="proj-section-label">Featured</span>
+        <a [routerLink]="['/projects', lead.index]" class="proj-lead">
+          <figure class="proj-lead-figure">
+            @if (lead.project.img && lead.project.img.length > 0) {
+              <img [src]="lead.project.img[0]" [alt]="lead.project.projName" />
+            } @else {
+              <div class="proj-lead-empty"><i class="bi bi-code-slash"></i></div>
+            }
+          </figure>
+          <div class="proj-lead-body">
+            <div class="proj-lead-meta">
+              @if (lead.project.status) {
+                <span class="ed-status" [ngClass]="lead.project.status">{{ statusLabel(lead.project) }}</span>
+              }
+              @if (lead.project.year) { <span>· {{ lead.project.year }}</span> }
+              @if (lead.project.role) { <span>· {{ lead.project.role }}</span> }
+            </div>
+            <h2 class="proj-lead-title">{{ lead.project.projName }}</h2>
+            <p class="proj-lead-sub">{{ lead.project.subname }}</p>
+            @if (lead.project.problem) {
+              <p class="proj-lead-problem">{{ lead.project.problem }}</p>
+            }
+            @if (lead.project.stack && lead.project.stack.length > 0) {
+              <div class="proj-lead-stack">
+                @for (s of lead.project.stack; track s) {
+                  <span class="ed-chip">{{ s }}</span>
+                }
+              </div>
+            }
+            <span class="ed-link proj-lead-cta">Read full case study<i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      </section>
+    }
+
+    @if (archive.length > 0) {
+      <section class="proj-archive-wrap">
+        <header class="proj-archive-head">
+          <span class="proj-section-label">All work</span>
+          <span class="proj-archive-count">{{ archive.length }} {{ archive.length === 1 ? 'project' : 'projects' }}</span>
+        </header>
+        <div class="proj-archive-grid">
+          @for (item of archive; track item.index) {
+            <a [routerLink]="['/projects', item.index]" class="proj-archive-card">
+              <figure class="proj-archive-figure">
+                @if (item.project.img && item.project.img.length > 0) {
+                  <img [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
+                } @else {
+                  <div class="proj-archive-empty"><i class="bi bi-code-slash"></i></div>
+                }
+              </figure>
+              <div class="proj-archive-meta">
+                @if (item.project.status) {
+                  <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
+                }
+                @if (item.project.year) { <span>· {{ item.project.year }}</span> }
+              </div>
+              <h3 class="proj-archive-title">{{ item.project.projName }}</h3>
+              <p class="proj-archive-sub">{{ item.project.subname }}</p>
+              <span class="ed-link proj-archive-cta">Open case study<i class="bi bi-arrow-right"></i></span>
+            </a>
+          }
         </div>
       </section>
-      <ng-template #mediaFallback>
-        <section class="project-media project-media-empty">
-          <p>Project media will be added soon</p>
-        </section>
-      </ng-template>
-
-      <div class="projInfo">
-        <div class="subinfo">
-          <div class="topline">
-            <h2>{{item.projName}}</h2>
-          </div>
-          <div class="meta">
-            <p>{{item.subname}}</p>
-            <p>{{item.duration}}</p>
-            <p>{{item.date}}</p>
-            <p>{{item.numOfPage}} pages</p>
-          </div>
-          <p class="about">{{item.about}}</p>
-          <ul class="highlights" *ngIf="item.highlights?.length">
-            <li *ngFor="let point of item.highlights | slice:0:3">{{ point }}</li>
-          </ul>
-          <a class="details-toggle" [routerLink]="['/projects', index]">Open Detailed Info</a>
-          <div class="project-actions">
-            <a class="visit" [href]="item.link" target="_blank" rel="noopener noreferrer">
-              <span>Open Live Site</span>
-              <i class="bi bi-arrow-up-right"></i>
-            </a>
-            <a class="visit github-link" [href]="item.github" target="_blank" rel="noopener noreferrer">
-              <i class="bi bi-github"></i>
-              <span>GitHub</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </article>
+    }
   </section>
 </main>
-
-<div class="image-preview" *ngIf="previewImage" (click)="closePreview()">
-  <button type="button" class="preview-close" (click)="closePreview(); $event.stopPropagation()" aria-label="Close image">
-    <i class="bi bi-x-lg"></i>
-  </button>
-  <img [src]="previewImage" alt="" (click)="$event.stopPropagation()">
-</div>

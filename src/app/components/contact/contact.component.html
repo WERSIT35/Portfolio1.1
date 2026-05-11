@@ -1,69 +1,68 @@
+<app-back></app-back>
 <main class="contact-page">
-  <section class="contact-hero">
-    <div class="page contact-grid">
-      <article class="profile-block">
-        <p class="eyebrow">Available for freelance and full-time roles</p>
-        <div class="profile-top">
-          <div class="image">
-            <img src="/assets/profile/ProfilePic.jpeg" alt="otar davitashvili" class="profile-pic">
-          </div>
-          <div class="identity">
-            <h1 class="name">otar davitashvili</h1>
-            <p class="title">Product-Focused Full-Stack Engineer</p>
-            <p class="focus">Angular, React, Node.js, Architecture</p>
-          </div>
-        </div>
+  <header class="title page">
+    <span class="eyebrow">Contact</span>
+    <h1>Let&apos;s talk.</h1>
+    <p class="prose">
+      Open to full-stack roles, contracts, and product work where the engineering has to hold up.
+      Email is fastest. Happy to walk through a case study live or pair on a code sample.
+    </p>
+  </header>
 
-        <div class="text">
-          <p class="summary">
-            I help teams ship polished web products that are fast, maintainable, and built for real users, not just demos.
-          </p>
-          <p class="summary alt">
-            If you need someone who can design clean frontend architecture, deliver features quickly, and stabilize production, I can take ownership.
-          </p>
-        </div>
-      </article>
+  <section class="page contact-body">
+    <p class="availability">
+      <span class="masthead-now-dot"></span>
+      <span class="availability-label">Available</span>
+      <span>Open to roles · Replies within 24h · Based in Tbilisi (UTC+4)</span>
+    </p>
 
-      <aside class="contact-panel">
-        <h2>Let&apos;s Build Something Serious</h2>
-        <p class="panel-subtitle">Best for startup MVPs, dashboard products, and frontend modernization.</p>
-        <div class="contact-links">
-          <a href="mailto:otowork3@gmail.com" target="_blank" class="email">
-            <i class="bi bi-envelope-fill"></i> <span>Email Me</span>
-          </a>
-          <a href="tel:+995557282616" class="phone">
-            <i class="bi bi-telephone-fill"></i> <span>Call Me</span>
-          </a>
-          <a href="/" class="portfolio">
-            <i class="bi bi-globe2"></i> <span>Portfolio</span>
-          </a>
-          <a href="https://github.com/WERSIT35" target="_blank" class="github">
-            <i class="bi bi-github"></i> <span>GitHub</span>
-          </a>
-          <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" class="linkedin">
-            <i class="bi bi-linkedin"></i> <span>LinkedIn</span>
-          </a>
+    <div class="contact-grid">
+      <div class="contact-side">
+        <figure class="contact-portrait">
+          <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
+        </figure>
+        <div class="contact-identity">
+          <p class="contact-name">Otar Davitashvili</p>
+          <p class="contact-role">Full-stack engineer · Angular · FastAPI · AWS</p>
         </div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="offers">
-    <div class="page">
-      <div class="offers-head">
-        <h2>What I Can Offer You</h2>
-        <p>End-to-end engineering support with product-focused execution.</p>
       </div>
 
-      <div class="offer-grid">
-        <article class="offer-card" *ngFor="let offer of offers">
-          <i [class]="offer.icon"></i>
-          <h3>{{ offer.title }}</h3>
-          <p>{{ offer.detail }}</p>
-        </article>
+      <div class="contact-channels">
+        <a class="contact-line" href="mailto:otowork3@gmail.com">
+          <span class="cl-label">Email</span>
+          <span class="cl-value">otowork3&#64;gmail.com</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+        <a class="contact-line" href="tel:+995557282616">
+          <span class="cl-label">Phone</span>
+          <span class="cl-value">+995 557 28 26 16</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+        <a class="contact-line" href="https://github.com/WERSIT35" target="_blank" rel="noopener">
+          <span class="cl-label">GitHub</span>
+          <span class="cl-value">github.com/WERSIT35</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+        <a class="contact-line" href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener">
+          <span class="cl-label">LinkedIn</span>
+          <span class="cl-value">linkedin.com/in/otar-davitashvili</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
       </div>
     </div>
+
+    <div class="contact-cta">
+      <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="ed-btn">
+        Download Resume (PDF)
+      </a>
+    </div>
+
+    <nav class="contact-sitemap" aria-label="More on this site">
+      <span class="cs-label">Elsewhere on the site</span>
+      <a routerLink="/projects">Work</a>
+      <a routerLink="/allexp">Experience</a>
+      <a routerLink="/alledu">Education</a>
+      <a routerLink="/allcert">Certificates</a>
+    </nav>
   </section>
 </main>
-
-<app-back></app-back>

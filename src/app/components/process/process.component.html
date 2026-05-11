@@ -1,0 +1,12 @@
+<ol class="proc-list">
+  @for (step of steps; track step.num; let i = $index) {
+    <li class="proc-row" [appReveal]="'up'" [revealDelay]="i * 80">
+      <span class="proc-num">{{ step.num }}</span>
+      <div class="proc-body">
+        <h3 class="proc-title">{{ step.title }}</h3>
+        <p class="proc-text">{{ step.body }}</p>
+      </div>
+      <i class="proc-icon bi" [ngClass]="step.icon" aria-hidden="true"></i>
+    </li>
+  }
+</ol>

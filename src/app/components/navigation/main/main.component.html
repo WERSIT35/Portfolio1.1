@@ -1,106 +1,136 @@
 <main class="home">
-  <section class="hero">
+
+  <!-- 00 — Masthead -->
+  <section class="chapter masthead">
     <div class="page">
-      <div class="hero-panel">
-        <div class="hero-main">
-          <div class="image">
-            <img src="/assets/profile/ProfilePic.jpeg" alt="otar davitashvili" class="profile-pic">
-          </div>
-          <div class="text">
-            <p class="eyebrow">OTAR DAVITASHVILI</p>
-            <h1 class="name">Product-Focused Full-Stack Engineer</h1>
-            <p class="title">Angular &amp; React Architecture Specialist</p>
-            <p class="summary">
-              I build scalable frontend and full-stack systems with strong focus on clean architecture, performance, and production readiness.
-            </p>
+      <div class="masthead-grid">
+        <div class="masthead-text" [appReveal]="'up'">
+          <span class="eyebrow">Portfolio · 2026</span>
+          <h1 class="hero-name">Otar<br/>Davitashvili.</h1>
+          <p class="hero-roleline">
+            Full-stack engineer building production Angular, Node &amp; FastAPI systems —
+            shipped to AWS, Docker, and the kind of users who actually depend on them.
+          </p>
+          <p class="masthead-now">
+            <span class="masthead-now-dot"></span>
+            <span class="masthead-now-label">Now</span>
+            <span>Shipping Angular at PetC · Open to roles</span>
+          </p>
+          <div class="masthead-actions">
+            <a routerLink="projects" class="ed-btn">See selected work →</a>
+            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="ed-btn ed-btn--ghost">
+              Download Resume (PDF)
+            </a>
           </div>
         </div>
-        <div class="cta-grid">
-          <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" type="application/pdf" class="cta-card cta-resume">
-            <div class="cta-copy">
-              <h2>Resume PDF</h2>
-              <p>One-page profile</p>
-            </div>
-            <span class="cta-icon" aria-hidden="true">
-              <i class="bi bi-file-earmark-text"></i>
-            </span>
-          </a>
-          <a routerLink="projects" class="cta-card cta-projects">
-            <div class="cta-copy">
-              <h2>Selected Work</h2>
-              <p>Production projects</p>
-            </div>
-            <span class="cta-icon" aria-hidden="true">
-              <i class="bi bi-grid-1x2"></i>
-            </span>
-          </a>
-          <a routerLink="contact" class="cta-card cta-contact">
-            <div class="cta-copy">
-              <h2>Contact Me</h2>
-              <p>Mail, GitHub, LinkedIn</p>
-            </div>
-            <span class="cta-icon" aria-hidden="true">
-              <i class="bi bi-envelope-paper"></i>
-            </span>
-          </a>
-        </div>
+        <aside class="masthead-side" [appReveal]="'up'" [revealDelay]="120">
+          <figure class="masthead-portrait">
+            <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
+          </figure>
+        </aside>
       </div>
     </div>
-  </section>
-
-  <app-skills></app-skills>
-
-  <section class="education">
-    <div class="page">
-      <header class="section-header">
-        <h1>Education</h1>
-        <a routerLink="alledu">
-          <p>See all<i class="fa-solid fa-chevron-right"></i></p>
-        </a>
-      </header>
-      <section id="education" class="splide">
-        <div class="splide__track">
-          <ul class="splide__list">
-            @for (item of educationList; track $index) {
-              <li class="splide__slide">
-                <a [routerLink]="['/edu/edulist', item.id]" class="eduLink">
-                  <article class="eduCard">
-                    <div class="eduTop">
-                      <div class="eduTitleCont">
-                        <div class="eduLogo">
-                          <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
-                        </div>
-                        <div>
-                          <p class="eduOrg">{{item.name}}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="eduInfo">
-                      <div class="eduMeta">
-                        <p class="eduTrack">{{item.title}}</p>
-                        <p class="eduDate">{{item.date}}</p>
-                      </div>
-                      <h3>{{item.degree}}</h3>
-                      <div class="eduSubInfo">
-                        @for (subject of item.subjects; track $index) {
-                          <p>{{subject}}</p>
-                        }
-                      </div>
-                      <div class="eduAction">
-                        <span>View details</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                      </div>
-                    </div>
-                  </article>
-                </a>
-              </li>
-            }
-          </ul>
-        </div>
-      </section>
+    <div class="masthead-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <i class="bi bi-arrow-down"></i>
     </div>
   </section>
 
-  <app-experience></app-experience>
-  <app-certificate></app-certificate>
+  <!-- 01 — What I Do -->
+  <app-chapter number="01 — What I Do" title="What I build, and why">
+    <app-what-i-do></app-what-i-do>
+  </app-chapter>
+
+  <!-- 02 — Selected Work -->
+  <app-chapter number="02 — Selected Work" title="Case studies"
+               actionLabel="All projects" actionLink="/projects">
+    <span chapter-action>
+      <button type="button" class="ed-arrow" (click)="fw.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+      <button type="button" class="ed-arrow" (click)="fw.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+    </span>
+    <app-featured-work #fw></app-featured-work>
+  </app-chapter>
+
+  <!-- 03 — Skills -->
+  <app-chapter number="03 — Skills" title="What I build with">
+    <app-skills-rail></app-skills-rail>
+  </app-chapter>
+
+  <!-- 04 — How I Work -->
+  <app-chapter number="04 — How I Work" title="Four stages, repeatedly">
+    <app-process></app-process>
+  </app-chapter>
+
+  <!-- 05 — Experience -->
+  <app-chapter number="05 — Experience" title="Where I've worked"
+               actionLabel="Full timeline" actionLink="/allexp">
+    <span chapter-action>
+      <button type="button" class="ed-arrow" (click)="ex.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+      <button type="button" class="ed-arrow" (click)="ex.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+    </span>
+    <app-experience #ex></app-experience>
+  </app-chapter>
+
+  <!-- 06 — Education -->
+  <app-chapter number="06 — Education" title="How I learned it"
+               actionLabel="All education" actionLink="/alledu">
+    <span chapter-action>
+      <button type="button" class="ed-arrow" (click)="eduPrev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+      <button type="button" class="ed-arrow" (click)="eduNext()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+    </span>
+    <section id="education" class="splide ed-splide">
+      <div class="splide__track">
+        <ul class="splide__list">
+          @for (item of educationList; track $index) {
+            <li class="splide__slide">
+              <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card">
+                <div class="ed-edu-head">
+                  <div class="ed-edu-logo">
+                    <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
+                  </div>
+                  <div>
+                    <p class="ed-edu-org">{{ item.name }}</p>
+                  </div>
+                </div>
+                <div class="ed-slide-meta">
+                  <span>{{ item.title }}</span>
+                  <span>· {{ item.date }}</span>
+                </div>
+                <h3 class="ed-slide-title">{{ item.degree }}</h3>
+                @if (item.subjects?.length) {
+                  <div class="ed-slide-tags">
+                    @for (subject of item.subjects.slice(0, 4); track $index) {
+                      <span class="ed-chip">{{ subject }}</span>
+                    }
+                  </div>
+                }
+                <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  </app-chapter>
+
+  <!-- 07 — Certificates -->
+  <app-chapter number="07 — Certificates" title="Verified work"
+               actionLabel="All certificates" actionLink="/allcert">
+    <span chapter-action>
+      <button type="button" class="ed-arrow" (click)="cert.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+      <button type="button" class="ed-arrow" (click)="cert.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+    </span>
+    <app-certificate #cert></app-certificate>
+  </app-chapter>
+
+  <!-- 08 — Let's talk -->
+  <app-chapter number="08 — Contact" title="Let's talk." id="contact">
+    <div class="touch-grid" [appReveal]="'up'">
+      <p class="touch-copy">
+        Open to full-stack roles, contracts, and product work. Email is fastest.
+      </p>
+      <a routerLink="contact" class="ed-btn">Open contact →</a>
+    </div>
+  </app-chapter>
+
 </main>

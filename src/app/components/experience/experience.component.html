@@ -1,48 +1,35 @@
-<section class="experience">
-  <div class="page">
-    <header class="section-header">
-      <h1>Experience</h1>
-      <a routerLink="allexp">
-        <p>See all<i class="fa-solid fa-chevron-right"></i></p>
-      </a>
-    </header>
-    <section id="experience" class="splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          @for (item of experienceList; track $index) {
-            <li class="splide__slide">
-              <a [routerLink]="['/exp',item.id]" class="exLink">
-                <article class="exCard">
-                  <div class="exTop">
-                    <div class="exTitleRow">
-                      <p class="exOrg">{{ item.name }}</p>
-                      <p class="exDate">{{ item.date }}</p>
-                    </div>
-                  </div>
-                  <div class="exInfo">
-                    <h2>{{item.subname}}</h2>
-                    <div class="subnameTxt">
-                      @for (tool of item.subnameText; track $index) {
-                        <p>{{tool}}</p>
-                      }
-                    </div>
-                    <h3>{{item.subname1}}</h3>
-                    <div class="subnameTxt1">
-                      @for (resp of item.subname1Text; track $index) {
-                        <p>{{resp}}</p>
-                      }
-                    </div>
-                    <div class="exAction">
-                      <span>View details</span>
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                  </div>
-                </article>
-              </a>
-            </li>
-          }
-        </ul>
-      </div>
-    </section>
+<section id="experience" class="splide ed-splide">
+  <div class="splide__track">
+    <ul class="splide__list">
+      @for (item of experienceList; track $index) {
+        <li class="splide__slide">
+          <a [routerLink]="['/exp', item.id]" class="ed-slide-card">
+            <div class="ed-slide-meta">
+              <span>{{ item.date }}</span>
+            </div>
+            <h3 class="ed-slide-title">{{ item.subname }}</h3>
+            <p class="ed-slide-sub">{{ item.name }}</p>
+
+            @if (item.subnameText?.length) {
+              <div class="ed-slide-tags">
+                @for (tool of item.subnameText.slice(0, 5); track $index) {
+                  <span class="ed-chip">{{ tool }}</span>
+                }
+              </div>
+            }
+
+            @if (item.subname1Text?.length) {
+              <ul class="ex-resp">
+                @for (resp of item.subname1Text.slice(0, 3); track $index) {
+                  <li>{{ resp }}</li>
+                }
+              </ul>
+            }
+
+            <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
+          </a>
+        </li>
+      }
+    </ul>
   </div>
 </section>
