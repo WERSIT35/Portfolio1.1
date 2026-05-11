@@ -91,7 +91,7 @@
                   <span class="edu-card-date">{{ item.date }}</span>
                 </header>
                 <h3 class="edu-card-degree">{{ item.degree }}</h3>
-                @if (item.subjects?.length) {
+                @if (item.subjects.length) {
                   <div class="ed-slide-tags edu-card-tags">
                     @for (subject of item.subjects.slice(0, 5); track $index) {
                       <span class="ed-chip">{{ subject }}</span>

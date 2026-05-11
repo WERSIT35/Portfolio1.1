@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ExperienceService } from '../../../services/experience.service';
 import { Certifications } from '../../../interfaces/certifications';
 import { BackComponent } from '../../back/back.component';
@@ -9,7 +9,7 @@ import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.di
 @Component({
   selector: 'app-certi-list',
   standalone: true,
-  imports: [BackComponent, CommonModule, RevealOnScrollDirective],
+  imports: [BackComponent, CommonModule, RevealOnScrollDirective, RouterLink],
   templateUrl: './certi-list.component.html',
   styleUrl: './certi-list.component.scss',
 })

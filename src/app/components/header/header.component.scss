@@ -114,21 +114,42 @@
     grid-template-areas:
       "wordmark theme"
       "nav nav";
-    row-gap: 0.6rem;
+    row-gap: 0.55rem;
+    padding: 0.7rem 0 0.55rem;
   }
   .ed-wordmark { grid-area: wordmark; }
   .ed-theme { grid-area: theme; justify-self: end; }
+
+  /* Nav becomes a single-row, horizontally scrollable strip — no wrap-jank. */
   .ed-nav {
     grid-area: nav;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 0.9rem 1.1rem;
-    padding-top: 0.3rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.35rem 0 0.2rem;
+    margin: 0 -3vw;  /* bleed to viewport edges so first/last items aren't clipped */
+    padding-left: 3vw;
+    padding-right: 3vw;
     border-top: 1px solid var(--rule);
+    justify-content: flex-start;
+    gap: 1.1rem;
+    /* fade edges as scroll hint */
+    mask-image: linear-gradient(to right, transparent 0, black 12px, black calc(100% - 12px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 12px, black calc(100% - 12px), transparent 100%);
+  }
+  .ed-nav::-webkit-scrollbar { display: none; }
+  .ed-nav a {
+    flex: 0 0 auto;
+    padding: 0.55rem 0;     /* taller tap target */
+    font-size: 0.72rem;
   }
 }
 
 @media (max-width: 480px) {
   .ed-wordmark-role { display: none; }
+  .ed-wordmark-name { font-size: 0.98rem; }
   .ed-nav a { font-size: 0.68rem; letter-spacing: 0.14em; }
+  .ed-theme-btn { width: 30px; height: 30px; }  /* 30px tap area + 2px padding = ~36px */
 }

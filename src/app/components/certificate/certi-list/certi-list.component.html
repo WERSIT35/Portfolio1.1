@@ -1,69 +1,135 @@
 <app-back></app-back>
 <main class="cert-detail">
   <header class="title page" [appReveal]="'up'">
-    <span class="eyebrow"><i class="bi bi-patch-check"></i> Certificate <span class="sep">·</span> {{ cert?.issuer }}</span>
+    <span class="eyebrow">
+      <span class="crumb"><i class="bi bi-patch-check" aria-hidden="true"></i><span>Certificate</span></span>
+      @if (cert?.issuer) {
+        <span class="sep">·</span>
+        <span class="crumb"><span>{{ cert?.issuer }}</span></span>
+      }
+    </span>
     <h1>{{ cert?.name }}</h1>
-    <p class="prose">{{ cert?.imageName?.[0] }} · {{ cert?.issued }}</p>
+    @if (cert?.imageName?.[0] || cert?.issued) {
+      <p class="prose">
+        @if (cert?.imageName?.[0]) { <span>{{ cert?.imageName?.[0] }}</span> }
+        @if (cert?.imageName?.[0] && cert?.issued) { <span class="sep">·</span> }
+        @if (cert?.issued) { <span>{{ cert?.issued }}</span> }
+      </p>
+    }
   </header>
 
-  <section class="page detail-body">
-    <section id="ch-issuer" class="case-chapter" [appReveal]="'up'">
-      <header class="case-chapter-head">
-        <span class="chapter-num">01 — Issuer</span>
-        <h2 class="chapter-title">Verified by</h2>
-      </header>
-      <dl class="case-facts">
-        <div><dt>Issuer</dt><dd>{{ cert?.issuer }}</dd></div>
-        <div><dt>Issued</dt><dd>{{ cert?.issued }}</dd></div>
-        @if (cert?.timeSpent) { <div><dt>Time spent</dt><dd>{{ cert?.timeSpent }}</dd></div> }
-      </dl>
-      @if (cert?.description) {
-        <p class="case-body">{{ cert?.description }}</p>
-      }
-    </section>
+  <section class="page">
+    <div class="detail-layout">
 
-    @if (cert?.tasksMade?.length) {
-      <section id="ch-tasks" class="case-chapter" [appReveal]="'up'">
-        <header class="case-chapter-head">
-          <span class="chapter-num">02 — Tasks</span>
-          <h2 class="chapter-title">What I built</h2>
-        </header>
-        <ol class="case-approach">
-          @for (task of cert?.tasksMade; track $index; let i = $index) {
-            <li>
-              <span class="case-approach-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-              <span class="case-approach-text">{{ task }}</span>
-            </li>
-          }
-        </ol>
-      </section>
-    }
+      <!-- ─── Main column ─── -->
+      <div class="detail-main">
 
-    @if (cert?.skills?.length) {
-      <section id="ch-skills" class="case-chapter" [appReveal]="'up'">
-        <header class="case-chapter-head">
-          <span class="chapter-num">03 — Validates</span>
-          <h2 class="chapter-title">What it covers</h2>
-        </header>
-        <div class="cert-skills">
-          @for (skill of cert?.skills; track $index) {
-            <span class="ed-chip">{{ skill }}</span>
-          }
-        </div>
-      </section>
-    }
+        <!-- The certificate document — leads the page -->
+        @if (cert?.image?.[0]; as img0) {
+          <section id="ch-cert" class="case-chapter cert-doc-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">01 — Certificate</span>
+              <h2 class="chapter-title">The document</h2>
+            </header>
+            <figure class="doc-preview">
+              <img [src]="img0" [alt]="cert?.name + ' certificate'" (click)="openPreview(img0)" loading="lazy" />
+            </figure>
+            <p class="doc-preview-caption">Click to enlarge</p>
+          </section>
+        } @else {
+          <section class="case-chapter cert-doc-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">01 — Certificate</span>
+              <h2 class="chapter-title">The document</h2>
+            </header>
+            <div class="doc-preview">
+              <div class="doc-preview-empty"><i class="bi bi-patch-check"></i></div>
+            </div>
+          </section>
+        }
 
-    @if (cert?.image?.[0]) {
-      <section id="ch-cert" class="case-chapter" [appReveal]="'up'">
-        <header class="case-chapter-head">
-          <span class="chapter-num">04 — Certificate</span>
-          <h2 class="chapter-title">The document</h2>
-        </header>
-        <figure class="cert-image">
-          <img [src]="cert?.image?.[0]" alt="" (click)="openPreview(cert?.image?.[0] || '')" />
-        </figure>
-      </section>
-    }
+        @if (cert?.description) {
+          <section class="case-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">02 — Summary</span>
+              <h2 class="chapter-title">About this credential</h2>
+            </header>
+            <p class="case-body">{{ cert?.description }}</p>
+          </section>
+        }
+
+        @if (cert?.tasksMade?.length) {
+          <section id="ch-tasks" class="case-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">03 — Tasks</span>
+              <h2 class="chapter-title">What I built</h2>
+            </header>
+            <ol class="case-approach">
+              @for (task of cert?.tasksMade; track $index; let i = $index) {
+                <li>
+                  <span class="case-approach-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+                  <span class="case-approach-text">{{ task }}</span>
+                </li>
+              }
+            </ol>
+          </section>
+        }
+
+        @if (cert?.skills?.length) {
+          <section id="ch-skills" class="case-chapter" [appReveal]="'up'">
+            <header class="case-chapter-head">
+              <span class="chapter-num">04 — Validates</span>
+              <h2 class="chapter-title">What it covers</h2>
+            </header>
+            <div class="cert-skills">
+              @for (skill of cert?.skills; track $index) {
+                <span class="ed-chip">{{ skill }}</span>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      <!-- ─── Sidebar ─── -->
+      <aside class="detail-aside">
+        <section class="info-card" [appReveal]="'up'">
+          <header class="info-card-head">
+            <span class="info-card-num">01</span>
+            <h3 class="info-card-title">Verified by</h3>
+          </header>
+          <dl class="info-card-rows">
+            <div>
+              <dt>Issuer</dt>
+              <dd>{{ cert?.issuer }}</dd>
+            </div>
+            @if (cert?.issued) {
+              <div>
+                <dt>Issued</dt>
+                <dd>{{ cert?.issued }}</dd>
+              </div>
+            }
+            @if (cert?.timeSpent) {
+              <div>
+                <dt>Time spent</dt>
+                <dd>{{ cert?.timeSpent }}</dd>
+              </div>
+            }
+            @if (cert?.imageName?.[0]) {
+              <div>
+                <dt>Path</dt>
+                <dd>{{ cert?.imageName?.[0] }}</dd>
+              </div>
+            }
+          </dl>
+        </section>
+
+        <a routerLink="/allcert" class="ed-btn ed-btn--ghost cert-back-link">
+          <i class="bi bi-arrow-left"></i>
+          All certificates
+        </a>
+      </aside>
+
+    </div>
   </section>
 </main>
 

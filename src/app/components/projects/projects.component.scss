@@ -170,3 +170,10 @@
 }
 
 .proj-archive-cta { margin-top: 0.3rem; align-self: flex-start; }
+
+@media (max-width: 480px) {
+  .proj-lead-title { font-size: clamp(1.5rem, 6vw, 1.9rem); }
+  .proj-archive-grid { gap: 1.2rem; }
+  .proj-lead-problem { -webkit-line-clamp: 4; }
+  .projects-body { gap: 1.6rem; }
+}

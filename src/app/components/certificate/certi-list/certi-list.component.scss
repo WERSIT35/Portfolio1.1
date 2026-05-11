@@ -1,5 +1,6 @@
+/* Certificate detail — inherits .detail-layout / .case-chapter / .info-card / .doc-preview
+   from global src/styles/_detail-page.scss. Only page-specific bits live here. */
 .cert-detail { display: block; }
-.detail-body { padding-bottom: 3rem; }
 
 .cert-skills {
   display: flex;
@@ -7,15 +8,22 @@
   gap: 0.4rem;
 }
 
-.cert-image {
-  margin: 0;
-  border: 1px solid var(--rule);
-  background: var(--paper-3);
+/* Cert document chapter — first chapter, slightly tighter top padding */
+.cert-doc-chapter { padding-top: 0; }
+
+/* Constrain the certificate image so it doesn't dwarf the page */
+.cert-doc-chapter .doc-preview {
+  max-width: 760px;
 }
-.cert-image img {
+
+.cert-back-link {
   width: 100%;
-  display: block;
-  cursor: zoom-in;
-  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  justify-content: center;
 }
-.cert-image:hover img { transform: scale(1.01); }
+.cert-back-link i { transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+.cert-back-link:hover i { transform: translateX(-3px); }
+
+@media (max-width: 720px) {
+  .cert-doc-chapter .doc-preview { max-width: 100%; }
+  .cert-skills { gap: 0.35rem; }
+}

@@ -85,4 +85,8 @@
 @media (max-width: 560px) {
   .all-experience .ex-timeline { padding-left: 1.1rem; }
   .all-experience .ex-row::before { left: -1.1rem; top: 1.6rem; }
+  .all-experience .ex-row-link { padding: 1.1rem 0.3rem 1.1rem 0.6rem; gap: 0.9rem; }
+}
+@media (max-width: 480px) {
+  .all-experience .ex-row-resp li { font-size: 0.84rem; }
 }

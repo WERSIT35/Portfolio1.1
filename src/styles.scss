@@ -4,6 +4,7 @@
 @use "./styles/reset-card";
 @use "./styles/slider";
 @use "./styles/cards";
+@use "./styles/detail-page";
 
 *,
 *::before,
@@ -18,6 +19,15 @@ html {
   font-family: var(--font-body);
   color: var(--color-ink);
   background-color: var(--color-surface);
+  overflow-x: hidden;
+  /* Anchor-link jumps should clear the fixed header */
+  scroll-padding-top: var(--header-height-desktop);
+}
+@media (max-width: 840px) {
+  html { scroll-padding-top: var(--header-height-mobile); }
+}
+@media (max-width: 480px) {
+  html { scroll-padding-top: var(--header-height-small); }
 }
 
 body {
@@ -30,7 +40,7 @@ body {
     linear-gradient(180deg, var(--bg-base-1) 0%, var(--bg-base-2) 55%, var(--bg-base-3) 100%);
   background-attachment: fixed;
   line-height: 1.55;
-  padding-top: 68px;
+  padding-top: var(--header-height-desktop);
   overflow-x: hidden;
   isolation: isolate;
 }
@@ -191,13 +201,26 @@ html::before {
 
 @media (max-width: 840px) {
   body {
-    padding-top: 96px;
+    padding-top: var(--header-height-mobile);
+    padding-bottom: 84px; /* clear room for fixed back button */
   }
 }
 @media (max-width: 480px) {
   body {
-    padding-top: 92px;
+    padding-top: var(--header-height-small);
+    padding-bottom: 80px;
   }
+}
+
+/* Mobile-safe global guards — prevent horizontal overflow + long-text wrap */
+img, video, svg, iframe {
+  max-width: 100%;
+}
+.eyebrow, .ex-row-desc, .case-body, .prose,
+.cl-value, .contact-line, .ed-chip,
+.case-approach-text, .edu-card-desc, .cert-sub, .cert-desc {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 img {

@@ -5,7 +5,9 @@
   <!-- 00 — Case Study Masthead -->
   <header class="case-mast" [appReveal]="'up'">
     <div class="case-mast-meta">
-      <span class="eyebrow"><i class="bi bi-grid-1x2"></i> Case study</span>
+      <span class="eyebrow">
+        <span class="crumb"><i class="bi bi-grid-1x2" aria-hidden="true"></i><span>Case study</span></span>
+      </span>
       @if (item.year) { <span class="case-mast-year">· {{ item.year }}</span> }
       @if (item.role) { <span class="case-mast-role">· {{ item.role }}</span> }
     </div>

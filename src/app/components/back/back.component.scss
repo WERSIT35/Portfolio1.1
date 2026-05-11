@@ -91,10 +91,12 @@
 @media (max-width: 720px) {
   .back-btn {
     right: 14px;
-    bottom: 16px;
+    bottom: 18px;
     height: 44px; /* larger tap target on mobile */
-    padding: 0 0.95rem 0 0.85rem;
-    font-size: 0.72rem;
+    padding: 0 1rem 0 0.9rem;
+    font-size: 0.7rem;
+    /* sit on top of native safe-area on iOS */
+    bottom: max(18px, env(safe-area-inset-bottom));
   }
   .back-btn i { font-size: 0.9rem; }
 }
