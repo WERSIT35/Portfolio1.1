@@ -1,151 +1,88 @@
-.all-experience {
-  padding: clamp(1.6rem, 4vw, 2.8rem) 0 clamp(3rem, 7vw, 4.5rem);
-  display: grid;
-  gap: clamp(1rem, 2.8vw, 1.8rem);
-}
+/* /allexp specific — continuous timeline rail + node dots (page-only decoration).
+   Shared timeline cells come from global _cards.scss. */
+.all-experience { display: block; padding-bottom: 3rem; }
 
-.title h1 {
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
-
-.exp {
-  display: grid;
-  gap: clamp(1rem, 2.8vw, 1.8rem);
-}
-
-.exCard {
-  background: linear-gradient(145deg, var(--color-glass-strong), var(--color-glass));
-  border: 1px solid var(--color-border);
-  border-radius: 22px;
-  overflow: hidden;
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 30px rgba(0, 0, 0, 0.35);
+.all-experience .ex-timeline {
   position: relative;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  padding-left: clamp(1.4rem, 3vw, 2.4rem);
+  border-top: 0;
 }
-
-.exCard::before {
+.all-experience .ex-timeline::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 95% 8%, rgba(var(--brand-rgb), 0.14), transparent 38%),
-    radial-gradient(circle at 6% 94%, rgba(var(--brand-warm-rgb), 0.12), transparent 42%);
-  pointer-events: none;
-  opacity: 0.86;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    var(--rule) 6%,
+    var(--rule) 94%,
+    transparent 100%
+  );
 }
 
-.exLink {
-  color: inherit;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  height: 100%;
+.all-experience .ex-row {
   position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.all-experience .ex-row:last-child { border-bottom: 0; }
+
+/* Node dot anchored to the rail */
+.all-experience .ex-row::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * clamp(1.4rem, 3vw, 2.4rem));
+  top: 1.9rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  transform: translateX(-4px);
+  transition: background 240ms ease, border-color 240ms ease, transform 280ms ease;
   z-index: 1;
 }
-
-.exTop {
-  background: linear-gradient(100deg, rgba(var(--brand-rgb), 0.18), rgba(var(--brand-warm-rgb), 0.12));
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+.all-experience .ex-row:hover::before {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  transform: translateX(-4px) scale(1.2);
+}
+.all-experience .ex-row:first-child::before {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.14);
 }
 
-.exTitleRow {
+.all-experience .ex-row-link { padding: 1.4rem 0.4rem 1.4rem 1rem; }
+.all-experience .ex-row-link::before { left: -1rem; }
+
+/* Responsibilities mini-list */
+.all-experience .ex-row-resp {
+  list-style: none;
+  margin: 0.55rem 0 0;
+  padding: 0;
   display: grid;
-  gap: 0.24rem;
+  gap: 0.25rem;
+}
+.all-experience .ex-row-resp li {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.5;
+}
+.all-experience .ex-row-resp li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent-primary);
+  font-size: 0.7rem;
+  top: 0.2rem;
 }
 
-.exTitleRow h2 {
-  color: var(--color-ink);
-  font-size: 1.05rem;
+@media (max-width: 560px) {
+  .all-experience .ex-timeline { padding-left: 1.1rem; }
+  .all-experience .ex-row::before { left: -1.1rem; top: 1.6rem; }
 }
-
-.exInfo {
-  display: grid;
-  gap: 0.5rem;
-  padding: var(--space-4);
-}
-
-.eyebrow {
-  font-size: 0.76rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--color-muted);
-  font-weight: 700;
-}
-
-.subnameTxt,
-.subnameTxt1 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.36rem;
-  color: var(--color-subtle);
-  font-size: 0.8rem;
-}
-
-.subnameTxt p,
-.subnameTxt1 p {
-  padding: 0.25rem 0.52rem;
-  border-radius: 12px;
-  border: 1px solid var(--color-glass-border);
-  background: rgba(255, 255, 255, 0.2);
-  line-height: 1.2;
-}
-
-.subnameTxt p:nth-child(n + 6),
-.subnameTxt1 p:nth-child(n + 6) {
-  display: none;
-}
-
-.exFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 var(--space-4) var(--space-4);
-  padding-top: 0.65rem;
-  border-top: 1px solid rgba(var(--brand-rgb), 0.14);
-  font-size: 0.82rem;
-  color: var(--color-ink);
-}
-
-.date {
-  margin-top: 0.2rem;
-  color: var(--color-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-:root[data-theme-resolved="dark"] .all-experience .exCard {
-  background: var(--card-dark-bg) !important;
-  border-color: var(--card-dark-border) !important;
-}
-
-:root[data-theme-resolved="dark"] .all-experience .exCard::before {
-  background:
-    radial-gradient(circle at 95% 8%, rgba(170, 175, 184, 0.14), transparent 38%),
-    radial-gradient(circle at 6% 94%, rgba(143, 149, 158, 0.1), transparent 42%) !important;
-  opacity: 0.58;
-}
-
-:root[data-theme-resolved="dark"] .all-experience .exTop {
-  background: var(--card-dark-bg-soft) !important;
-  border-bottom-color: var(--card-dark-chip-border) !important;
-}
-
-:root[data-theme-resolved="dark"] .all-experience :where(.subnameTxt p, .subnameTxt1 p) {
-  background: var(--card-dark-chip-bg) !important;
-  border-color: var(--card-dark-chip-border) !important;
-  color: var(--card-dark-muted) !important;
-}
-
-:root[data-theme-resolved="dark"] .all-experience :where(.exTitleRow h2, .eyebrow, .date, .exFooter) {
-  color: var(--card-dark-text) !important;
-}
-
-
-
-
-

@@ -1,22 +1,26 @@
-<section id="certificate" class="splide ed-splide">
-  <div class="splide__track">
-    <ul class="splide__list">
-      @for (item of certificationList; track $index) {
-        <li class="splide__slide">
-          <a [routerLink]="['/cert', item.id]" class="ed-slide-card">
-            <figure class="ed-slide-figure">
-              <img [src]="item.image[0]" [alt]="item.name" loading="lazy" />
-            </figure>
-            <div class="ed-slide-meta">
-              <span>{{ item.issuer }}</span>
-              <span>· {{ item.issued }}</span>
-            </div>
-            <h3 class="ed-slide-title">{{ item.name }}</h3>
-            <p class="ed-slide-sub">{{ item.imageName[0] }}</p>
-            <span class="ed-slide-cta">View certificate<i class="bi bi-arrow-right"></i></span>
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
-</section>
+<div class="cert-grid">
+  @for (item of certificationList; track item.id; let i = $index) {
+    <a [routerLink]="['/cert', item.id]" class="cert-card" [appReveal]="'up'" [revealDelay]="i * 70">
+      <figure class="cert-figure">
+        @if (item.image && item.image.length > 0) {
+          <img [src]="item.image[0]" [alt]="item.name" loading="lazy" />
+        } @else {
+          <div class="cert-figure-empty"><i class="bi bi-patch-check"></i></div>
+        }
+        <span class="cert-figure-hover" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </figure>
+      <div class="cert-body">
+        <div class="cert-meta">
+          <span>{{ item.issuer }}</span>
+          @if (item.issued) { <span>· {{ item.issued }}</span> }
+        </div>
+        <h3 class="cert-title">{{ item.name }}</h3>
+        @if (item.imageName && item.imageName.length > 0) {
+          <p class="cert-sub">{{ item.imageName[0] }}</p>
+        }
+      </div>
+    </a>
+  }
+</div>

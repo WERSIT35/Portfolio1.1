@@ -497,16 +497,34 @@
   max-width: 720px;
   margin-bottom: 1.1rem;
 }
+/* Premium status/meta strip — top of case study */
 .case-mast-line {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.7rem;
-  flex-wrap: wrap;
+  gap: 0 1rem;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--rule);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.04), transparent 80%);
+  margin-top: 0.4rem;
+  transition: border-color 240ms ease, background 240ms ease;
+}
+.case-mast-line:hover {
+  border-color: var(--rule-strong);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.08), transparent 80%);
+}
+.case-mast-line .ed-status {
+  padding-right: 1rem;
+  border-right: 1px solid var(--rule);
 }
 .case-mast-stack {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+}
+@media (max-width: 560px) {
+  .case-mast-line { grid-template-columns: 1fr; gap: 0.55rem; }
+  .case-mast-line .ed-status { border-right: 0; padding-right: 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
 }
 
 .case-chapter {
@@ -655,35 +673,41 @@
 
 .case-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  border-top: 1px solid var(--rule);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.025), transparent 70%);
 }
 .case-metric {
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem 1.2rem;
   background: transparent !important;
-  border-left: 0 !important;
-  border-right: 1px solid var(--rule);
+  border: 0 !important;
+  border-right: 1px solid var(--rule) !important;
+  border-bottom: 1px solid var(--rule) !important;
+  display: grid;
+  gap: 0.4rem;
+  transition: background 240ms ease;
 }
-.case-metric:nth-child(odd) { padding-right: 1rem; }
-.case-metric:last-child { border-right: 0; }
+.case-metric:hover { background: rgba(var(--accent-rgb), 0.04) !important; }
+.case-metric:last-child { border-right: 0 !important; }
+.case-metric:nth-child(odd) { padding-right: 1.2rem; }
+.case-metric span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  order: -1;
+  display: inline-block;
+}
 .case-metric strong {
   display: block;
   font-family: var(--font-serif);
   font-weight: 800;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
   letter-spacing: -0.02em;
   color: var(--ink);
-  line-height: 1;
-}
-.case-metric span {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  margin-top: 0.4rem;
-  display: inline-block;
+  line-height: 1.05;
 }
 
 .case-lessons-quote { max-width: 760px; }

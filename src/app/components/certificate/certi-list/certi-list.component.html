@@ -1,7 +1,7 @@
 <app-back></app-back>
 <main class="cert-detail">
   <header class="title page" [appReveal]="'up'">
-    <span class="eyebrow">Certificate · {{ cert?.issuer }}</span>
+    <span class="eyebrow"><i class="bi bi-patch-check"></i> Certificate <span class="sep">·</span> {{ cert?.issuer }}</span>
     <h1>{{ cert?.name }}</h1>
     <p class="prose">{{ cert?.imageName?.[0] }} · {{ cert?.issued }}</p>
   </header>

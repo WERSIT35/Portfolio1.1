@@ -1,40 +1,45 @@
 <app-back></app-back>
 <main class="all-experience">
   <header class="title page">
-    <span class="eyebrow">Index · Experience</span>
+    <span class="eyebrow"><i class="bi bi-house"></i> Home <span class="sep">·</span> <i class="bi bi-briefcase"></i> Experience</span>
     <h1>Where I've worked.</h1>
     <p class="prose">Roles, responsibilities, and the systems I shipped — or stabilized — at each one.</p>
   </header>
-  <section class="exp page">
-    @for (item of experienceList; track $index) {
-      <article class="exCard">
-        <a [routerLink]="['/exp',item.id]" class="exLink">
-          <div class="exTop">
-            <div class="exTitleRow">
-              <h2>{{ item.name }}</h2>
-              <p class="date">{{item.date}}</p>
-            </div>
-          </div>
-          <div class="exInfo">
-            <p class="eyebrow">{{item.subname}}</p>
-            <div class="subnameTxt">
-              @for (tool of item.subnameText; track $index) {
-                <p>{{tool}}</p>
+
+  <section class="page">
+    <ol class="ex-timeline">
+      @for (item of experienceList; track item.id; let i = $index) {
+        <li class="ex-row">
+          <a [routerLink]="['/exp', item.id]" class="ex-row-link">
+            <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <div class="ex-row-body">
+              <header class="ex-row-head">
+                <h3 class="ex-row-role">{{ item.subname }}</h3>
+                <span class="ex-row-date">{{ item.date }}</span>
+              </header>
+              <p class="ex-row-org">{{ item.name }}</p>
+              @if (item.description) {
+                <p class="ex-row-desc">{{ item.description }}</p>
+              }
+              @if (item.subnameText && item.subnameText.length) {
+                <div class="ex-row-tags">
+                  @for (tool of item.subnameText; track tool) {
+                    <span class="ed-chip">{{ tool }}</span>
+                  }
+                </div>
+              }
+              @if (item.subname1Text && item.subname1Text.length) {
+                <ul class="ex-row-resp">
+                  @for (resp of item.subname1Text.slice(0, 4); track $index) {
+                    <li>{{ resp }}</li>
+                  }
+                </ul>
               }
             </div>
-            <p class="eyebrow">{{item.subname1}}</p>
-            <div class="subnameTxt1">
-              @for (resp of item.subname1Text; track $index) {
-                <p>{{resp}}</p>
-              }
-            </div>
-          </div>
-          <div class="exFooter">
-            <span>View full details</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </div>
-        </a>
-      </article>
-    }
+            <i class="ex-row-arrow bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </li>
+      }
+    </ol>
   </section>
 </main>

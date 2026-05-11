@@ -1,42 +1,56 @@
 <app-back></app-back>
 <main class="all-education">
   <header class="title page">
-    <span class="eyebrow">Index · Education</span>
+    <span class="eyebrow"><i class="bi bi-house"></i> Home <span class="sep">·</span> <i class="bi bi-mortarboard-fill"></i> Education</span>
     <h1>How I learned it.</h1>
     <p class="prose">University coursework, structured DevOps, and the long tail of self-directed learning that pays off in production.</p>
   </header>
-  <section class="edu-grid page">
-    @for (item of educationList; track $index) {
-      <article class="eduCard">
-        <a [routerLink]="['/edu/edulist', item.id]" class="eduLink">
-          <div class="eduHeader">
-            <div class="eduLogo">
-              <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'" />
-            </div>
-            <div class="eduHeading">
-              <h2>{{ item.name }}</h2>
-            </div>
+  <section class="page">
+    <div class="edu-grid">
+      @for (item of educationList; track item.id) {
+        <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card edu-card edu-card--page">
+          <div class="edu-card-cover" role="img" [attr.aria-label]="item.coverAlt || (item.name + ' cover')">
+            @if (item.coverImage) {
+              <img [src]="item.coverImage" [alt]="item.coverAlt || ''" loading="lazy" />
+            }
+            <span class="edu-card-kind">
+              <i class="bi bi-mortarboard"></i>
+              <span>{{ item.title }}</span>
+            </span>
           </div>
-          <div class="eduBody">
-            <div class="eduMeta">
-              <p class="track">{{ item.title }}</p>
-              <p class="date">{{ item.date }}</p>
-            </div>
-            <h3>{{ item.degree }}</h3>
-            <div class="description" [innerHTML]="item.description"></div>
-            <p class="subjectsLabel">Core Subjects</p>
-            <div class="eduSubInfo">
-              @for (subject of item.subjects; track $index) {
-                <span>{{ subject }}</span>
-              }
-            </div>
-          </div>
-          <div class="eduFooter">
-            <span>View full details</span>
-            <i class="fa-solid fa-arrow-right"></i>
+
+          <div class="edu-card-body">
+            <header class="edu-card-head">
+              <figure class="edu-card-logo">
+                <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'" />
+              </figure>
+              <div class="edu-card-id">
+                <p class="edu-card-org">{{ item.name }}</p>
+                <p class="edu-card-track">{{ item.date }}</p>
+              </div>
+            </header>
+
+            <h3 class="edu-card-degree">{{ item.degree }}</h3>
+
+            @if (item.description) {
+              <div class="edu-card-desc" [innerHTML]="item.description"></div>
+            }
+
+            @if (item.subjects && item.subjects.length) {
+              <div class="edu-card-subjects">
+                <span class="edu-card-subjects-label">Focus areas</span>
+                <div class="ed-slide-tags edu-card-tags">
+                  @for (subject of item.subjects; track $index) {
+                    <span class="ed-chip">{{ subject }}</span>
+                  }
+                </div>
+              </div>
+            }
+
+            <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
           </div>
         </a>
-      </article>
-    }
+      }
+    </div>
   </section>
 </main>

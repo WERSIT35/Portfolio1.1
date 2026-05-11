@@ -1,0 +1,449 @@
+/* Shared card system — used across home, /allexp, /alledu, /allcert.
+   These selectors need to be global (not component-scoped) so they apply
+   on every page that renders the same markup. */
+
+/* ────────────────────────────────────────────────
+   Experience timeline (.ex-timeline / .ex-row / .ex-row-link)
+   ──────────────────────────────────────────────── */
+.ex-timeline {
+  list-style: none;       /* kill default <ol> numbering — we render our own */
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.ex-row {
+  list-style: none;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ex-row-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 1.4rem;
+  padding: 1.4rem 0.4rem;
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  transition: padding 240ms ease, background 240ms ease, color 200ms ease;
+}
+.ex-row-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent-primary);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.ex-row-link:hover {
+  background: rgba(var(--accent-rgb), 0.04);
+  padding-left: 0.9rem;
+}
+.ex-row-link:hover::before { transform: scaleY(1); }
+.ex-row-link:hover .ex-row-arrow { transform: translate(3px, -3px); color: var(--accent-primary); }
+
+.ex-row-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  margin-top: 0.25rem;
+  min-width: 2.4rem;
+}
+
+.ex-row-body { display: grid; gap: 0.4rem; min-width: 0; }
+
+.ex-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.ex-row-role {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.ex-row-date {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+.ex-row-org {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.ex-row-desc {
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+  line-height: 1.55;
+  max-width: 60ch;
+}
+.ex-row-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.2rem; }
+.ex-row-arrow {
+  font-size: 1.1rem;
+  color: var(--ink-mute);
+  margin-top: 0.4rem;
+  transition: transform 260ms ease, color 220ms ease;
+}
+
+@media (max-width: 560px) {
+  .ex-row-link { grid-template-columns: auto 1fr; padding: 1.1rem 0.4rem; }
+  .ex-row-arrow { display: none; }
+  .ex-row-head { gap: 0.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ex-row-link, .ex-row-link::before, .ex-row-arrow { transition: none; }
+}
+
+/* ────────────────────────────────────────────────
+   Education card (.edu-card)
+   Used on home slider AND /alledu (with --page modifier)
+   ──────────────────────────────────────────────── */
+.edu-card {
+  padding: 1.1rem 1.15rem 1.05rem;
+}
+
+.edu-card-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+/* Logo chip — light neutral tile so dark logos (FreeCodeCamp, etc.) stay
+   readable on the dark theme. Same look in light mode for consistency. */
+.edu-card-logo {
+  margin: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: border-color 240ms ease, box-shadow 240ms ease;
+}
+.edu-card:hover .edu-card-logo {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.14);
+}
+.edu-card-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Dark theme: keep the white tile, brighten the border so the chip reads against the dark page */
+:root[data-theme-resolved="dark"] .edu-card-logo {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .edu-card-logo {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.edu-card-id { min-width: 0; }
+.edu-card-org {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  line-height: 1.18;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.edu-card-track {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 0.2rem;
+}
+.edu-card-date {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+.edu-card-degree {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.18;
+  margin-bottom: 0.5rem;
+}
+.edu-card-tags { margin-top: 0.2rem; }
+
+@media (max-width: 480px) {
+  .edu-card-logo { width: 42px; height: 42px; }
+  .edu-card-head { grid-template-columns: auto 1fr; }
+  .edu-card-date { grid-column: 2; grid-row: 2; margin-top: 0.2rem; }
+}
+
+/* ────────────────────────────────────────────────
+   Education page card (.edu-card--page) — has cover banner
+   ──────────────────────────────────────────────── */
+.edu-card--page {
+  position: relative;
+  padding: 0;                /* cover sits flush at top */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 260ms ease, background 260ms ease, transform 240ms ease;
+}
+.edu-card--page:hover { transform: translateY(-2px); }
+
+.edu-card-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  background:
+    linear-gradient(135deg,
+      rgba(var(--accent-rgb), 0.22) 0%,
+      rgba(var(--accent-rgb), 0.06) 45%,
+      transparent 100%
+    ),
+    linear-gradient(180deg, var(--paper-3) 0%, var(--paper-2) 100%);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+}
+.edu-card-cover::before {
+  /* subtle radial highlight */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(var(--accent-rgb), 0.15) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+.edu-card-cover::after {
+  /* placeholder watermark icon */
+  content: "\F4C7"; /* bi-mortarboard glyph */
+  font-family: "bootstrap-icons";
+  position: absolute;
+  right: 1rem;
+  bottom: 0.6rem;
+  font-size: 2.4rem;
+  color: rgba(var(--accent-rgb), 0.18);
+  line-height: 1;
+}
+.edu-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.edu-card--page .edu-card-kind {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.24rem 0.6rem;
+  border: 1px solid var(--rule-strong);
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-radius: 999px;
+  z-index: 2;
+}
+.edu-card--page .edu-card-kind i { font-size: 0.78rem; color: var(--accent-primary); }
+
+.edu-card--page .edu-card-body {
+  padding: 1rem 1.15rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+}
+
+.edu-card--page .edu-card-head {
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.edu-card-subjects {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.4rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--rule);
+}
+.edu-card-subjects-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.edu-card-desc {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* ────────────────────────────────────────────────
+   Certificates (.cert-grid / .cert-card)
+   Used on home grid AND /allcert
+   ──────────────────────────────────────────────── */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.4vw, 1.6rem);
+}
+@media (max-width: 880px) { .cert-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .cert-grid { grid-template-columns: 1fr; } }
+
+.cert-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 240ms ease;
+}
+.cert-card:hover { border-bottom-color: var(--accent-primary); }
+
+.cert-figure {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background:
+    linear-gradient(135deg,
+      rgba(var(--accent-rgb), 0.14) 0%,
+      transparent 60%
+    ),
+    var(--paper-3);
+}
+.cert-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1), filter 240ms ease;
+}
+.cert-card:hover .cert-figure img { transform: scale(1.04); filter: brightness(0.96); }
+.cert-figure-empty {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--ink-mute);
+  font-size: 2.2rem;
+}
+
+.cert-figure-hover {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--paper) 84%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translate(4px, -4px);
+  transition: opacity 240ms ease, transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.cert-card:hover .cert-figure-hover { opacity: 1; transform: translate(0, 0); }
+
+.cert-body { display: grid; gap: 0.3rem; }
+
+.cert-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.cert-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.18;
+}
+
+.cert-sub {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.cert-desc {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-top: 0.3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-figure img, .cert-figure-hover { transition: none; }
+  .cert-card:hover .cert-figure img { transform: none; }
+  .edu-card--page:hover { transform: none; }
+}

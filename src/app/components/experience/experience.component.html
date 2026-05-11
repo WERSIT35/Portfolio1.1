@@ -1,35 +1,27 @@
-<section id="experience" class="splide ed-splide">
-  <div class="splide__track">
-    <ul class="splide__list">
-      @for (item of experienceList; track $index) {
-        <li class="splide__slide">
-          <a [routerLink]="['/exp', item.id]" class="ed-slide-card">
-            <div class="ed-slide-meta">
-              <span>{{ item.date }}</span>
+<ol class="ex-timeline">
+  @for (item of experienceList; track item.id; let i = $index) {
+    <li class="ex-row" [appReveal]="'up'" [revealDelay]="i * 80">
+      <a [routerLink]="['/exp', item.id]" class="ex-row-link">
+        <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        <div class="ex-row-body">
+          <header class="ex-row-head">
+            <h3 class="ex-row-role">{{ item.subname }}</h3>
+            <span class="ex-row-date">{{ item.date }}</span>
+          </header>
+          <p class="ex-row-org">{{ item.name }}</p>
+          @if (item.description) {
+            <p class="ex-row-desc">{{ item.description }}</p>
+          }
+          @if (item.subnameText && item.subnameText.length) {
+            <div class="ex-row-tags">
+              @for (tool of item.subnameText.slice(0, 6); track tool) {
+                <span class="ed-chip">{{ tool }}</span>
+              }
             </div>
-            <h3 class="ed-slide-title">{{ item.subname }}</h3>
-            <p class="ed-slide-sub">{{ item.name }}</p>
-
-            @if (item.subnameText?.length) {
-              <div class="ed-slide-tags">
-                @for (tool of item.subnameText.slice(0, 5); track $index) {
-                  <span class="ed-chip">{{ tool }}</span>
-                }
-              </div>
-            }
-
-            @if (item.subname1Text?.length) {
-              <ul class="ex-resp">
-                @for (resp of item.subname1Text.slice(0, 3); track $index) {
-                  <li>{{ resp }}</li>
-                }
-              </ul>
-            }
-
-            <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
-          </a>
-        </li>
-      }
-    </ul>
-  </div>
-</section>
+          }
+        </div>
+        <i class="ex-row-arrow bi bi-arrow-up-right" aria-hidden="true"></i>
+      </a>
+    </li>
+  }
+</ol>

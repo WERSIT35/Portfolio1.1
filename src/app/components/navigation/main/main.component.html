@@ -64,11 +64,7 @@
   <!-- 05 — Experience -->
   <app-chapter number="05 — Experience" title="Where I've worked"
                actionLabel="Full timeline" actionLink="/allexp">
-    <span chapter-action>
-      <button type="button" class="ed-arrow" (click)="ex.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
-      <button type="button" class="ed-arrow" (click)="ex.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
-    </span>
-    <app-experience #ex></app-experience>
+    <app-experience></app-experience>
   </app-chapter>
 
   <!-- 06 — Education -->
@@ -83,23 +79,21 @@
         <ul class="splide__list">
           @for (item of educationList; track $index) {
             <li class="splide__slide">
-              <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card">
-                <div class="ed-edu-head">
-                  <div class="ed-edu-logo">
+              <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card edu-card">
+                <header class="edu-card-head">
+                  <figure class="edu-card-logo">
                     <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
+                  </figure>
+                  <div class="edu-card-id">
+                    <p class="edu-card-org">{{ item.name }}</p>
+                    <p class="edu-card-track">{{ item.title }}</p>
                   </div>
-                  <div>
-                    <p class="ed-edu-org">{{ item.name }}</p>
-                  </div>
-                </div>
-                <div class="ed-slide-meta">
-                  <span>{{ item.title }}</span>
-                  <span>· {{ item.date }}</span>
-                </div>
-                <h3 class="ed-slide-title">{{ item.degree }}</h3>
+                  <span class="edu-card-date">{{ item.date }}</span>
+                </header>
+                <h3 class="edu-card-degree">{{ item.degree }}</h3>
                 @if (item.subjects?.length) {
-                  <div class="ed-slide-tags">
-                    @for (subject of item.subjects.slice(0, 4); track $index) {
+                  <div class="ed-slide-tags edu-card-tags">
+                    @for (subject of item.subjects.slice(0, 5); track $index) {
                       <span class="ed-chip">{{ subject }}</span>
                     }
                   </div>
@@ -116,11 +110,7 @@
   <!-- 07 — Certificates -->
   <app-chapter number="07 — Certificates" title="Verified work"
                actionLabel="All certificates" actionLink="/allcert">
-    <span chapter-action>
-      <button type="button" class="ed-arrow" (click)="cert.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
-      <button type="button" class="ed-arrow" (click)="cert.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
-    </span>
-    <app-certificate #cert></app-certificate>
+    <app-certificate></app-certificate>
   </app-chapter>
 
   <!-- 08 — Let's talk -->

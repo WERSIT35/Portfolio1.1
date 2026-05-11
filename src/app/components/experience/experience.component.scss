@@ -1,22 +1,2 @@
+/* Home experience — uses shared .ex-timeline / .ex-row styles from _cards.scss */
 :host { display: block; }
-
-.ex-resp {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.25rem;
-}
-.ex-resp li {
-  font-size: 0.88rem;
-  color: var(--ink-soft);
-  padding-left: 0.85rem;
-  position: relative;
-  line-height: 1.45;
-}
-.ex-resp li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--ink-mute);
-}

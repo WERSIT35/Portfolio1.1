@@ -1,29 +1,40 @@
 <app-back></app-back>
 <main class="all-certificates">
   <header class="title page">
-    <span class="eyebrow">Index · Certificates</span>
+    <span class="eyebrow"><i class="bi bi-house"></i> Home <span class="sep">·</span> <i class="bi bi-patch-check"></i> Certificates</span>
     <h1>Verified work.</h1>
     <p class="prose">Course completions and credentials that back the day-to-day.</p>
   </header>
-  <section class="cert-grid page">
-    @for (item of certificationList; track $index) {
-      <article class="cert-card">
-        <a [routerLink]="['/cert', item.id]">
-          <img [src]="item.image[0]" alt="" />
-          <div class="cert-meta">
-            <h2>{{ item.name }}</h2>
-            <p>{{ item.imageName[0] }}</p>
-            <p>{{ item.issuer }} | {{ item.issued }}</p>
-            <p>Time spent: {{ item.timeSpent }}</p>
-            <p class="desc">{{ item.description }}</p>
-            <ul class="tasks">
-              @for (task of item.tasksMade; track $index) {
-                <li>{{ task }}</li>
-              }
-            </ul>
+  <section class="page">
+    <div class="cert-grid">
+      @for (item of certificationList; track item.id) {
+        <a [routerLink]="['/cert', item.id]" class="cert-card">
+          <figure class="cert-figure">
+            @if (item.image && item.image.length > 0) {
+              <img [src]="item.image[0]" [alt]="item.name" loading="lazy" />
+            } @else {
+              <div class="cert-figure-empty"><i class="bi bi-patch-check"></i></div>
+            }
+            <span class="cert-figure-hover" aria-hidden="true">
+              <i class="bi bi-arrow-up-right"></i>
+            </span>
+          </figure>
+          <div class="cert-body">
+            <div class="cert-meta">
+              <span>{{ item.issuer }}</span>
+              @if (item.issued) { <span>· {{ item.issued }}</span> }
+              @if (item.timeSpent) { <span>· {{ item.timeSpent }}</span> }
+            </div>
+            <h3 class="cert-title">{{ item.name }}</h3>
+            @if (item.imageName && item.imageName.length > 0) {
+              <p class="cert-sub">{{ item.imageName[0] }}</p>
+            }
+            @if (item.description) {
+              <p class="cert-desc">{{ item.description }}</p>
+            }
           </div>
         </a>
-      </article>
-    }
+      }
+    </div>
   </section>
 </main>

@@ -123,6 +123,8 @@ export class EducationService {
     {
       id: 1,
       img: '/assets/education/Universities/ug.png',
+      coverImage: '/assets/education/covers/ug.jpg',
+      coverAlt: 'University of Georgia campus',  
       name: 'University of Georgia',
       title: 'Computer Science',
       degree: 'BSc Computer Science',
@@ -144,6 +146,8 @@ export class EducationService {
     {
       id: 2,
       img: '/assets/education/Universities/btu.png',
+      coverImage: '/assets/education/covers/btu.jpg',
+      coverAlt: 'Business and Technology University campus',
       name: 'Business and Technology University',
       title: 'DevOps',
       degree: 'MSc DevOps - In Progress',
@@ -161,6 +165,8 @@ export class EducationService {
     {
       id: 3,
       img: '/assets/education/Universities/fcc.svg',
+      coverImage: '/assets/education/covers/fcc.jpg',
+      coverAlt: 'FreeCodeCamp',
       name: 'FreeCodeCamp',
       title: 'Frontend + Cloud Foundations',
       degree: 'Professional Certificates',

@@ -3,6 +3,7 @@
 @use "./styles/editorial";
 @use "./styles/reset-card";
 @use "./styles/slider";
+@use "./styles/cards";
 
 *,
 *::before,
@@ -29,7 +30,7 @@ body {
     linear-gradient(180deg, var(--bg-base-1) 0%, var(--bg-base-2) 55%, var(--bg-base-3) 100%);
   background-attachment: fixed;
   line-height: 1.55;
-  padding-top: 76px;
+  padding-top: 68px;
   overflow-x: hidden;
   isolation: isolate;
 }
@@ -190,12 +191,12 @@ html::before {
 
 @media (max-width: 840px) {
   body {
-    padding-top: 120px;
+    padding-top: 96px;
   }
 }
 @media (max-width: 480px) {
   body {
-    padding-top: 116px;
+    padding-top: 92px;
   }
 }
 
