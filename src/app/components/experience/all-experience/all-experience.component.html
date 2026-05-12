@@ -1,6 +1,6 @@
 <app-back></app-back>
 <main class="all-experience">
-  <header class="title page">
+  <header class="title page" [appReveal]="'up'">
     <span class="eyebrow">
       <span class="crumb"><i class="bi bi-house" aria-hidden="true"></i><span>Home</span></span>
       <span class="sep">·</span>
@@ -18,24 +18,24 @@
             <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
             <div class="ex-row-body">
               <header class="ex-row-head">
-                <h3 class="ex-row-role">{{ item.subname }}</h3>
+                <h3 class="ex-row-role">{{ item.role }}</h3>
                 <span class="ex-row-date">{{ item.date }}</span>
               </header>
-              <p class="ex-row-org">{{ item.name }}</p>
-              @if (item.description) {
-                <p class="ex-row-desc">{{ item.description }}</p>
-              }
-              @if (item.subnameText && item.subnameText.length) {
+              <p class="ex-row-org">{{ item.company }}</p>
+              <p class="ex-row-desc">{{ item.summary }}</p>
+
+              @if (item.chips && item.chips.length) {
                 <div class="ex-row-tags">
-                  @for (tool of item.subnameText; track tool) {
-                    <span class="ed-chip">{{ tool }}</span>
+                  @for (chip of item.chips; track chip) {
+                    <span class="ed-chip">{{ chip }}</span>
                   }
                 </div>
               }
-              @if (item.subname1Text && item.subname1Text.length) {
+
+              @if (item.bullets && item.bullets.length) {
                 <ul class="ex-row-resp">
-                  @for (resp of item.subname1Text.slice(0, 4); track $index) {
-                    <li>{{ resp }}</li>
+                  @for (bullet of item.bullets; track bullet) {
+                    <li>{{ bullet }}</li>
                   }
                 </ul>
               }

@@ -1,13 +1,21 @@
 export interface Experience {
-    id:number,
-    name:string,
+    id: number;
 
-    subname:string,
-    subnameText:string[],
+    /** Actual job title — primary heading on every Experience surface. */
+    role: string;
 
-    subname1:string,
-    subname1Text:string[],
+    /** Employer name. */
+    company: string;
 
-    description:string,
-    date:string,
+    /** Date range as displayed (e.g. "Dec 2025 – Present"). */
+    date: string;
+
+    /** 1–2 line role summary. */
+    summary: string;
+
+    /** 2–3 highlighted contributions shown as chips. */
+    chips: string[];
+
+    /** 2–3 supporting bullet points. */
+    bullets: string[];
 }

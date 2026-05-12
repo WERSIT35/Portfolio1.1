@@ -1,9 +1,18 @@
 :root {
-  /* Header height — used by body padding-top, scroll-padding-top, sticky offsets.
-     Mobile is larger because the nav wraps to a second row at ≤840px. */
-  --header-height-desktop: 64px;
-  --header-height-mobile: 104px;
-  --header-height-small: 96px;
+  /* iPhone safe-area for Dynamic Island / notch. Falls back to 0 on non-iOS browsers. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Header height — desktop is single row; mobile shows brand + theme only (nav lives in bottom pill). */
+  --header-height-desktop: 60px;
+  --header-height-mobile: 60px;
+  /* Total mobile offset that body content must clear: header height + iOS notch height. */
+  --header-total-mobile: calc(var(--header-height-mobile) + var(--safe-top));
+
+  /* Mobile floating bottom-nav pill. Total = pill height + gap from screen edge + iOS bottom safe-area. */
+  --bottom-nav-height: 64px;
+  --bottom-nav-gap: 14px;
+  --bottom-nav-total: calc(var(--bottom-nav-height) + var(--bottom-nav-gap) + var(--safe-bottom));
 
   --font-display: "Space Grotesk", "Segoe UI", "Arial", sans-serif;
   --font-body: "Manrope", "Segoe UI", "Arial", sans-serif;

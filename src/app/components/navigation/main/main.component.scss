@@ -28,26 +28,28 @@
 .masthead-text .hero-name { margin-bottom: 1.1rem; }
 .masthead-text .hero-roleline { margin-bottom: 1.4rem; max-width: 56ch; }
 
-/* Status strip — premium "current focus" panel */
+/* Status pill — compact "current focus" badge sized to its content. */
 .masthead-now {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
+  display: inline-flex;
   align-items: center;
-  gap: 0 0.85rem;
-  padding: 0.7rem 0.95rem;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.55rem 0.95rem;
+  margin: 0 0 1.6rem;
   border: 1px solid var(--rule);
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.03), transparent 80%);
+  border-radius: 999px;
+  background: rgba(245, 245, 247, 0.035);
+  color: var(--ink-soft);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  color: var(--ink-soft);
-  margin-bottom: 1.7rem;
-  max-width: 540px;
-  transition: border-color 240ms ease, background 240ms ease, transform 240ms ease;
+  line-height: 1.2;
+  transition: border-color 240ms ease, background 240ms ease;
 }
 .masthead-now:hover {
   border-color: var(--rule-strong);
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.06), transparent 80%);
+  background: rgba(245, 245, 247, 0.06);
 }
 
 .masthead-now-dot {
@@ -55,49 +57,55 @@
   height: 9px;
   border-radius: 999px;
   background: #1f9d6f;
-  box-shadow: 0 0 0 3px rgba(31, 157, 111, 0.18);
+  box-shadow: 0 0 0 3px rgba(31, 157, 111, 0.16);
   animation: now-pulse 2.2s ease-in-out infinite;
-  grid-row: span 2;
-  align-self: center;
+  flex: 0 0 auto;
+}
+@keyframes now-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(31, 157, 111, 0.16); }
+  50%      { box-shadow: 0 0 0 6px rgba(31, 157, 111, 0.04); }
 }
 @media (prefers-reduced-motion: reduce) {
   .masthead-now-dot { animation: none; }
 }
-@keyframes now-pulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(31, 157, 111, 0.18); }
-  50% { box-shadow: 0 0 0 7px rgba(31, 157, 111, 0.05); }
-}
+
 .masthead-now-label {
-  text-transform: uppercase;
+  font-size: 0.62rem;
+  font-weight: 600;
   letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--ink-mute);
-  font-size: 0.66rem;
-  grid-column: 2;
-  grid-row: 1;
-  align-self: end;
-  padding-right: 0.5rem;
+  padding-right: 0.65rem;
   border-right: 1px solid var(--rule);
+  line-height: 1;
 }
-.masthead-now > span:last-child {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-  color: var(--ink);
-  font-weight: 500;
+
+.masthead-now-text {
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   letter-spacing: -0.005em;
-  line-height: 1.35;
+  color: var(--ink);
+  line-height: 1.25;
+  white-space: nowrap;       /* keep it on one line at desktop widths */
 }
-@media (max-width: 480px) {
-  .masthead-now { grid-template-columns: auto 1fr; }
+
+@media (max-width: 560px) {
+  /* Allow the text to wrap on phones; keep dot + NOW on the first line. */
+  .masthead-now {
+    padding: 0.55rem 0.85rem 0.6rem;
+    border-radius: 18px;
+    gap: 0.6rem;
+  }
+  .masthead-now-text {
+    white-space: normal;
+    flex: 1 1 100%;
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
   .masthead-now-label {
-    grid-column: 2; grid-row: 1;
     border-right: 0;
     padding-right: 0;
-  }
-  .masthead-now > span:last-child {
-    grid-column: 2; grid-row: 2;
-    padding-top: 0.15rem;
   }
 }
 

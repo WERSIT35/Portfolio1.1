@@ -28,11 +28,11 @@ export class SkillsRailComponent implements OnInit {
   private CATEGORIES: { label: string; names: string[] }[] = [
     {
       label: 'Frontend',
-      names: ['Angular', 'React', 'TypeScript', 'JavaScript', 'RxJS', 'SCSS'],
+      names: ['Angular', 'TypeScript', 'HTML5', 'SCSS', 'RxJS', 'Firebase', 'React'],
     },
     {
       label: 'Backend',
-      names: ['Node.js (Express)', 'Java (Spring Boot)', 'FastAPI', 'REST API Design'],
+      names: ['Node.js (Express)', 'Java (Spring Boot)', 'C#', 'FastAPI', 'REST API Design'],
     },
     {
       label: 'DevOps & Cloud',

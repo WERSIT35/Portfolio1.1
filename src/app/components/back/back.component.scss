@@ -88,15 +88,14 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 840px) {
   .back-btn {
     right: 14px;
-    bottom: 18px;
-    height: 44px; /* larger tap target on mobile */
+    /* Sit ABOVE the floating bottom-nav pill so the two never overlap. */
+    bottom: calc(var(--bottom-nav-total) + 12px);
+    height: 44px;
     padding: 0 1rem 0 0.9rem;
     font-size: 0.7rem;
-    /* sit on top of native safe-area on iOS */
-    bottom: max(18px, env(safe-area-inset-bottom));
   }
   .back-btn i { font-size: 0.9rem; }
 }

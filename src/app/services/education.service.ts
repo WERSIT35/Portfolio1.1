@@ -29,6 +29,9 @@ export class EducationService {
         'MySQL',
         'MongoDB',
         'Oracle',
+        'HTML5',
+        'C#',
+        'Firebase',
       ],
       color: [
         '#DD0031', // Angular
@@ -50,6 +53,9 @@ export class EducationService {
         '#4479A1', // MySQL
         '#47A248', // MongoDB
         '#EA1B22', // Oracle
+        '#E34F26', // HTML5
+        '#239120', // C#
+        '#FFCA28', // Firebase
       ],
       icon: [
         'devicon-angular-plain',
@@ -71,6 +77,9 @@ export class EducationService {
         'devicon-mysql-plain',
         'devicon-mongodb-plain',
         'devicon-oracle-plain',
+        'devicon-html5-plain',
+        'devicon-csharp-plain',
+        'devicon-firebase-plain',
       ],
       learned:[
         ['Freelance Production Work','PetC'],
@@ -92,6 +101,9 @@ export class EducationService {
         ['Relational Data Modeling'],
         ['Product Data Storage'],
         ['University of Georgia Coursework'],
+        ['Frontend Foundations'],
+        ['Academic + Side Projects'],
+        ['Realtime + Auth Side Projects'],
       ],
       geined:[
         ['Modular architecture','Lazy loading','Signals'],
@@ -113,9 +125,12 @@ export class EducationService {
         ['Relational query tuning'],
         ['Document data handling'],
         ['Schema and query fundamentals'],
+        ['Semantic markup', 'Accessible structure'],
+        ['Enterprise patterns', '.NET ecosystem familiarity'],
+        ['Realtime DB', 'Auth + Hosting'],
       ],
       rating:[
-        5,5,5,5,4,5,5,4,4,5,5,3,4,4,4,4,4,4,4
+        5,5,5,5,4,5,5,4,4,5,5,3,4,4,4,4,4,4,4,5,3,4
       ]
     },
   ];

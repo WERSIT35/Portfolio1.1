@@ -1,26 +1,22 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Experience } from '../../../interfaces/experience';
 import { ExperienceService } from '../../../services/experience.service';
 import { RouterLink } from '@angular/router';
-import { BackComponent } from "../../back/back.component";
+import { CommonModule } from '@angular/common';
+import { BackComponent } from '../../back/back.component';
+import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
 
 @Component({
   selector: 'app-all-experience',
   standalone: true,
-  imports: [RouterLink, BackComponent],
+  imports: [RouterLink, BackComponent, CommonModule, RevealOnScrollDirective],
   templateUrl: './all-experience.component.html',
-  styleUrl: './all-experience.component.scss'
+  styleUrl: './all-experience.component.scss',
 })
-export class AllExperienceComponent implements OnInit{
-  @Input() experience!: Experience;
-
+export class AllExperienceComponent implements OnInit {
   experienceList: Experience[] = [];
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private experienceService: ExperienceService
-
-  ) {}
+  constructor(private experienceService: ExperienceService) {}
 
   ngOnInit(): void {
     this.experienceList = this.experienceService.getExperienceList();

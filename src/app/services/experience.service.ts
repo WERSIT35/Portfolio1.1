@@ -9,79 +9,61 @@ export class ExperienceService {
 
   constructor() { }
 
-
-  private experienceList:Experience[]=[
+  private experienceList: Experience[] = [
     {
       id: 1,
-      name: "Angular Developer | PetC",
-      subname: "Core Contributions",
-      subnameText:[
-        "Own development of 4 core platform features",
-        "Architect frontend with Standalone Components, Signals, and Lazy Loading",
-        "Apply modular structure for production readiness",
-        "Align API contracts and UI architecture with backend and design teams",
+      role: 'Angular Developer',
+      company: 'PetC',
+      date: 'Dec 2025 – Present',
+      summary:
+        'Product-focused Angular engineering within a production-grade platform environment, with emphasis on performance, modularity, and architecture quality.',
+      chips: [
+        'Own development of 4 core platform features',
+        'Architect frontend with Standalone Components, Signals, and Lazy Loading',
+        'Align API contracts and UI architecture with backend and design teams',
       ],
-      subname1: "Impact",
-      subname1Text: [
-        "Improve load performance through structured code splitting strategy",
-        "Refactor shared modules to stabilize core platform systems",
-        "Maintain structured engineering standards in product delivery",
+      bullets: [
+        'Improve load performance through structured code splitting strategy',
+        'Refactor shared modules to stabilize core platform systems',
+        'Maintain structured engineering standards in product delivery',
       ],
-      description:'Product-focused Angular engineering within a production-grade platform environment with emphasis on performance, modularity, and architecture quality.',
-      date: "Dec 2025-Present",
-    },
-    {
-      id: 2,
-      name: "Full-Stack Developer | Freelance",
-      subname: "Core Contributions",
-      subnameText:[ 
-        "Architect and ship modular full-stack systems using Angular, React and Node.js",
-        "Design REST endpoints supporting authentication, cart, and order workflows",
-        "Build secure JWT authentication pipelines",
-      ],
-      subname1: "Technical Focus",
-      subname1Text: [
-        "Optimize database queries and API flows",
-        "Containerize services using Docker",
-        "Deliver maintainable product-oriented architecture",
-      ],
-      description:'Freelance full-stack delivery focused on structured systems, API reliability, and deployment-ready implementation.',
-      date: "Sept 2024-Present",
     },
     {
       id: 3,
-      name: "Product-Focused Full-Stack Engineer",
-      subname: "Frontend",
-      subnameText:[ 
-        "Angular (v17+), React, TypeScript, Modern JavaScript (ES6+), RxJS, SCSS, HTML5",
-        "Component-Based Architecture",
+      role: 'AML & Game Control Officer',
+      company: 'Betlive',
+      date: 'Sep 2024 – Present',
+      summary:
+        'iGaming AML and game-control role focused on real-time transaction monitoring, fraud detection, SQL-based anomaly analysis, and cross-team operational stability.',
+      chips: [
+        'Monitor real-time financial transactions across a high-volume iGaming platform',
+        'Detect fraud patterns, bonus abuse, and suspicious user behavior',
+        'Perform SQL-based analysis to trace transaction flows and anomalies',
       ],
-      subname1: "Backend & Platform",
-      subname1Text: [
-        "Node.js (Express), Java (Spring Boot), C#, Python (FastAPI)",
-        "RESTful API Design, Authentication & Authorization",
-        "Docker, Kubernetes, CI/CD Pipelines (GitHub Actions), AWS, NGINX",
+      bullets: [
+        'Collaborate with risk, payments, and technical teams to resolve system issues',
+        'Investigate platform inconsistencies and support operational stability',
+        'Generate financial and operational reports for internal decision-making',
       ],
-      description:'Production-grade application architecture with strong emphasis on modular frontend systems, scalable API design, and deployment strategy.',
-      date: "Core Skill Stack",
     },
     {
-      id: 4,
-      name: "Flagship Project | GiftShop",
-      subname: "Platform Scope",
-      subnameText: [
-        "Architect modular e-commerce platform with separated frontend/backend layers",
-        "Develop reusable Angular components integrated with REST services",
-        "Implement cart, order validation, and secure authentication",
+      id: 2,
+      role: 'Full-Stack Developer',
+      company: 'Freelance',
+      date: 'Sep 2024 – Present',
+      summary:
+        'Freelance full-stack delivery focused on modular Angular and Node.js systems, secure APIs, authentication flows, and Dockerized deployment.',
+      chips: [
+        'Architect and ship modular full-stack systems using Angular and Node.js',
+        'Design REST endpoints supporting authentication, cart, and order workflows',
+        'Build secure JWT authentication pipelines',
       ],
-      subname1: "Delivery",
-      subname1Text: [
-        "Configure Dockerized development and deployment environments",
-        "Apply production-oriented code organization",
+      bullets: [
+        'Optimize database queries and API flows',
+        'Containerize services using Docker',
+        'Deliver maintainable product-oriented architecture',
       ],
-      description: "GiftShop - Modular Full-Stack E-Commerce Platform | Angular + Node.js + Docker",
-      date: "Flagship Project"
-    }
+    },
   ];
 
   private certificateList:Certifications[] = [

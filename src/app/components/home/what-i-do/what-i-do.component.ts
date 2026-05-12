@@ -10,5 +10,5 @@ import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.di
   styleUrl: './what-i-do.component.scss',
 })
 export class WhatIDoComponent {
-  currentStack = ['Angular', 'FastAPI', 'AWS'];
+  currentStack = ['Angular', 'Node.js', 'Docker', 'MongoDB'];
 }

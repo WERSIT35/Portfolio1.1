@@ -5,17 +5,16 @@
         <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
         <div class="ex-row-body">
           <header class="ex-row-head">
-            <h3 class="ex-row-role">{{ item.subname }}</h3>
+            <h3 class="ex-row-role">{{ item.role }}</h3>
             <span class="ex-row-date">{{ item.date }}</span>
           </header>
-          <p class="ex-row-org">{{ item.name }}</p>
-          @if (item.description) {
-            <p class="ex-row-desc">{{ item.description }}</p>
-          }
-          @if (item.subnameText && item.subnameText.length) {
+          <p class="ex-row-org">{{ item.company }}</p>
+          <p class="ex-row-desc">{{ item.summary }}</p>
+
+          @if (item.chips && item.chips.length) {
             <div class="ex-row-tags">
-              @for (tool of item.subnameText.slice(0, 6); track tool) {
-                <span class="ed-chip">{{ tool }}</span>
+              @for (chip of item.chips; track chip) {
+                <span class="ed-chip">{{ chip }}</span>
               }
             </div>
           }

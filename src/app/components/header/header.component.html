@@ -5,7 +5,7 @@
       <span class="ed-wordmark-role">Full-stack engineer</span>
     </a>
 
-    <nav class="ed-nav" aria-label="Primary">
+    <nav class="ed-nav ed-nav--desktop" aria-label="Primary">
       <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <a routerLink="projects" routerLinkActive="active">Work</a>
       <a routerLink="allexp" routerLinkActive="active">Experience</a>
@@ -31,3 +31,64 @@
     </div>
   </div>
 </header>
+
+<!-- ───── Mobile floating bottom navigation ───── -->
+<nav class="mb-nav" aria-label="Mobile navigation">
+  <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="mb-link">
+    <i class="bi bi-house" aria-hidden="true"></i>
+    <span>Home</span>
+  </a>
+  <a routerLink="projects" routerLinkActive="active" class="mb-link">
+    <i class="bi bi-grid-1x2" aria-hidden="true"></i>
+    <span>Work</span>
+  </a>
+  <a routerLink="allexp" routerLinkActive="active" class="mb-link">
+    <i class="bi bi-briefcase" aria-hidden="true"></i>
+    <span>Experience</span>
+  </a>
+  <button
+    type="button"
+    class="mb-link mb-more-btn"
+    [class.active]="isMoreOpen || isMoreRouteActive"
+    [attr.aria-expanded]="isMoreOpen"
+    aria-controls="mobile-more-sheet"
+    aria-label="More navigation"
+    (click)="toggleMore()"
+  >
+    <i class="bi" [class.bi-three-dots]="!isMoreOpen" [class.bi-x-lg]="isMoreOpen" aria-hidden="true"></i>
+    <span>More</span>
+  </button>
+</nav>
+
+<!-- ───── More bottom sheet ───── -->
+<div
+  id="mobile-more-sheet"
+  class="mb-sheet"
+  [class.open]="isMoreOpen"
+  [attr.aria-hidden]="!isMoreOpen"
+  role="menu"
+>
+  <a routerLink="alledu" routerLinkActive="active" (click)="closeMore()" role="menuitem">
+    <i class="bi bi-mortarboard" aria-hidden="true"></i>
+    <span class="mb-sheet-label">Education</span>
+    <i class="bi bi-arrow-right mb-sheet-arrow" aria-hidden="true"></i>
+  </a>
+  <a routerLink="allcert" routerLinkActive="active" (click)="closeMore()" role="menuitem">
+    <i class="bi bi-patch-check" aria-hidden="true"></i>
+    <span class="mb-sheet-label">Certificates</span>
+    <i class="bi bi-arrow-right mb-sheet-arrow" aria-hidden="true"></i>
+  </a>
+  <a routerLink="contact" routerLinkActive="active" (click)="closeMore()" role="menuitem">
+    <i class="bi bi-envelope" aria-hidden="true"></i>
+    <span class="mb-sheet-label">Contact</span>
+    <i class="bi bi-arrow-right mb-sheet-arrow" aria-hidden="true"></i>
+  </a>
+  <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" (click)="closeMore()" role="menuitem">
+    <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
+    <span class="mb-sheet-label">Resume (PDF)</span>
+    <i class="bi bi-download mb-sheet-arrow" aria-hidden="true"></i>
+  </a>
+</div>
+
+<!-- Scrim — fades content while More sheet is open, tap-to-close -->
+<div class="mb-scrim" [class.show]="isMoreOpen" (click)="closeMore()" aria-hidden="true"></div>

@@ -17,17 +17,16 @@
 html {
   @include scrollbar();
   font-family: var(--font-body);
-  color: var(--color-ink);
-  background-color: var(--color-surface);
+  color: var(--ink);
+  /* Solid paper at the document root — this fills overscroll, pull-to-refresh, and
+     the iPhone Dynamic Island region so nothing peeks through. */
+  background: var(--paper);
   overflow-x: hidden;
-  /* Anchor-link jumps should clear the fixed header */
-  scroll-padding-top: var(--header-height-desktop);
+  /* Anchor-link jumps should clear the fixed header. */
+  scroll-padding-top: calc(var(--header-height-desktop) + 8px);
 }
 @media (max-width: 840px) {
-  html { scroll-padding-top: var(--header-height-mobile); }
-}
-@media (max-width: 480px) {
-  html { scroll-padding-top: var(--header-height-small); }
+  html { scroll-padding-top: calc(var(--header-total-mobile) + 8px); }
 }
 
 body {
@@ -201,14 +200,8 @@ html::before {
 
 @media (max-width: 840px) {
   body {
-    padding-top: var(--header-height-mobile);
-    padding-bottom: 84px; /* clear room for fixed back button */
-  }
-}
-@media (max-width: 480px) {
-  body {
-    padding-top: var(--header-height-small);
-    padding-bottom: 80px;
+    padding-top: var(--header-total-mobile);                     /* header + iOS Dynamic Island */
+    padding-bottom: calc(var(--bottom-nav-total) + 24px);        /* floating pill + safe-bottom + buffer */
   }
 }
 

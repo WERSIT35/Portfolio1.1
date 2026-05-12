@@ -7,22 +7,21 @@ import { Projects } from '../interfaces/projects';
 export class ProjectsService {
   protected projectsList: Projects[] = [
     {
-      projName: 'Shello Demo',
-      subname: 'Full-Stack E-Commerce App for Phone Cases',
+      projName: 'Shello',
+      subname: 'Full-Stack E-Commerce Platform — Angular SSR + Node.js',
 
-      date: 'Production Demo',
+      date: 'Production',
 
       about:
-        'Shello Demo is a full-stack phone-case e-commerce platform designed with production-style architecture. The backend is built with Node.js, Express, and TypeScript, using MongoDB + Mongoose for persistence and JWT access tokens with refresh-token httpOnly cookies for secure session flow. Authentication supports both standard credential login and Google OAuth popup sign-in. The frontend is built with Angular SSR, RxJS, and SCSS, with role-based UI paths and an admin dashboard for product/content/catalog updates. Core modules include product listing and filtering, cart and checkout flow, order lifecycle management, and admin-side management panels. The project is structured as Backend/server and frontend (Angular SSR), includes environment-driven deployment setup, Docker + Nginx quick bootstrap, and dedicated architecture/security documentation (Overall/Backend/Frontend architecture, SECURITY_STANDARDS, JWT_STRATEGY).',
+        'Shello is a production-grade full-stack e-commerce platform built with Angular SSR and Node.js, focused on performance, security, scalable architecture, and a clear frontend/backend separation. The backend exposes versioned REST APIs with secure authentication (refresh tokens in HttpOnly cookies, Google OAuth, MFA, and role-based access control) over an Express/TypeScript service backed by MongoDB. The Angular SSR frontend ships with RxJS, SCSS, an admin dashboard, and role-aware routing. The whole stack is containerized with Docker and prepared for Kubernetes-ready deployment with optimized MongoDB schemas and API workflows.',
       numOfPage: 12,
-      duration: 'Angular SSR + Express + MongoDB',
+      duration: 'Angular SSR + Node.js + Docker',
       highlights: [
-        'JWT auth with refresh-token httpOnly cookie flow',
-        'Google OAuth popup sign-in with secure callback handling',
-        'Admin dashboard for products, catalog, and content management',
-        'Order lifecycle, cart workflows, and role-based frontend paths',
-        'Angular SSR frontend + Express/TypeScript API + MongoDB',
-        'Docker + Nginx quick-start deployment and security docs',
+        'Production-grade full-stack e-commerce platform on Angular SSR + Node.js',
+        'Modular architecture with versioned REST APIs and clear frontend/backend separation',
+        'Secure auth: refresh tokens in HttpOnly cookies, Google OAuth, MFA, role-based access',
+        'Containerized with Docker and prepared for Kubernetes-ready deployment',
+        'Optimized MongoDB schemas and API workflows for production load',
       ],
 
       img: [
@@ -50,22 +49,23 @@ export class ProjectsService {
       year: 2025,
       status: 'live',
       featured: true,
-      stack: ['Angular SSR', 'TypeScript', 'Express', 'MongoDB', 'Docker', 'Nginx'],
+      stack: ['Angular SSR', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Kubernetes'],
       problem:
-        'Phone-case retailers needed a production-style storefront with real auth, admin tooling, and order lifecycle — not just a static demo.',
+        'Ship a production-grade e-commerce platform where the frontend and backend can evolve independently, the auth flow holds up under real users, and the deployment story is the same on day one as on day one-hundred.',
       approach: [
-        'JWT access tokens + httpOnly refresh-token cookies for secure sessions',
-        'Google OAuth popup flow alongside credential login',
-        'Role-based UI paths separating admin and customer journeys',
-        'Docker + Nginx bootstrap so the stack runs end-to-end in one command',
+        'Modular architecture with versioned REST APIs and clear frontend/backend separation',
+        'Refresh tokens in HttpOnly cookies, Google OAuth, MFA, and role-based access control',
+        'Angular SSR frontend with RxJS, SCSS, and role-aware routing',
+        'Containerized with Docker; Kubernetes-ready deployment topology',
+        'Optimized MongoDB schemas and API workflows tuned for production load',
       ],
       metrics: [
-        { label: 'Pages shipped', value: '12' },
-        { label: 'Auth flows', value: 'JWT + OAuth' },
-        { label: 'Status', value: 'Live' },
+        { label: 'Stack', value: 'Angular SSR + Node' },
+        { label: 'Auth', value: 'Cookies + OAuth + MFA' },
+        { label: 'Deployment', value: 'Docker + K8s-ready' },
       ],
       lessons:
-        'Designing auth around refresh-token cookies forced cleaner separation between session state and UI state, which made the admin dashboard far easier to bolt on later.',
+        'Layering refresh tokens in HttpOnly cookies on top of MFA and RBAC forced a cleaner separation between session state and UI state — which is exactly what made bolting on the admin dashboard cheap later.',
       demoEmbedUrl: 'https://shellotech.eu.org',
     },
     {
@@ -206,41 +206,48 @@ export class ProjectsService {
       demoEmbedUrl: 'https://heatflow.netlify.app',
     },
 
-    // ── Placeholder #1 — TODO: fill in
+    // ── GiftShop — Flagship modular e-commerce platform
     {
-      projName: 'TODO — Project name',
-      subname: 'TODO — One-line subtitle',
-      date: 'TODO — e.g. 2026',
-      about: 'TODO — Short paragraph about what this project does and who it serves.',
+      projName: 'GiftShop',
+      subname: 'Modular Full-Stack E-Commerce Platform',
+      date: '2024',
+      about:
+        'GiftShop is a modular full-stack e-commerce platform built with separated frontend and backend layers. The Angular frontend is composed of reusable components integrated with a REST API layer; the backend handles authentication, cart, and order validation; the whole stack runs in Dockerized development and deployment environments for parity between local and production.',
       numOfPage: 0,
-      duration: 'TODO — Stack summary (e.g. Angular + FastAPI + Postgres)',
+      duration: 'Angular + Node.js + Docker',
       highlights: [
-        'TODO — Highlight 1',
-        'TODO — Highlight 2',
-        'TODO — Highlight 3',
+        'Modular e-commerce platform with separated frontend/backend layers',
+        'Reusable Angular components integrated with REST services',
+        'Cart, order validation, and secure authentication',
+        'Dockerized development and deployment environments',
+        'Production-oriented code organization',
       ],
-      img: [
-        // 'assets/projects/<folder>/1.png',
-      ],
+      img: [],
       link: '',
       github: '',
       iflink: false,
-      gradient: 'background-image: linear-gradient(90deg, #1a1a2e, #3a3a5f);',
+      gradient: 'background-image: linear-gradient(90deg, #1a1a2e, #2a2d36);',
 
-      role: 'TODO — Your role',
-      year: 2026,
-      status: 'in-production',
-      featured: true,
-      stack: ['TODO'],
-      problem: 'TODO — 2-3 sentences on the problem this project solves.',
+      role: 'Full-stack engineer',
+      year: 2024,
+      status: 'archived',
+      featured: false,
+      stack: ['Angular', 'Node.js', 'Docker', 'REST API'],
+      problem:
+        'Build a modular e-commerce platform where the frontend and backend can evolve independently, the cart and order flow stay reliable, and the development environment matches production.',
       approach: [
-        'TODO — Key technical decision 1',
-        'TODO — Key technical decision 2',
+        'Separated frontend/backend layers with explicit REST contracts',
+        'Reusable Angular component library wired to REST services',
+        'Cart, order validation, and secure authentication on the backend',
+        'Dockerized dev + deployment environments for parity',
       ],
       metrics: [
-        { label: 'TODO', value: 'TODO' },
+        { label: 'Architecture', value: 'Modular' },
+        { label: 'Stack', value: 'Angular + Node' },
+        { label: 'Deployment', value: 'Dockerized' },
       ],
-      lessons: 'TODO — What you learned.',
+      lessons:
+        'Drawing a hard line between frontend and backend layers — instead of a single mixed codebase — paid off the moment auth and order flows needed to be reasoned about in isolation.',
       demoEmbedUrl: '',
     },
 

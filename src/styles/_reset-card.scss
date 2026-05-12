@@ -49,10 +49,9 @@
   opacity: 0 !important;
 }
 
-/* Hairline border replacement */
+/* Hairline border replacement (legacy classes only — .cert-card now owns its own design in _cards.scss) */
 .eduCard,
 .exCard,
-.cert-card,
 .project-card,
 .offer-card,
 .cta-card,
@@ -64,7 +63,6 @@
 
 .eduCard:hover,
 .exCard:hover,
-.cert-card:hover,
 .project-card:hover,
 .offer-card:hover,
 .cta-card:hover,
