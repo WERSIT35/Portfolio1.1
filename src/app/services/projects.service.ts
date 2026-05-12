@@ -69,6 +69,171 @@ export class ProjectsService {
       demoEmbedUrl: 'https://shellotech.eu.org',
     },
     {
+      projName: 'Elite Weddings',
+      subname: 'Premium Wedding Landing Platform — Angular + Node.js',
+
+      date: 'Live',
+
+      about:
+        'Elite Weddings is a premium bilingual wedding landing platform built with Angular and Node.js, designed for luxury wedding planning, destination wedding presentation, and high-quality lead capture. The platform includes modular landing sections such as Hero, Essentials, About, Gallery, FAQ, Contact, and Footer, with structured content management and inline admin editing. The backend supports secure admin authentication with JWT and TOTP MFA, role-based admin endpoints, RSVP and inquiry workflows, validation, rate limiting, deduplication, daily caps, captcha protection, and spike-alert style safeguards. The project follows a production-oriented architecture with Dockerized services, deployment-ready configuration, and clean frontend/backend separation.',
+
+      numOfPage: 8,
+      duration: 'Angular + Node.js + Docker',
+
+      highlights: [
+        'Premium bilingual EN/KA wedding landing platform',
+        'Modular Angular sections for Hero, Essentials, About, Gallery, FAQ, Contact, and Footer',
+        'Inline admin editing for structured content management',
+        'Secure admin JWT authentication with TOTP MFA and role-based access',
+        'RSVP and inquiry pipeline with validation, rate limiting, deduplication, captcha, and daily caps',
+        'Dockerized and deployment-ready production structure',
+      ],
+
+      img: [
+        'assets/projects/EliteWeddings/Pic1Web.png',
+        'assets/projects/EliteWeddings/Pic1Mob.png',
+        'assets/projects/EliteWeddings/Pic2Web.png',
+        'assets/projects/EliteWeddings/Pic2Mob.png',
+        'assets/projects/EliteWeddings/Pic3Web.png',
+        'assets/projects/EliteWeddings/Pic3Mob.png',
+        'assets/projects/EliteWeddings/Pic4Web.png',
+        'assets/projects/EliteWeddings/Pic5Web.png',
+        'assets/projects/EliteWeddings/Pic6Web.png',
+        'assets/projects/EliteWeddings/Pic7Web.png',
+        'assets/projects/EliteWeddings/Pic8Web.png',
+      ],
+
+      link: 'https://elitewe.com.ge/',
+      github: 'https://github.com/WERSIT35/angular-wedding-landing',
+
+      iflink: true,
+      gradient: 'background-image: linear-gradient(90deg, #15161a, #34302c);',
+
+      role: 'Full-stack engineer',
+      year: 2026,
+      status: 'live',
+      featured: true,
+
+      stack: [
+        'Angular',
+        'Node.js',
+        'Express',
+        'JWT',
+        'TOTP MFA',
+        'Docker',
+        'k3s',
+      ],
+
+      problem:
+        'Build a premium wedding platform that presents luxury destination wedding services, supports bilingual Georgian/English content, captures qualified inquiries, and allows secure admin-side content updates without turning the site into a heavy CMS.',
+
+      approach: [
+        'Designed a modular Angular landing architecture with reusable content sections',
+        'Implemented bilingual EN/KA content structure for Georgian and international audiences',
+        'Built secure admin authentication using JWT and TOTP MFA',
+        'Created role-based admin endpoints for users, profile, content, and content-management workflows',
+        'Developed RSVP and inquiry workflows with validation, rate limiting, deduplication, captcha, daily caps, and spike-alert safeguards',
+        'Prepared Dockerized deployment flow with production-ready environment configuration',
+      ],
+
+      metrics: [
+        { label: 'Type', value: 'Premium landing platform' },
+        { label: 'UX', value: 'Bilingual EN/KA' },
+        { label: 'Admin', value: 'JWT + TOTP MFA' },
+        { label: 'Deployment', value: 'Docker + k3s-ready' },
+      ],
+
+      lessons:
+        'A luxury service platform needs more than visuals — the lead-capture flow, content editing model, and admin security have to be designed like product infrastructure from the beginning. Keeping the landing sections modular made it easier to refine the brand presentation without touching the backend workflow.',
+
+      demoEmbedUrl: 'https://elitewe.com.ge/',
+    },
+    {
+      projName: 'TatooGen',
+      subname: 'AI Tattoo Design Generator — Flutter + Node.js + OpenAI Images',
+
+      date: 'Development',
+
+      about:
+        'TatooGen is an AI-powered tattoo design generator built with a Flutter mobile app and a Node.js/Express backend. The app guides users through a tattoo idea flow with style, placement, size, complexity, and optional reference image controls, then generates custom tattoo concepts through an async backend workflow powered by OpenAI Images. The backend handles multipart generation requests, status polling, image retrieval, prompt construction, rate limiting, upload handling, and API protection using Helmet, CORS, Morgan, and express-rate-limit. The Flutter app supports Android, iOS, and Web with Riverpod state management, GoRouter navigation, Dio API communication, and save/share functionality for generated results.',
+
+      numOfPage: 9,
+      duration: 'Flutter + Node.js + OpenAI Images',
+
+      highlights: [
+        'Cross-platform Flutter app for Android, iOS, and Web',
+        'Guided tattoo idea flow with quiz and structured design form',
+        'Style, placement, size, complexity, and reference-image controls',
+        'Async generation workflow with create, poll, and fetch-image endpoints',
+        'Node.js/Express backend integrated with OpenAI Images',
+        'Secure API setup with Multer, Helmet, CORS, Morgan, and rate limiting',
+        'Save and share generated tattoo results inside the mobile app',
+      ],
+
+      img: [
+        'assets/projects/TatooGen/Pic1Web.png',
+        'assets/projects/TatooGen/Pic2Web.png',
+        'assets/projects/TatooGen/Pic3Web.png',
+        'assets/projects/TatooGen/Pic4Web.png',
+        'assets/projects/TatooGen/Pic5Web.png',
+
+        'assets/projects/TatooGen/Pic1Mob.png',
+        'assets/projects/TatooGen/Pic2Mob.png',
+        'assets/projects/TatooGen/Pic3Mob.png',
+        'assets/projects/TatooGen/Pic4Mob.png',
+      ],
+
+      link: '',
+      github: 'https://github.com/WERSIT35/tattoo-generator-app',
+
+      iflink: false,
+      gradient: 'background-image: linear-gradient(90deg, #121316, #2b2f36);',
+
+      role: 'Full-stack mobile engineer',
+      year: 2025,
+      status: 'in-production',
+      featured: true,
+
+      stack: [
+        'Flutter',
+        'Riverpod',
+        'GoRouter',
+        'Dio',
+        'Node.js',
+        'Express',
+        'OpenAI SDK',
+        'Multer',
+        'Helmet',
+        'CORS',
+        'Rate Limiting',
+      ],
+
+      problem:
+        'Create a guided AI tattoo design experience where users can describe an idea, control visual direction, optionally upload a reference image, and receive generated tattoo concepts through a reliable mobile-first workflow.',
+
+      approach: [
+        'Built a Flutter mobile app with Riverpod state management, GoRouter navigation, and Dio API communication',
+        'Created a guided tattoo idea flow using a quiz and structured design form',
+        'Added controls for tattoo style, placement, size, complexity, gender, and optional reference image upload',
+        'Designed an async backend workflow using POST /api/generate, GET /api/status/:predictionId, and GET /api/image/:predictionId',
+        'Implemented a Node.js/Express API with OpenAI Images integration and prompt-building utilities',
+        'Added upload handling with Multer and API protection with Helmet, CORS, Morgan, and express-rate-limit',
+        'Prepared local setup documentation, GitHub hygiene rules, and secret-safe environment configuration',
+      ],
+
+      metrics: [
+        { label: 'Mobile', value: 'Flutter + Riverpod' },
+        { label: 'Backend', value: 'Node.js + Express' },
+        { label: 'AI', value: 'OpenAI Images' },
+        { label: 'Flow', value: 'Async generation' },
+      ],
+
+      lessons:
+        'AI image generation works best when the product flow collects structured intent before calling the model. Splitting the experience into a guided design form, prompt builder, async generation endpoint, polling status route, and final image fetch made the system easier to reason about across both the Flutter app and backend API.',
+
+      demoEmbedUrl: '',
+    },
+    {
       projName: 'Akhali Sakhli',
       subname: 'Real Estate Platform Website',
 
@@ -185,7 +350,7 @@ export class ProjectsService {
       github: 'https://github.com/WERSIT35/Artisan-Marketplace',
 
       iflink: true,
-      gradient:'background-image: linear-gradient(90deg, #221411,#643C2E);',
+      gradient: 'background-image: linear-gradient(90deg, #221411,#643C2E);',
 
       role: 'Frontend delivery',
       year: 2024,
@@ -205,122 +370,9 @@ export class ProjectsService {
       ],
       demoEmbedUrl: 'https://heatflow.netlify.app',
     },
-
-    // ── GiftShop — Flagship modular e-commerce platform
-    {
-      projName: 'GiftShop',
-      subname: 'Modular Full-Stack E-Commerce Platform',
-      date: '2024',
-      about:
-        'GiftShop is a modular full-stack e-commerce platform built with separated frontend and backend layers. The Angular frontend is composed of reusable components integrated with a REST API layer; the backend handles authentication, cart, and order validation; the whole stack runs in Dockerized development and deployment environments for parity between local and production.',
-      numOfPage: 0,
-      duration: 'Angular + Node.js + Docker',
-      highlights: [
-        'Modular e-commerce platform with separated frontend/backend layers',
-        'Reusable Angular components integrated with REST services',
-        'Cart, order validation, and secure authentication',
-        'Dockerized development and deployment environments',
-        'Production-oriented code organization',
-      ],
-      img: [],
-      link: '',
-      github: '',
-      iflink: false,
-      gradient: 'background-image: linear-gradient(90deg, #1a1a2e, #2a2d36);',
-
-      role: 'Full-stack engineer',
-      year: 2024,
-      status: 'archived',
-      featured: false,
-      stack: ['Angular', 'Node.js', 'Docker', 'REST API'],
-      problem:
-        'Build a modular e-commerce platform where the frontend and backend can evolve independently, the cart and order flow stay reliable, and the development environment matches production.',
-      approach: [
-        'Separated frontend/backend layers with explicit REST contracts',
-        'Reusable Angular component library wired to REST services',
-        'Cart, order validation, and secure authentication on the backend',
-        'Dockerized dev + deployment environments for parity',
-      ],
-      metrics: [
-        { label: 'Architecture', value: 'Modular' },
-        { label: 'Stack', value: 'Angular + Node' },
-        { label: 'Deployment', value: 'Dockerized' },
-      ],
-      lessons:
-        'Drawing a hard line between frontend and backend layers — instead of a single mixed codebase — paid off the moment auth and order flows needed to be reasoned about in isolation.',
-      demoEmbedUrl: '',
-    },
-
-    // ── Placeholder #2 — TODO: fill in
-    {
-      projName: 'TODO — Project name',
-      subname: 'TODO — One-line subtitle',
-      date: 'TODO — e.g. 2026',
-      about: 'TODO — Short paragraph about what this project does and who it serves.',
-      numOfPage: 0,
-      duration: 'TODO — Stack summary',
-      highlights: [
-        'TODO — Highlight 1',
-        'TODO — Highlight 2',
-      ],
-      img: [],
-      link: '',
-      github: '',
-      iflink: false,
-      gradient: 'background-image: linear-gradient(90deg, #1f2937, #4b5563);',
-
-      role: 'TODO — Your role',
-      year: 2026,
-      status: 'live',
-      featured: true,
-      stack: ['TODO'],
-      problem: 'TODO — Problem statement.',
-      approach: [
-        'TODO — Decision 1',
-      ],
-      metrics: [
-        { label: 'TODO', value: 'TODO' },
-      ],
-      lessons: 'TODO — Lessons learned.',
-      demoEmbedUrl: '',
-    },
-
-    // ── Placeholder #3 — TODO: fill in
-    {
-      projName: 'TODO — Project name',
-      subname: 'TODO — One-line subtitle',
-      date: 'TODO — e.g. 2026',
-      about: 'TODO — Short paragraph about what this project does and who it serves.',
-      numOfPage: 0,
-      duration: 'TODO — Stack summary',
-      highlights: [
-        'TODO — Highlight 1',
-        'TODO — Highlight 2',
-      ],
-      img: [],
-      link: '',
-      github: '',
-      iflink: false,
-      gradient: 'background-image: linear-gradient(90deg, #0f172a, #1e3a8a);',
-
-      role: 'TODO — Your role',
-      year: 2026,
-      status: 'live',
-      featured: false,
-      stack: ['TODO'],
-      problem: 'TODO — Problem statement.',
-      approach: [
-        'TODO — Decision 1',
-      ],
-      metrics: [
-        { label: 'TODO', value: 'TODO' },
-      ],
-      lessons: 'TODO — Lessons learned.',
-      demoEmbedUrl: '',
-    },
   ];
 
-  constructor() {}
+  constructor() { }
 
   getProjects(): Projects[] {
     return this.projectsList;
