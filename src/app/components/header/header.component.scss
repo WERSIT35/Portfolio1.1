@@ -279,6 +279,53 @@
   outline-offset: 2px;
 }
 
+/* Theme switcher row inside the sheet — separated from the menu links by a rule */
+.mb-sheet-theme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--rule);
+}
+.mb-sheet-theme-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.mb-sheet-theme-buttons {
+  display: inline-flex;
+  gap: 2px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 2px;
+}
+.mb-sheet-theme-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--ink-mute);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+.mb-sheet-theme-btn:hover { color: var(--ink); }
+.mb-sheet-theme-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.mb-sheet-theme-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
 /* ───── Scrim ───── */
 .mb-scrim {
   position: fixed;
@@ -295,17 +342,11 @@
 }
 
 /* ────────────────────────────────────────────────
-   Mobile breakpoint — hide desktop nav, show pill
+   Mobile breakpoint — remove top header entirely; the floating bottom pill
+   handles nav and the More sheet hosts the theme switcher.
    ──────────────────────────────────────────────── */
 @media (max-width: 840px) {
-  .ed-header-inner {
-    min-height: var(--header-height-mobile);
-    grid-template-columns: 1fr auto;
-    gap: 0.6rem;
-  }
-  .ed-nav--desktop { display: none; }
-
-  .ed-theme-btn { width: 30px; height: 30px; font-size: 0.92rem; }
+  .ed-header { display: none; }
 
   /* Floating pill comes alive */
   .mb-nav,
@@ -318,12 +359,6 @@
 }
 
 @media (max-width: 480px) {
-  .ed-wordmark-role { display: none; }
-  .ed-wordmark-name { font-size: 0.98rem; }
-  /* Save horizontal room on tiny phones — hide non-active theme buttons. */
-  .ed-theme-btn:not(.active) { display: none; }
-  .ed-theme { padding: 1px; border-color: transparent; }
-
   /* Tighten pill labels on narrow screens */
   .mb-link { padding: 0 6px; gap: 4px; }
   .mb-link.active span { font-size: 0.6rem; letter-spacing: 0.08em; }

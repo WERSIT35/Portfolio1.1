@@ -1,4 +1,4 @@
-export type ProjectStatus = 'live' | 'in-production' | 'archived' | 'private';
+export type ProjectStatus = 'live' | 'in-production' | 'in-development' | 'archived' | 'private';
 
 export interface ProjectMetric {
     label: string;

@@ -7,6 +7,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
 import { LoadingService } from './services/loading.service';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from './services/theme.service';
+import { SmoothScrollService } from './services/smooth-scroll.service';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit{
     private themeService: ThemeService,
     private activatedRoute: ActivatedRoute,
     private meta: Meta,
+    private smoothScroll: SmoothScrollService,
   ) {}
 
   private updateMeta(): void {
@@ -44,6 +46,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.themeService.initTheme();
+    this.smoothScroll.init();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -53,7 +56,20 @@ export class AppComponent implements OnInit{
         this.loadingService.hide();
         this.hideHeader = event.urlAfterRedirects.startsWith('/admin');
         this.updateMeta();
+        this.handleRouteScroll();
       }
     });
+  }
+
+  private handleRouteScroll(): void {
+    let route = this.activatedRoute;
+    while (route.firstChild) route = route.firstChild;
+    const fragment = route.snapshot.fragment;
+    if (fragment) {
+      // Wait a frame so the new view has rendered.
+      requestAnimationFrame(() => this.smoothScroll.scrollToFragment(fragment));
+    } else {
+      this.smoothScroll.scrollToTop(true);
+    }
   }
 }

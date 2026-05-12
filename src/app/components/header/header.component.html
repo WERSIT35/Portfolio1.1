@@ -88,6 +88,26 @@
     <span class="mb-sheet-label">Resume (PDF)</span>
     <i class="bi bi-download mb-sheet-arrow" aria-hidden="true"></i>
   </a>
+
+  <!-- Theme switcher — only mobile entry point now that the top bar is gone -->
+  <div class="mb-sheet-theme" role="group" aria-label="Theme">
+    <span class="mb-sheet-theme-label">Theme</span>
+    <div class="mb-sheet-theme-buttons">
+      @for (option of themeOptions; track option) {
+        <button
+          type="button"
+          class="mb-sheet-theme-btn"
+          [class.active]="themeService.preference() === option"
+          (click)="setTheme(option)"
+          [attr.aria-label]="'Set theme to ' + option"
+        >
+          @if (option === 'light') { <i class="bi bi-sun"></i> }
+          @else if (option === 'dark') { <i class="bi bi-moon"></i> }
+          @else { <i class="bi bi-circle-half"></i> }
+        </button>
+      }
+    </div>
+  </div>
 </div>
 
 <!-- Scrim — fades content while More sheet is open, tap-to-close -->

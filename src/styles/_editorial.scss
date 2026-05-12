@@ -124,8 +124,32 @@ a { color: inherit; }
 }
 .ed-arrow + .ed-arrow { margin-left: 2px; }
 
-@media (max-width: 560px) {
-  .chapter-header { flex-wrap: wrap; }
+/* ─── Mobile section header stack ─────────────────────────────────
+   Desktop keeps the editorial baseline row: [01 — Skills]    [What I build with]
+   Mobile stacks vertically so the serif title gets full width and never wraps narrow:
+       01 — SKILLS
+       What I build with
+   ──────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .chapter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .chapter-header .chapter-title {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(1.85rem, 9vw, 2.4rem);
+    line-height: 1.02;
+  }
+  .chapter-header .chapter-spacer { display: none; }
+  .chapter-header .chapter-action-slot,
+  .chapter-header .chapter-action {
+    align-self: flex-start;
+    margin-top: 0.15rem;
+  }
 }
 
 /* Editorial primitives */
@@ -337,6 +361,23 @@ a { color: inherit; }
   padding: 0.08em 0.16em 0 0;
   color: var(--accent-primary);
 }
+/* Smaller drop-cap on phones so the first paragraph doesn't feel cramped. */
+@media (max-width: 768px) {
+  .dropcap::first-letter {
+    font-size: 2.6em;
+    padding: 0.06em 0.14em 0 0;
+  }
+}
+/* On the very smallest screens the drop-cap squeezes the first line into 2–3 words.
+   Disable the float entirely there — keep editorial style only where it works. */
+@media (max-width: 420px) {
+  .dropcap::first-letter {
+    float: none;
+    font-size: 1em;
+    padding: 0;
+    color: inherit;
+  }
+}
 
 /* Shared list-page header style */
 main > .title.page {
@@ -379,4 +420,28 @@ main > .title.page .prose {
   background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
+}
+
+/* ─── Shared mobile readability tweaks ─────────────────────────────
+   Larger body text, generous line-height, no max-width pinch on phones.
+   Desktop sizes are left untouched. */
+@media (max-width: 768px) {
+  .prose,
+  .prose p {
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 100%;
+  }
+  .ed-quote {
+    padding-left: 0.85rem;
+    font-size: clamp(1rem, 4.6vw, 1.18rem);
+    line-height: 1.5;
+  }
+  .hero-roleline { font-size: 1rem; line-height: 1.55; }
+}
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: clamp(2.4rem, 12vw, 3rem);
+    line-height: 1.0;
+  }
 }

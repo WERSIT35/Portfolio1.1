@@ -563,8 +563,9 @@
   .case-anchors { display: none; }
 }
 
-html { scroll-behavior: smooth; }
-
+/* Smooth scrolling is owned by Lenis (SmoothScrollService).
+   We only keep the per-section scroll-margin-top so the sticky
+   chapter strip never covers the section heading on jump. */
 .case-chapter {
   scroll-margin-top: calc(var(--header-height-desktop) + 70px);
 }

@@ -59,6 +59,7 @@ export class FeaturedWorkComponent implements OnInit, AfterViewInit, OnDestroy {
     switch (p.status) {
       case 'live': return 'Live';
       case 'in-production': return 'In production';
+      case 'in-development': return 'In development';
       case 'archived': return 'Archived';
       case 'private': return 'Private';
       default: return '';

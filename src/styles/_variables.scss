@@ -3,10 +3,12 @@
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  /* Header height — desktop is single row; mobile shows brand + theme only (nav lives in bottom pill). */
+  /* Header height — desktop is single row; mobile has NO top header (nav lives in
+     the floating bottom pill, theme switcher lives in the More sheet). */
   --header-height-desktop: 60px;
-  --header-height-mobile: 60px;
-  /* Total mobile offset that body content must clear: header height + iOS notch height. */
+  --header-height-mobile: 0px;
+  /* Total mobile offset that body content must clear — just the iOS notch / Dynamic
+     Island, since the top bar is gone. */
   --header-total-mobile: calc(var(--header-height-mobile) + var(--safe-top));
 
   /* Mobile floating bottom-nav pill. Total = pill height + gap from screen edge + iOS bottom safe-area. */

@@ -1,0 +1,576 @@
+/**
+ * Static snapshot of portfolio content.
+ *
+ * The Angular services in src/app/services read from here when
+ * environment.useApi === false. When you start running the backend
+ * (npm run backend:dev) and flip environment.useApi to true, the
+ * same services switch to fetching from /api/content/:section and
+ * this file is no longer consulted at runtime.
+ *
+ * Keeping the static and API shapes identical means the database
+ * is just a different transport for the same data, and components
+ * don't care which side is serving it.
+ */
+
+import { Experience } from '../interfaces/experience';
+import { Certifications } from '../interfaces/certifications';
+import { Projects } from '../interfaces/projects';
+import { Education } from '../interfaces/education';
+import { Skills } from '../interfaces/skills';
+import { Contact } from '../interfaces/contact';
+
+export const EXPERIENCES: Experience[] = [
+  {
+    id: 1,
+    role: 'Angular Developer',
+    company: 'PetC',
+    date: 'Dec 2025 – Present',
+    summary:
+      'Product-focused Angular engineering within a production-grade platform environment, with emphasis on performance, modularity, and architecture quality.',
+    chips: [
+      'Own development of 4 core platform features',
+      'Architect frontend with Standalone Components, Signals, and Lazy Loading',
+      'Align API contracts and UI architecture with backend and design teams',
+    ],
+    bullets: [
+      'Improve load performance through structured code splitting strategy',
+      'Refactor shared modules to stabilize core platform systems',
+      'Maintain structured engineering standards in product delivery',
+    ],
+  },
+  {
+    id: 3,
+    role: 'AML & Game Control Officer',
+    company: 'Betlive',
+    date: 'Sep 2024 – Present',
+    summary:
+      'iGaming AML and game-control role focused on real-time transaction monitoring, fraud detection, SQL-based anomaly analysis, and cross-team operational stability.',
+    chips: [
+      'Monitor real-time financial transactions across a high-volume iGaming platform',
+      'Detect fraud patterns, bonus abuse, and suspicious user behavior',
+      'Perform SQL-based analysis to trace transaction flows and anomalies',
+    ],
+    bullets: [
+      'Collaborate with risk, payments, and technical teams to resolve system issues',
+      'Investigate platform inconsistencies and support operational stability',
+      'Generate financial and operational reports for internal decision-making',
+    ],
+  },
+  {
+    id: 2,
+    role: 'Full-Stack Developer',
+    company: 'Freelance',
+    date: 'Sep 2024 – Present',
+    summary:
+      'Freelance full-stack delivery focused on modular Angular and Node.js systems, secure APIs, authentication flows, and Dockerized deployment.',
+    chips: [
+      'Architect and ship modular full-stack systems using Angular and Node.js',
+      'Design REST endpoints supporting authentication, cart, and order workflows',
+      'Build secure JWT authentication pipelines',
+    ],
+    bullets: [
+      'Optimize database queries and API flows',
+      'Containerize services using Docker',
+      'Deliver maintainable product-oriented architecture',
+    ],
+  },
+];
+
+export const CERTIFICATIONS: Certifications[] = [
+  {
+    id: 1,
+    name: 'FreeCodeCamp',
+    imageName: ['Front-End Development Libraries'],
+    image: ['/assets/education/Certification/FreecodeCamp/libraries.png'],
+    description:
+      'Front-End Development Libraries certification focused on practical component-driven frontend implementation with real project delivery patterns.',
+    date: 'Certificate',
+    issuer: 'FreeCodeCamp',
+    issued: '2024',
+    skills: ['React', 'Redux', 'Bootstrap', 'jQuery', 'SASS'],
+    timeSpent: '~300 hours',
+    tasksMade: [
+      'Build reusable React components',
+      'Implement state management patterns',
+      'Create project-level UI modules',
+    ],
+  },
+  {
+    id: 2,
+    name: 'FreeCodeCamp',
+    imageName: ['JavaScript Algorithms and Data Structures'],
+    image: ['/assets/education/Certification/FreecodeCamp/js.png'],
+    description:
+      'JavaScript Algorithms and Data Structures certification validating problem-solving and language fundamentals.',
+    date: 'Certificate',
+    issuer: 'FreeCodeCamp',
+    issued: '2024',
+    skills: ['JavaScript', 'Algorithms', 'Data Structures', 'ES6+'],
+    timeSpent: '~300 hours',
+    tasksMade: [
+      'Solve algorithmic coding challenges',
+      'Practice data structure implementation',
+      'Write optimized JavaScript logic',
+    ],
+  },
+  {
+    id: 3,
+    name: 'FreeCodeCamp',
+    imageName: ['Responsive Web Design'],
+    image: ['/assets/education/Certification/FreecodeCamp/responsive.png'],
+    description:
+      'Responsive Web Design certification focused on adaptive layout systems and semantic frontend structure.',
+    date: 'Certificate',
+    issuer: 'FreeCodeCamp',
+    issued: 'Aug 14, 2023',
+    skills: ['HTML5', 'CSS3', 'Responsive Layout', 'Accessibility'],
+    timeSpent: '~300 hours',
+    tasksMade: [
+      'Build responsive pages with CSS Grid/Flexbox',
+      'Apply semantic HTML structure',
+      'Improve accessibility and layout consistency',
+    ],
+  },
+  {
+    id: 4,
+    name: 'w3schools',
+    imageName: ['Introduction to AWS Solutions'],
+    image: ['/assets/education/Certification/AWS/AWS.png'],
+    description:
+      'Introduction to AWS Solutions certificate supporting cloud deployment and infrastructure foundations.',
+    date: 'Certificate',
+    issuer: 'w3schools',
+    issued: '2024',
+    skills: ['AWS Core Services', 'Cloud Basics', 'Architecture Fundamentals'],
+    timeSpent: '~30 hours',
+    tasksMade: [
+      'Understand AWS service landscape',
+      'Model basic cloud architecture choices',
+      'Apply cloud deployment fundamentals',
+    ],
+  },
+];
+
+export const EDUCATION_ITEMS: Education[] = [
+  {
+    id: 1,
+    img: '/assets/education/Universities/ug.png',
+    coverImage: '/assets/education/covers/ug.jpg',
+    coverAlt: 'University of Georgia campus',
+    name: 'University of Georgia',
+    title: 'Computer Science',
+    degree: 'BSc Computer Science',
+    subjects: [
+      'Data Structures and Algorithms',
+      'Computer Networks',
+      'Operating Systems',
+      'Object-Oriented Programming',
+      'Oracle Database Design and Programming',
+      'Introduction to Web Technologies',
+      'IT Services and Project Management',
+      'Discrete Mathematics',
+      'Computer Architecture',
+    ],
+    description: `<p>Completed Bachelor-level computer science studies with focus on software engineering foundations and system-oriented coursework.</p>
+              <p>Built strong fundamentals in algorithms, backend logic, architecture thinking, and database systems that now support production full-stack delivery.</p>`,
+    date: '2019-2025',
+  },
+  {
+    id: 2,
+    img: '/assets/education/Universities/btu.png',
+    coverImage: '/assets/education/covers/btu.jpg',
+    coverAlt: 'Business and Technology University campus',
+    name: 'Business and Technology University',
+    title: 'DevOps',
+    degree: 'MSc DevOps - In Progress',
+    subjects: [
+      'Containerization and orchestration',
+      'Cloud infrastructure',
+      'CI/CD systems',
+      'Production deployment strategies',
+    ],
+    description:
+      'Currently pursuing MSc DevOps with expected graduation in 2026, focused on production-grade deployment standards and scalable infrastructure practices.',
+    date: 'Expected 2026',
+  },
+  {
+    id: 3,
+    img: '/assets/education/Universities/fcc.svg',
+    coverImage: '/assets/education/covers/fcc.jpg',
+    coverAlt: 'FreeCodeCamp',
+    name: 'FreeCodeCamp',
+    title: 'Frontend + Cloud Foundations',
+    degree: 'Professional Certificates',
+    subjects: [
+      'Responsive Web Design',
+      'JavaScript Algorithms and Data Structures',
+      'Front-End Development Libraries',
+      'Introduction to AWS Solutions',
+    ],
+    description:
+      'Completed focused certification path to strengthen practical frontend architecture and cloud fundamentals used in production work.',
+    date: 'Ongoing',
+  },
+];
+
+export const SKILLS: Skills = {
+  name: [
+    'Angular', 'React', 'TypeScript', 'JavaScript', 'RxJS', 'SCSS',
+    'Node.js (Express)', 'Java (Spring Boot)', 'FastAPI', 'REST API Design',
+    'Docker', 'Kubernetes', 'CI/CD (GitHub Actions)', 'AWS', 'NGINX',
+    'PostgreSQL', 'MySQL', 'MongoDB', 'Oracle', 'HTML5', 'C#', 'Firebase',
+  ],
+  color: [
+    '#DD0031', '#61DAFB', '#3178C6', '#F0DB4F', '#B7178C', '#CC6699',
+    '#68A063', '#EA2D2E', '#009688', '#7BD4C6', '#2496ED', '#326CE5',
+    '#2088FF', '#FF9900', '#5FCF80', '#336791', '#4479A1', '#47A248',
+    '#EA1B22', '#E34F26', '#239120', '#FFCA28',
+  ],
+  icon: [
+    'devicon-angular-plain', 'devicon-react-original', 'devicon-typescript-plain',
+    'devicon-javascript-plain', 'devicon-rxjs-plain', 'devicon-sass-original',
+    'devicon-nodejs-plain', 'devicon-java-plain', 'devicon-fastapi-plain',
+    'devicon-swagger-plain', 'devicon-docker-plain', 'devicon-kubernetes-plain',
+    'devicon-githubactions-plain',
+    'devicon-amazonwebservices-plain-wordmark colored', 'devicon-nginx-original',
+    'devicon-postgresql-plain', 'devicon-mysql-plain', 'devicon-mongodb-plain',
+    'devicon-oracle-plain', 'devicon-html5-plain', 'devicon-csharp-plain',
+    'devicon-firebase-plain',
+  ],
+  learned: [
+    ['Freelance Production Work', 'PetC'],
+    ['Freelance Production Work', 'PetC'],
+    ['Freelance Production Work', 'University of Georgia'],
+    ['Freelance Production Work', 'University of Georgia'],
+    ['Angular Production Work'],
+    ['Angular + React Frontend Architecture'],
+    ['Freelance Full-Stack Work'],
+    ['Academic + Production Projects'],
+    ['Backend Service Development'],
+    ['Production API Contract Work'],
+    ['Containerized Deployment Workflows'],
+    ['Container Orchestration Practice'],
+    ['Release Pipelines & Automation'],
+    ['Cloud Deployment Practice'],
+    ['Production Deployment Strategies'],
+    ['E-Commerce Data Layer'],
+    ['Relational Data Modeling'],
+    ['Product Data Storage'],
+    ['University of Georgia Coursework'],
+    ['Frontend Foundations'],
+    ['Academic + Side Projects'],
+    ['Realtime + Auth Side Projects'],
+  ],
+  geined: [
+    ['Modular architecture', 'Lazy loading', 'Signals'],
+    ['Component-driven systems', 'Reusable UI patterns'],
+    ['Type-safe contracts', 'Maintainability'],
+    ['ES6+ patterns', 'Performance-aware code'],
+    ['Reactive state composition'],
+    ['Structured design systems'],
+    ['Auth/cart/order workflow support'],
+    ['Enterprise backend integration'],
+    ['Secure API implementation'],
+    ['Contract-first thinking'],
+    ['Portable environments'],
+    ['Scalable deployments'],
+    ['Reliable release flow'],
+    ['Cloud-ready deployment'],
+    ['Reverse proxy + serving strategy'],
+    ['SQL optimization'],
+    ['Relational query tuning'],
+    ['Document data handling'],
+    ['Schema and query fundamentals'],
+    ['Semantic markup', 'Accessible structure'],
+    ['Enterprise patterns', '.NET ecosystem familiarity'],
+    ['Realtime DB', 'Auth + Hosting'],
+  ],
+  rating: [5, 5, 5, 5, 4, 5, 5, 4, 4, 5, 5, 3, 4, 4, 4, 4, 4, 4, 4, 5, 3, 4],
+};
+
+export const PROJECTS: Projects[] = [
+  {
+    projName: 'Shello',
+    subname: 'Full-Stack E-Commerce Platform — Angular SSR + Node.js',
+    date: 'Production',
+    about:
+      'Shello is a production-grade full-stack e-commerce platform built with Angular SSR and Node.js, focused on performance, security, scalable architecture, and a clear frontend/backend separation. The backend exposes versioned REST APIs with secure authentication (refresh tokens in HttpOnly cookies, Google OAuth, MFA, and role-based access control) over an Express/TypeScript service backed by MongoDB. The Angular SSR frontend ships with RxJS, SCSS, an admin dashboard, and role-aware routing. The whole stack is containerized with Docker and prepared for Kubernetes-ready deployment with optimized MongoDB schemas and API workflows.',
+    numOfPage: 12,
+    duration: 'Angular SSR + Node.js + Docker',
+    highlights: [
+      'Production-grade full-stack e-commerce platform on Angular SSR + Node.js',
+      'Modular architecture with versioned REST APIs and clear frontend/backend separation',
+      'Secure auth: refresh tokens in HttpOnly cookies, Google OAuth, MFA, role-based access',
+      'Containerized with Docker and prepared for Kubernetes-ready deployment',
+      'Optimized MongoDB schemas and API workflows for production load',
+    ],
+    img: [
+      'assets/projects/ShelloTech/Pic1Web.png', 'assets/projects/ShelloTech/Pic1Mob.png',
+      'assets/projects/ShelloTech/Pic2Web.png', 'assets/projects/ShelloTech/Pic2Mob.png',
+      'assets/projects/ShelloTech/Pic3Web.png', 'assets/projects/ShelloTech/Pic3Mob.png',
+      'assets/projects/ShelloTech/Pic4Web.png', 'assets/projects/ShelloTech/Pic4Mob.png',
+      'assets/projects/ShelloTech/Pic5Web.png', 'assets/projects/ShelloTech/Pic5Mob.png',
+      'assets/projects/ShelloTech/Pic6Web.png', 'assets/projects/ShelloTech/Pic6Mob.png',
+    ],
+    link: 'https://shellotech.eu.org',
+    github: 'https://github.com/WERSIT35/Shello-Demo',
+    iflink: true,
+    gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
+    role: 'Full-stack engineer',
+    year: 2025,
+    status: 'live',
+    featured: true,
+    stack: ['Angular SSR', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Kubernetes'],
+    problem:
+      'Ship a production-grade e-commerce platform where the frontend and backend can evolve independently, the auth flow holds up under real users, and the deployment story is the same on day one as on day one-hundred.',
+    approach: [
+      'Modular architecture with versioned REST APIs and clear frontend/backend separation',
+      'Refresh tokens in HttpOnly cookies, Google OAuth, MFA, and role-based access control',
+      'Angular SSR frontend with RxJS, SCSS, and role-aware routing',
+      'Containerized with Docker; Kubernetes-ready deployment topology',
+      'Optimized MongoDB schemas and API workflows tuned for production load',
+    ],
+    metrics: [
+      { label: 'Stack', value: 'Angular SSR + Node' },
+      { label: 'Auth', value: 'Cookies + OAuth + MFA' },
+      { label: 'Deployment', value: 'Docker + K8s-ready' },
+    ],
+    lessons:
+      'Layering refresh tokens in HttpOnly cookies on top of MFA and RBAC forced a cleaner separation between session state and UI state — which is exactly what made bolting on the admin dashboard cheap later.',
+    demoEmbedUrl: 'https://shellotech.eu.org',
+  },
+  {
+    projName: 'Elite Weddings',
+    subname: 'Premium Wedding Landing Platform — Angular + Node.js',
+    date: '2025',
+    about:
+      'Elite Weddings is a premium wedding landing platform delivered as a full-stack engagement. The Angular frontend presents the portfolio of venues and service packages with a conversion-friendly structure, while the Node.js/Express backend handles inquiry submissions and an authenticated admin surface protected by JWT and TOTP-based MFA. The whole stack is containerized with Docker and deployed on a lightweight k3s cluster for predictable production behavior.',
+    numOfPage: 8,
+    duration: 'Angular + Node.js + Docker + k3s',
+    highlights: [
+      'Premium wedding landing experience with full-stack delivery',
+      'Hardened admin surface: JWT + TOTP MFA flow',
+      'Express API for inquiry capture and content management',
+      'Containerized with Docker; deployed to a k3s cluster',
+      'Conversion-focused information architecture for booking',
+    ],
+    img: [
+      'assets/projects/EliteWeddings/Pic1Web.png',
+      'assets/projects/EliteWeddings/Pic2Web.png',
+      'assets/projects/EliteWeddings/Pic3Web.png',
+      'assets/projects/EliteWeddings/Pic4Web.png',
+      'assets/projects/EliteWeddings/Pic5Web.png',
+      'assets/projects/EliteWeddings/Pic6Web.png',
+      'assets/projects/EliteWeddings/Pic7Web.png',
+      'assets/projects/EliteWeddings/Pic8Web.png',
+    ],
+    link: 'https://elitewe.com.ge/',
+    github: '',
+    iflink: true,
+    gradient: 'background-image: linear-gradient(90deg, #1c1416, #4a2a32);',
+    role: 'Full-stack engineer',
+    year: 2025,
+    status: 'live',
+    featured: true,
+    stack: ['Angular', 'Node.js', 'Express', 'JWT', 'TOTP MFA', 'Docker', 'k3s'],
+    problem:
+      'A wedding business needed a premium landing platform where the public site felt high-end and the admin side stayed locked down even on a small self-hosted footprint.',
+    approach: [
+      'Angular frontend tuned for conversion and clean information hierarchy',
+      'Express backend with JWT sessions and TOTP-based MFA on admin routes',
+      'Inquiry capture and content management behind the authenticated surface',
+      'Containerized with Docker, deployed on a k3s cluster for repeatable rollouts',
+    ],
+    metrics: [
+      { label: 'Stack', value: 'Angular + Node' },
+      { label: 'Auth', value: 'JWT + TOTP MFA' },
+      { label: 'Deployment', value: 'Docker + k3s' },
+    ],
+    lessons:
+      'A small-footprint k3s deployment is a great fit when the public site must feel premium but the operational surface needs to stay tiny — the constraint forces tighter API design and cleaner admin boundaries.',
+    demoEmbedUrl: 'https://elitewe.com.ge/',
+  },
+  {
+    projName: 'TatooGen',
+    subname: 'AI Tattoo Design Generator — Flutter + Node.js + OpenAI Images',
+    date: '2025',
+    about:
+      'TatooGen is a cross-platform mobile app that turns a short text prompt into AI-generated tattoo concepts. The Flutter client uses Riverpod for state, GoRouter for navigation, and Dio for the API layer; the Node.js/Express backend orchestrates the OpenAI Images API, handles file uploads via Multer, and ships with rate limiting, CORS, and Helmet hardening so the AI endpoints stay safe under real traffic.',
+    numOfPage: 0,
+    duration: 'Flutter + Node.js + OpenAI Images',
+    highlights: [
+      'Cross-platform Flutter app generating AI tattoo concepts from prompts',
+      'Riverpod + GoRouter architecture with Dio-based API layer',
+      'Express backend orchestrating the OpenAI Images API',
+      'Hardened endpoints: rate limiting, Helmet, CORS, Multer uploads',
+      'Designed for production-grade abuse resistance on AI endpoints',
+    ],
+    img: [
+      'assets/projects/TatooGen/Pic1Web.png',
+      'assets/projects/TatooGen/Pic1Mob.png',
+      'assets/projects/TatooGen/Pic2Web.png',
+      'assets/projects/TatooGen/Pic2Mob.png',
+      'assets/projects/TatooGen/Pic3Web.png',
+      'assets/projects/TatooGen/Pic3Mob.png',
+      'assets/projects/TatooGen/Pic4Web.png',
+      'assets/projects/TatooGen/Pic4Mob.png',
+      'assets/projects/TatooGen/Pic5Web.png',
+    ],
+    link: '',
+    github: '',
+    iflink: false,
+    gradient: 'background-image: linear-gradient(90deg, #0e0f12, #2a2530);',
+    role: 'Full-stack mobile engineer',
+    year: 2025,
+    status: 'in-development',
+    featured: true,
+    stack: ['Flutter', 'Riverpod', 'GoRouter', 'Dio', 'Node.js', 'Express', 'OpenAI SDK', 'Multer', 'Helmet', 'CORS', 'Rate Limiting'],
+    problem:
+      'Building a consumer-facing AI generator means the cute frontend is the easy half — the real work is making sure the OpenAI-backed endpoint cannot be abused, drained, or accidentally exposed to unbounded cost.',
+    approach: [
+      'Flutter client architected around Riverpod state + GoRouter navigation',
+      'Dio API layer for typed requests and consistent error handling',
+      'Express backend wraps the OpenAI Images API behind auth-aware endpoints',
+      'Multer file handling with strict MIME and size limits',
+      'Defense-in-depth on the AI endpoint: rate limiting + Helmet + CORS',
+    ],
+    metrics: [
+      { label: 'Client', value: 'Flutter' },
+      { label: 'AI', value: 'OpenAI Images' },
+      { label: 'Hardening', value: 'Rate limit + Helmet' },
+    ],
+    lessons:
+      'On AI products the perimeter matters more than the prompt — rate limiting and tight upload validation are what keep the demo cheap to run and the production version safe to ship.',
+    demoEmbedUrl: '',
+  },
+  {
+    projName: 'Akhali Sakhli',
+    subname: 'Real Estate Platform Website',
+    date: 'Client Delivery',
+    about:
+      'Akhali Sakhli is a real estate platform website focused on clear property presentation, responsive browsing, and conversion-friendly structure. The delivery emphasized clean sectioning, maintainable Angular components, and consistent page behavior across mobile and desktop views.',
+    numOfPage: 4,
+    duration: 'Angular Frontend Delivery',
+    highlights: [
+      'Responsive property-focused layouts for desktop and mobile',
+      'Structured content hierarchy for faster listing exploration',
+      'Reusable Angular UI sections for maintainable page growth',
+      'Improved readability and information flow for conversion paths',
+    ],
+    img: [
+      'assets/projects/newHouse/landing.png', 'assets/projects/newHouse/pic1.png',
+      'assets/projects/newHouse/pic2.png', 'assets/projects/newHouse/pic3.png',
+    ],
+    link: 'https://akhalisakhli.com/',
+    github: 'https://github.com/WERSIT35/angular-wedding-landing',
+    iflink: true,
+    gradient: 'background-image: linear-gradient(90deg, #121829, #22315A);',
+    role: 'Frontend delivery',
+    year: 2024,
+    status: 'live',
+    featured: false,
+    stack: ['Angular', 'SCSS', 'TypeScript'],
+    metrics: [
+      { label: 'Pages shipped', value: '4' },
+      { label: 'Status', value: 'Live' },
+    ],
+  },
+  {
+    projName: 'PetC Platform',
+    subname: 'Production-Grade Angular Application',
+    date: 'Dec 2025-Present',
+    about:
+      'PetC Platform is a production-grade Angular application focused on shipping high-impact features with long-term maintainability. The frontend architecture uses Standalone Components, Signals, Lazy Loading, and modular boundaries to improve team velocity and reduce coupling between feature areas. Delivery work included feature stabilization, cleaner route-level loading strategy, and performance improvements through intentional code splitting aligned with real product usage.',
+    numOfPage: 0,
+    duration: 'Angular Architecture',
+    highlights: [
+      'Built and stabilized core production features in an active platform',
+      'Applied Standalone Components, Signals, and Lazy Loading patterns',
+      'Designed cleaner module boundaries for easier onboarding and ownership',
+      'Optimized loading behavior with structured route-level code splitting',
+      'Improved implementation consistency across shared product sections',
+      'Aligned frontend architecture decisions with product delivery priorities',
+    ],
+    img: [],
+    link: '#',
+    github: 'https://github.com/WERSIT35/BetPilot',
+    iflink: false,
+    gradient: 'background-image: linear-gradient(90deg, #0f1722, #2a3e5f);',
+    role: 'Angular engineer',
+    year: 2025,
+    status: 'in-production',
+    featured: true,
+    stack: ['Angular', 'Standalone Components', 'Signals', 'RxJS'],
+    problem:
+      'An active product platform needed cleaner module boundaries and faster route-level loading without freezing feature delivery.',
+    approach: [
+      'Adopted Standalone Components + Signals for new feature areas',
+      'Restructured routing for true lazy loading per feature',
+      'Aligned code splitting with real usage patterns from product analytics',
+      'Drew clearer module ownership lines for team velocity',
+    ],
+    metrics: [
+      { label: 'Status', value: 'In production' },
+      { label: 'Architecture', value: 'Signals + Lazy' },
+    ],
+    lessons:
+      'The biggest unlock was not the tech — it was matching code-split boundaries to how users actually move through the product. Bundles shrank where it mattered, not where it looked clever.',
+  },
+  {
+    projName: 'HeatFlow',
+    subname: 'Industrial Product Website',
+    date: 'Client Delivery',
+    about:
+      'HeatFlow is an industrial product website focused on credibility, clarity, and conversion-friendly information delivery. The frontend is built around responsive layouts and structured content hierarchy for catalog-heavy pages, making technical product information easy to scan and compare. Special attention was given to consistent component composition, reliable visual rhythm, and smooth navigation between product categories across desktop and mobile.',
+    numOfPage: 5,
+    duration: 'Frontend Delivery',
+    highlights: [
+      'Responsive delivery for catalog-heavy industrial product content',
+      'Clear information architecture for fast product discovery and comparison',
+      'Structured component composition for scalable content updates',
+      'Consistent visual hierarchy across desktop and mobile breakpoints',
+      'Conversion-focused page flow for inquiry-oriented user journeys',
+      'Clean navigation patterns for deeper category exploration',
+    ],
+    img: [
+      'assets/projects/heatFlow/1.png', 'assets/projects/heatFlow/2.png',
+      'assets/projects/heatFlow/3.png', 'assets/projects/heatFlow/4.png',
+    ],
+    link: 'https://heatflow.netlify.app',
+    github: 'https://github.com/WERSIT35/Artisan-Marketplace',
+    iflink: true,
+    gradient: 'background-image: linear-gradient(90deg, #221411,#643C2E);',
+    role: 'Frontend delivery',
+    year: 2024,
+    status: 'live',
+    featured: true,
+    stack: ['Angular', 'SCSS', 'TypeScript'],
+    problem:
+      'An industrial supplier needed a credibility-first site where buyers could scan, compare and inquire about catalog-heavy product information fast.',
+    approach: [
+      'Catalog-heavy responsive layouts with consistent visual rhythm',
+      'Information architecture optimized for scanning and comparison',
+      'Reusable component composition for ongoing content updates',
+    ],
+    metrics: [
+      { label: 'Pages shipped', value: '5' },
+      { label: 'Status', value: 'Live' },
+    ],
+    demoEmbedUrl: 'https://heatflow.netlify.app',
+  },
+  
+];
+
+export const CONTACT: Contact = {
+  name: 'Oto',
+  surname: 'Davitashvili',
+  image: '',
+  phone: '',
+  X: '',
+  instagram: '',
+  facebook: '',
+  email: '',
+  github: '',
+  linkedin: '',
+  location: '',
+};

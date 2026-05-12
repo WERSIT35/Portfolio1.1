@@ -24,6 +24,12 @@ html {
   overflow-x: hidden;
   /* Anchor-link jumps should clear the fixed header. */
   scroll-padding-top: calc(var(--header-height-desktop) + 8px);
+  /* Lenis (SmoothScrollService) owns wheel smoothness on capable devices.
+     Native CSS smooth-scroll is the fallback for reduced-motion / touch users. */
+  scroll-behavior: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 @media (max-width: 840px) {
   html { scroll-padding-top: calc(var(--header-total-mobile) + 8px); }
@@ -262,6 +268,19 @@ button {
 .page {
   width: min(94vw, var(--content-max));
   margin: 0 auto;
+}
+
+/* Comfortable side padding on phones — 94vw of a 390px screen is only ~12px
+   of gutter, which makes the editorial type look cramped against the edges. */
+@media (max-width: 768px) {
+  .page {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 20px;
+  }
+}
+@media (max-width: 420px) {
+  .page { padding-inline: 18px; }
 }
 
 .section-header {
