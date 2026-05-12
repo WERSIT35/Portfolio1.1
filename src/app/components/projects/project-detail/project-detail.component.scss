@@ -563,7 +563,16 @@
   .case-anchors { display: none; }
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+html { scroll-behavior: smooth; }
+
+.case-chapter {
+  scroll-margin-top: calc(var(--header-height-desktop) + 70px);
+}
+@media (max-width: 760px) {
+  .case-chapter {
+    scroll-margin-top: calc(var(--header-total-mobile) + 24px);
+  }
+}
 
 /* Other case studies footer */
 .case-related {

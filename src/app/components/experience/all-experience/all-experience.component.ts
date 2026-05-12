@@ -19,6 +19,8 @@ export class AllExperienceComponent implements OnInit {
   constructor(private experienceService: ExperienceService) {}
 
   ngOnInit(): void {
-    this.experienceList = this.experienceService.getExperienceList();
+    this.experienceService.getExperienceList().subscribe((list) => {
+      this.experienceList = list;
+    });
   }
 }

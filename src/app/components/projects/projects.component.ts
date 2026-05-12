@@ -24,14 +24,15 @@ export class ProjectsComponent implements OnInit {
   constructor(private projectService: ProjectsService) {}
 
   ngOnInit(): void {
-    const all = this.projectService.getProjects();
-    const realEntries = all
-      .map((project, index) => ({ project, index }))
-      .filter((e) => !e.project.projName.startsWith('TODO'));
+    this.projectService.getProjects().subscribe((all) => {
+      const realEntries = all
+        .map((project, index) => ({ project, index }))
+        .filter((e) => !e.project.projName.startsWith('TODO'));
 
-    const featured = realEntries.filter((e) => e.project.featured);
-    this.lead = featured[0] ?? realEntries[0];
-    this.archive = realEntries.filter((e) => e.index !== this.lead?.index);
+      const featured = realEntries.filter((e) => e.project.featured);
+      this.lead = featured[0] ?? realEntries[0];
+      this.archive = realEntries.filter((e) => e.index !== this.lead?.index);
+    });
   }
 
   statusLabel(p: Projects): string {

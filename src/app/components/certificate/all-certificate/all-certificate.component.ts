@@ -22,7 +22,9 @@ export class AllCertificateComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.certificationList = this.certificate.getCertificate();
+    this.certificate.getCertificate().subscribe((list) => {
+      this.certificationList = list;
+    });
   }
 
 }

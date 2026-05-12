@@ -35,7 +35,7 @@
 
   <!-- 01 — The Problem -->
   @if (item.problem) {
-    <section id="ch-problem" class="case-chapter" [appReveal]="'up'">
+    <section id="problem" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">01 — Problem</span>
         <h2 class="chapter-title">What needed solving</h2>
@@ -46,7 +46,7 @@
 
   <!-- 02 — My Approach -->
   @if (item.approach && item.approach.length > 0) {
-    <section id="ch-approach" class="case-chapter" [appReveal]="'up'">
+    <section id="approach" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">02 — Approach</span>
         <h2 class="chapter-title">How I built it</h2>
@@ -64,7 +64,7 @@
 
   <!-- 03 — Screenshots -->
   @if (hasMedia(item)) {
-    <section id="ch-shots" class="case-chapter" [appReveal]="'up'">
+    <section id="screenshots" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">03 — Screenshots</span>
         <h2 class="chapter-title">What it looks like</h2>
@@ -92,7 +92,7 @@
 
   <!-- 04 — Live demo (optional) -->
   @if (safeDemoUrl) {
-    <section id="ch-demo" class="case-chapter" [appReveal]="'up'">
+    <section id="live-demo" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">04 — Live demo</span>
         <h2 class="chapter-title">Try it yourself</h2>
@@ -111,7 +111,7 @@
   }
 
   <!-- 05 — Detail -->
-  <section id="ch-detail" class="case-chapter" [appReveal]="'up'">
+  <section id="details" class="case-chapter" [appReveal]="'up'">
     <header class="case-chapter-head">
       <span class="chapter-num">05 — Detail</span>
       <h2 class="chapter-title">The longer version</h2>
@@ -129,7 +129,7 @@
 
   <!-- 06 — Results -->
   @if (item.metrics && item.metrics.length > 0) {
-    <section id="ch-results" class="case-chapter" [appReveal]="'up'">
+    <section id="results" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">06 — Results</span>
         <h2 class="chapter-title">What it shipped</h2>
@@ -147,7 +147,7 @@
 
   <!-- 07 — Lessons -->
   @if (item.lessons) {
-    <section id="ch-lessons" class="case-chapter" [appReveal]="'up'">
+    <section id="lessons" class="case-chapter" [appReveal]="'up'">
       <header class="case-chapter-head">
         <span class="chapter-num">07 — Lessons</span>
         <h2 class="chapter-title">What I'd do differently</h2>
@@ -157,22 +157,24 @@
   }
 
   <!-- 08 — Links -->
-  <section id="ch-links" class="case-chapter case-links" [appReveal]="'up'">
-    <header class="case-chapter-head">
-      <span class="chapter-num">08 — Links</span>
-      <h2 class="chapter-title">Open the work</h2>
-    </header>
-    <div class="case-link-row">
-      <a *ngIf="item.iflink && item.link" class="ed-btn" [href]="item.link" target="_blank" rel="noopener noreferrer">
-        <i class="bi bi-arrow-up-right"></i>
-        Open live site
-      </a>
-      <a *ngIf="item.github" class="ed-btn ed-btn--ghost" [href]="item.github" target="_blank" rel="noopener noreferrer">
-        <i class="bi bi-github"></i>
-        GitHub repo
-      </a>
-    </div>
-  </section>
+  @if (hasLinks(item)) {
+    <section id="links" class="case-chapter case-links" [appReveal]="'up'">
+      <header class="case-chapter-head">
+        <span class="chapter-num">08 — Links</span>
+        <h2 class="chapter-title">Open the work</h2>
+      </header>
+      <div class="case-link-row">
+        <a *ngIf="item.iflink && item.link" class="ed-btn" [href]="item.link" target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-arrow-up-right"></i>
+          Open live site
+        </a>
+        <a *ngIf="item.github" class="ed-btn ed-btn--ghost" [href]="item.github" target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-github"></i>
+          GitHub repo
+        </a>
+      </div>
+    </section>
+  }
 
   <!-- Other case studies -->
   @if (related.length > 0) {

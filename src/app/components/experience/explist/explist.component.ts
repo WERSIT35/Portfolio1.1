@@ -23,7 +23,9 @@ export class ExplistComponent {
 
   constructor() {
     const expID = Number(this.route.snapshot.params['id']);
-    this.exp = this.expService.getExpId(expID);
+    this.expService.getExpId(expID).subscribe((found) => {
+      this.exp = found;
+    });
   }
 
 }

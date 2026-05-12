@@ -26,6 +26,8 @@ export class AllSkillsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.skillsList = this.educationService.getSkills();
+    this.educationService.getSkills().subscribe((list) => {
+      this.skillsList = list;
+    });
   }
 }

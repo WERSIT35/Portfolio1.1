@@ -22,15 +22,16 @@ export class ImpactStripComponent implements OnInit {
   constructor(private projectsService: ProjectsService) {}
 
   ngOnInit(): void {
-    const all = this.projectsService.getProjects();
-    const realProjects = all.filter((p) => !p.projName.startsWith('TODO'));
-    const live = realProjects.filter((p) => p.status === 'live').length;
+    this.projectsService.getProjects().subscribe((all) => {
+      const realProjects = all.filter((p) => !p.projName.startsWith('TODO'));
+      const live = realProjects.filter((p) => p.status === 'live').length;
 
-    this.stats = [
-      { value: String(realProjects.length), label: 'Projects shipped', icon: 'bi-rocket-takeoff' },
-      { value: String(live), label: 'Live deployments', icon: 'bi-globe2' },
-      { value: '5+', label: 'Years coding', icon: 'bi-calendar-check' },
-      { value: 'Full-stack', label: 'Angular · Node · FastAPI · AWS', icon: 'bi-layers' },
-    ];
+      this.stats = [
+        { value: String(realProjects.length), label: 'Projects shipped', icon: 'bi-rocket-takeoff' },
+        { value: String(live), label: 'Live deployments', icon: 'bi-globe2' },
+        { value: '5+', label: 'Years coding', icon: 'bi-calendar-check' },
+        { value: 'Full-stack', label: 'Angular · Node · FastAPI · AWS', icon: 'bi-layers' },
+      ];
+    });
   }
 }

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AdminUser, LoginResponse } from '../interfaces/admin';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminAuthService {
-  private readonly apiBase = 'http://localhost:4300/api';
+  private readonly apiBase = environment.apiBase;
   private readonly tokenKey = 'admin_token';
   private readonly userKey = 'admin_user';
   private readonly userSubject = new BehaviorSubject<AdminUser | null>(this.loadUser());

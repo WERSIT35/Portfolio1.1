@@ -25,9 +25,10 @@ export class EdulistComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.eduID = Number(params['id']);
-      this.edu = this.educationService.getEduId(this.eduID);
-      const allEdu = this.educationService.getEducation();
-      this.suggestions = allEdu.filter(item => item.id !== this.eduID);
+      this.educationService.getEducation().subscribe((allEdu) => {
+        this.edu = allEdu.find((item) => item.id === this.eduID);
+        this.suggestions = allEdu.filter((item) => item.id !== this.eduID);
+      });
     });
   }
 

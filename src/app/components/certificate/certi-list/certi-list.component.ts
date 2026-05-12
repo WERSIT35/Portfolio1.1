@@ -22,7 +22,9 @@ export class CertiListComponent {
 
   constructor() {
     const certID = Number(this.route.snapshot.params['id']);
-    this.cert = this.certService.getCertifyId(certID);
+    this.certService.getCertifyId(certID).subscribe((found) => {
+      this.cert = found;
+    });
   }
 
   openPreview(image: string): void { this.previewImage = image; }

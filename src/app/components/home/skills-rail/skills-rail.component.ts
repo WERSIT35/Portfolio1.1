@@ -47,18 +47,20 @@ export class SkillsRailComponent implements OnInit {
   constructor(private educationService: EducationService) {}
 
   ngOnInit(): void {
-    const s = this.educationService.getSkills()[0];
-    if (!s) return;
-    this.categories = this.CATEGORIES.map((cat) => ({
-      label: cat.label,
-      items: cat.names
-        .map((name) => {
-          const i = s.name.indexOf(name);
-          if (i < 0) return null;
-          return { name: s.name[i], icon: s.icon[i], color: s.color[i], rating: s.rating[i] };
-        })
-        .filter((x): x is SkillItem => !!x),
-    }));
+    this.educationService.getSkills().subscribe((skillsList) => {
+      const s = skillsList[0];
+      if (!s) return;
+      this.categories = this.CATEGORIES.map((cat) => ({
+        label: cat.label,
+        items: cat.names
+          .map((name) => {
+            const i = s.name.indexOf(name);
+            if (i < 0) return null;
+            return { name: s.name[i], icon: s.icon[i], color: s.color[i], rating: s.rating[i] };
+          })
+          .filter((x): x is SkillItem => !!x),
+      }));
+    });
   }
 
   dots(rating: number): number[] {

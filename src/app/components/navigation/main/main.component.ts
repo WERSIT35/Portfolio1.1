@@ -42,15 +42,25 @@ export class MainComponent implements AfterViewInit, OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.educationList = this.educationService.getEducation();
+    this.educationService.getEducation().subscribe((list) => {
+      this.educationList = list;
+      this.mountSliderIfReady();
+    });
   }
 
   ngAfterViewInit(): void {
+    this.mountSliderIfReady();
+  }
+
+  private mountSliderIfReady(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (this.educationList.length === 0) return;
+    if (this.eduSlider || this.educationList.length === 0) return;
     const opts = editorialSplideOptions(2, { loop: this.educationList.length > 2 });
     opts.arrows = false;
-    this.eduSlider = new Splide('#education', opts).mount();
+    queueMicrotask(() => {
+      if (!document.getElementById('education')) return;
+      this.eduSlider = new Splide('#education', opts).mount();
+    });
   }
 
   ngOnDestroy(): void { this.eduSlider?.destroy(true); }

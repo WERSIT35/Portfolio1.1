@@ -22,6 +22,8 @@ export class AllEducationComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-      this.educationList = this.educationService.getEducation();
+    this.educationService.getEducation().subscribe((list) => {
+      this.educationList = list;
+    });
   }
 }

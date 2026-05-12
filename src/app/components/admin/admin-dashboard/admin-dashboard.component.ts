@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminAuthService } from '../../../services/admin-auth.service';
-import { AdminContentService } from '../../../services/admin-content.service';
+import { AdminContentService, SectionKey } from '../../../services/admin-content.service';
 import { AdminRole, AdminUser } from '../../../interfaces/admin';
 
 @Component({
@@ -14,8 +14,8 @@ import { AdminRole, AdminUser } from '../../../interfaces/admin';
   styleUrl: './admin-dashboard.component.scss',
 })
 export class AdminDashboardComponent implements OnInit {
-  sections = ['hero', 'ctas', 'skills', 'education', 'experience', 'certificates', 'projects', 'contact'];
-  selectedSection = 'hero';
+  sections: SectionKey[] = ['hero', 'ctas', 'skills', 'education', 'experience', 'certificates', 'projects', 'contact'];
+  selectedSection: SectionKey = 'hero';
   jsonEditor = '';
   loading = false;
   message = '';
@@ -43,7 +43,7 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  loadSection(section: string): void {
+  loadSection(section: SectionKey): void {
     this.selectedSection = section;
     this.loading = true;
     this.message = '';

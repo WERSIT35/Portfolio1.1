@@ -23,19 +23,29 @@ export class FeaturedWorkComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const all = this.projectsService.getProjects();
-    this.featured = all
-      .map((project, index) => ({ project, index }))
-      .filter((x) => x.project.featured && !x.project.projName.startsWith('TODO'))
-      .slice(0, 6);
+    this.projectsService.getProjects().subscribe((all) => {
+      this.featured = all
+        .map((project, index) => ({ project, index }))
+        .filter((x) => x.project.featured && !x.project.projName.startsWith('TODO'))
+        .slice(0, 6);
+      this.mountSliderIfReady();
+    });
   }
 
   ngAfterViewInit(): void {
+    this.mountSliderIfReady();
+  }
+
+  private mountSliderIfReady(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (this.featured.length === 0) return;
+    if (this.featured.length === 0 || this.slider) return;
     const opts = editorialSplideOptions(2, { loop: this.featured.length > 2 });
     opts.arrows = false;
-    this.slider = new Splide('#featuredWork', opts).mount();
+    queueMicrotask(() => {
+      if (document.getElementById('featuredWork')) {
+        this.slider = new Splide('#featuredWork', opts).mount();
+      }
+    });
   }
 
   ngOnDestroy(): void {

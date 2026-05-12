@@ -32,11 +32,21 @@ export class SkillsComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.skillsList = this.educationService.getSkills();
+    this.educationService.getSkills().subscribe((list) => {
+      this.skillsList = list;
+      this.mountSliderIfReady();
+    });
   }
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    this.mountSliderIfReady();
+  }
+
+  private mountSliderIfReady(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.skillsSplide || this.skillsList.length === 0) return;
+    queueMicrotask(() => {
+      if (!document.getElementById('slider1')) return;
       this.skillsSplide = new Splide('#slider1', {
         type: 'loop',
         pagination: false,
@@ -64,7 +74,7 @@ export class SkillsComponent implements AfterViewInit, OnInit {
           },
         }
       }).mount({ AutoScroll });
-    }
+    });
   }
 
   pauseSkillsSlider(): void {

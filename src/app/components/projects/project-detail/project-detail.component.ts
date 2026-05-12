@@ -32,15 +32,19 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   get availableChapters(): { id: string; label: string }[] {
     if (!this.project) return [];
     const out: { id: string; label: string }[] = [];
-    if (this.project.problem) out.push({ id: 'ch-problem', label: '01 Problem' });
-    if (this.project.approach?.length) out.push({ id: 'ch-approach', label: '02 Approach' });
-    if (this.hasMedia(this.project)) out.push({ id: 'ch-shots', label: '03 Screenshots' });
-    if (this.safeDemoUrl) out.push({ id: 'ch-demo', label: '04 Live demo' });
-    out.push({ id: 'ch-detail', label: '05 Detail' });
-    if (this.project.metrics?.length) out.push({ id: 'ch-results', label: '06 Results' });
-    if (this.project.lessons) out.push({ id: 'ch-lessons', label: '07 Lessons' });
-    out.push({ id: 'ch-links', label: '08 Links' });
+    if (this.project.problem) out.push({ id: 'problem', label: '01 Problem' });
+    if (this.project.approach?.length) out.push({ id: 'approach', label: '02 Approach' });
+    if (this.hasMedia(this.project)) out.push({ id: 'screenshots', label: '03 Screenshots' });
+    if (this.safeDemoUrl) out.push({ id: 'live-demo', label: '04 Live demo' });
+    out.push({ id: 'details', label: '05 Detail' });
+    if (this.project.metrics?.length) out.push({ id: 'results', label: '06 Results' });
+    if (this.project.lessons) out.push({ id: 'lessons', label: '07 Lessons' });
+    if (this.hasLinks(this.project)) out.push({ id: 'links', label: '08 Links' });
     return out;
+  }
+
+  hasLinks(project: Projects): boolean {
+    return !!((project.iflink && project.link) || project.github);
   }
 
   constructor(
@@ -66,16 +70,17 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.projectIndex = Number(this.route.snapshot.params['id']);
-    this.project = this.projectsService.getProjectById(this.projectIndex);
-    if (this.project && !this.hasSplitMedia(this.project)) {
-      this.viewMode = 'web';
-    }
-
-    const all = this.projectsService.getProjects();
-    this.related = all
-      .map((project, index) => ({ project, index }))
-      .filter((e) => e.index !== this.projectIndex && !e.project.projName.startsWith('TODO'))
-      .slice(0, 2);
+    this.projectsService.getProjects().subscribe((all) => {
+      this.project = all[this.projectIndex];
+      if (this.project && !this.hasSplitMedia(this.project)) {
+        this.viewMode = 'web';
+      }
+      this.related = all
+        .map((project, index) => ({ project, index }))
+        .filter((e) => e.index !== this.projectIndex && !e.project.projName.startsWith('TODO'))
+        .slice(0, 2);
+      this.mountSlider();
+    });
   }
 
   ngAfterViewInit(): void {
