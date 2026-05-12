@@ -40,6 +40,25 @@
   flex: 1;
 }
 
+/* Mobile — section heads stack vertically (kicker above title) so the serif
+   title gets full width instead of being squeezed beside the kicker label. */
+@media (max-width: 768px) {
+  .case-chapter-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding-bottom: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .case-chapter-head .chapter-num { white-space: normal; }
+  .case-chapter-head .chapter-title {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(1.35rem, 6.8vw, 1.7rem);
+    line-height: 1.12;
+  }
+}
+
 /* Body copy in a chapter */
 .case-body {
   color: var(--ink-soft);
@@ -209,13 +228,17 @@
   .info-card { padding: 0.9rem 0.95rem 0.75rem; }
   .info-card-rows > div { padding: 0.5rem 0; }
   .info-card-rows dd { font-size: 0.88rem; }
-  .case-chapter-head { gap: 0.7rem; flex-wrap: wrap; padding-bottom: 0.5rem; }
-  .case-chapter-head .chapter-title { font-size: 1.05rem; }
   .case-approach li { grid-template-columns: auto 1fr; gap: 0.75rem; padding: 0.7rem 0; }
   .case-approach-num { min-width: 1.8rem; font-size: 0.72rem; }
   .case-approach-text { font-size: 0.92rem; }
   .case-facts { grid-template-columns: 1fr 1fr; }
   .case-body { font-size: 0.96rem; }
+}
+
+/* Stack the "Open live site" / "GitHub repo" buttons full-width on phones. */
+@media (max-width: 560px) {
+  .case-link-row { flex-direction: column; align-items: stretch; }
+  .case-link-row .ed-btn { width: 100%; justify-content: center; }
 }
 
 /* ────────────────────────────────────────────────
