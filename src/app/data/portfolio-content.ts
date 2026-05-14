@@ -1,17 +1,3 @@
-/**
- * Static snapshot of portfolio content.
- *
- * The Angular services in src/app/services read from here when
- * environment.useApi === false. When you start running the backend
- * (npm run backend:dev) and flip environment.useApi to true, the
- * same services switch to fetching from /api/content/:section and
- * this file is no longer consulted at runtime.
- *
- * Keeping the static and API shapes identical means the database
- * is just a different transport for the same data, and components
- * don't care which side is serving it.
- */
-
 import { Experience } from '../interfaces/experience';
 import { Certifications } from '../interfaces/certifications';
 import { Projects } from '../interfaces/projects';
@@ -365,7 +351,7 @@ export const PROJECTS: Projects[] = [
       'assets/projects/EliteWeddings/Pic8Web.png',
     ],
     link: 'https://elitewe.com.ge/',
-    github: '',
+    github: 'https://github.com/WERSIT35/angular-wedding-landing',
     iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #1c1416, #4a2a32);',
     role: 'Full-stack engineer',
