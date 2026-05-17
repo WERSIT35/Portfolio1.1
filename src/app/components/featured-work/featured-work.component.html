@@ -4,6 +4,7 @@
       @for (item of featured; track item.index) {
         <li class="splide__slide">
           <a [routerLink]="['/projects', item.index]" class="ed-slide-card">
+
             <figure class="ed-slide-figure">
               @if (item.project.img && item.project.img.length > 0) {
                 <img [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
@@ -12,27 +13,37 @@
               }
             </figure>
 
-            <div class="ed-slide-meta">
-              @if (item.project.status) {
-                <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
-              }
-              @if (item.project.year) {
-                <span>· {{ item.project.year }}</span>
-              }
-            </div>
-
-            <h3 class="ed-slide-title">{{ item.project.projName }}</h3>
-            <p class="ed-slide-sub">{{ item.project.subname }}</p>
-
-            @if (item.project.stack && item.project.stack.length > 0) {
-              <div class="ed-slide-tags">
-                @for (s of item.project.stack!.slice(0, 4); track s) {
-                  <span class="ed-chip">{{ s }}</span>
+            <div class="ed-slide-body-wrap">
+              <div class="ed-slide-meta">
+                @if (item.project.status) {
+                  <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
+                }
+                @if (item.project.year) {
+                  <span>· {{ item.project.year }}</span>
                 }
               </div>
-            }
 
-            <span class="ed-slide-cta">Read case study<i class="bi bi-arrow-right"></i></span>
+              <h3 class="ed-slide-title">{{ item.project.projName }}</h3>
+              <p class="ed-slide-sub">{{ item.project.subname }}</p>
+
+              @if (item.project.stack && item.project.stack.length > 0) {
+                <div class="ed-slide-tags">
+                  @for (s of item.project.stack!.slice(0, 4); track s) {
+                    @if (techIcon(s); as t) {
+                      <span class="tech-chip">
+                        <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                        <span>{{ s }}</span>
+                      </span>
+                    } @else {
+                      <span class="ed-chip">{{ s }}</span>
+                    }
+                  }
+                </div>
+              }
+
+              <span class="ed-slide-cta">Read case study<i class="bi bi-arrow-right"></i></span>
+            </div>
+
           </a>
         </li>
       }

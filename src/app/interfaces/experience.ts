@@ -18,4 +18,7 @@ export interface Experience {
 
     /** 2–3 supporting bullet points. */
     bullets: string[];
+
+    /** Primary technologies used in this role — drives the tech icon strip. */
+    stack?: string[];
 }

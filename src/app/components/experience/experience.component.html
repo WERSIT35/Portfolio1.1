@@ -1,26 +1,44 @@
-<ol class="ex-timeline">
+<div class="exp-list">
   @for (item of experienceList; track item.id; let i = $index) {
-    <li class="ex-row" [appReveal]="'up'" [revealDelay]="i * 80">
-      <a [routerLink]="['/exp', item.id]" class="ex-row-link">
-        <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-        <div class="ex-row-body">
-          <header class="ex-row-head">
-            <h3 class="ex-row-role">{{ item.role }}</h3>
-            <span class="ex-row-date">{{ item.date }}</span>
-          </header>
-          <p class="ex-row-org">{{ item.company }}</p>
-          <p class="ex-row-desc">{{ item.summary }}</p>
+    <article class="exp-entry" [appReveal]="'up'" [revealDelay]="i * 70">
+      <a [routerLink]="['/exp', item.id]" class="exp-entry-link">
 
-          @if (item.chips && item.chips.length) {
-            <div class="ex-row-tags">
-              @for (chip of item.chips; track chip) {
-                <span class="ed-chip">{{ chip }}</span>
+        <header class="exp-entry-head">
+          <div class="exp-entry-meta">
+            <span class="exp-entry-company">{{ item.company }}</span>
+            <span class="exp-entry-sep" aria-hidden="true">/</span>
+            <span class="exp-entry-date">{{ item.date }}</span>
+          </div>
+          <div class="exp-entry-arrow">
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </div>
+        </header>
+
+        <h3 class="exp-entry-role">{{ item.role }}</h3>
+        <p class="exp-entry-summary">{{ item.summary }}</p>
+
+        @if (item.chips && item.chips.length) {
+          <ul class="exp-entry-contribs">
+            @for (chip of item.chips.slice(0, 3); track chip) {
+              <li>{{ chip }}</li>
+            }
+          </ul>
+        }
+
+        @if (item.stack && item.stack.length) {
+          <div class="exp-tech-strip">
+            @for (tech of item.stack; track tech) {
+              @if (techIcon(tech); as t) {
+                <span class="exp-tech-pill" [title]="tech">
+                  <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                  <span>{{ tech }}</span>
+                </span>
               }
-            </div>
-          }
-        </div>
-        <i class="ex-row-arrow bi bi-arrow-up-right" aria-hidden="true"></i>
+            }
+          </div>
+        }
+
       </a>
-    </li>
+    </article>
   }
-</ol>
+</div>

@@ -1,15 +1,37 @@
 <footer class="ed-footer">
-  <div class="ed-footer-inner">
-    <nav class="ed-footer-nav" aria-label="Footer sitemap">
-      <a routerLink="/projects">Work</a>
-      <a routerLink="/allexp">Experience</a>
-      <a routerLink="/alledu">Education</a>
-      <a routerLink="/allcert">Certificates</a>
-      <a routerLink="/contact">Contact</a>
-    </nav>
-    <div class="ed-footer-meta-row">
-      <span class="ed-footer-mark">Oto Davitashvili — Full-stack engineer</span>
-      <span class="ed-footer-meta">© {{ year }} · Built with Angular</span>
+  <div class="ed-footer-inner page">
+
+    <div class="ed-footer-top">
+      <!-- Brand + tagline -->
+      <div class="ed-footer-brand">
+        <p class="ed-footer-name">Oto Davitashvili</p>
+        <p class="ed-footer-tagline">
+          Full-stack engineer building Angular and Node.js systems
+          that hold under production load.
+        </p>
+      </div>
+
+      <!-- Navigation columns -->
+      <nav class="ed-footer-nav" aria-label="Footer navigation">
+        <div class="ed-footer-nav-col">
+          <span class="ed-footer-nav-label">Work</span>
+          <a routerLink="/projects">Projects</a>
+          <a routerLink="/allexp">Experience</a>
+        </div>
+        <div class="ed-footer-nav-col">
+          <span class="ed-footer-nav-label">More</span>
+          <a routerLink="/alledu">Education</a>
+          <a routerLink="/allcert">Certificates</a>
+          <a routerLink="/contact">Contact</a>
+        </div>
+      </nav>
     </div>
+
+    <!-- Bottom bar -->
+    <div class="ed-footer-bottom">
+      <span class="ed-footer-copy">© {{ year }} Oto Davitashvili</span>
+      <span class="ed-footer-built">Built with Angular · Deployed on Firebase</span>
+    </div>
+
   </div>
 </footer>

@@ -115,11 +115,48 @@
 
   <!-- 08 — Let's talk -->
   <app-chapter number="08 — Contact" title="Let's talk." id="contact">
-    <div class="touch-grid" [appReveal]="'up'">
-      <p class="touch-copy">
-        Open to full-stack roles, contracts, and product work. Email is fastest.
-      </p>
-      <a routerLink="contact" class="ed-btn">Open contact →</a>
+    <div class="touch-split" [appReveal]="'up'">
+
+      <!-- Left: message + context -->
+      <div class="touch-message">
+        <p class="touch-avail">
+          <span class="masthead-now-dot" aria-hidden="true"></span>
+          <span class="touch-avail-text">Available for new work</span>
+        </p>
+        <h3 class="touch-headline">Let's build something worth shipping.</h3>
+        <p class="touch-sub">Open to full-stack roles, contracts, and product work across iGaming, fintech, and high-volume transactional systems.</p>
+        <ul class="touch-open-to">
+          <li><i class="bi bi-check" aria-hidden="true"></i>Full-time Angular / Node.js roles</li>
+          <li><i class="bi bi-check" aria-hidden="true"></i>Contract &amp; freelance projects</li>
+          <li><i class="bi bi-check" aria-hidden="true"></i>Technical co-founder conversations</li>
+        </ul>
+      </div>
+
+      <!-- Right: action card -->
+      <div class="touch-card">
+        <div class="touch-card-inner">
+          <p class="touch-card-label">Fastest way to reach me</p>
+          <a href="mailto:otowork3@gmail.com" class="touch-email-btn">
+            <span>otowork3&#64;gmail.com</span>
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+          <div class="touch-secondary">
+            <a href="https://github.com/WERSIT35" target="_blank" rel="noopener noreferrer" class="touch-link">
+              <i class="bi bi-github" aria-hidden="true"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener noreferrer" class="touch-link">
+              <i class="bi bi-linkedin" aria-hidden="true"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="touch-link">
+              <i class="bi bi-file-person" aria-hidden="true"></i>
+              <span>Resume</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </app-chapter>
 

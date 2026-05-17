@@ -1,53 +1,91 @@
+/* Process steps — 2×2 card grid */
 .proc-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.2rem, 2.4vw, 1.8rem);
+}
+@media (max-width: 680px) {
+  .proc-list { grid-template-columns: 1fr; }
 }
 
 .proc-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: baseline;
-  gap: 1.4rem;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem 1.7rem 1.6rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  transition: background 280ms ease, border-color 240ms ease;
+  cursor: default;
 }
-.proc-row:last-child { border-bottom: 0; }
+.proc-row:hover {
+  background: rgba(var(--accent-rgb), 0.02);
+  border-color: var(--rule-strong);
+}
+.proc-row:hover .proc-icon { color: var(--accent-primary); }
 
+/* Large decorative number */
 .proc-num {
   font-family: var(--font-mono);
-  font-size: 0.84rem;
-  letter-spacing: 0.18em;
-  color: var(--ink-mute);
-  min-width: 2.4rem;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--rule-strong);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  transition: color 280ms ease;
+}
+.proc-row:hover .proc-num { color: rgba(var(--accent-rgb), 0.35); }
+
+/* Content */
+.proc-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .proc-title {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
   color: var(--ink);
   letter-spacing: -0.01em;
-  margin-bottom: 0.35rem;
+  line-height: 1.15;
 }
 
 .proc-text {
   color: var(--ink-soft);
-  font-size: 0.98rem;
-  line-height: 1.55;
-  max-width: 60ch;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  max-width: 52ch;
 }
 
+/* Icon sits at bottom right */
 .proc-icon {
   font-size: 1.3rem;
   color: var(--ink-mute);
-  transition: color 220ms ease;
+  align-self: flex-end;
+  margin-top: 1.2rem;
+  transition: color 240ms ease;
 }
-.proc-row:hover .proc-icon { color: var(--accent-primary); }
 
-@media (max-width: 640px) {
-  .proc-row { grid-template-columns: auto 1fr; gap: 0.9rem; }
-  .proc-icon { display: none; }
+@media (max-width: 680px) {
+  .proc-row {
+    padding: 1.4rem 1.3rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .proc-num {
+    font-size: 1.8rem;
+    margin-bottom: 0;
+    align-self: flex-start;
+    flex: 0 0 auto;
+    padding-top: 0.2rem;
+  }
+  .proc-body { flex: 1; }
+  .proc-icon { margin-top: 0; align-self: flex-start; padding-top: 0.3rem; }
 }

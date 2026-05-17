@@ -4,6 +4,7 @@ import { Projects } from '../../interfaces/projects';
 import { ProjectsService } from '../../services/projects.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { getTechIcon, TechIcon } from '../../shared/tech-icons';
 
 interface ProjectEntry {
   project: Projects;
@@ -33,6 +34,10 @@ export class ProjectsComponent implements OnInit {
       this.lead = featured[0] ?? realEntries[0];
       this.archive = realEntries.filter((e) => e.index !== this.lead?.index);
     });
+  }
+
+  techIcon(name: string): TechIcon | null {
+    return getTechIcon(name);
   }
 
   statusLabel(p: Projects): string {

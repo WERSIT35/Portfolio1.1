@@ -1,26 +1,101 @@
-.wid-prose { max-width: 720px; }
+/* Two-column layout: prose left, capability tiles right */
+.wid-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(3rem, 6vw, 5.5rem);
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .wid-layout {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+}
+
+/* ── Prose column ── */
+.wid-prose { max-width: 680px; }
 .wid-prose p {
   font-size: clamp(1.04rem, 1.5vw, 1.18rem);
-  line-height: 1.65;
+  line-height: 1.68;
   color: var(--ink-soft);
 }
-.wid-prose p + p { margin-top: 0.95rem; }
+.wid-prose p + p { margin-top: 1rem; }
 
 .wid-now {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1.4rem !important;
-  padding-top: 0.8rem;
+  margin-top: 1.6rem !important;
+  padding-top: 1rem;
   border-top: 1px solid var(--rule);
   font-size: 0.86rem !important;
 }
 .wid-now-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  margin-right: 0.4rem;
+  margin-right: 0.3rem;
+}
+
+/* ── Capability tiles ── */
+.wid-caps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+}
+
+.wid-cap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.4rem 1.5rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  transition: background 240ms ease;
+}
+.wid-cap:last-child { border-bottom: 0; }
+.wid-cap:hover { background: rgba(var(--accent-rgb), 0.025); }
+
+.wid-cap-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.wid-cap-num {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.wid-cap-icon {
+  font-size: 1.15rem;
+  color: var(--accent-primary);
+  opacity: 0.8;
+}
+
+.wid-cap-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.wid-cap-focus {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  line-height: 1.5;
+  margin: 0;
 }

@@ -1,19 +1,38 @@
-<div class="wid-prose prose" [appReveal]="'up'">
-  <p class="dropcap">
-    I am a Full-Stack Engineer specializing in Angular and Node.js, with hands-on experience in
-    iGaming platforms and real-time transactional systems. I build scalable applications, design
-    secure REST APIs, and work with high-volume data, fraud detection, and operational stability.
-  </p>
-  <p>
-    My focus is clean architecture, performance optimization, and production-ready system design
-    &mdash; the engineering standards that hold up when a platform has to process real money and
-    real users every second.
-  </p>
+<div class="wid-layout">
 
-  <p class="wid-now">
-    <span class="wid-now-label">Currently building with</span>
-    @for (s of currentStack; track s; let last = $last) {
-      <span class="ed-chip">{{ s }}</span>
+  <!-- Left: bio prose -->
+  <div class="wid-prose prose" [appReveal]="'up'">
+    <p class="dropcap">
+      I am a Full-Stack Engineer specializing in Angular and Node.js, with hands-on experience in
+      iGaming platforms and real-time transactional systems. I build scalable applications, design
+      secure REST APIs, and work with high-volume data, fraud detection, and operational stability.
+    </p>
+    <p>
+      My focus is clean architecture, performance optimization, and production-ready system design
+      &mdash; the engineering standards that hold up when a platform has to process real money and
+      real users every second.
+    </p>
+
+    <p class="wid-now">
+      <span class="wid-now-label">Currently building with</span>
+      @for (s of currentStack; track s) {
+        <span class="ed-chip">{{ s }}</span>
+      }
+    </p>
+  </div>
+
+  <!-- Right: capability tiles -->
+  <div class="wid-caps">
+    @for (cap of capabilities; track cap.title; let i = $index) {
+      <div class="wid-cap" [appReveal]="'up'" [revealDelay]="i * 80">
+        <header class="wid-cap-head">
+          <span class="wid-cap-num">{{ cap.num }}</span>
+          <i class="bi wid-cap-icon" [ngClass]="cap.icon" aria-hidden="true"></i>
+        </header>
+        <h4 class="wid-cap-title">{{ cap.title }}</h4>
+        <p class="wid-cap-focus">{{ cap.focus }}</p>
+      </div>
     }
-  </p>
+  </div>
+
 </div>

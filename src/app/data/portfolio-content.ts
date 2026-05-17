@@ -23,6 +23,7 @@ export const EXPERIENCES: Experience[] = [
       'Refactor shared modules to stabilize core platform systems',
       'Maintain structured engineering standards in product delivery',
     ],
+    stack: ['Angular', 'TypeScript', 'RxJS', 'SCSS'],
   },
   {
     id: 3,
@@ -59,6 +60,7 @@ export const EXPERIENCES: Experience[] = [
       'Containerize services using Docker',
       'Deliver maintainable product-oriented architecture',
     ],
+    stack: ['Angular', 'Node.js', 'MongoDB', 'Docker', 'TypeScript'],
   },
 ];
 
@@ -304,7 +306,7 @@ export const PROJECTS: Projects[] = [
     gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
     role: 'Full-stack engineer',
     year: 2025,
-    status: 'live',
+    status: 'in-production',
     featured: true,
     stack: ['Angular SSR', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Kubernetes'],
     problem:

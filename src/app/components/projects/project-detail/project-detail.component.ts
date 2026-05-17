@@ -11,6 +11,7 @@ import Splide from '@splidejs/splide';
 import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
 import { RouterLink } from '@angular/router';
 import { editorialSplideOptions } from '../../../shared/splide-config';
+import { getTechIcon, TechIcon } from '../../../shared/tech-icons';
 
 type EmbedState = 'loading' | 'ready' | 'unavailable';
 
@@ -66,6 +67,10 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
   ) {
     this.destroyRef.onDestroy(() => this.clearEmbedTimeout());
+  }
+
+  techIcon(name: string): TechIcon | null {
+    return getTechIcon(name);
   }
 
   statusLabel(): string {

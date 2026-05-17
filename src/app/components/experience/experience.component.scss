@@ -1,2 +1,190 @@
-/* Home experience — uses shared .ex-timeline / .ex-row styles from _cards.scss */
+/* Home experience — premium editorial role cards */
 :host { display: block; }
+
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+}
+
+/* ── Individual role entry ── */
+.exp-entry {
+  border-bottom: 1px solid var(--rule);
+}
+.exp-entry:last-child { border-bottom: 0; }
+
+.exp-entry-link {
+  display: block;
+  padding: 1.8rem 2rem 1.8rem 1.6rem;
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  transition: background 260ms ease, padding-left 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Accent stripe on hover */
+.exp-entry-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-primary);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 340ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.exp-entry-link:hover {
+  background: rgba(var(--accent-rgb), 0.025);
+  padding-left: 2rem;
+}
+.exp-entry-link:hover::before { transform: scaleY(1); }
+.exp-entry-link:hover .exp-entry-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* ── Header row: company + date + arrow ── */
+.exp-entry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.exp-entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.exp-entry-company {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.exp-entry-sep {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--ink-mute);
+  opacity: 0.5;
+}
+
+.exp-entry-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
+.exp-entry-arrow {
+  font-size: 0.95rem;
+  color: var(--ink-mute);
+  opacity: 0;
+  transition: opacity 220ms ease, transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  flex-shrink: 0;
+}
+
+/* ── Role title ── */
+.exp-entry-role {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1.12;
+  margin-bottom: 0.65rem;
+}
+
+/* ── Summary ── */
+.exp-entry-summary {
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.62;
+  max-width: 68ch;
+  margin-bottom: 1rem;
+}
+
+/* ── Contribution bullets ── */
+.exp-entry-contribs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+.exp-entry-contribs li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.exp-entry-contribs li::before {
+  content: "—";
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+}
+
+/* ── Tech strip ── */
+.exp-tech-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.exp-tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.52rem 0.22rem 0.38rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+.exp-tech-pill i {
+  font-size: 0.9rem;
+  opacity: 0.55;
+  transition: opacity 220ms ease;
+}
+.exp-entry-link:hover .exp-tech-pill i { opacity: 1; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .exp-entry-link {
+    padding: 1.4rem 1.2rem 1.4rem 1.2rem;
+  }
+  .exp-entry-link:hover { padding-left: 1.5rem; }
+  .exp-entry-role { font-size: clamp(1.15rem, 5vw, 1.4rem); }
+  .exp-entry-arrow { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-entry-link,
+  .exp-entry-link::before,
+  .exp-entry-arrow { transition: none; }
+}

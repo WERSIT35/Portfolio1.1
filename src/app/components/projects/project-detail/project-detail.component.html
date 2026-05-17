@@ -20,11 +20,27 @@
       }
       @if (item.stack && item.stack.length > 0) {
         <span class="case-mast-stack">
-          @for (s of item.stack; track s) { <span class="ed-chip">{{ s }}</span> }
+          @for (s of item.stack; track s) {
+            @if (techIcon(s); as t) {
+              <span class="tech-chip">
+                <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                <span>{{ s }}</span>
+              </span>
+            } @else {
+              <span class="tech-chip">{{ s }}</span>
+            }
+          }
         </span>
       }
     </div>
   </header>
+
+  <!-- Hero image — first screenshot as wide visual anchor below the masthead -->
+  @if (item.img && item.img.length > 0) {
+    <figure class="case-hero" [appReveal]="'up'" (click)="openPreview(item.img[0])">
+      <img [src]="item.img[0]" [alt]="item.projName" />
+    </figure>
+  }
 
   <!-- Sticky chapter anchor strip -->
   <nav class="case-anchors" aria-label="Case study sections">
@@ -221,12 +237,14 @@
                 <div class="case-related-empty"><i class="bi bi-code-slash"></i></div>
               }
             </figure>
-            <div class="case-related-meta">
-              @if (r.project.year) { <span>{{ r.project.year }}</span> }
-              @if (r.project.role) { <span>· {{ r.project.role }}</span> }
+            <div class="case-related-body">
+              <div class="case-related-meta">
+                @if (r.project.year) { <span>{{ r.project.year }}</span> }
+                @if (r.project.role) { <span>· {{ r.project.role }}</span> }
+              </div>
+              <h3 class="case-related-title">{{ r.project.projName }}</h3>
+              <span class="ed-link">Read case study<i class="bi bi-arrow-right"></i></span>
             </div>
-            <h3 class="case-related-title">{{ r.project.projName }}</h3>
-            <span class="ed-link">Read case study<i class="bi bi-arrow-right"></i></span>
           </a>
         }
       </div>

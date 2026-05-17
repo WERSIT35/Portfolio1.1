@@ -266,17 +266,16 @@ button {
 }
 
 .page {
-  width: min(94vw, var(--content-max));
+  width: min(92vw, var(--content-max, 1100px));
   margin: 0 auto;
 }
 
-/* Comfortable side padding on phones — 94vw of a 390px screen is only ~12px
-   of gutter, which makes the editorial type look cramped against the edges. */
+/* Generous side padding on phones — gives editorial type room to breathe */
 @media (max-width: 768px) {
   .page {
     width: 100%;
     max-width: 100%;
-    padding-inline: 20px;
+    padding-inline: 22px;
   }
 }
 @media (max-width: 420px) {

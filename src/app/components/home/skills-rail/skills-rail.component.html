@@ -1,23 +1,27 @@
 <div class="sr-grid">
-  @for (cat of categories; track cat.label; let i = $index) {
-    <section class="sr-cat" [appReveal]="'up'" [revealDelay]="i * 80">
-      <header class="sr-cat-head">
-        <span class="sr-cat-num">0{{ i + 1 }}</span>
-        <h3 class="sr-cat-label">{{ cat.label }}</h3>
+  @for (layer of layers; track layer.label; let i = $index) {
+    <div class="sr-card" [appReveal]="'up'" [revealDelay]="i * 80">
+
+      <!-- Card header: icon + category identity + skill count -->
+      <header class="sr-card-head">
+        <i class="bi sr-card-icon" [ngClass]="layer.headIcon" aria-hidden="true"></i>
+        <div class="sr-card-id">
+          <span class="sr-card-label">{{ layer.label }}</span>
+          <span class="sr-card-sublabel">{{ layer.sublabel }}</span>
+        </div>
+        <span class="sr-card-count" [attr.aria-label]="layer.skills.length + ' skills'">{{ layer.skills.length }}</span>
       </header>
-      <ul class="sr-items">
-        @for (item of cat.items; track item.name) {
-          <li class="sr-item">
-            <i [class]="item.icon" [style.color]="item.color" aria-hidden="true"></i>
-            <span class="sr-item-name">{{ item.name }}</span>
-            <span class="sr-dots" [attr.aria-label]="item.rating + ' out of 5'">
-              @for (d of dots(item.rating); track $index) {
-                <span class="dot" [class.filled]="d === 1"></span>
-              }
-            </span>
-          </li>
+
+      <!-- Skill pills: lead skill listed first, always -->
+      <div class="sr-card-body">
+        @for (skill of layer.skills; track skill.name) {
+          <div class="sr-skill" [class.sr-skill--lead]="skill.isLead">
+            <i [class]="skill.icon + ' sr-skill-icon'" [style.color]="skill.color" aria-hidden="true"></i>
+            <span class="sr-skill-name">{{ skill.name }}</span>
+          </div>
         }
-      </ul>
-    </section>
+      </div>
+
+    </div>
   }
 </div>

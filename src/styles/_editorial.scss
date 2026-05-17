@@ -35,7 +35,12 @@ a { color: inherit; }
 
 /* Page width */
 .page {
-  width: min(94vw, 1100px);
+  width: min(92vw, var(--content-max, 1100px));
+  margin: 0 auto;
+}
+
+.page--wide {
+  width: min(96vw, var(--content-max-wide, 1280px));
   margin: 0 auto;
 }
 
@@ -45,7 +50,7 @@ a { color: inherit; }
 
 /* Chapter shell */
 .chapter {
-  padding: clamp(3rem, 7vw, 6rem) 0;
+  padding: var(--section-v-pad, clamp(5rem, 10vw, 8rem)) 0;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -56,37 +61,51 @@ a { color: inherit; }
 .chapter-header {
   display: flex;
   align-items: baseline;
-  gap: 1.1rem;
-  padding-bottom: 0.9rem;
-  margin-bottom: 1.6rem;
+  flex-wrap: nowrap;
+  gap: 1.2rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 2.4rem;
   border-bottom: 1px solid var(--rule);
+  min-width: 0;
 }
 
 .chapter-num {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.18em;
   color: var(--ink-mute);
   text-transform: uppercase;
   white-space: nowrap;
+  flex: 0 0 auto;
 }
 
+/* Title fills all horizontal space between the index number and any actions.
+   flex: 1 1 auto — grows to push actions right, shrinks only when truly needed.
+   min-width: 0 lets it shrink below intrinsic width on very narrow screens. */
 .chapter-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-size: clamp(2rem, 3.6vw, 3.1rem);
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  line-height: 1.05;
-  flex: 1;
+  line-height: 1.04;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
-.chapter-spacer { flex: 1; }
+/* Spacer — kept for case-chapter-head contexts (project/cert detail section headers)
+   where it sits between a filling title and right-aligned toggle/arrow controls. */
+.chapter-spacer {
+  flex: 1 1 0;
+  min-width: 0;
+}
 
 .chapter-action {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -94,6 +113,11 @@ a { color: inherit; }
   padding-bottom: 2px;
   transition: color 200ms ease, border-color 200ms ease;
   white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.chapter-action-slot {
+  flex: 0 0 auto;
 }
 .chapter-action:hover {
   color: var(--accent-primary);
@@ -125,30 +149,29 @@ a { color: inherit; }
 .ed-arrow + .ed-arrow { margin-left: 2px; }
 
 /* ─── Mobile section header stack ─────────────────────────────────
-   Desktop keeps the editorial baseline row: [01 — Skills]    [What I build with]
-   Mobile stacks vertically so the serif title gets full width and never wraps narrow:
-       01 — SKILLS
-       What I build with
+   Desktop: [01 — Skills] ··· [What I build with] ···· [action →]
+   Mobile: stacks to column so title gets full width, never wraps narrow
    ──────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .chapter-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.55rem;
-    padding-bottom: 0.8rem;
-    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.8rem;
   }
   .chapter-header .chapter-title {
+    flex: none;
     width: 100%;
-    max-width: 100%;
-    font-size: clamp(1.85rem, 9vw, 2.4rem);
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
     line-height: 1.02;
+    overflow-wrap: break-word;
   }
-  .chapter-header .chapter-spacer { display: none; }
   .chapter-header .chapter-action-slot,
   .chapter-header .chapter-action {
+    flex: none;
     align-self: flex-start;
-    margin-top: 0.15rem;
+    margin-top: 0.1rem;
   }
 }
 
@@ -226,24 +249,25 @@ a { color: inherit; }
 .ed-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.78rem 1.3rem;
+  gap: 0.55rem;
+  padding: 0.82rem 1.5rem;
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font-body);
   font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 0.93rem;
+  letter-spacing: 0.015em;
   border-radius: 0;
   cursor: pointer;
-  transition: background 220ms ease, color 220ms ease, transform 200ms ease;
+  transition: background 240ms ease, color 240ms ease, border-color 240ms ease, transform 220ms ease, box-shadow 240ms ease;
 }
 .ed-btn:hover {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
   color: var(--paper);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(var(--accent-rgb), 0.18);
+  box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.22);
 }
 .ed-btn:active { transform: translateY(0); box-shadow: none; }
 .ed-btn:focus-visible {
@@ -258,6 +282,32 @@ a { color: inherit; }
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
+}
+
+/* Grid layout utilities */
+.layout-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap-md, 2rem);
+}
+.layout-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap-md, 2rem);
+}
+.layout-asymmetric {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--grid-gap-lg, 3rem);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .layout-2 { grid-template-columns: 1fr; }
+  .layout-3 { grid-template-columns: repeat(2, 1fr); }
+  .layout-asymmetric { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .layout-3 { grid-template-columns: 1fr; }
 }
 
 /* Status bullet — flat editorial tag */
@@ -311,24 +361,93 @@ a { color: inherit; }
   border-color: var(--ink);
 }
 
+/* ── Tech chip — icon-aware stack tag used in project cards, case study masthead ──── */
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.62rem 0.28rem 0.46rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  border-radius: 999px;
+  cursor: default;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+}
+.tech-chip:hover {
+  color: var(--ink);
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: rgba(var(--accent-rgb), 0.05);
+}
+.tech-chip i {
+  font-size: 0.95rem;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 220ms ease;
+}
+.tech-chip:hover i { opacity: 1; }
+
+/* ── Tech tile — icon-only square, used in compact card icon rows ────────────────── */
+.tech-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  flex-shrink: 0;
+  cursor: default;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.tech-tile i {
+  font-size: 1.05rem;
+  line-height: 1;
+  opacity: 0.55;
+  transition: opacity 220ms ease;
+}
+.tech-tile:hover {
+  border-color: var(--rule-strong);
+  background: rgba(var(--accent-rgb), 0.07);
+}
+.tech-tile:hover i { opacity: 1; }
+/* Overflow count chip */
+.tech-tile--more {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  width: auto;
+  padding: 0 0.42rem;
+  min-width: 28px;
+}
+
 /* Hero name scale */
 .hero-name {
   font-family: var(--font-serif);
   font-weight: 800;
-  font-size: clamp(2.4rem, 6vw, 5.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
+  font-size: clamp(3rem, 7.5vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
   color: var(--ink);
 }
+@media (max-width: 840px) {
+  .hero-name { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+}
 @media (max-width: 480px) {
-  .hero-name { font-size: clamp(2.2rem, 10vw, 2.8rem); }
+  .hero-name { font-size: clamp(2.6rem, 12.5vw, 3.4rem); }
 }
 
 .hero-roleline {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  font-size: clamp(1rem, 1.55vw, 1.16rem);
   color: var(--ink-soft);
-  max-width: 640px;
+  max-width: 580px;
+  line-height: 1.6;
 }
 
 /* Imagery treatment */
@@ -379,9 +498,11 @@ a { color: inherit; }
   }
 }
 
-/* Shared list-page header style */
+/* Shared list-page header style.
+   padding-block keeps vertical rhythm while letting .page's padding-inline: 22px
+   handle the side gutter on mobile (a padding shorthand would zero it out). */
 main > .title.page {
-  padding: clamp(1.4rem, 3vw, 2.4rem) 0 1.2rem;
+  padding-block: clamp(1.4rem, 3vw, 2.4rem) 1.2rem;
   border-bottom: 1px solid var(--rule);
   margin-bottom: clamp(1.2rem, 2.6vw, 2rem);
   display: grid;

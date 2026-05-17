@@ -5,6 +5,7 @@ import Splide from '@splidejs/splide';
 import { ProjectsService } from '../../services/projects.service';
 import { Projects } from '../../interfaces/projects';
 import { editorialSplideOptions } from '../../shared/splide-config';
+import { getTechIcon, TechIcon } from '../../shared/tech-icons';
 
 @Component({
   selector: 'app-featured-work',
@@ -54,6 +55,10 @@ export class FeaturedWorkComponent implements OnInit, AfterViewInit, OnDestroy {
 
   prev(): void { this.slider?.go('<'); }
   next(): void { this.slider?.go('>'); }
+
+  techIcon(name: string): TechIcon | null {
+    return getTechIcon(name);
+  }
 
   statusLabel(p: Projects): string {
     switch (p.status) {

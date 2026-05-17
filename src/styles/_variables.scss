@@ -56,9 +56,26 @@
   --space-6: 40px;
   --space-7: 56px;
 
-  --content-max: 1040px;
+  --content-max: 1100px;
+  --content-max-wide: 1280px;
+  --content-narrow: 720px;
+
+  /* Extended spacing */
+  --space-8: 72px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Consistent vertical rhythm for sections */
+  --section-v-pad: clamp(5rem, 10vw, 8rem);
+
+  /* Grid gap scale */
+  --grid-gap-sm: clamp(0.85rem, 1.8vw, 1.3rem);
+  --grid-gap-md: clamp(1.2rem, 2.6vw, 2rem);
+  --grid-gap-lg: clamp(1.8rem, 3.6vw, 3rem);
+
   --transition-fast: 160ms ease;
   --transition-smooth: 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-spring: 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
   --hover-glow-a: rgba(var(--brand-rgb), 0.34);
   --hover-glow-b: rgba(var(--brand-warm-rgb), 0.22);
   --bg-base-1: #efeded;

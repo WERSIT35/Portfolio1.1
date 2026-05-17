@@ -24,8 +24,25 @@
   background: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
   border-radius: 0 !important;
+}
+
+/* Allow hover states to apply box-shadow; only reset the default (non-hover) state */
+:where(
+  .eduCard,
+  .exCard,
+  .cert-card,
+  .project-card,
+  .offer-card,
+  .profile-block,
+  .contact-panel,
+  .contact-links a,
+  .skill-card,
+  .cta-card,
+  .suggestion-card,
+  .card
+):not(:hover) {
+  box-shadow: none !important;
 }
 
 /* Kill the global radial-glow hover ::after */
@@ -102,11 +119,7 @@
 
 /* Body padding-top from existing nav (kept 70px) */
 
-/* Body radial orbs — disable */
-body::before,
-body::after {
-  display: none !important;
-}
+/* Body radial orbs — keep them, they add subtle editorial depth */
 
 /* Sharper focus ring */
 :focus-visible {

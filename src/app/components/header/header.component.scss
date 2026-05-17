@@ -28,7 +28,7 @@
 }
 
 .ed-header-inner {
-  width: min(94vw, 1200px);
+  width: min(92vw, var(--content-max, 1100px));
   margin: 0 auto;
   min-height: var(--header-height-desktop);
   display: grid;

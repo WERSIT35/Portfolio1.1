@@ -41,7 +41,14 @@
             @if (lead.project.stack && lead.project.stack.length > 0) {
               <div class="proj-lead-stack">
                 @for (s of lead.project.stack; track s) {
-                  <span class="ed-chip">{{ s }}</span>
+                  @if (techIcon(s); as t) {
+                    <span class="tech-chip">
+                      <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                      <span>{{ s }}</span>
+                    </span>
+                  } @else {
+                    <span class="tech-chip">{{ s }}</span>
+                  }
                 }
               </div>
             }
@@ -67,15 +74,28 @@
                   <div class="proj-archive-empty"><i class="bi bi-code-slash"></i></div>
                 }
               </figure>
-              <div class="proj-archive-meta">
-                @if (item.project.status) {
-                  <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
+              <div class="proj-archive-body">
+                <div class="proj-archive-meta">
+                  @if (item.project.status) {
+                    <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
+                  }
+                  @if (item.project.year) { <span>· {{ item.project.year }}</span> }
+                </div>
+                <h3 class="proj-archive-title">{{ item.project.projName }}</h3>
+                <p class="proj-archive-sub">{{ item.project.subname }}</p>
+                @if (item.project.stack && item.project.stack.length > 0) {
+                  <div class="proj-tech-strip">
+                    @for (tech of item.project.stack; track tech) {
+                      @if (techIcon(tech); as t) {
+                        <span class="tech-tile" [title]="tech">
+                          <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                        </span>
+                      }
+                    }
+                  </div>
                 }
-                @if (item.project.year) { <span>· {{ item.project.year }}</span> }
+                <span class="ed-link proj-archive-cta">Open case study<i class="bi bi-arrow-right"></i></span>
               </div>
-              <h3 class="proj-archive-title">{{ item.project.projName }}</h3>
-              <p class="proj-archive-sub">{{ item.project.subname }}</p>
-              <span class="ed-link proj-archive-cta">Open case study<i class="bi bi-arrow-right"></i></span>
             </a>
           }
         </div>
