@@ -3,16 +3,12 @@
   <header class="title page" [appReveal]="'up'">
     <span class="eyebrow">
       <span class="crumb"><i class="bi bi-patch-check" aria-hidden="true"></i><span>Certificate</span></span>
-      @if (cert?.issuer) {
-        <span class="sep">·</span>
-        <span class="crumb"><span>{{ cert?.issuer }}</span></span>
-      }
     </span>
-    <h1>{{ cert?.name }}</h1>
-    @if (cert?.imageName?.[0] || cert?.issued) {
+    <h1>{{ (cert?.imageName?.length ? cert?.imageName?.[0] : cert?.name) }}</h1>
+    @if (cert?.issuer || cert?.issued) {
       <p class="prose">
-        @if (cert?.imageName?.[0]) { <span>{{ cert?.imageName?.[0] }}</span> }
-        @if (cert?.imageName?.[0] && cert?.issued) { <span class="sep">·</span> }
+        @if (cert?.issuer) { <span>{{ cert?.issuer }}</span> }
+        @if (cert?.issuer && cert?.issued) { <span class="sep">·</span> }
         @if (cert?.issued) { <span>{{ cert?.issued }}</span> }
       </p>
     }

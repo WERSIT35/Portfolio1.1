@@ -46,62 +46,14 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 20px rgba(23, 28, 35, 0.2);
 }
 
-.detail-media {
-  position: relative;
-  border-radius: 16px;
-  overflow: visible;
-  border: 1px solid rgba(31, 35, 41, 0.14);
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.detail-media .splide__track {
-  overflow: hidden;
-  border-radius: inherit;
-}
-
+/* Slider frame + image sizing lives in src/styles/_slider.scss
+   under .ed-splide.shots (and .ed-splide.shots.mobile-view).
+   The screenshots wrapper carries no .detail-media class, so any
+   .detail-media .splide__* rules here would be dead selectors. */
 .media-toggle {
   position: absolute;
   top: 0.65rem;
   right: 0.65rem;
-}
-
-.detail-media .media-toggle.view-toggle {
-  border-color: rgba(var(--brand-rgb), 0.4) !important;
-  background: #f3f4f6 !important;
-  color: var(--color-ink) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  opacity: 1;
-}
-
-.detail-media .media-toggle.view-toggle:hover {
-  border-color: rgba(var(--brand-rgb), 0.56) !important;
-  background: #f8f9fb !important;
-}
-
-.detail-media .splide__track,
-.detail-media .splide__list,
-.detail-media .splide__slide {
-  height: clamp(280px, 46vw, 560px);
-}
-
-.detail-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: transparent;
-  cursor: zoom-in;
-}
-
-.detail-media.mobile-view .splide__track,
-.detail-media.mobile-view .splide__list,
-.detail-media.mobile-view .splide__slide {
-  height: clamp(320px, 50vw, 620px);
-}
-
-.detail-media.mobile-view img {
-  object-fit: contain;
-  object-position: center;
 }
 
 .detail-info {
@@ -513,12 +465,95 @@
   height: 100%;
   border: 0;
 }
+
+/* Loading + unavailable overlays — share the same frame as the iframe so
+   switching state never shifts layout. The iframe stays mounted (no re-render
+   on overlay toggle), the overlay just paints on top. */
+.case-demo-state {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.4rem;
+  text-align: center;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--paper-3) 86%, #000) 0%,
+    color-mix(in srgb, var(--paper-3) 70%, #000) 100%);
+  color: var(--ink);
+  animation: caseDemoStateIn 240ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.case-demo-state--loading p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.case-demo-spinner {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--rule-strong) 70%, transparent);
+  border-top-color: var(--accent-primary);
+  animation: caseDemoSpin 900ms linear infinite;
+}
+
+.case-demo-icon {
+  font-size: 2rem;
+  color: var(--ink-mute);
+  margin-bottom: 0.2rem;
+}
+
+.case-demo-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.case-demo-sub {
+  margin: 0;
+  max-width: 380px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.case-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
 .case-demo-hint {
   margin-top: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--ink-mute);
   letter-spacing: 0.04em;
+}
+
+@keyframes caseDemoSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes caseDemoStateIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-demo-state { animation: none; }
+  .case-demo-spinner { animation: none; }
 }
 
 /* .case-facts, .case-highlights, .case-metrics, .case-lessons-quote, .case-link-row

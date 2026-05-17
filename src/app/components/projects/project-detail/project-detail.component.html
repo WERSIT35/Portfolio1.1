@@ -97,14 +97,43 @@
         <span class="chapter-num">04 — Live demo</span>
         <h2 class="chapter-title">Try it yourself</h2>
       </header>
-      <div class="case-demo">
+      <div class="case-demo" [attr.data-embed-state]="embedState">
         <iframe
           [src]="safeDemoUrl"
           title="Live demo"
           loading="lazy"
           referrerpolicy="no-referrer"
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          (load)="onEmbedLoad()"
+          (error)="onEmbedError()"
         ></iframe>
+
+        @if (embedState === 'loading') {
+          <div class="case-demo-state case-demo-state--loading" aria-live="polite">
+            <span class="case-demo-spinner" aria-hidden="true"></span>
+            <p>Loading live demo…</p>
+          </div>
+        }
+
+        @if (embedState === 'unavailable') {
+          <div class="case-demo-state case-demo-state--unavailable" role="status">
+            <i class="bi bi-wifi-off case-demo-icon" aria-hidden="true"></i>
+            <h3 class="case-demo-title">This website is currently unavailable</h3>
+            <p class="case-demo-sub">The live demo may be offline or blocking embedded previews.</p>
+            <div class="case-demo-actions">
+              @if (item.iflink && item.link) {
+                <a class="ed-btn" [href]="item.link" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-arrow-up-right"></i>
+                  Open live site
+                </a>
+              }
+              <button type="button" class="ed-btn ed-btn--ghost" (click)="retryEmbed()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Try again
+              </button>
+            </div>
+          </div>
+        }
       </div>
       <p class="case-demo-hint">If the embed is blocked by the host, use the live link below.</p>
     </section>

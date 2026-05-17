@@ -29,10 +29,7 @@
               @if (item.issued) { <span>· {{ item.issued }}</span> }
               @if (item.timeSpent) { <span>· {{ item.timeSpent }}</span> }
             </div>
-            <h3 class="cert-title">{{ item.name }}</h3>
-            @if (item.imageName && item.imageName.length > 0) {
-              <p class="cert-sub">{{ item.imageName[0] }}</p>
-            }
+            <h3 class="cert-title">{{ item.imageName && item.imageName.length > 0 ? item.imageName[0] : item.name }}</h3>
             @if (item.description) {
               <p class="cert-desc">{{ item.description }}</p>
             }

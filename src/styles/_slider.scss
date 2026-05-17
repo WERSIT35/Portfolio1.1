@@ -203,18 +203,41 @@
 .ed-slide-cta i { transition: transform 220ms ease; }
 .ed-slide-card:hover .ed-slide-cta i { transform: translateX(3px); }
 
-/* ────── Image-only slider (screenshots) ────── */
+/* ────── Image-only slider (screenshots) ──────
+   The slide owns the frame's dimensions; the image fits inside it.
+   Previously `height: auto` on the image let tall mobile screenshots
+   stretch the slide to their intrinsic height (often >1500px on a
+   desktop viewport), which is what broke the layout when the user
+   switched to Mobile preview from a wide screen. */
 .ed-splide.shots .splide__slide {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  max-height: 70vh;
+  overflow: hidden;
+  background: var(--paper-3);
+  border: 1px solid var(--rule);
 }
 .ed-splide.shots .splide__slide img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  border: 1px solid var(--rule);
-  background: var(--paper-3);
+  object-fit: contain;
   cursor: zoom-in;
+  background: transparent;
+  border: 0;
+}
+
+/* Mobile preview — keep the same frame footprint so toggling Web/Mobile
+   doesn't shift the layout. The inner image renders at its natural
+   portrait ratio, centred inside the letterboxed frame. */
+.ed-splide.shots.mobile-view .splide__slide img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin-inline: auto;
 }
 
 /* Reduced motion */
