@@ -1,27 +1,99 @@
-# Portfolio11
+﻿# Portfolio 1.1
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+Modern full-stack portfolio built with Angular (frontend) and an optional Node/Express + MongoDB CMS backend.
 
-## Development server
+## Highlights
+- Angular 18 standalone architecture
+- Rich UI system (SCSS tokens, shared card styles, motion, theme switcher)
+- Static-first content model with optional API mode
+- Admin-ready backend with JWT auth and content endpoints
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tech Stack
+- Frontend: Angular 18, TypeScript, RxJS, SCSS
+- UI libs: Bootstrap Icons, Splide, Lenis
+- Backend: Node.js, Express, MongoDB (Mongoose), Zod, JWT, Multer
 
-## Code scaffolding
+## Project Structure
+- `src/` Angular application
+- `src/app/data/portfolio-content.ts` static content source
+- `src/styles/` global design system and shared styles
+- `backend/` optional CMS/API server
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Quick Start
+### 1) Install dependencies
+```bash
+npm install
+npm --prefix backend install
+```
+
+### 2) Run frontend only (static content)
+```bash
+npm start
+```
+Open `http://localhost:4200`.
+
+### 3) Run frontend + backend (live API mode)
+```bash
+npm run backend:dev
+npm start
+```
+Then set `useApi: true` in the active environment file:
+- `src/environments/environment.development.ts`
+- `src/environments/environment.ts`
+
+## Scripts
+### Frontend (root)
+- `npm start` - Angular dev server
+- `npm run build` - production build
+- `npm run watch` - dev build in watch mode
+- `npm test` - unit tests
+
+### Backend (root passthrough)
+- `npm run backend:dev` - run backend with `tsx watch`
+- `npm run backend:build` - build backend TS
+- `npm run backend:start` - run built backend
+
+### Backend (direct)
+- `npm --prefix backend run seed` - seed data/admin
+
+## Backend Environment Variables
+Create `backend/.env` with:
+
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/portfolio
+JWT_SECRET=your_super_long_secret_at_least_32_chars
+JWT_EXPIRES_IN=7d
+PORT=4300
+CORS_ORIGIN=http://localhost:4200
+UPLOAD_DIR=uploads
+PUBLIC_UPLOAD_PATH=/uploads
+MAX_UPLOAD_MB=5
+SEED_ADMIN_EMAIL=admin@example.com
+SEED_ADMIN_PASSWORD=change-me-strong
+SEED_ADMIN_NAME=Admin
+```
+
+Required:
+- `MONGO_URI`
+- `JWT_SECRET` (minimum 32 characters)
+
+## Content Modes
+This project supports two data modes without component rewrites:
+- **Static mode**: reads from `src/app/data/portfolio-content.ts`
+- **API mode**: reads from backend via `apiBase`
+
+Toggle with `useApi` in environment files.
 
 ## Build
+```bash
+npm run build
+```
+Output is generated in `dist/portfolio1.1`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Notes
+- Backend is optional for portfolio browsing.
+- Keep IDs in `portfolio-content.ts` stable because routes depend on them.
+- Admin/backend routes require valid JWT auth.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+Private project. All rights reserved unless explicitly stated otherwise.
