@@ -1,23 +1,89 @@
 ﻿# Portfolio 1.1
 
-Modern full-stack portfolio built with Angular (frontend) and an optional Node/Express + MongoDB CMS backend.
+A premium full-stack portfolio platform built with Angular 18 and an optional Node/Express + MongoDB CMS backend.
 
-## Highlights
-- Angular 18 standalone architecture
-- Rich UI system (SCSS tokens, shared card styles, motion, theme switcher)
-- Static-first content model with optional API mode
-- Admin-ready backend with JWT auth and content endpoints
+<p align="left">
+  <img alt="Angular" src="https://img.shields.io/badge/Angular-18-DD0031?logo=angular&logoColor=white" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.4-3178C6?logo=typescript&logoColor=white" />
+  <img alt="SCSS" src="https://img.shields.io/badge/SCSS-Design_System-CC6699?logo=sass&logoColor=white" />
+  <img alt="Express" src="https://img.shields.io/badge/Express-API-000000?logo=express&logoColor=white" />
+  <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Database-47A248?logo=mongodb&logoColor=white" />
+</p>
+
+## Why This Project
+- Production-style portfolio architecture, not just a static landing page
+- Shared design system with tokens, reusable card patterns, motion, and theme modes
+- Flexible content model: run fully static or switch to live API without component rewrites
+- Optional admin/backend surface for authenticated content management
+
+## Table of Contents
+- [Architecture](#architecture)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Scripts](#scripts)
+- [Environment Variables](#environment-variables)
+- [Content Modes](#content-modes)
+- [Build and Deployment](#build-and-deployment)
+- [Troubleshooting](#troubleshooting)
+
+## Architecture
+```text
+Frontend (Angular 18)
+  ├─ Standalone components + router
+  ├─ Shared styles/tokens (SCSS design system)
+  ├─ Static content source (portfolio-content.ts)
+  └─ Optional live content via HTTP services
+
+Backend (Optional)
+  ├─ Express API + JWT auth
+  ├─ MongoDB + Mongoose models
+  ├─ Zod environment validation
+  └─ Admin/content endpoints + uploads
+```
+
+## Features
+| Area | What it includes |
+|---|---|
+| UI System | Theme switcher, consistent cards, typography hierarchy, interaction polish |
+| Home Experience | Rich hero, interactive process/experience sections, premium motion language |
+| Content Pipeline | Static-first data + seamless API mode toggle |
+| Backend | Auth, content endpoints, uploads, admin-focused workflows |
+| Performance | Standalone architecture, lazy loading patterns, scoped style system |
 
 ## Tech Stack
-- Frontend: Angular 18, TypeScript, RxJS, SCSS
-- UI libs: Bootstrap Icons, Splide, Lenis
-- Backend: Node.js, Express, MongoDB (Mongoose), Zod, JWT, Multer
+### Frontend
+- Angular 18
+- TypeScript
+- RxJS
+- SCSS
+- Bootstrap Icons
+- Splide
+- Lenis
+
+### Backend (optional)
+- Node.js
+- Express
+- MongoDB + Mongoose
+- Zod
+- JWT
+- Multer
 
 ## Project Structure
-- `src/` Angular application
-- `src/app/data/portfolio-content.ts` static content source
-- `src/styles/` global design system and shared styles
-- `backend/` optional CMS/API server
+```text
+.
+├─ src/
+│  ├─ app/
+│  │  ├─ components/          # Route/UI components
+│  │  ├─ data/                # Static content source
+│  │  ├─ interfaces/          # Shared data contracts
+│  │  └─ services/            # Static/API data access
+│  ├─ environments/           # Runtime mode and API base settings
+│  └─ styles/                 # Global design system + shared SCSS
+├─ backend/                   # Optional CMS/API service
+└─ README.md
+```
 
 ## Quick Start
 ### 1) Install dependencies
@@ -26,7 +92,7 @@ npm install
 npm --prefix backend install
 ```
 
-### 2) Run frontend only (static content)
+### 2) Run frontend only (static mode)
 ```bash
 npm start
 ```
@@ -37,27 +103,25 @@ Open `http://localhost:4200`.
 npm run backend:dev
 npm start
 ```
-Then set `useApi: true` in the active environment file:
+Then set `useApi: true` in:
 - `src/environments/environment.development.ts`
 - `src/environments/environment.ts`
 
 ## Scripts
-### Frontend (root)
-- `npm start` - Angular dev server
-- `npm run build` - production build
-- `npm run watch` - dev build in watch mode
-- `npm test` - unit tests
+### Root (frontend + backend passthrough)
+- `npm start` - start Angular dev server
+- `npm run build` - production frontend build
+- `npm run watch` - development watch build
+- `npm test` - Angular unit tests
+- `npm run backend:dev` - backend dev server
+- `npm run backend:build` - backend TypeScript build
+- `npm run backend:start` - run compiled backend
 
-### Backend (root passthrough)
-- `npm run backend:dev` - run backend with `tsx watch`
-- `npm run backend:build` - build backend TS
-- `npm run backend:start` - run built backend
+### Backend direct
+- `npm --prefix backend run seed` - seed admin/content data
 
-### Backend (direct)
-- `npm --prefix backend run seed` - seed data/admin
-
-## Backend Environment Variables
-Create `backend/.env` with:
+## Environment Variables
+Create `backend/.env`:
 
 ```env
 MONGO_URI=mongodb://127.0.0.1:27017/portfolio
@@ -75,25 +139,42 @@ SEED_ADMIN_NAME=Admin
 
 Required:
 - `MONGO_URI`
-- `JWT_SECRET` (minimum 32 characters)
+- `JWT_SECRET` (minimum 32 chars)
 
 ## Content Modes
-This project supports two data modes without component rewrites:
-- **Static mode**: reads from `src/app/data/portfolio-content.ts`
-- **API mode**: reads from backend via `apiBase`
+This project supports two interchangeable modes:
 
-Toggle with `useApi` in environment files.
+1. Static Mode
+- Uses `src/app/data/portfolio-content.ts`
+- Fastest local setup
 
-## Build
+2. API Mode
+- Uses backend endpoints via `apiBase`
+- Toggle with `useApi: true` in environment files
+- No component-level rewrites needed
+
+## Build and Deployment
+### Frontend build
 ```bash
 npm run build
 ```
-Output is generated in `dist/portfolio1.1`.
+Output path: `dist/portfolio1.1`
 
-## Notes
-- Backend is optional for portfolio browsing.
-- Keep IDs in `portfolio-content.ts` stable because routes depend on them.
-- Admin/backend routes require valid JWT auth.
+### Production checklist
+- Set `useApi` and `apiBase` correctly for environment
+- Configure backend `.env` with production secrets
+- Set `CORS_ORIGIN` to deployed frontend URL
+- Serve backend uploads path if uploads are enabled
+
+## Troubleshooting
+- Frontend starts but no live data:
+  - Verify backend is running on `PORT` (default `4300`)
+  - Verify `useApi: true` and correct `apiBase`
+- Backend exits on startup:
+  - Check `backend/.env` and `JWT_SECRET` length
+  - Ensure `MONGO_URI` is reachable
+- Content routes broken after data edits:
+  - Keep entity IDs stable in `portfolio-content.ts`
 
 ## License
 Private project. All rights reserved unless explicitly stated otherwise.
