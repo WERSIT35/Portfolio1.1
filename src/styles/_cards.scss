@@ -341,18 +341,19 @@
    ──────────────────────────────────────────────── */
 .cert-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);
   align-items: stretch;
 }
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .cert-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .cert-grid { grid-template-columns: 1fr; }
 }
 
 .cert-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   color: var(--ink);
@@ -363,12 +364,29 @@
   overflow: hidden;
   transition: border-color 260ms ease, background 260ms ease, transform 240ms ease, box-shadow 260ms ease;
 }
-.cert-card:hover {
-  border-color: var(--rule-strong);
-  background: rgba(var(--accent-rgb), 0.015);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
+.cert-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 2;
+  pointer-events: none;
 }
+/* Hover lift + shadow are owned by the global card system in src/styles.scss
+   (:where(.cert-card, …):hover with !important). We only add visual cues that
+   the global rule does not set: the accent top-bar and a soft background tint. */
+.cert-card:hover,
+.cert-card:focus-visible {
+  background: rgba(var(--accent-rgb), 0.02);
+}
+.cert-card:hover::before,
+.cert-card:focus-visible::before { transform: scaleX(1); }
 
 .cert-figure {
   position: relative;
@@ -399,8 +417,8 @@
   position: absolute;
   top: 0.55rem;
   right: 0.55rem;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   background: color-mix(in srgb, var(--paper) 78%, transparent);
@@ -408,46 +426,53 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--rule-strong);
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   opacity: 0;
   transform: translate(4px, -4px);
   transition: opacity 240ms ease, transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.cert-card:hover .cert-figure-hover { opacity: 1; transform: translate(0, 0); }
+.cert-card:hover .cert-figure-hover,
+.cert-card:focus-visible .cert-figure-hover { opacity: 1; transform: translate(0, 0); }
 
 /* Body — content area below the image */
 .cert-body {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  padding: 0.95rem 1.05rem 1.1rem;
+  gap: 0.55rem;
+  padding: 1.05rem 1.15rem 1.2rem;
   flex: 1;
 }
 
-/* Meta bar — uppercase mono on a cool subtle band, sits at top of body */
+/* Meta — clean mono kicker, accented issuer segment */
 .cert-meta {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  align-items: baseline;
+  gap: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  padding: 0.4rem 0.6rem;
-  margin: 0 -0.4rem 0.2rem;
-  background: rgba(245, 245, 247, 0.04);
-  border: 1px solid var(--rule);
-  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+}
+.cert-meta > span:first-child {
+  color: var(--accent-text);
+  font-weight: 600;
 }
 
 .cert-title {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  letter-spacing: -0.01em;
+  font-size: clamp(1.1rem, 1.55vw, 1.25rem);
+  letter-spacing: -0.015em;
   color: var(--ink);
-  line-height: 1.2;
+  line-height: 1.22;
+  margin: 0.1rem 0 0;
 }
 
 .cert-sub {
@@ -457,18 +482,24 @@
 }
 
 .cert-desc {
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--ink-soft);
-  line-height: 1.5;
-  margin-top: 0.2rem;
+  line-height: 1.55;
+  margin-top: 0.3rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+@media (max-width: 480px) {
+  .cert-body { padding: 0.95rem 1rem 1.05rem; gap: 0.45rem; }
+  .cert-title { font-size: 1.08rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cert-figure img, .cert-figure-hover { transition: none; }
+  .cert-figure img, .cert-figure-hover, .cert-card::before { transition: none; }
   .cert-card:hover .cert-figure img { transform: none; }
+  .cert-card:hover::before, .cert-card:focus-visible::before { transform: scaleX(1); }
   .edu-card--page:hover { transform: none; }
 }
