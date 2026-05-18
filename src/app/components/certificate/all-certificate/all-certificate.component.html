@@ -26,8 +26,8 @@
           <div class="cert-body">
             <div class="cert-meta">
               <span>{{ item.issuer }}</span>
-              @if (item.issued) { <span>· {{ item.issued }}</span> }
-              @if (item.timeSpent) { <span>· {{ item.timeSpent }}</span> }
+              @if (item.issued) { <span>{{ item.issued }}</span> }
+              @if (item.timeSpent) { <span>{{ item.timeSpent }}</span> }
             </div>
             <h3 class="cert-title">{{ item.imageName && item.imageName.length > 0 ? item.imageName[0] : item.name }}</h3>
             @if (item.description) {

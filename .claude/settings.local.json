@@ -1,16 +1,26 @@
-{
+﻿{
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)",
-      "Bash(npx ng *)",
-      "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(git check-ignore *)",
-      "Bash(git rm *)",
-      "Bash(git commit -m ' *)",
-      "Bash(git push *)",
-      "Bash(npm ls *)",
-      "Bash(git add *)"
+      "Bash(npx ng *)",
+      "Bash(npx tsc *)",
+      "Bash(npm test *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git add *)",
+      "Bash(git commit -m *)",
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Bash(git reset --hard *)",
+      "Bash(git clean -fd *)",
+      "Bash(rm -rf *)"
     ]
+  },
+  "output": {
+    "style": "concise",
+    "prefer_direct_edits": true,
+    "include_changed_files": true,
+    "avoid_long_explanations": true
   }
 }

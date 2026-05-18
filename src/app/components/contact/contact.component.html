@@ -14,14 +14,16 @@
   </header>
 
   <section class="page contact-body">
-    <p class="availability">
+    <p class="availability" [appReveal]="'fade'">
       <span class="masthead-now-dot"></span>
       <span class="availability-label">Available</span>
       <span>Open to roles · Replies within 24h · Based in Tbilisi (UTC+4)</span>
     </p>
 
-    <div class="contact-grid">
-      <div class="contact-side">
+    <span class="sr-only" role="status" aria-live="polite">{{ copyAnnouncement }}</span>
+
+    <div class="contact-layout">
+      <aside class="contact-intro" [appReveal]="'up'" [revealDelay]="40" aria-label="Profile and resume">
         <figure class="contact-portrait">
           <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
         </figure>
@@ -29,39 +31,80 @@
           <p class="contact-name">Otar Davitashvili</p>
           <p class="contact-role">Full-stack engineer · Angular · FastAPI · AWS</p>
         </div>
-      </div>
+        <a href="assets/me/OTAR%20DAVITASHVILI.pdf"
+           download="Oto_Resume.pdf"
+           class="ed-btn ed-btn--cta contact-cta-btn">
+          <i class="bi bi-download" aria-hidden="true"></i>
+          <span>Download Resume (PDF)</span>
+        </a>
+      </aside>
 
-      <div class="contact-channels">
-        <a class="contact-line" href="mailto:otowork3@gmail.com">
-          <span class="cl-label">Email</span>
-          <span class="cl-value">otowork3&#64;gmail.com</span>
-          <i class="bi bi-arrow-up-right"></i>
-        </a>
-        <a class="contact-line" href="tel:+995557282616">
-          <span class="cl-label">Phone</span>
-          <span class="cl-value">+995 557 28 26 16</span>
-          <i class="bi bi-arrow-up-right"></i>
-        </a>
-        <a class="contact-line" href="https://github.com/WERSIT35" target="_blank" rel="noopener">
-          <span class="cl-label">GitHub</span>
-          <span class="cl-value">github.com/WERSIT35</span>
-          <i class="bi bi-arrow-up-right"></i>
-        </a>
-        <a class="contact-line" href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener">
-          <span class="cl-label">LinkedIn</span>
-          <span class="cl-value">linkedin.com/in/otar-davitashvili</span>
-          <i class="bi bi-arrow-up-right"></i>
-        </a>
+      <div class="contact-methods" [appReveal]="'up'" [revealDelay]="120" aria-label="Contact methods">
+        <ul class="cm-list" role="list">
+          <li class="cm-card" [appReveal]="'up'" [revealDelay]="160">
+            <a class="cm-main" href="mailto:otowork3@gmail.com" aria-label="Email otowork3@gmail.com">
+              <span class="cm-icon"><i class="bi bi-envelope-fill" aria-hidden="true"></i></span>
+              <span class="cm-text">
+                <span class="cm-label">Email</span>
+                <span class="cm-value">otowork3&#64;gmail.com</span>
+              </span>
+              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
+            </a>
+            <button type="button"
+                    class="cm-copy"
+                    (click)="copy('email', EMAIL, 'Email address')"
+                    [class.is-copied]="copiedKey === 'email'"
+                    [attr.aria-label]="copiedKey === 'email' ? 'Email address copied' : 'Copy email address'">
+              <i class="bi" [class.bi-clipboard]="copiedKey !== 'email'" [class.bi-check2]="copiedKey === 'email'" aria-hidden="true"></i>
+              <span class="cm-copy-text">{{ copiedKey === 'email' ? 'Copied' : 'Copy' }}</span>
+            </button>
+          </li>
+
+          <li class="cm-card" [appReveal]="'up'" [revealDelay]="220">
+            <a class="cm-main" href="tel:+995557282616" aria-label="Call +995 557 28 26 16">
+              <span class="cm-icon"><i class="bi bi-telephone-fill" aria-hidden="true"></i></span>
+              <span class="cm-text">
+                <span class="cm-label">Phone</span>
+                <span class="cm-value">+995 557 28 26 16</span>
+              </span>
+              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
+            </a>
+            <button type="button"
+                    class="cm-copy"
+                    (click)="copy('phone', PHONE, 'Phone number')"
+                    [class.is-copied]="copiedKey === 'phone'"
+                    [attr.aria-label]="copiedKey === 'phone' ? 'Phone number copied' : 'Copy phone number'">
+              <i class="bi" [class.bi-clipboard]="copiedKey !== 'phone'" [class.bi-check2]="copiedKey === 'phone'" aria-hidden="true"></i>
+              <span class="cm-copy-text">{{ copiedKey === 'phone' ? 'Copied' : 'Copy' }}</span>
+            </button>
+          </li>
+
+          <li class="cm-card cm-card--single" [appReveal]="'up'" [revealDelay]="280">
+            <a class="cm-main" href="https://github.com/WERSIT35" target="_blank" rel="noopener" aria-label="GitHub profile">
+              <span class="cm-icon"><i class="bi bi-github" aria-hidden="true"></i></span>
+              <span class="cm-text">
+                <span class="cm-label">GitHub</span>
+                <span class="cm-value">github.com/WERSIT35</span>
+              </span>
+              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li class="cm-card cm-card--single" [appReveal]="'up'" [revealDelay]="340">
+            <a class="cm-main" href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+              <span class="cm-icon"><i class="bi bi-linkedin" aria-hidden="true"></i></span>
+              <span class="cm-text">
+                <span class="cm-label">LinkedIn</span>
+                <span class="cm-value">linkedin.com/in/otar-davitashvili</span>
+              </span>
+              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="contact-cta">
-      <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="ed-btn">
-        Download Resume (PDF)
-      </a>
-    </div>
-
-    <nav class="contact-sitemap" aria-label="More on this site">
+    <nav class="contact-sitemap" aria-label="More on this site" [appReveal]="'up'" [revealDelay]="380">
       <span class="cs-label">Elsewhere on the site</span>
       <a routerLink="/projects">Work</a>
       <a routerLink="/allexp">Experience</a>
@@ -69,4 +112,13 @@
       <a routerLink="/allcert">Certificates</a>
     </nav>
   </section>
+
+  <div class="contact-sticky-cta" aria-hidden="false">
+    <a href="assets/me/OTAR%20DAVITASHVILI.pdf"
+       download="Oto_Resume.pdf"
+       class="ed-btn ed-btn--cta">
+      <i class="bi bi-download" aria-hidden="true"></i>
+      <span>Download Resume (PDF)</span>
+    </a>
+  </div>
 </main>
