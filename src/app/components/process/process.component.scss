@@ -1,91 +1,342 @@
-/* Process steps — 2×2 card grid */
-.proc-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Four stages, repeatedly — interactive stepper with single detail panel.
+   Desktop: top row of step heads + progress rail + one live panel below.
+   Mobile:  accordion (head + body inline, one open at a time).               */
+
+:host { display: block; }
+
+.proc {
+  --proc-head-pad-top: clamp(1.5rem, 2.8vw, 2.1rem);
+  --proc-head-pad-x: clamp(0.9rem, 1.5vw, 1.4rem);
+  --proc-head-pad-bottom: clamp(1.2rem, 2vw, 1.7rem);
+  --proc-marker-size: 22px;
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1.2rem, 2.4vw, 1.8rem);
-}
-@media (max-width: 680px) {
-  .proc-list { grid-template-columns: 1fr; }
-}
-
-.proc-row {
-  display: flex;
-  flex-direction: column;
-  padding: 1.8rem 1.7rem 1.6rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: row;
+  gap: 0;
   border: 1px solid var(--rule);
+  border-radius: 22px;
+  background: var(--aur-glass-strong, color-mix(in srgb, var(--paper) 82%, transparent));
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PROGRESS RAIL — horizontal track behind step heads
+   ═══════════════════════════════════════════════════════════════ */
+.proc-rail {
+  position: absolute;
+  top: calc(var(--proc-head-pad-top) + (var(--proc-marker-size) / 2));
+  left: clamp(2.5rem, 6%, 4.5rem);
+  right: clamp(2.5rem, 6%, 4.5rem);
+  height: 2px;
+  pointer-events: none;
+  z-index: 0;
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+.proc-rail-track,
+.proc-rail-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 999px;
+}
+.proc-rail-track {
+  width: 100%;
+  background: var(--rule-strong);
+  opacity: 0.4;
+}
+.proc-rail-fill {
+  width: var(--fill, 25%);
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+  transition: width 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.35);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STEP HEAD — clickable button row 1
+   ═══════════════════════════════════════════════════════════════ */
+.proc-step-head {
+  position: relative;
+  z-index: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto auto;
+  justify-items: center;
+  align-content: start;
+  gap: 0.45rem;
+  padding: var(--proc-head-pad-top) var(--proc-head-pad-x) var(--proc-head-pad-bottom);
   background: transparent;
-  transition: background 280ms ease, border-color 240ms ease;
-  cursor: default;
-}
-.proc-row:hover {
-  background: rgba(var(--accent-rgb), 0.02);
-  border-color: var(--rule-strong);
-}
-.proc-row:hover .proc-icon { color: var(--accent-primary); }
-
-/* Large decorative number */
-.proc-num {
-  font-family: var(--font-mono);
-  font-size: 2.6rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--rule-strong);
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  transition: color 280ms ease;
-}
-.proc-row:hover .proc-num { color: rgba(var(--accent-rgb), 0.35); }
-
-/* Content */
-.proc-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.proc-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
-  color: var(--ink);
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-}
-
-.proc-text {
-  color: var(--ink-soft);
-  font-size: 0.94rem;
-  line-height: 1.6;
-  max-width: 52ch;
-}
-
-/* Icon sits at bottom right */
-.proc-icon {
-  font-size: 1.3rem;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  cursor: pointer;
+  text-align: center;
   color: var(--ink-mute);
-  align-self: flex-end;
-  margin-top: 1.2rem;
+  transition: background 280ms ease, color 240ms ease;
+}
+.proc-step-head:last-of-type { border-right: 0; }
+.proc-step-head:hover { color: var(--ink); background: rgba(var(--accent-rgb), 0.04); }
+.proc-step-head.is-active { color: var(--ink); background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.10), transparent 100%); }
+.proc-step-head.is-past .proc-step-marker-dot { background: var(--accent-primary); }
+.proc-step-head:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: -3px; border-radius: 14px; }
+
+.proc-step-marker {
+  position: relative;
+  width: var(--proc-marker-size);
+  height: var(--proc-marker-size);
+  border-radius: 999px;
+  border: 2px solid var(--rule-strong);
+  background: var(--paper);
+  display: grid;
+  place-items: center;
+  transition: border-color 280ms ease, transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 320ms ease, background 280ms ease;
+  flex-shrink: 0;
+}
+.proc-step-marker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: transparent;
+  transition: background 280ms ease, transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.proc-step-head:hover .proc-step-marker {
+  border-color: rgba(var(--accent-rgb), 0.55);
+}
+.proc-step-head.is-active .proc-step-marker {
+  border-color: var(--accent-primary);
+  background: var(--paper);
+  transform: scale(1.18);
+  box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.18), 0 8px 18px rgba(var(--accent-rgb), 0.32);
+}
+.proc-step-head.is-active .proc-step-marker-dot {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+}
+
+.proc-step-num {
+  font-family: var(--font-section);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
   transition: color 240ms ease;
 }
+.proc-step-head.is-active .proc-step-num { color: var(--accent-text); }
 
-@media (max-width: 680px) {
-  .proc-row {
-    padding: 1.4rem 1.3rem;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.8rem;
+.proc-step-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  letter-spacing: -0.018em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.proc-step-icon {
+  font-size: 1rem;
+  color: var(--ink-mute);
+  margin-top: 0.15rem;
+  transition: color 280ms ease, transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.proc-step-head.is-active .proc-step-icon { color: var(--accent-text); transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════════════════
+   STEP BODY — all 4 stacked in row 2, only active visible (no jump)
+   ═══════════════════════════════════════════════════════════════ */
+.proc-step-body {
+  position: relative;
+  z-index: 1;
+  grid-row: 2;
+  grid-column: 1 / -1;
+  padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1.3rem, 2.6vw, 2rem) clamp(1.6rem, 3vw, 2.4rem);
+  border-top: 1px solid var(--rule);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition:
+    opacity 360ms ease,
+    transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    visibility 0s linear 420ms;
+}
+.proc-step-body.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity 360ms ease,
+    transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    visibility 0s linear;
+}
+
+.proc-step-pane {
+  display: grid;
+  grid-template-columns: clamp(110px, 14vw, 160px) minmax(0, 1fr);
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+  align-items: start;
+  max-width: 880px;
+}
+
+.proc-step-visual {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(var(--accent-rgb), 0.18) 0%, transparent 60%),
+    linear-gradient(135deg, var(--paper-2), var(--paper-3));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.proc-step-visual-num {
+  position: absolute;
+  bottom: 0.4rem;
+  left: 0.55rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.4rem;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.85;
+}
+.proc-step-visual-icon {
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.proc-step-content { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.proc-step-pane-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  letter-spacing: -0.026em;
+  line-height: 1.04;
+  color: var(--ink);
+  margin: 0;
+}
+.proc-step-pane-text {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.45vw, 1.12rem);
+  line-height: 1.62;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 56ch;
+}
+.proc-step-pane-detail {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-mute);
+  margin: 0.4rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--rule);
+  max-width: 56ch;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE — accordion (one open at a time)
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 880px) {
+  .proc {
+    display: block;
+    border-radius: 18px;
   }
-  .proc-num {
-    font-size: 1.8rem;
-    margin-bottom: 0;
-    align-self: flex-start;
-    flex: 0 0 auto;
-    padding-top: 0.2rem;
+  .proc-rail { display: none; }
+
+  .proc-step-head {
+    grid-row: auto;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-rows: auto;
+    justify-items: start;
+    text-align: left;
+    align-items: center;
+    gap: 0 0.85rem;
+    padding: 1rem 1.2rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
   }
-  .proc-body { flex: 1; }
-  .proc-icon { margin-top: 0; align-self: flex-start; padding-top: 0.3rem; }
+  .proc-step-head:last-of-type { border-bottom: 0; }
+  .proc-step-head .proc-step-num { letter-spacing: 0.22em; font-size: 0.6rem; }
+  .proc-step-head .proc-step-title { font-size: 1.06rem; }
+  .proc-step-head .proc-step-icon {
+    margin-top: 0;
+    transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1), color 240ms ease;
+  }
+  .proc-step-head.is-active .proc-step-icon { transform: rotate(45deg); }
+
+  .proc-step-body {
+    position: static;
+    grid-row: auto;
+    grid-column: auto;
+    border-top: 0;
+    padding: 0 1.2rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+    transition:
+      max-height 480ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 280ms ease,
+      padding 320ms ease,
+      visibility 0s linear 480ms;
+  }
+  .proc-step-body.is-active {
+    max-height: 600px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 1.2rem 1.4rem;
+    border-bottom: 1px solid var(--rule);
+    transition:
+      max-height 480ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 280ms ease 80ms,
+      padding 320ms ease,
+      visibility 0s linear;
+  }
+  .proc-step-body:not(.is-active) + .proc-step-head { border-top: 0; }
+  .proc-step-pane {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    max-width: 100%;
+  }
+  .proc-step-visual {
+    width: 92px;
+    aspect-ratio: 1;
+    align-self: start;
+  }
+  .proc-step-visual-icon { font-size: 2.2rem; }
+  .proc-step-visual-num { font-size: 1.6rem; bottom: 0.3rem; left: 0.4rem; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .proc-rail-fill,
+  .proc-step-head, .proc-step-marker, .proc-step-marker-dot, .proc-step-icon,
+  .proc-step-body { transition: none; }
+  .proc-step-head.is-active .proc-step-marker { transform: none; }
+  .proc-step-head.is-active .proc-step-icon { transform: none; }
+  .proc-step-body.is-active { transform: none; }
 }

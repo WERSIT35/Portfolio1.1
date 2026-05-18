@@ -1,52 +1,103 @@
-<section id="featuredWork" class="splide ed-splide">
-  <div class="splide__track">
-    <ul class="splide__list">
-      @for (item of featured; track item.index) {
-        <li class="splide__slide">
-          <a [routerLink]="['/projects', item.index]" class="ed-slide-card">
+<div class="fw">
 
-            <figure class="ed-slide-figure">
-              @if (item.project.img && item.project.img.length > 0) {
-                <img [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
-              } @else {
-                <div class="ed-slide-figure-empty"><i class="bi bi-code-slash"></i></div>
-              }
-            </figure>
+  @if (hero; as h) {
+    <article class="fw-hero" [appReveal]="'up'">
+      <a [routerLink]="['/projects', h.index]"
+         class="fw-hero-card"
+         (mousemove)="onCardMove($event)"
+         [attr.aria-label]="'Open project: ' + h.project.projName">
 
-            <div class="ed-slide-body-wrap">
-              <div class="ed-slide-meta">
-                @if (item.project.status) {
-                  <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
+        <div class="fw-hero-media">
+          @if (h.project.img && h.project.img.length > 0) {
+            <img [src]="h.project.img[0]" [alt]="h.project.projName" loading="lazy" />
+          } @else {
+            <div class="fw-hero-media-empty"><i class="bi bi-code-slash" aria-hidden="true"></i></div>
+          }
+          <span class="fw-hero-tint" aria-hidden="true"></span>
+          <span class="fw-hero-flare" aria-hidden="true"></span>
+          <span class="fw-hero-flag">FEATURED PROJECT</span>
+        </div>
+
+        <div class="fw-hero-body">
+          <div class="fw-hero-meta">
+            @if (h.project.status) {
+              <span class="fw-status" [ngClass]="h.project.status">
+                <span class="fw-status-dot" aria-hidden="true"></span>{{ statusLabel(h.project) }}
+              </span>
+            }
+            @if (h.project.year) {
+              <span class="fw-year">{{ h.project.year }}</span>
+            }
+            @if (h.project.role) {
+              <span class="fw-role">{{ h.project.role }}</span>
+            }
+          </div>
+
+          <h3 class="fw-hero-title">{{ h.project.projName }}</h3>
+          <p class="fw-hero-sub">{{ h.project.subname }}</p>
+
+          @if (h.project.stack && h.project.stack.length > 0) {
+            <div class="fw-stack">
+              @for (s of h.project.stack!.slice(0, 6); track s) {
+                @if (techIcon(s); as t) {
+                  <span class="fw-tech">
+                    <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
+                    <span>{{ s }}</span>
+                  </span>
+                } @else {
+                  <span class="fw-tech fw-tech--plain">{{ s }}</span>
                 }
-                @if (item.project.year) {
-                  <span>· {{ item.project.year }}</span>
-                }
-              </div>
-
-              <h3 class="ed-slide-title">{{ item.project.projName }}</h3>
-              <p class="ed-slide-sub">{{ item.project.subname }}</p>
-
-              @if (item.project.stack && item.project.stack.length > 0) {
-                <div class="ed-slide-tags">
-                  @for (s of item.project.stack!.slice(0, 4); track s) {
-                    @if (techIcon(s); as t) {
-                      <span class="tech-chip">
-                        <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
-                        <span>{{ s }}</span>
-                      </span>
-                    } @else {
-                      <span class="ed-chip">{{ s }}</span>
-                    }
-                  }
-                </div>
               }
+            </div>
+          }
 
-              <span class="ed-slide-cta">Read case study<i class="bi bi-arrow-right"></i></span>
+          <span class="fw-hero-cta">
+            <span>View project</span>
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </span>
+        </div>
+      </a>
+    </article>
+  }
+
+  @if (supporting.length > 0) {
+    <ul class="fw-supporting" role="list">
+      @for (s of supporting; track s.index; let i = $index) {
+        <li class="fw-supporting-item" [appReveal]="'up'" [revealDelay]="120 + i * 80">
+          <a [routerLink]="['/projects', s.index]"
+             class="fw-supporting-card"
+             (mousemove)="onCardMove($event)"
+             [attr.aria-label]="'Open project: ' + s.project.projName">
+
+            <span class="fw-supporting-spot" aria-hidden="true"></span>
+
+            <div class="fw-supporting-meta">
+              @if (s.project.status) {
+                <span class="fw-status" [ngClass]="s.project.status">
+                  <span class="fw-status-dot" aria-hidden="true"></span>{{ statusLabel(s.project) }}
+                </span>
+              }
+              @if (s.project.year) { <span class="fw-year">{{ s.project.year }}</span> }
             </div>
 
+            <h4 class="fw-supporting-title">{{ s.project.projName }}</h4>
+            <p class="fw-supporting-sub">{{ s.project.subname }}</p>
+
+            @if (s.project.stack && s.project.stack.length > 0) {
+              <div class="fw-supporting-stack">
+                @for (t of s.project.stack!.slice(0, 4); track t) {
+                  <span class="fw-supporting-chip">{{ t }}</span>
+                }
+              </div>
+            }
+
+            <span class="fw-supporting-cta">
+              <span>Open</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+            </span>
           </a>
         </li>
       }
     </ul>
-  </div>
-</section>
+  }
+
+</div>

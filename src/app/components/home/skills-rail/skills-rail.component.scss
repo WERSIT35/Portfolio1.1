@@ -1,169 +1,288 @@
-/* Skills — 2×2 capability card grid.
-   Each card = one architectural layer. Cards share hairline borders.
-   Zero overlap possible: each card is a fully independent flex column. */
-
+/* Skills — interactive capability matrix (tabbed) */
 :host { display: block; }
 
-/* ── Outer grid ──────────────────────────────────────────────────────────────
-   hairline-border technique: 1px gap on a var(--rule) background acts as the
-   shared cell borders; outer border wraps the whole group. */
-.sr-grid {
+.sr {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Segmented tab control
+   ═══════════════════════════════════════════════════════════════ */
+.sr-tabs {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--rule);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
   border: 1px solid var(--rule);
+  border-radius: 16px;
+  background: var(--aur-glass-strong, color-mix(in srgb, var(--paper) 82%, transparent));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
 }
+@media (max-width: 720px) { .sr-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .sr-tabs { grid-template-columns: 1fr; } }
 
-@media (max-width: 600px) {
-  .sr-grid { grid-template-columns: 1fr; }
+/* Animated indicator pill — slides via --idx */
+.sr-tabs-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc((100% - 12px) / 4);
+  transform: translateX(calc(var(--idx, 0) * 100%));
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+  border-radius: 12px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.96;
+  box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.32);
+  transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
+/* On smaller widths the tabs flow into multiple rows; hide the animated indicator pill
+   and let active-state `is-active` styles carry the affordance instead. */
+@media (max-width: 720px) { .sr-tabs-indicator { display: none; } .sr-tab.is-active { background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary))); } }
 
-/* ── Individual card ─────────────────────────────────────────────────────────
-   Flex column so header stays pinned at top and body fills remaining height.
-   Each card is self-contained — no text can overflow into adjacent cards. */
-.sr-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--paper);
-  min-width: 0;        /* grid child must opt into shrinking */
-  transition: background 220ms ease;
-}
-.sr-card:hover { background: rgba(var(--accent-rgb), 0.018); }
-
-/* ── Card header ─────────────────────────────────────────────────────────────
-   Icon · identity stack · count badge — all on one row, items align center. */
-.sr-card-head {
-  display: flex;
+.sr-tab {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 0.85rem;
-  padding: 1.05rem 1.3rem 1rem;
-  border-bottom: 1px solid var(--rule);
-  flex-shrink: 0;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  text-align: left;
+  transition: color 220ms ease, transform 200ms ease;
 }
+.sr-tab:hover { color: var(--ink); }
+.sr-tab:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 3px; }
 
-.sr-card-icon {
-  font-size: 1.3rem;
-  color: var(--accent-primary);
-  flex-shrink: 0;
-  line-height: 1;
+.sr-tab-icon {
+  font-size: 1.15rem;
+  color: var(--accent-text);
+  transition: color 240ms ease;
 }
+.sr-tab.is-active .sr-tab-icon,
+.sr-tab.is-active .sr-tab-name,
+.sr-tab.is-active .sr-tab-sublabel,
+.sr-tab.is-active .sr-tab-count { color: var(--paper); }
 
-.sr-card-id {
+.sr-tab-label {
   display: flex;
   flex-direction: column;
-  gap: 0.18rem;
   min-width: 0;
-  flex: 1;
+  gap: 0.1rem;
 }
-
-.sr-card-label {
-  font-family: var(--font-serif);
+.sr-tab-name {
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.02rem;
-  letter-spacing: -0.008em;
+  font-size: 0.96rem;
+  letter-spacing: -0.012em;
   color: var(--ink);
   line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.sr-card-sublabel {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.2em;
+.sr-tab-sublabel {
+  font-family: var(--font-section);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-mute);
   line-height: 1;
 }
-
-/* Skill count — small mono badge in top-right of header */
-.sr-card-count {
-  font-family: var(--font-mono);
+.sr-tab-count {
+  font-family: var(--font-section);
   font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   color: var(--ink-mute);
-  background: rgba(var(--accent-rgb), 0.06);
+  padding: 0.25rem 0.5rem;
   border: 1px solid var(--rule);
-  padding: 0.22rem 0.52rem;
-  flex-shrink: 0;
-  align-self: center;
-  transition: background 200ms ease, border-color 200ms ease;
+  border-radius: 999px;
+  background: transparent;
+  line-height: 1;
 }
-.sr-card:hover .sr-card-count {
-  background: rgba(var(--accent-rgb), 0.1);
-  border-color: rgba(var(--accent-rgb), 0.3);
+.sr-tab.is-active .sr-tab-count {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* ── Card body — skill pill container ───────────────────────────────────────
-   flex-wrap so pills flow to new lines naturally.
-   align-content: flex-start prevents rows stretching when there's extra space.
-   This is the only area that wraps — it can never bleed into the header. */
-.sr-card-body {
+/* Dark theme — keep active text legible on accent fill */
+:root[data-theme-resolved="dark"] .sr-tab.is-active .sr-tab-icon,
+:root[data-theme-resolved="dark"] .sr-tab.is-active .sr-tab-name,
+:root[data-theme-resolved="dark"] .sr-tab.is-active .sr-tab-sublabel,
+:root[data-theme-resolved="dark"] .sr-tab.is-active .sr-tab-count { color: var(--ink); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Stacked panels — only active visible
+   ═══════════════════════════════════════════════════════════════ */
+.sr-panel-stack {
+  position: relative;
+  display: grid;
+}
+.sr-panel {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  align-items: start;
+  padding: clamp(1.4rem, 2.6vw, 2rem);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  background: var(--aur-glass-strong, color-mix(in srgb, var(--paper) 82%, transparent));
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 360ms ease, transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0s linear 360ms;
+}
+.sr-panel.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 360ms ease, transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0s linear;
+}
+@media (max-width: 880px) { .sr-panel { grid-template-columns: 1fr; } }
+
+.sr-panel-head { display: flex; flex-direction: column; gap: 0.65rem; }
+.sr-panel-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-section);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 0;
+}
+.sr-panel-dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 999px;
+  background: var(--accent-primary);
+}
+.sr-panel-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.026em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 0;
+}
+.sr-panel-blurb {
+  font-family: var(--font-body);
+  font-size: clamp(0.96rem, 1.4vw, 1.06rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* Skill chips body */
+.sr-panel-body {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 0.38rem;
-  padding: 1rem 1.3rem 1.25rem;
-  flex: 1;
+  gap: 0.5rem;
 }
 
-/* ── Skill pill ──────────────────────────────────────────────────────────────
-   Flat bordered tag. Lead skill gets a subtle accent treatment. */
 .sr-skill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.65rem 0.3rem 0.5rem;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.7rem;
   border: 1px solid var(--rule);
-  color: var(--ink-soft);
+  border-radius: 999px;
+  background: var(--aur-glass, color-mix(in srgb, var(--paper) 60%, transparent));
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 500;
+  color: var(--ink-soft);
   line-height: 1.2;
   white-space: nowrap;
   cursor: default;
-  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+  transition: border-color 240ms ease, color 240ms ease, background 240ms ease, transform 240ms ease;
+  animation: sr-skill-in 380ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
 }
-.sr-skill:hover {
-  border-color: var(--rule-strong);
-  color: var(--ink);
-  background: rgba(var(--accent-rgb), 0.04);
+.sr-panel:not(.is-active) .sr-skill { animation: none; }
+
+@keyframes sr-skill-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Lead skill: primary tool per layer — visually anchors the group */
-.sr-skill--lead {
-  border-color: rgba(var(--accent-rgb), 0.38);
+.sr-skill:hover {
   color: var(--ink);
-  background: rgba(var(--accent-rgb), 0.05);
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: var(--aur-glass-strong, color-mix(in srgb, var(--paper) 82%, transparent));
+  transform: translateY(-2px);
+}
+.sr-skill-icon { font-size: 1.05rem; line-height: 1; flex-shrink: 0; }
+
+.sr-skill--lead {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.12), rgba(var(--accent-warm-rgb, var(--accent-rgb)), 0.10));
+  color: var(--ink);
   font-weight: 600;
 }
-.sr-skill--lead:hover {
-  border-color: rgba(var(--accent-rgb), 0.6);
-  background: rgba(var(--accent-rgb), 0.09);
+
+.sr-skill-flag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.16rem 0.45rem;
+  font-family: var(--font-section);
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  background: rgba(var(--accent-rgb), 0.16);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: 999px;
+  margin-left: 0.1rem;
 }
 
-.sr-skill-icon {
-  font-size: 1rem;
-  line-height: 1;
-  flex-shrink: 0;
+.sr-skill-rating {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 0.1rem;
+}
+.sr-skill-rating-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--rule-strong);
+  transition: background 200ms ease;
+}
+.sr-skill-rating-dot.is-on {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
 }
 
-/* ── Responsive refinements ──────────────────────────────────────────────── */
-@media (max-width: 860px) {
-  .sr-card-head { padding: 0.9rem 1.1rem 0.85rem; gap: 0.7rem; }
-  .sr-card-body { padding: 0.85rem 1.1rem 1.1rem; gap: 0.35rem; }
-  .sr-card-icon { font-size: 1.15rem; }
-  .sr-card-label { font-size: 0.96rem; }
-}
 
-@media (max-width: 600px) {
-  .sr-card-head { padding: 0.85rem 1.1rem 0.8rem; }
-  .sr-card-body { padding: 0.8rem 1.1rem 1rem; }
-  .sr-skill { font-size: 0.8rem; padding: 0.28rem 0.6rem 0.28rem 0.45rem; }
-}
-
+/* ═══════════════════════════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .sr-card, .sr-skill { transition: none; }
+  .sr-tabs-indicator, .sr-panel, .sr-skill { transition: none; }
+  .sr-skill { animation: none; }
+  .sr-skill:hover { transform: none; }
 }

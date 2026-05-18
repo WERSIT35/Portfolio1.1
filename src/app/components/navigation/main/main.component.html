@@ -1,163 +1,239 @@
-<main class="home">
+<main class="home home--ops">
 
-  <!-- 00 — Masthead -->
-  <section class="chapter masthead">
-    <div class="page">
-      <div class="masthead-grid">
-        <div class="masthead-text" [appReveal]="'up'">
-          <span class="eyebrow">Portfolio · 2026</span>
-          <h1 class="hero-name">Otar<br/>Davitashvili.</h1>
-          <p class="hero-roleline">
-            Full-Stack Engineer building Angular and Node.js systems for iGaming, fraud detection,
-            and high-volume transactional platforms.
-          </p>
-          <p class="masthead-now">
-            <span class="masthead-now-dot" aria-hidden="true"></span>
-            <span class="masthead-now-label">Now</span>
-            <span class="masthead-now-text">Angular Developer at PetC · iGaming systems background</span>
-          </p>
-          <div class="masthead-actions">
-            <a routerLink="projects" class="ed-btn">See selected work →</a>
-            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="ed-btn ed-btn--ghost">
-              Download Resume (PDF)
-            </a>
-          </div>
+  <!-- ╔═══════════ SCROLLSPY SIDEBAR (desktop ≥1080px) ═══════════╗ -->
+  <aside class="aur-side" aria-label="Section navigation">
+    <span class="aur-side-rail" aria-hidden="true">
+      <span class="aur-side-rail-fill"></span>
+    </span>
+    <ul class="aur-side-list" role="list">
+      @for (s of navSections; track s.id) {
+        <li>
+          <button
+            type="button"
+            class="aur-side-item"
+            [class.is-active]="activeSection() === s.id"
+            (click)="scrollToSection(s.id, $event)"
+            [attr.aria-current]="activeSection() === s.id ? 'true' : null"
+            [attr.aria-label]="'Jump to ' + s.label">
+            <span class="aur-side-label">{{ s.label }}</span>
+            <span class="aur-side-dot" aria-hidden="true"></span>
+          </button>
+        </li>
+      }
+    </ul>
+  </aside>
+
+  <!-- ╔═══════════ HERO — AURORA ═══════════╗ -->
+  <section id="top" class="aur-hero" (mousemove)="onHeroMove($event)">
+    <span class="aur-hero-mesh" aria-hidden="true"></span>
+    <span class="aur-hero-grid" aria-hidden="true"></span>
+    <span class="aur-hero-spot" aria-hidden="true"></span>
+
+    <div class="aur-hero-page page">
+      <div class="aur-hero-left" [appReveal]="'up'">
+        <span class="aur-eyebrow">
+          <span class="aur-eyebrow-dot" aria-hidden="true"></span>
+          <span>PORTFOLIO · 2026</span>
+        </span>
+
+        <h1 class="aur-name">
+          <span class="aur-name-line">Otar</span>
+          <span class="aur-name-line aur-name-line--em">Davitashvili<span class="aur-period">.</span></span>
+        </h1>
+
+        <p class="aur-lead">
+          Full-Stack Engineer building Angular and Node.js systems for iGaming, fraud detection,
+          and high-volume transactional platforms.
+        </p>
+
+        <div class="aur-cta">
+          <a routerLink="projects"
+             class="aur-btn aur-btn--primary"
+             (mousemove)="onMagnetMove($event)"
+             (mouseleave)="onMagnetLeave($event)">
+            <span class="aur-btn-inner">
+              <span>View selected work</span>
+              <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </span>
+            <span class="aur-btn-glow" aria-hidden="true"></span>
+          </a>
+          <a href="#contact"
+             class="aur-btn aur-btn--ghost"
+             (mousemove)="onMagnetMove($event)"
+             (mouseleave)="onMagnetLeave($event)">
+            <span class="aur-btn-inner">
+              <span>Get in touch</span>
+              <i class="bi bi-arrow-down" aria-hidden="true"></i>
+            </span>
+          </a>
         </div>
-        <aside class="masthead-side" [appReveal]="'up'" [revealDelay]="120">
-          <figure class="masthead-portrait">
-            <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
-          </figure>
-        </aside>
+
+        <dl class="aur-meta">
+          <div class="aur-meta-row"><dt>Role</dt><dd>Angular Developer &#64; PetC</dd></div>
+          <div class="aur-meta-row"><dt>Stack</dt><dd>Angular · Node · FastAPI · AWS</dd></div>
+          <div class="aur-meta-row">
+            <dt>Status</dt>
+            <dd><span class="aur-dot" aria-hidden="true"></span>Available for new work</dd>
+          </div>
+        </dl>
       </div>
+
+      <aside class="aur-hero-right" [appReveal]="'up'" [revealDelay]="140">
+        <figure class="aur-portrait">
+          <span class="aur-portrait-glow" aria-hidden="true"></span>
+          <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
+          <figcaption class="aur-portrait-tag" aria-hidden="true">
+            <span class="aur-dot"></span><span>LIVE · TBILISI</span>
+          </figcaption>
+        </figure>
+      </aside>
     </div>
-    <div class="masthead-scroll" aria-hidden="true">
-      <span>Scroll</span>
-      <i class="bi bi-arrow-down"></i>
-    </div>
+
+    <a class="aur-scroll" href="#chapter-01" aria-label="Scroll to first section">
+      <span>SCROLL</span>
+      <span class="aur-scroll-line" aria-hidden="true"></span>
+    </a>
   </section>
 
-  <!-- 01 — What I Do -->
-  <app-chapter number="01 — What I Do" title="What I build, and why">
+  <!-- ╔═══════════ 01 — What I build, and why ═══════════╗ -->
+  <app-chapter id="chapter-01" title="What I build, and why">
     <app-what-i-do></app-what-i-do>
   </app-chapter>
 
-  <!-- 02 — Selected Work -->
-  <app-chapter number="02 — Selected Work" title="Case studies"
+  <!-- ╔═══════════ Case studies ═══════════╗ -->
+  <app-chapter id="chapter-02" title="Selected Projects"
                actionLabel="All projects" actionLink="/projects">
-    <span chapter-action>
-      <button type="button" class="ed-arrow" (click)="fw.prev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
-      <button type="button" class="ed-arrow" (click)="fw.next()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
-    </span>
-    <app-featured-work #fw></app-featured-work>
+    <app-featured-work></app-featured-work>
   </app-chapter>
 
-  <!-- 03 — Skills -->
-  <app-chapter number="03 — Skills" title="What I build with">
+  <!-- ╔═══════════ What I build with ═══════════╗ -->
+  <app-chapter id="chapter-03" title="What I build with">
     <app-skills-rail></app-skills-rail>
   </app-chapter>
 
-  <!-- 04 — How I Work -->
-  <app-chapter number="04 — How I Work" title="Four stages, repeatedly">
+  <!-- ╔═══════════ Four stages, repeatedly ═══════════╗ -->
+  <app-chapter id="chapter-04" title="Four stages, repeatedly">
     <app-process></app-process>
   </app-chapter>
 
-  <!-- 05 — Experience -->
-  <app-chapter number="05 — Experience" title="Where I've worked"
+  <!-- ╔═══════════ Where I've worked ═══════════╗ -->
+  <app-chapter id="chapter-05" title="Where I've worked"
                actionLabel="Full timeline" actionLink="/allexp">
     <app-experience></app-experience>
   </app-chapter>
 
-  <!-- 06 — Education -->
-  <app-chapter number="06 — Education" title="How I learned it"
+  <!-- ╔═══════════ How I learned it ═══════════╗ -->
+  <app-chapter id="chapter-06" title="How I learned it"
                actionLabel="All education" actionLink="/alledu">
-    <span chapter-action>
-      <button type="button" class="ed-arrow" (click)="eduPrev()" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
-      <button type="button" class="ed-arrow" (click)="eduNext()" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
-    </span>
-    <section id="education" class="splide ed-splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          @for (item of educationList; track $index) {
-            <li class="splide__slide">
-              <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card edu-card">
-                <header class="edu-card-head">
-                  <figure class="edu-card-logo">
-                    <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
-                  </figure>
-                  <div class="edu-card-id">
-                    <p class="edu-card-org">{{ item.name }}</p>
-                    <p class="edu-card-track">{{ item.title }}</p>
-                  </div>
-                  <span class="edu-card-date">{{ item.date }}</span>
-                </header>
-                <h3 class="edu-card-degree">{{ item.degree }}</h3>
-                @if (item.subjects.length) {
-                  <div class="ed-slide-tags edu-card-tags">
-                    @for (subject of item.subjects.slice(0, 5); track $index) {
-                      <span class="ed-chip">{{ subject }}</span>
-                    }
-                  </div>
-                }
-                <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
-              </a>
-            </li>
-          }
-        </ul>
-      </div>
-    </section>
+    <div class="edu-journey">
+      <ol class="edu-journey-list" role="list">
+        @for (item of educationList; track item.id; let i = $index) {
+          <li class="edu-journey-item" [appReveal]="'up'" [revealDelay]="i * 90">
+            <a [routerLink]="['/edu/edulist', item.id]"
+               class="edu-journey-card"
+               (mousemove)="onTiltMove($event)"
+               (mouseleave)="onTiltLeave($event)">
+              <span class="edu-journey-step" aria-hidden="true">
+                <span class="edu-journey-step-dot"></span>
+                <span class="edu-journey-step-num">{{ i + 1 }}</span>
+              </span>
+              <header class="edu-journey-head">
+                <figure class="edu-journey-logo">
+                  <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
+                </figure>
+                <div class="edu-journey-id">
+                  <span class="edu-journey-org">{{ item.name }}</span>
+                  <span class="edu-journey-date">{{ item.date }}</span>
+                </div>
+              </header>
+              <h3 class="edu-journey-degree">{{ item.degree }}</h3>
+              <p class="edu-journey-track">{{ item.title }}</p>
+              @if (item.subjects.length) {
+                <ul class="edu-journey-subjects" role="list">
+                  @for (subject of item.subjects.slice(0, 4); track $index) {
+                    <li>{{ subject }}</li>
+                  }
+                  @if (item.subjects.length > 4) {
+                    <li class="edu-journey-more">+{{ item.subjects.length - 4 }}</li>
+                  }
+                </ul>
+              }
+              <span class="edu-journey-cta">
+                <span>View details</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </span>
+            </a>
+          </li>
+        }
+      </ol>
+    </div>
   </app-chapter>
 
-  <!-- 07 — Certificates -->
-  <app-chapter number="07 — Certificates" title="Verified work"
+  <!-- ╔═══════════ Verified work ═══════════╗ -->
+  <app-chapter id="chapter-07" title="Verified work"
                actionLabel="All certificates" actionLink="/allcert">
     <app-certificate></app-certificate>
   </app-chapter>
 
-  <!-- 08 — Let's talk -->
-  <app-chapter number="08 — Contact" title="Let's talk." id="contact">
-    <div class="touch-split" [appReveal]="'up'">
+  <!-- ╔═══════════ OUTRO — AURORA ═══════════╗ -->
+  <section class="aur-outro" id="contact" (mousemove)="onHeroMove($event)">
+    <span class="aur-outro-mesh" aria-hidden="true"></span>
+    <span class="aur-outro-spot" aria-hidden="true"></span>
 
-      <!-- Left: message + context -->
-      <div class="touch-message">
-        <p class="touch-avail">
-          <span class="masthead-now-dot" aria-hidden="true"></span>
-          <span class="touch-avail-text">Available for new work</span>
-        </p>
-        <h3 class="touch-headline">Let's build something worth shipping.</h3>
-        <p class="touch-sub">Open to full-stack roles, contracts, and product work across iGaming, fintech, and high-volume transactional systems.</p>
-        <ul class="touch-open-to">
-          <li><i class="bi bi-check" aria-hidden="true"></i>Full-time Angular / Node.js roles</li>
-          <li><i class="bi bi-check" aria-hidden="true"></i>Contract &amp; freelance projects</li>
-          <li><i class="bi bi-check" aria-hidden="true"></i>Technical co-founder conversations</li>
-        </ul>
+    <div class="page">
+      <div class="aur-outro-head" [appReveal]="'up'">
+        <span class="aur-eyebrow aur-eyebrow--accent">
+          <span class="aur-eyebrow-dot" aria-hidden="true"></span>
+          <span>CONTACT</span>
+        </span>
+        <h2 class="aur-outro-title">
+          Let's build<br/>
+          something<br/>
+          <span class="aur-outro-em">worth shipping<span class="aur-period">.</span></span>
+        </h2>
       </div>
 
-      <!-- Right: action card -->
-      <div class="touch-card">
-        <div class="touch-card-inner">
-          <p class="touch-card-label">Fastest way to reach me</p>
-          <a href="mailto:otowork3@gmail.com" class="touch-email-btn">
-            <span>otowork3&#64;gmail.com</span>
-            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+      <div class="aur-outro-grid" [appReveal]="'up'" [revealDelay]="80">
+        <div class="aur-outro-msg">
+          <p>
+            Open to full-stack roles, contracts, and product work across iGaming, fintech,
+            and high-volume transactional systems.
+          </p>
+          <ul class="aur-outro-list" role="list">
+            <li><span class="aur-bullet" aria-hidden="true"></span>Full-time Angular / Node.js roles</li>
+            <li><span class="aur-bullet" aria-hidden="true"></span>Contract &amp; freelance projects</li>
+            <li><span class="aur-bullet" aria-hidden="true"></span>Technical co-founder conversations</li>
+          </ul>
+        </div>
+
+        <div class="aur-outro-actions">
+          <a href="mailto:otowork3@gmail.com"
+             class="aur-mail"
+             (mousemove)="onMagnetMove($event)"
+             (mouseleave)="onMagnetLeave($event)">
+            <span class="aur-mail-label">FASTEST PATH</span>
+            <span class="aur-mail-addr">otowork3&#64;gmail.com</span>
+            <i class="bi bi-arrow-up-right aur-mail-go" aria-hidden="true"></i>
+            <span class="aur-mail-glow" aria-hidden="true"></span>
           </a>
-          <div class="touch-secondary">
-            <a href="https://github.com/WERSIT35" target="_blank" rel="noopener noreferrer" class="touch-link">
-              <i class="bi bi-github" aria-hidden="true"></i>
-              <span>GitHub</span>
+          <div class="aur-outro-links">
+            <a href="https://github.com/WERSIT35" target="_blank" rel="noopener noreferrer" class="aur-link">
+              <i class="bi bi-github" aria-hidden="true"></i><span>GitHub</span>
             </a>
-            <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener noreferrer" class="touch-link">
-              <i class="bi bi-linkedin" aria-hidden="true"></i>
-              <span>LinkedIn</span>
+            <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener noreferrer" class="aur-link">
+              <i class="bi bi-linkedin" aria-hidden="true"></i><span>LinkedIn</span>
             </a>
-            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="touch-link">
-              <i class="bi bi-file-person" aria-hidden="true"></i>
-              <span>Resume</span>
+            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="aur-link">
+              <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i><span>Resume</span>
             </a>
           </div>
         </div>
       </div>
-
     </div>
-  </app-chapter>
+
+    <div class="aur-footnote">
+      <span class="aur-footnote-mark">OD<span class="aur-period">.</span></span>
+      <span class="aur-footnote-line">© {{ year }} Otar Davitashvili · Built with Angular · Deployed on Firebase</span>
+    </div>
+  </section>
 
 </main>

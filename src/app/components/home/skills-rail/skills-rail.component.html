@@ -1,27 +1,70 @@
-<div class="sr-grid">
-  @for (layer of layers; track layer.label; let i = $index) {
-    <div class="sr-card" [appReveal]="'up'" [revealDelay]="i * 80">
+<div class="sr">
 
-      <!-- Card header: icon + category identity + skill count -->
-      <header class="sr-card-head">
-        <i class="bi sr-card-icon" [ngClass]="layer.headIcon" aria-hidden="true"></i>
-        <div class="sr-card-id">
-          <span class="sr-card-label">{{ layer.label }}</span>
-          <span class="sr-card-sublabel">{{ layer.sublabel }}</span>
+  <!-- Segmented tab control -->
+  <div class="sr-tabs" role="tablist" aria-label="Capability domains">
+    @for (layer of layers; track layer.label; let i = $index) {
+      <button
+        type="button"
+        class="sr-tab"
+        [class.is-active]="active() === i"
+        role="tab"
+        [attr.aria-selected]="active() === i"
+        [attr.aria-controls]="'sr-panel-' + i"
+        [attr.tabindex]="active() === i ? 0 : -1"
+        (click)="select(i)"
+        (keydown)="onTabKey($event, i)">
+        <i class="bi sr-tab-icon" [ngClass]="layer.headIcon" aria-hidden="true"></i>
+        <span class="sr-tab-label">
+          <span class="sr-tab-name">{{ layer.label }}</span>
+          <span class="sr-tab-sublabel">{{ layer.sublabel }}</span>
+        </span>
+        <span class="sr-tab-count">{{ layer.skills.length }}</span>
+      </button>
+    }
+    <span class="sr-tabs-indicator" [style.--idx]="active()" aria-hidden="true"></span>
+  </div>
+
+  <!-- Stacked panels (one per layer); only the active one is visible -->
+  <div class="sr-panel-stack" [appReveal]="'up'">
+    @for (layer of layers; track layer.label; let i = $index) {
+      <section
+        class="sr-panel"
+        [id]="'sr-panel-' + i"
+        [class.is-active]="active() === i"
+        role="tabpanel"
+        [attr.aria-hidden]="active() !== i"
+        [attr.aria-labelledby]="'sr-tab-' + i">
+
+        <header class="sr-panel-head">
+          <p class="sr-panel-eyebrow">
+            <span>{{ layer.sublabel }}</span>
+            <span class="sr-panel-dot" aria-hidden="true"></span>
+            <span>{{ layer.skills.length }} TOOLS</span>
+          </p>
+          <h3 class="sr-panel-title">{{ layer.label }}</h3>
+          <p class="sr-panel-blurb">{{ layer.blurb }}</p>
+        </header>
+
+        <div class="sr-panel-body">
+          @for (skill of layer.skills; track skill.name; let j = $index) {
+            <div class="sr-skill" [class.sr-skill--lead]="skill.isLead" [style.--enter-delay]="(j * 40) + 'ms'">
+              <i [class]="skill.icon + ' sr-skill-icon'" [style.color]="skill.color" aria-hidden="true"></i>
+              <span class="sr-skill-name">{{ skill.name }}</span>
+              @if (skill.isLead) {
+                <span class="sr-skill-flag" aria-label="Primary tool">LEAD</span>
+              }
+              @if (skill.rating) {
+                <span class="sr-skill-rating" [attr.aria-label]="'Confidence ' + skill.rating + ' of 5'">
+                  @for (n of [1,2,3,4,5]; track n) {
+                    <span class="sr-skill-rating-dot" [class.is-on]="n <= skill.rating!"></span>
+                  }
+                </span>
+              }
+            </div>
+          }
         </div>
-        <span class="sr-card-count" [attr.aria-label]="layer.skills.length + ' skills'">{{ layer.skills.length }}</span>
-      </header>
+      </section>
+    }
+  </div>
 
-      <!-- Skill pills: lead skill listed first, always -->
-      <div class="sr-card-body">
-        @for (skill of layer.skills; track skill.name) {
-          <div class="sr-skill" [class.sr-skill--lead]="skill.isLead">
-            <i [class]="skill.icon + ' sr-skill-icon'" [style.color]="skill.color" aria-hidden="true"></i>
-            <span class="sr-skill-name">{{ skill.name }}</span>
-          </div>
-        }
-      </div>
-
-    </div>
-  }
 </div>

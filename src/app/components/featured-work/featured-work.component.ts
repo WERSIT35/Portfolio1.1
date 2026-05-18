@@ -1,60 +1,47 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import Splide from '@splidejs/splide';
 import { ProjectsService } from '../../services/projects.service';
 import { Projects } from '../../interfaces/projects';
-import { editorialSplideOptions } from '../../shared/splide-config';
 import { getTechIcon, TechIcon } from '../../shared/tech-icons';
+import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
+
+interface FeaturedEntry {
+  project: Projects;
+  index: number;
+}
 
 @Component({
   selector: 'app-featured-work',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RevealOnScrollDirective],
   templateUrl: './featured-work.component.html',
   styleUrl: './featured-work.component.scss',
 })
-export class FeaturedWorkComponent implements OnInit, AfterViewInit, OnDestroy {
-  featured: { project: Projects; index: number }[] = [];
-  private slider?: Splide;
+export class FeaturedWorkComponent implements OnInit {
+  hero: FeaturedEntry | null = null;
+  supporting: FeaturedEntry[] = [];
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private projectsService: ProjectsService,
-  ) {}
+  constructor(private projectsService: ProjectsService) {}
 
   ngOnInit(): void {
     this.projectsService.getProjects().subscribe((all) => {
-      this.featured = all
+      const featured = all
         .map((project, index) => ({ project, index }))
-        .filter((x) => x.project.featured && !x.project.projName.startsWith('TODO'))
-        .slice(0, 6);
-      this.mountSliderIfReady();
+        .filter((x) => x.project.featured && !x.project.projName.startsWith('TODO'));
+      this.hero = featured[0] ?? null;
+      this.supporting = featured.slice(1, 4);
     });
   }
 
-  ngAfterViewInit(): void {
-    this.mountSliderIfReady();
+  /** Cursor-aware spotlight on hover (CSS vars). */
+  onCardMove(e: MouseEvent): void {
+    const t = e.currentTarget as HTMLElement | null;
+    if (!t) return;
+    const r = t.getBoundingClientRect();
+    t.style.setProperty('--spot-x', `${((e.clientX - r.left) / r.width) * 100}%`);
+    t.style.setProperty('--spot-y', `${((e.clientY - r.top) / r.height) * 100}%`);
   }
-
-  private mountSliderIfReady(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (this.featured.length === 0 || this.slider) return;
-    const opts = editorialSplideOptions(2, { loop: this.featured.length > 2 });
-    opts.arrows = false;
-    queueMicrotask(() => {
-      if (document.getElementById('featuredWork')) {
-        this.slider = new Splide('#featuredWork', opts).mount();
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.slider?.destroy(true);
-  }
-
-  prev(): void { this.slider?.go('<'); }
-  next(): void { this.slider?.go('>'); }
 
   techIcon(name: string): TechIcon | null {
     return getTechIcon(name);

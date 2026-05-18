@@ -1,6 +1,10 @@
 <div class="cert-grid">
   @for (item of certificationList; track item.id; let i = $index) {
-    <a [routerLink]="['/cert', item.id]" class="cert-card" [appReveal]="'up'" [revealDelay]="i * 70">
+    <a [routerLink]="['/cert', item.id]"
+       class="cert-card cert-card--home"
+       [appReveal]="'up'"
+       [revealDelay]="i * 70">
+
       <figure class="cert-figure">
         @if (item.image && item.image.length > 0) {
           <img [src]="item.image[0]" [alt]="item.name" loading="lazy" />
@@ -11,12 +15,32 @@
           <i class="bi bi-arrow-up-right"></i>
         </span>
       </figure>
+
       <div class="cert-body">
-        <div class="cert-meta">
-          <span>{{ item.issuer }}</span>
-          @if (item.issued) { <span>{{ item.issued }}</span> }
+        <div class="cert-card-kicker">
+          <span class="cert-card-verified" aria-label="Verified certificate">
+            <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
+            <span>VERIFIED</span>
+          </span>
+          <span class="cert-card-issuer">{{ item.issuer }}</span>
         </div>
-        <h3 class="cert-title">{{ item.imageName && item.imageName.length > 0 ? item.imageName[0] : item.name }}</h3>
+
+        <h3 class="cert-title">
+          {{ item.imageName && item.imageName.length > 0 ? item.imageName[0] : item.name }}
+        </h3>
+
+        <div class="cert-card-foot">
+          @if (item.issued) {
+            <span class="cert-pill cert-pill--date">
+              <i class="bi bi-calendar3" aria-hidden="true"></i>
+              <span>{{ item.issued }}</span>
+            </span>
+          }
+          <span class="cert-pill cert-pill--view">
+            <span>View</span>
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </span>
+        </div>
       </div>
     </a>
   }

@@ -17,26 +17,36 @@
   display: flex;
   align-items: baseline;
   gap: 1rem;
-  padding-bottom: 0.6rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.2rem;
   border-bottom: 1px solid var(--rule);
 }
 .case-chapter-head .chapter-num {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--ink-mute);
+  color: var(--accent-text);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.case-chapter-head .chapter-num::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
 }
 .case-chapter-head .chapter-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-  letter-spacing: -0.012em;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  letter-spacing: -0.022em;
   color: var(--ink);
-  line-height: 1.18;
+  line-height: 1.14;
   flex: 1;
 }
 
@@ -71,7 +81,7 @@
    Numbered list (.case-approach)
    ──────────────────────────────────────────────── */
 .case-approach {
-  list-style: none;     /* kill browser <ol> decimals — we render our own 01/02/03 */
+  list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
@@ -79,26 +89,34 @@
 }
 .case-approach li {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 44px minmax(0, 1fr);
   gap: 1rem;
-  padding: 0.85rem 0;
+  padding: 0.95rem 0;
   border-bottom: 1px dashed var(--rule);
   list-style: none;
   align-items: start;
 }
 .case-approach li:last-child { border-bottom: 0; }
 .case-approach-num {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--accent-rgb), 0.32);
+  background: rgba(var(--accent-rgb), 0.08);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  color: var(--ink-mute);
-  min-width: 2.2rem;
-  padding-top: 0.15rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent-text);
+  line-height: 1;
 }
 .case-approach-text {
   color: var(--ink-soft);
-  font-size: 0.98rem;
-  line-height: 1.55;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding-top: 0.4rem;
 }
 
 /* ────────────────────────────────────────────────
@@ -244,12 +262,31 @@
 /* ────────────────────────────────────────────────
    Sidebar info card (Verified by, Program, etc.)
    ──────────────────────────────────────────────── */
+/* Detail-page sidebar info card — aurora-aligned glass surface with accent stripe. */
 .info-card {
+  position: relative;
   display: grid;
   gap: 0;
-  padding: 1.05rem 1.1rem 0.9rem;
+  padding: clamp(1.15rem, 1.8vw, 1.4rem) clamp(1.15rem, 1.8vw, 1.4rem) clamp(1rem, 1.6vw, 1.2rem);
   border: 1px solid var(--rule);
-  background: var(--paper-2);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--paper) 80%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
+  overflow: hidden;
+}
+.info-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+}
+:root[data-theme-resolved="dark"] .info-card {
+  background: color-mix(in srgb, var(--paper-2) 92%, transparent);
+  border-color: var(--rule-strong);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 .info-card-head {
   display: flex;
