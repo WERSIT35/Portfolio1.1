@@ -103,12 +103,14 @@
 
 .contact-identity { min-width: 0; }
 .contact-name {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(1.25rem, 1.8vw, 1.45rem);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  letter-spacing: -0.022em;
+  text-transform: uppercase;
   color: var(--ink);
-  line-height: 1.18;
+  line-height: 1.05;
 }
 .contact-role {
   font-family: var(--font-mono);

@@ -1,12 +1,53 @@
-<ol class="proc-list">
+<div class="proc" [style.--active]="active()" [style.--steps]="steps.length">
+
+  <!-- ╔═══════════ STEP HEADS (row 1 desktop / accordion handles mobile) ═══════════╗ -->
   @for (step of steps; track step.num; let i = $index) {
-    <li class="proc-row" [appReveal]="'up'" [revealDelay]="i * 60">
-      <span class="proc-num">{{ step.num }}</span>
-      <div class="proc-body">
-        <h3 class="proc-title">{{ step.title }}</h3>
-        <p class="proc-text">{{ step.body }}</p>
-      </div>
-      <i class="proc-icon bi" [ngClass]="step.icon" aria-hidden="true"></i>
-    </li>
+    <button type="button"
+            class="proc-step-head"
+            [class.is-active]="active() === i"
+            [class.is-past]="active() > i"
+            role="tab"
+            [id]="'proc-head-' + i"
+            [attr.aria-selected]="active() === i"
+            [attr.aria-controls]="'proc-body-' + i"
+            [attr.tabindex]="active() === i ? 0 : -1"
+            (click)="toggle(i)"
+            (keydown)="onStepKey($event, i)">
+      <span class="proc-step-marker" aria-hidden="true">
+        <span class="proc-step-marker-dot"></span>
+      </span>
+      <span class="proc-step-num">{{ step.num }}</span>
+      <span class="proc-step-title">{{ step.title }}</span>
+      <i class="bi proc-step-icon" [ngClass]="step.icon" aria-hidden="true"></i>
+    </button>
   }
-</ol>
+
+  <!-- ╔═══════════ PROGRESS RAIL (desktop only) ═══════════╗ -->
+  <span class="proc-rail" aria-hidden="true">
+    <span class="proc-rail-track"></span>
+    <span class="proc-rail-fill" [style.--fill]="((active() + 1) / steps.length) * 100 + '%'"></span>
+  </span>
+
+  <!-- ╔═══════════ STEP BODIES (overlap on desktop, inline on mobile) ═══════════╗ -->
+  @for (step of steps; track step.num; let i = $index) {
+    <section class="proc-step-body"
+             [class.is-active]="active() === i"
+             role="tabpanel"
+             [id]="'proc-body-' + i"
+             [attr.aria-labelledby]="'proc-head-' + i"
+             [attr.aria-hidden]="active() !== i">
+      <div class="proc-step-pane">
+        <div class="proc-step-visual" aria-hidden="true">
+          <span class="proc-step-visual-num">{{ step.num }}</span>
+          <i class="bi proc-step-visual-icon" [ngClass]="step.icon"></i>
+        </div>
+        <div class="proc-step-content">
+          <h3 class="proc-step-pane-title">{{ step.title }}</h3>
+          <p class="proc-step-pane-text">{{ step.body }}</p>
+          <p class="proc-step-pane-detail">{{ step.detail }}</p>
+        </div>
+      </div>
+    </section>
+  }
+
+</div>

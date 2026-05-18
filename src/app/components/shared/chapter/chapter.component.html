@@ -1,16 +1,26 @@
 <section class="chapter" [attr.id]="id">
   <div class="page">
-    <header class="chapter-header" [appReveal]="'up'">
+    <header class="chapter-header" [class.chapter-header--noRail]="!number" [appReveal]="'up'">
       @if (number) {
-        <span class="chapter-num">{{ number }}</span>
+        <aside class="chapter-rail" aria-hidden="true">
+          <span class="chapter-num">{{ number }}</span>
+          <span class="chapter-marker"></span>
+        </aside>
       }
-      <h2 class="chapter-title">{{ title }}</h2>
-      <span class="chapter-action-slot">
-        <ng-content select="[chapter-action]"></ng-content>
-      </span>
-      @if (actionLabel && actionLink) {
-        <a [routerLink]="actionLink" class="chapter-action">{{ actionLabel }} →</a>
-      }
+      <div class="chapter-main">
+        <h2 class="chapter-title">{{ title }}</h2>
+        <div class="chapter-meta">
+          <span class="chapter-action-slot">
+            <ng-content select="[chapter-action]"></ng-content>
+          </span>
+          @if (actionLabel && actionLink) {
+            <a [routerLink]="actionLink" class="chapter-action">
+              <span>{{ actionLabel }}</span>
+              <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+            </a>
+          }
+        </div>
+      </div>
     </header>
     <div class="chapter-body" [appReveal]="'up'" [revealDelay]="80">
       <ng-content></ng-content>

@@ -1,6 +1,6 @@
 <div class="wid-layout">
 
-  <!-- Left: bio prose -->
+  <!-- ╔═══════════ Narrative ═══════════╗ -->
   <div class="wid-prose prose" [appReveal]="'up'">
     <p class="dropcap">
       I am a Full-Stack Engineer specializing in Angular and Node.js, with hands-on experience in
@@ -13,25 +13,31 @@
       real users every second.
     </p>
 
-    <p class="wid-now">
-      <span class="wid-now-label">Currently building with</span>
-      @for (s of currentStack; track s) {
-        <span class="ed-chip">{{ s }}</span>
-      }
-    </p>
+    <div class="wid-now">
+      <span class="wid-now-label">
+        <span class="wid-now-label-bar" aria-hidden="true"></span>
+        Currently building with
+      </span>
+      <div class="wid-now-chips">
+        @for (s of currentStack; track s) {
+          <span class="ed-chip">{{ s }}</span>
+        }
+      </div>
+    </div>
   </div>
 
-  <!-- Right: capability tiles -->
+  <!-- ╔═══════════ Capability cards ═══════════╗ -->
   <div class="wid-caps">
     @for (cap of capabilities; track cap.title; let i = $index) {
-      <div class="wid-cap" [appReveal]="'up'" [revealDelay]="i * 80">
-        <header class="wid-cap-head">
-          <span class="wid-cap-num">{{ cap.num }}</span>
-          <i class="bi wid-cap-icon" [ngClass]="cap.icon" aria-hidden="true"></i>
-        </header>
-        <h4 class="wid-cap-title">{{ cap.title }}</h4>
-        <p class="wid-cap-focus">{{ cap.focus }}</p>
-      </div>
+      <article class="wid-cap" [appReveal]="'up'" [revealDelay]="i * 80">
+        <span class="wid-cap-icon-tile" aria-hidden="true">
+          <i class="bi wid-cap-icon" [ngClass]="cap.icon"></i>
+        </span>
+        <div class="wid-cap-body">
+          <h4 class="wid-cap-title">{{ cap.title }}</h4>
+          <p class="wid-cap-focus">{{ cap.focus }}</p>
+        </div>
+      </article>
     }
   </div>
 

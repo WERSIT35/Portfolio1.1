@@ -33,12 +33,14 @@
 }
 
 .ed-footer-name {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: 1.3rem;
+  letter-spacing: -0.018em;
+  text-transform: uppercase;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .ed-footer-tagline {
@@ -62,15 +64,15 @@
 }
 
 .ed-footer-nav-label {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-family: var(--font-section);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--ink-mute);
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 0.2rem;
+  color: var(--accent-text);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule-strong);
+  margin-bottom: 0.3rem;
 }
 
 .ed-footer-nav a {
