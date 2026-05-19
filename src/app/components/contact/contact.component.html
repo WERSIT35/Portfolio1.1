@@ -1,123 +1,164 @@
 <app-back></app-back>
 <main class="contact-page">
-  <header class="title page">
-    <span class="eyebrow">
-      <span class="crumb"><i class="bi bi-house" aria-hidden="true"></i><span>Home</span></span>
-      <span class="sep">·</span>
-      <span class="crumb"><i class="bi bi-envelope" aria-hidden="true"></i><span>Contact</span></span>
-    </span>
-    <h1>Let&apos;s talk.</h1>
-    <p class="prose">
-      Open to full-stack roles, contracts, and product work where the engineering has to hold up.
-      Email is fastest. Happy to walk through a case study live or pair on a code sample.
-    </p>
-  </header>
+  <span class="sr-only" role="status" aria-live="polite">{{ copyAnnouncement }}</span>
 
-  <section class="page contact-body">
-    <p class="availability" [appReveal]="'fade'">
-      <span class="masthead-now-dot"></span>
-      <span class="availability-label">Available</span>
-      <span>Open to roles · Replies within 24h · Based in Tbilisi (UTC+4)</span>
-    </p>
+  <section class="page contact-layout">
 
-    <span class="sr-only" role="status" aria-live="polite">{{ copyAnnouncement }}</span>
+    <!-- ╔═══════════ LEFT — intro pillar ═══════════╗ -->
+    <div class="contact-intro-col">
 
-    <div class="contact-layout">
-      <aside class="contact-intro" [appReveal]="'up'" [revealDelay]="40" aria-label="Profile and resume">
-        <figure class="contact-portrait">
+      <header class="contact-hero-compact" [appReveal]="'up'">
+        <span class="eyebrow">
+          <span class="crumb"><i class="bi bi-house" aria-hidden="true"></i><span>Home</span></span>
+          <span class="sep">·</span>
+          <span class="crumb"><i class="bi bi-envelope" aria-hidden="true"></i><span>Contact</span></span>
+        </span>
+        <h1 class="contact-hero-title">Let&apos;s talk.</h1>
+        <p class="contact-hero-lede">
+          Open to full-stack roles, contracts, and product work. Email is fastest — usually a same-day reply.
+        </p>
+      </header>
+
+      <!-- Author signature chip — small portrait + name (below title for context) -->
+      <div class="contact-signature" [appReveal]="'up'" [revealDelay]="40">
+        <figure class="contact-sig-portrait">
           <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
         </figure>
-        <div class="contact-identity">
-          <p class="contact-name">Otar Davitashvili</p>
-          <p class="contact-role">Full-stack engineer · Angular · FastAPI · AWS</p>
+        <div class="contact-sig-text">
+          <span class="contact-sig-name">Otar Davitashvili</span>
+          <span class="contact-sig-role">Full-stack engineer · Angular · FastAPI · AWS</span>
         </div>
-        <a href="assets/me/OTAR%20DAVITASHVILI.pdf"
-           download="Oto_Resume.pdf"
-           class="ed-btn ed-btn--cta contact-cta-btn">
-          <i class="bi bi-download" aria-hidden="true"></i>
-          <span>Download Resume (PDF)</span>
-        </a>
-      </aside>
+      </div>
 
-      <div class="contact-methods" [appReveal]="'up'" [revealDelay]="120" aria-label="Contact methods">
-        <ul class="cm-list" role="list">
-          <li class="cm-card" [appReveal]="'up'" [revealDelay]="160">
-            <a class="cm-main" href="mailto:otowork3@gmail.com" aria-label="Email otowork3@gmail.com">
-              <span class="cm-icon"><i class="bi bi-envelope-fill" aria-hidden="true"></i></span>
-              <span class="cm-text">
-                <span class="cm-label">Email</span>
-                <span class="cm-value">otowork3&#64;gmail.com</span>
-              </span>
-              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
-            </a>
-            <button type="button"
-                    class="cm-copy"
-                    (click)="copy('email', EMAIL, 'Email address')"
-                    [class.is-copied]="copiedKey === 'email'"
-                    [attr.aria-label]="copiedKey === 'email' ? 'Email address copied' : 'Copy email address'">
-              <i class="bi" [class.bi-clipboard]="copiedKey !== 'email'" [class.bi-check2]="copiedKey === 'email'" aria-hidden="true"></i>
-              <span class="cm-copy-text">{{ copiedKey === 'email' ? 'Copied' : 'Copy' }}</span>
-            </button>
-          </li>
-
-          <li class="cm-card" [appReveal]="'up'" [revealDelay]="220">
-            <a class="cm-main" href="tel:+995557282616" aria-label="Call +995 557 28 26 16">
-              <span class="cm-icon"><i class="bi bi-telephone-fill" aria-hidden="true"></i></span>
-              <span class="cm-text">
-                <span class="cm-label">Phone</span>
-                <span class="cm-value">+995 557 28 26 16</span>
-              </span>
-              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
-            </a>
-            <button type="button"
-                    class="cm-copy"
-                    (click)="copy('phone', PHONE, 'Phone number')"
-                    [class.is-copied]="copiedKey === 'phone'"
-                    [attr.aria-label]="copiedKey === 'phone' ? 'Phone number copied' : 'Copy phone number'">
-              <i class="bi" [class.bi-clipboard]="copiedKey !== 'phone'" [class.bi-check2]="copiedKey === 'phone'" aria-hidden="true"></i>
-              <span class="cm-copy-text">{{ copiedKey === 'phone' ? 'Copied' : 'Copy' }}</span>
-            </button>
-          </li>
-
-          <li class="cm-card cm-card--single" [appReveal]="'up'" [revealDelay]="280">
-            <a class="cm-main" href="https://github.com/WERSIT35" target="_blank" rel="noopener" aria-label="GitHub profile">
-              <span class="cm-icon"><i class="bi bi-github" aria-hidden="true"></i></span>
-              <span class="cm-text">
-                <span class="cm-label">GitHub</span>
-                <span class="cm-value">github.com/WERSIT35</span>
-              </span>
-              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
-            </a>
-          </li>
-
-          <li class="cm-card cm-card--single" [appReveal]="'up'" [revealDelay]="340">
-            <a class="cm-main" href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
-              <span class="cm-icon"><i class="bi bi-linkedin" aria-hidden="true"></i></span>
-              <span class="cm-text">
-                <span class="cm-label">LinkedIn</span>
-                <span class="cm-value">linkedin.com/in/otar-davitashvili</span>
-              </span>
-              <i class="cm-go bi bi-arrow-up-right" aria-hidden="true"></i>
-            </a>
-          </li>
-        </ul>
+      <!-- Status as vertical glass stack -->
+      <div class="contact-status" [appReveal]="'up'" [revealDelay]="80">
+        <div class="contact-status-cell contact-status-cell--ok">
+          <span class="contact-status-dot" aria-hidden="true"></span>
+          <span class="contact-status-meta">
+            <span class="contact-status-label">Status</span>
+            <span class="contact-status-value">Available for new work</span>
+          </span>
+        </div>
+        <div class="contact-status-cell">
+          <i class="bi bi-lightning-charge-fill contact-status-icon" aria-hidden="true"></i>
+          <span class="contact-status-meta">
+            <span class="contact-status-label">Reply time</span>
+            <span class="contact-status-value">Within 24h</span>
+          </span>
+        </div>
+        <div class="contact-status-cell">
+          <i class="bi bi-geo-alt-fill contact-status-icon" aria-hidden="true"></i>
+          <span class="contact-status-meta">
+            <span class="contact-status-label">Based in</span>
+            <span class="contact-status-value">Tbilisi · UTC+4</span>
+          </span>
+        </div>
       </div>
     </div>
 
-    <nav class="contact-sitemap" aria-label="More on this site" [appReveal]="'up'" [revealDelay]="380">
-      <span class="cs-label">Elsewhere on the site</span>
-      <a routerLink="/projects">Work</a>
-      <a routerLink="/allexp">Experience</a>
-      <a routerLink="/alledu">Education</a>
-      <a routerLink="/allcert">Certificates</a>
-    </nav>
+    <!-- ╔═══════════ RIGHT — contact command panel ═══════════╗ -->
+    <div class="contact-panel" [appReveal]="'up'" [revealDelay]="60">
+
+      <!-- Primary: email hero card -->
+      <a href="mailto:otowork3@gmail.com"
+         class="contact-email-card"
+         aria-label="Email otowork3@gmail.com">
+        <span class="contact-email-glow" aria-hidden="true"></span>
+        <div class="contact-email-body">
+          <span class="contact-email-label">
+            <span class="contact-email-bar" aria-hidden="true"></span>
+            Fastest path
+          </span>
+          <span class="contact-email-addr">otowork3&#64;gmail.com</span>
+          <span class="contact-email-sub">Direct line — usually replies same day</span>
+        </div>
+        <span class="contact-email-go" aria-hidden="true">
+          <i class="bi bi-arrow-up-right"></i>
+        </span>
+      </a>
+
+      <button type="button"
+              class="contact-copy-chip"
+              (click)="copy('email', EMAIL, 'Email address')"
+              [class.is-copied]="copiedKey === 'email'"
+              [attr.aria-label]="copiedKey === 'email' ? 'Email address copied' : 'Copy email address'">
+        <i class="bi" [class.bi-clipboard]="copiedKey !== 'email'" [class.bi-check2]="copiedKey === 'email'" aria-hidden="true"></i>
+        <span>{{ copiedKey === 'email' ? 'Email copied' : 'Copy email' }}</span>
+      </button>
+
+      <!-- Phone + GitHub + LinkedIn grid -->
+      <ul class="contact-channels" role="list">
+        <li class="ch-card">
+          <a class="ch-card-main" href="tel:+995557282616" aria-label="Call +995 557 28 26 16">
+            <span class="ch-icon-tile" aria-hidden="true"><i class="bi bi-telephone-fill"></i></span>
+            <span class="ch-meta">
+              <span class="ch-label">Phone</span>
+              <span class="ch-value">+995 557 28 26 16</span>
+            </span>
+            <i class="ch-go bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+          <button type="button"
+                  class="ch-copy"
+                  (click)="copy('phone', PHONE, 'Phone number')"
+                  [class.is-copied]="copiedKey === 'phone'"
+                  [attr.aria-label]="copiedKey === 'phone' ? 'Phone number copied' : 'Copy phone number'">
+            <i class="bi" [class.bi-clipboard]="copiedKey !== 'phone'" [class.bi-check2]="copiedKey === 'phone'" aria-hidden="true"></i>
+          </button>
+        </li>
+
+        <li class="ch-card">
+          <a class="ch-card-main" href="https://github.com/WERSIT35" target="_blank" rel="noopener" aria-label="GitHub profile">
+            <span class="ch-icon-tile" aria-hidden="true"><i class="bi bi-github"></i></span>
+            <span class="ch-meta">
+              <span class="ch-label">GitHub</span>
+              <span class="ch-value">github.com/WERSIT35</span>
+            </span>
+            <i class="ch-go bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </li>
+
+        <li class="ch-card">
+          <a class="ch-card-main" href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+            <span class="ch-icon-tile" aria-hidden="true"><i class="bi bi-linkedin"></i></span>
+            <span class="ch-meta">
+              <span class="ch-label">LinkedIn</span>
+              <span class="ch-value">in/otar-davitashvili</span>
+            </span>
+            <i class="ch-go bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Resume CTA — bottom of the panel, accent-gradient filled -->
+      <a href="assets/me/OTAR%20DAVITASHVILI.pdf"
+         download="Oto_Resume.pdf"
+         class="contact-resume-btn">
+        <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
+        <span>Download Resume (PDF)</span>
+      </a>
+    </div>
   </section>
 
+  <!-- ╔═══════════ Sitemap (below the fold) ═══════════╗ -->
+  <nav class="page contact-sitemap" aria-label="More on this site" [appReveal]="'up'" [revealDelay]="160">
+    <span class="cs-label">
+      <span class="cs-label-bar" aria-hidden="true"></span>
+      Elsewhere on the site
+    </span>
+    <div class="cs-links">
+      <a routerLink="/projects"><i class="bi bi-grid-1x2" aria-hidden="true"></i>Work</a>
+      <a routerLink="/allexp"><i class="bi bi-briefcase" aria-hidden="true"></i>Experience</a>
+      <a routerLink="/alledu"><i class="bi bi-mortarboard" aria-hidden="true"></i>Education</a>
+      <a routerLink="/allcert"><i class="bi bi-patch-check" aria-hidden="true"></i>Certificates</a>
+    </div>
+  </nav>
+
+  <!-- Mobile sticky resume CTA -->
   <div class="contact-sticky-cta" aria-hidden="false">
     <a href="assets/me/OTAR%20DAVITASHVILI.pdf"
        download="Oto_Resume.pdf"
-       class="ed-btn ed-btn--cta">
-      <i class="bi bi-download" aria-hidden="true"></i>
+       class="contact-resume-btn">
+      <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
       <span>Download Resume (PDF)</span>
     </a>
   </div>
