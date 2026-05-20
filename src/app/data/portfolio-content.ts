@@ -300,7 +300,7 @@ export const PROJECTS: Projects[] = [
       'assets/projects/ShelloTech/Pic5Web.png', 'assets/projects/ShelloTech/Pic5Mob.png',
       'assets/projects/ShelloTech/Pic6Web.png', 'assets/projects/ShelloTech/Pic6Mob.png',
     ],
-    link: 'https://shellotech.eu.org',
+    link: 'https://shello-demo.vercel.app/',
     github: 'https://github.com/WERSIT35/Shello-Demo',
     iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
