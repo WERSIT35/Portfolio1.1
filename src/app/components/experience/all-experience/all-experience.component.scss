@@ -1,92 +1,40 @@
-/* /allexp specific — continuous timeline rail + node dots (page-only decoration).
-   Shared timeline cells come from global _cards.scss. */
-.all-experience { display: block; padding-bottom: 3rem; }
+/* /allexp — uses shared .ex-timeline / .ex-row-link glass cards from _cards.scss.
+   The shared cards already carry border + lift hover, so this file only handles
+   page-level rhythm + responsibilities sublist styling. */
 
-.all-experience .ex-timeline {
-  position: relative;
-  padding-left: clamp(1.4rem, 3vw, 2.4rem);
-  border-top: 0;
-}
-.all-experience .ex-timeline::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent 0,
-    var(--rule) 6%,
-    var(--rule) 94%,
-    transparent 100%
-  );
+.all-experience {
+  display: block;
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.all-experience .ex-row {
-  position: relative;
-  border-bottom: 1px solid var(--rule);
-}
-.all-experience .ex-row:last-child { border-bottom: 0; }
-
-/* Node dot anchored to the rail */
-.all-experience .ex-row::before {
-  content: "";
-  position: absolute;
-  left: calc(-1 * clamp(1.4rem, 3vw, 2.4rem));
-  top: 1.9rem;
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  background: var(--paper);
-  border: 1px solid var(--rule-strong);
-  transform: translateX(-4px);
-  transition: background 240ms ease, border-color 240ms ease, transform 280ms ease;
-  z-index: 1;
-}
-.all-experience .ex-row:hover::before {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  transform: translateX(-4px) scale(1.2);
-}
-.all-experience .ex-row:first-child::before {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.14);
-}
-
-.all-experience .ex-row-link { padding: 1.4rem 0.4rem 1.4rem 1rem; }
-.all-experience .ex-row-link::before { left: -1rem; }
-
-/* Responsibilities mini-list */
+/* Responsibilities mini-list — small bullet sub-list inside each role card */
 .all-experience .ex-row-resp {
   list-style: none;
-  margin: 0.55rem 0 0;
-  padding: 0;
+  margin: 0.7rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--rule);
   display: grid;
-  gap: 0.25rem;
+  gap: 0.4rem;
 }
 .all-experience .ex-row-resp li {
-  font-size: 0.88rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
   color: var(--ink-soft);
-  padding-left: 1rem;
+  padding-left: 1.1rem;
   position: relative;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .all-experience .ex-row-resp li::before {
-  content: "▸";
+  content: "";
   position: absolute;
   left: 0;
-  color: var(--accent-primary);
-  font-size: 0.7rem;
-  top: 0.2rem;
+  top: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
 }
 
-@media (max-width: 560px) {
-  .all-experience .ex-timeline { padding-left: 1.1rem; }
-  .all-experience .ex-row::before { left: -1.1rem; top: 1.6rem; }
-  .all-experience .ex-row-link { padding: 1.1rem 0.3rem 1.1rem 0.6rem; gap: 0.9rem; }
-}
 @media (max-width: 480px) {
-  .all-experience .ex-row-resp li { font-size: 0.84rem; }
+  .all-experience .ex-row-resp li { font-size: 0.88rem; }
 }

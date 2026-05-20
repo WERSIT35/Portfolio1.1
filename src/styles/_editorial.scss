@@ -301,20 +301,43 @@ a { color: inherit; }
   outline-offset: 3px;
 }
 .ed-btn--ghost {
-  background: transparent;
+  background: color-mix(in srgb, var(--paper) 50%, transparent);
   color: var(--ink);
   border-color: var(--rule-strong);
   box-shadow: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .ed-btn--ghost:hover {
-  background: transparent;
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--accent-text);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px var(--accent-primary) inset, 0 8px 22px rgba(var(--accent-rgb), 0.18);
+}
+/* Dark theme — primary stays ink-on-cobalt for contrast against the bright accent fill;
+   ghost gets a stronger backdrop + visible border + accent hover glow so it doesn't
+   blend into the dark page (GitHub-repo / external-link CTAs were the worst offenders). */
+:root[data-theme-resolved="dark"] .ed-btn {
+  color: var(--paper);
+  box-shadow: 0 6px 18px rgba(var(--accent-rgb), 0.28);
+}
+:root[data-theme-resolved="dark"] .ed-btn:hover {
+  color: var(--paper);
+  box-shadow: 0 16px 36px rgba(var(--accent-rgb), 0.42);
+}
+:root[data-theme-resolved="dark"] .ed-btn--ghost {
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  color: var(--ink);
+  border-color: rgba(244, 244, 246, 0.32);
+}
+:root[data-theme-resolved="dark"] .ed-btn--ghost:hover {
+  background: rgba(var(--accent-rgb), 0.14);
   color: var(--accent-primary);
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 1px var(--accent-primary) inset;
+  box-shadow:
+    0 0 0 1px var(--accent-primary) inset,
+    0 14px 30px rgba(var(--accent-rgb), 0.30);
 }
-/* Dark theme — keep ink-on-accent contrast (mint accent → near-black text) */
-:root[data-theme-resolved="dark"] .ed-btn { color: var(--paper); }
-:root[data-theme-resolved="dark"] .ed-btn:hover { color: var(--paper); }
 
 /* Grid layout utilities */
 .layout-2 {

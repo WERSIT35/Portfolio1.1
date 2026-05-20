@@ -70,22 +70,23 @@
   outline-offset: 3px;
 }
 
-/* Dark theme glass */
+/* Dark theme glass — brightened so the floating chip stays distinct from the
+   dark page background (previous 60% paper-mix was too low-contrast). */
 :host-context([data-theme-resolved="dark"]) .back-btn {
-  background: color-mix(in srgb, var(--paper) 60%, rgba(255, 255, 255, 0.04));
-  border-color: var(--rule-strong);
+  background: color-mix(in srgb, var(--paper-3) 88%, rgba(255, 255, 255, 0.08));
+  border-color: rgba(244, 244, 246, 0.34);
   color: var(--ink);
   box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 14px 30px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
 :host-context([data-theme-resolved="dark"]) .back-btn:hover {
-  background: color-mix(in srgb, var(--paper) 72%, rgba(var(--accent-rgb), 0.08));
+  background: rgba(var(--accent-rgb), 0.16);
   border-color: var(--accent-primary);
   color: var(--accent-primary);
   box-shadow:
-    0 16px 34px rgba(var(--accent-rgb), 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 18px 38px rgba(var(--accent-rgb), 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 @media (max-width: 840px) {
