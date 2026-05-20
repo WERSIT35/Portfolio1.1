@@ -325,7 +325,7 @@ export const PROJECTS: Projects[] = [
     ],
     lessons:
       'Layering refresh tokens in HttpOnly cookies on top of MFA and RBAC forced a cleaner separation between session state and UI state — which is exactly what made bolting on the admin dashboard cheap later.',
-    demoEmbedUrl: 'https://shellotech.eu.org',
+    demoEmbedUrl: 'https://shello-demo.vercel.app/',
   },
   {
     projName: 'Elite Weddings',
