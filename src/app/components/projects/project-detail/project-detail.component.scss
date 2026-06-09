@@ -88,7 +88,7 @@
   padding: 0.8rem 1.1rem;
   border: 1px solid var(--rule);
   border-radius: 14px;
-  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
@@ -104,7 +104,7 @@
   border-right: 1px solid var(--rule);
 }
 :root[data-theme-resolved="dark"] .case-mast-line {
-  background: color-mix(in srgb, var(--paper-2) 90%, transparent);
+  background: var(--card-dark-bg);
   border-color: var(--rule-strong);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
@@ -172,7 +172,7 @@
   flex-wrap: wrap;
   padding: 0.45rem;
   margin: 0.4rem 0 1rem;
-  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
   border: 1px solid var(--rule);
   border-radius: 999px;
   backdrop-filter: blur(14px) saturate(140%);
@@ -329,7 +329,7 @@
   flex-direction: column;
   color: var(--ink);
   text-decoration: none;
-  background: color-mix(in srgb, var(--paper) 80%, transparent);
+  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
   border: 1px solid var(--rule);
   border-radius: 16px;
   overflow: hidden;
@@ -348,7 +348,7 @@
 }
 .case-related-card:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 4px; }
 :root[data-theme-resolved="dark"] .case-related-card {
-  background: color-mix(in srgb, var(--paper-2) 92%, transparent);
+  background: var(--card-dark-bg);
   border-color: var(--rule-strong);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }

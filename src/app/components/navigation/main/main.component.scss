@@ -6,9 +6,11 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .home--ops {
-  --aur-glass: color-mix(in srgb, var(--paper) 64%, transparent);
-  --aur-glass-strong: color-mix(in srgb, var(--paper) 82%, transparent);
-  --aur-line: var(--rule);
+  /* Glass surfaces use the global liquid-glass tokens so the home page reads
+     the same as the rest of the site (translucent, aurora shows through). */
+  --aur-glass: var(--glass-tint);
+  --aur-glass-strong: var(--glass-tint-strong);
+  --aur-line: var(--glass-border);
   --aur-line-strong: var(--rule-strong);
   --aur-accent: var(--accent-primary);
   --aur-accent-warm: var(--accent-warm);
@@ -18,24 +20,12 @@
   --aur-shadow-lg: 0 36px 80px rgba(10, 10, 12, 0.18), 0 10px 20px rgba(10, 10, 12, 0.08);
 }
 :root[data-theme-resolved="dark"] .home--ops {
-  --aur-glass: color-mix(in srgb, var(--paper) 52%, transparent);
-  --aur-glass-strong: color-mix(in srgb, var(--paper) 78%, transparent);
   --aur-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.4),  0 2px 4px rgba(0, 0, 0, 0.3);
   --aur-shadow:    0 22px 48px rgba(0, 0, 0, 0.5),  0 6px 12px rgba(0, 0, 0, 0.36);
   --aur-shadow-lg: 0 36px 80px rgba(0, 0, 0, 0.62), 0 10px 20px rgba(0, 0, 0, 0.42);
 }
 
-/* ── Body backdrop on home: soft mesh of accent + warm + paper ── */
-body:has(.home--ops) {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(var(--accent-rgb), 0.16), transparent 60%),
-    radial-gradient(ellipse 50% 50% at 100% 50%, rgba(var(--accent-warm-rgb), 0.10), transparent 60%),
-    radial-gradient(ellipse 40% 40% at 0% 100%, rgba(var(--accent-rgb), 0.10), transparent 60%),
-    var(--paper) !important;
-  background-attachment: fixed !important;
-}
-body:has(.home--ops)::before,
-body:has(.home--ops)::after { display: none !important; }
+/* Home uses the global vivid aurora + drifting orbs (styles.scss) — no override. */
 
 /* ── Header on home: glass with backdrop-blur ── */
 body:has(.home--ops) .ed-header { background: transparent; border-bottom: 0; backdrop-filter: none; -webkit-backdrop-filter: none; transition: background 280ms ease, border-color 280ms ease, backdrop-filter 280ms ease; }
