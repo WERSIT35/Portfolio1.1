@@ -14,12 +14,15 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-flow: row;
   gap: 0;
-  border: 1px solid var(--rule);
-  border-radius: 22px;
-  background: var(--aur-glass-strong, color-mix(in srgb, var(--paper) 82%, transparent));
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  box-shadow: 0 8px 24px rgba(10, 10, 12, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    inset 0 0 0 1px var(--glass-hairline),
+    var(--glass-glow);
   overflow: hidden;
   isolation: isolate;
 }
