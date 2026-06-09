@@ -23,76 +23,49 @@
     </ul>
   </aside>
 
-  <!-- ╔═══════════ HERO — AURORA ═══════════╗ -->
-  <section id="top" class="aur-hero" (mousemove)="onHeroMove($event)">
-    <span class="aur-hero-mesh" aria-hidden="true"></span>
-    <span class="aur-hero-grid" aria-hidden="true"></span>
-    <span class="aur-hero-spot" aria-hidden="true"></span>
-
-    <div class="aur-hero-page page">
-      <div class="aur-hero-left" [appReveal]="'up'">
-        <span class="aur-eyebrow">
-          <span class="aur-eyebrow-dot" aria-hidden="true"></span>
-          <span>PORTFOLIO · 2026</span>
-        </span>
-
-        <h1 class="aur-name">
-          <span class="aur-name-line">Otar</span>
-          <span class="aur-name-line aur-name-line--em">Davitashvili<span class="aur-period">.</span></span>
-        </h1>
-
-        <p class="aur-lead">
-          Full-Stack Engineer building Angular and Node.js systems for iGaming, fraud detection,
-          and high-volume transactional platforms.
-        </p>
-
-        <div class="aur-cta">
-          <a routerLink="projects"
-             class="aur-btn aur-btn--primary"
-             (mousemove)="onMagnetMove($event)"
-             (mouseleave)="onMagnetLeave($event)">
-            <span class="aur-btn-inner">
-              <span>View selected work</span>
-              <i class="bi bi-arrow-right" aria-hidden="true"></i>
-            </span>
-            <span class="aur-btn-glow" aria-hidden="true"></span>
-          </a>
-          <a href="#contact"
-             class="aur-btn aur-btn--ghost"
-             (mousemove)="onMagnetMove($event)"
-             (mouseleave)="onMagnetLeave($event)">
-            <span class="aur-btn-inner">
-              <span>Get in touch</span>
-              <i class="bi bi-arrow-down" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-
-        <dl class="aur-meta">
-          <div class="aur-meta-row"><dt>Role</dt><dd>Angular Developer &#64; PetC</dd></div>
-          <div class="aur-meta-row"><dt>Stack</dt><dd>Angular · Node · FastAPI · AWS</dd></div>
-          <div class="aur-meta-row">
-            <dt>Status</dt>
-            <dd><span class="aur-dot" aria-hidden="true"></span>Available for new work</dd>
-          </div>
-        </dl>
+  <!-- ╔═══════════ HERO — CONTRAST (full-bleed inverted) ═══════════╗ -->
+  <section id="top" class="mc-hero">
+    <div class="mc-hero-inner page">
+      <div class="mc-hero-top" [appReveal]="'fade'">
+        <span class="mc-eyebrow">Portfolio — 2026</span>
+        <span class="mc-eyebrow mc-eyebrow--end"><span class="mc-dot" aria-hidden="true"></span>Available for new work</span>
       </div>
 
-      <aside class="aur-hero-right" [appReveal]="'up'" [revealDelay]="140">
-        <figure class="aur-portrait">
-          <span class="aur-portrait-glow" aria-hidden="true"></span>
-          <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
-          <figcaption class="aur-portrait-tag" aria-hidden="true">
-            <span class="aur-dot"></span><span>LIVE · TBILISI</span>
-          </figcaption>
-        </figure>
-      </aside>
-    </div>
+      <h1 class="mc-hero-display" [appReveal]="'up'">
+        <span class="l1">Full-stack</span>
+        <span class="l2">engineer</span>
+        <span class="l3">&amp; systems builder<span class="mc-period">.</span></span>
+      </h1>
 
-    <a class="aur-scroll" href="#chapter-01" aria-label="Scroll to first section">
-      <span>SCROLL</span>
-      <span class="aur-scroll-line" aria-hidden="true"></span>
-    </a>
+      <div class="mc-hero-foot">
+        <p class="mc-hero-lead" [appReveal]="'up'" [revealDelay]="80">
+          Otar Davitashvili — building Angular, Node and FastAPI systems for iGaming,
+          fraud detection and high-volume transactional platforms.
+        </p>
+        <div class="mc-hero-actions" [appReveal]="'up'" [revealDelay]="140">
+          <a routerLink="projects"
+             class="mc-btn mc-btn--solid"
+             (mousemove)="onMagnetMove($event)"
+             (mouseleave)="onMagnetLeave($event)">
+            <span>View selected work</span>
+            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a href="#contact"
+             class="mc-btn mc-btn--line"
+             (mousemove)="onMagnetMove($event)"
+             (mouseleave)="onMagnetLeave($event)">
+            <span>Get in touch</span>
+            <i class="bi bi-arrow-down" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <dl class="mc-hero-meta" [appReveal]="'fade'" [revealDelay]="180">
+        <div><dt>Role</dt><dd>Angular Developer &#64; PetC</dd></div>
+        <div><dt>Stack</dt><dd>Angular · Node · FastAPI · AWS</dd></div>
+        <div><dt>Based</dt><dd>Tbilisi, Georgia</dd></div>
+      </dl>
+    </div>
   </section>
 
   <!-- ╔═══════════ 01 — What I build, and why ═══════════╗ -->
