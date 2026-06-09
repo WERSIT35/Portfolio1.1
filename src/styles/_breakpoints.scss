@@ -1,0 +1,54 @@
+// ─────────────────────────────────────────────────────────────
+// Breakpoint system (mobile-first)
+//
+// Single source of truth for responsive widths. Use the mixins
+// instead of hand-written magic numbers so every component shares
+// the same tablet/desktop thresholds.
+//
+//   @use 'breakpoints' as bp;            // includePaths: src/styles
+//   .card { ... }                        // mobile-first base
+//   @include bp.up('md') { ... }         // ≥ tablet, scale UP
+//   @include bp.down('md') { ... }       // < tablet, legacy desktop-first
+//
+// Scale:  xs 480 · sm 640 · md 768 · lg 1024 · xl 1280
+// ─────────────────────────────────────────────────────────────
+
+@use 'sass:map';
+
+$breakpoints: (
+  'xs': 480px,
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
+
+@function bp($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error "Unknown breakpoint `#{$name}`. Available: #{map.keys($breakpoints)}.";
+  }
+  @return map.get($breakpoints, $name);
+}
+
+// Mobile-first: styles apply at this width and UP. Preferred direction.
+@mixin up($name) {
+  @media (min-width: bp($name)) {
+    @content;
+  }
+}
+
+// Desktop-first: styles apply BELOW this width. For migrating legacy
+// `max-width` queries without rewriting their cascade. Uses a 0.02px
+// nudge so up() and down() of the same name never overlap.
+@mixin down($name) {
+  @media (max-width: (bp($name) - 0.02px)) {
+    @content;
+  }
+}
+
+// Bounded range [min, max).
+@mixin between($min, $max) {
+  @media (min-width: bp($min)) and (max-width: (bp($max) - 0.02px)) {
+    @content;
+  }
+}
