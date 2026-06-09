@@ -158,11 +158,11 @@
   background: var(--ink-mute);
   flex-shrink: 0;
 }
-.fw-status.live          .fw-status-dot { background: #2f8f6f; box-shadow: 0 0 0 3px rgba(47, 143, 111, 0.18); }
+.fw-status.live          .fw-status-dot { background: var(--status-live); box-shadow: 0 0 0 3px rgba(var(--status-live-rgb), 0.18); }
 .fw-status.in-production .fw-status-dot { background: var(--accent-primary); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18); }
-.fw-status.in-development .fw-status-dot { background: #c89a2a; box-shadow: 0 0 0 3px rgba(200, 154, 42, 0.18); }
+.fw-status.in-development .fw-status-dot { background: var(--status-warn); box-shadow: 0 0 0 3px rgba(var(--status-warn-rgb), 0.18); }
 .fw-status.archived       .fw-status-dot { background: var(--ink-mute); }
-.fw-status.private        .fw-status-dot { background: #8b6f3e; }
+.fw-status.private        .fw-status-dot { background: var(--status-warn); }
 
 .fw-year, .fw-role { color: var(--ink-mute); }
 .fw-role { letter-spacing: 0.16em; }

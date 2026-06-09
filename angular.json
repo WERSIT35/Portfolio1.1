@@ -35,6 +35,11 @@
               "./src/styles.scss",
               "node_modules/@splidejs/splide/dist/css/splide.min.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -100,6 +105,11 @@
             "styles": [
               "./src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            },
             "scripts": []
           }
         }

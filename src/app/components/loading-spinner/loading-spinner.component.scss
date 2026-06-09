@@ -1,32 +1,48 @@
+/* Theme-aware liquid spinner — two iridescent glass orbs that pulse out of
+   phase. Colour comes from tokens, so it reads correctly in light and dark. */
 .spinner {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    margin: 100px auto;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  margin: 100px auto;
+}
+
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--iris-gradient);
+  opacity: 0.55;
+  position: absolute;
+  top: 0;
+  left: 0;
+  filter: blur(0.5px) saturate(140%);
+  animation: ls-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation-delay: -1s;
+}
+
+@keyframes ls-bounce {
+  0%,
+  100% {
+    transform: scale(0);
   }
-  
-  .double-bounce1, .double-bounce2 {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #333;
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: bounce 2.0s infinite ease-in-out;
+  50% {
+    transform: scale(1);
   }
-  
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .double-bounce1,
   .double-bounce2 {
-    animation-delay: -1.0s;
+    animation: none;
+    transform: scale(0.7);
+    opacity: 0.4;
   }
-  
-  @keyframes bounce {
-    0%, 100% {
-      transform: scale(0);
-    }
-    50% {
-      transform: scale(1);
-    }
+  .double-bounce2 {
+    transform: scale(0.5);
   }
-  
+}

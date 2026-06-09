@@ -17,12 +17,15 @@ This file guides Claude Code in this repository.
 ## Stack And Commands
 Frontend (repo root):
 - `npm start` (serves `http://localhost:4200/`)
-- `npm run build`
-- `npm test`
+- `npm run build` (output: `dist/portfolio1.1`)
+- `npm test` (Karma/Jasmine, all specs)
+- Single spec: `npx ng test --include='**/contact.component.spec.ts'`
 
-Backend (`backend/`):
-- `npm run backend:dev`
-- `npm --prefix backend run seed`
+Backend (`backend/`, run from repo root):
+- `npm run backend:dev` (tsx watch, listens on `PORT`, default `4300`)
+- `npm run backend:build` / `npm run backend:start`
+- `npm --prefix backend run seed` (seeds admin user + content from `backend/.env`)
+- Requires `backend/.env` (`MONGO_URI`, `JWT_SECRET` ≥32 chars) — backend exits on startup if missing/unreachable.
 
 ## Architecture Snapshot
 - Angular standalone components (no NgModules)

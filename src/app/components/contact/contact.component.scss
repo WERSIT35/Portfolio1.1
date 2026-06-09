@@ -167,14 +167,14 @@
 .contact-status-dot {
   width: 10px; height: 10px;
   border-radius: 999px;
-  background: #2f9d6f;
-  box-shadow: 0 0 0 4px rgba(31, 157, 111, 0.22);
+  background: var(--status-live);
+  box-shadow: 0 0 0 4px rgba(var(--status-live-rgb), 0.22);
   animation: contact-status-pulse 2.4s ease-in-out infinite;
   flex-shrink: 0;
 }
 @keyframes contact-status-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(31, 157, 111, 0.22); }
-  50%      { box-shadow: 0 0 0 7px rgba(31, 157, 111, 0); }
+  0%, 100% { box-shadow: 0 0 0 4px rgba(var(--status-live-rgb), 0.22); }
+  50%      { box-shadow: 0 0 0 7px rgba(var(--status-live-rgb), 0); }
 }
 .contact-status-icon { font-size: 1rem; color: var(--accent-text); flex-shrink: 0; }
 .contact-status-meta { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
@@ -358,9 +358,9 @@
 }
 .contact-copy-chip:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 3px; }
 .contact-copy-chip.is-copied {
-  color: #1f9d6f;
-  border-color: rgba(31, 157, 111, 0.5);
-  background: rgba(31, 157, 111, 0.12);
+  color: var(--status-live);
+  border-color: rgba(var(--status-live-rgb), 0.5);
+  background: rgba(var(--status-live-rgb), 0.12);
 }
 :root[data-theme-resolved="dark"] .contact-copy-chip {
   background: color-mix(in srgb, var(--paper-2) 70%, transparent);
@@ -373,9 +373,9 @@
   border-color: var(--accent-primary);
 }
 :root[data-theme-resolved="dark"] .contact-copy-chip.is-copied {
-  color: #4fa896;
-  border-color: rgba(79, 168, 150, 0.55);
-  background: rgba(79, 168, 150, 0.18);
+  color: var(--status-live);
+  border-color: rgba(var(--status-live-rgb), 0.55);
+  background: rgba(var(--status-live-rgb), 0.18);
 }
 
 /* Channels grid (phone / github / linkedin) */
