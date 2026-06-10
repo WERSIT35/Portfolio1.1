@@ -5,6 +5,7 @@ import { ProjectsService } from '../../services/projects.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { getTechIcon, TechIcon } from '../../shared/tech-icons';
+import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
 
 interface ProjectEntry {
   project: Projects;
@@ -14,7 +15,7 @@ interface ProjectEntry {
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [BackComponent, RouterLink, CommonModule],
+  imports: [BackComponent, RouterLink, CommonModule, RevealOnScrollDirective],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })

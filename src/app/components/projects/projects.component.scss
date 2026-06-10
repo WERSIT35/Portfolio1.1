@@ -1,279 +1,70 @@
-.projects-page { display: block; }
+// ════════════════════════════════════════════════════════════════════════
+//  /projects — bento mosaic of cover-poster project cards.
+//  Tile/cover atoms come from src/styles/_bento.scss; this file owns only the
+//  page masthead + the grid layout + per-card size overrides.
+// ════════════════════════════════════════════════════════════════════════
 
-.projects-body {
-  padding-bottom: 4rem;
-  display: grid;
-  gap: clamp(3rem, 5vw, 4rem);
+@use 'breakpoints' as bp;
+
+.projects-page {
+  display: block;
+  overflow-x: clip;
+  padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
 }
 
-/* Section label — shared by featured and archive bars */
-.proj-section-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+.proj-mast {
+  margin-bottom: clamp(1.6rem, 3.5vw, 2.8rem);
+
+  .t-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+}
+.proj-mast-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  line-height: 0.88;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: var(--ink-mute);
-}
-
-/* ─── Lead (Featured) ─── */
-.proj-lead-wrap { display: grid; gap: 0; }
-
-.proj-lead-wrap > .proj-section-label {
-  display: flex;
-  align-items: baseline;
-  padding: 0.45rem 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 1.2rem;
-}
-
-.proj-lead {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  color: var(--ink);
-  text-decoration: none;
-  align-items: stretch;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  box-shadow:
-    inset 0 1px 0 var(--glass-edge),
-    inset 0 0 0 1px var(--glass-hairline),
-    var(--glass-glow);
-  transition:
-    transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 320ms ease,
-    border-color 280ms ease;
-}
-.proj-lead:hover {
-  transform: translateY(-4px);
-  border-color: rgba(var(--accent-rgb), 0.5);
-  box-shadow: 0 22px 48px rgba(10, 10, 12, 0.12);
-}
-.proj-lead:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 4px; }
-.proj-lead-figure { border-radius: 18px 0 0 18px; }
-@media (max-width: 900px) {
-  .proj-lead-figure { border-radius: 18px 18px 0 0; }
-}
-
-@media (max-width: 900px) { .proj-lead { grid-template-columns: 1fr; } }
-
-.proj-lead-figure {
-  margin: 0;
-  min-height: 260px;
-  overflow: hidden;
-  background: var(--paper-3);
-  border-right: 1px solid var(--rule);
-}
-.proj-lead-figure img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.proj-lead:hover .proj-lead-figure img { transform: scale(1.03); }
-.proj-lead-empty {
-  width: 100%; height: 100%; min-height: 260px;
-  display: grid; place-items: center;
-  color: var(--ink-mute); font-size: 3rem;
-}
-
-.proj-lead-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 2.2rem 2rem 2.2rem 1.9rem;
-  justify-content: center;
-}
-
-@media (max-width: 900px) {
-  .proj-lead-figure { border-right: 0; border-bottom: 1px solid var(--rule); min-height: 220px; aspect-ratio: 16 / 9; }
-  .proj-lead-body { padding: 1.5rem 1.4rem 1.6rem; }
-}
-
-.proj-lead-meta {
-  display: flex; flex-wrap: wrap; gap: 0.4rem;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-}
-
-.proj-lead-title {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-size: clamp(1.7rem, 3.2vw, 2.7rem);
-  letter-spacing: -0.022em;
-  line-height: 1.04;
+  margin: 0.6rem 0 0;
   color: var(--ink);
 }
-
-.proj-lead-sub { color: var(--ink-soft); font-size: 1rem; line-height: 1.5; }
-
-.proj-lead-problem {
+.proj-mast-lede {
+  margin: clamp(0.9rem, 2vw, 1.3rem) 0 0;
+  max-width: 64ch;
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+  line-height: 1.55;
   color: var(--ink-soft);
-  font-size: 0.94rem;
-  line-height: 1.58;
-  max-width: 52ch;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-.proj-lead-stack { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.1rem; }
-.proj-lead-cta { margin-top: 0.5rem; align-self: flex-start; }
-
-/* ─── Archive grid ─── */
-.proj-archive-wrap { display: block; }
-
-.proj-archive-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.45rem 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+/* ── Bento grid ───────────────────────────────────────────────────────── */
+.proj-bento {
+  @include bp.up('md') { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @include bp.up('lg') { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-.proj-archive-count {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
+/* Archive cards — portrait-ish cover posters */
+.proj-card {
+  min-height: clamp(300px, 64vw, 340px);
+  @include bp.up('md') { min-height: 320px; }
 }
 
-/* Independent glass cards (homepage-aligned) instead of the hairline-border slab. */
-.proj-archive-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.9rem, 1.8vw, 1.4rem);
-  margin-top: 1.2rem;
-  background: transparent;
-  border: 0;
-}
-@media (max-width: 900px) { .proj-archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 540px) { .proj-archive-grid { grid-template-columns: 1fr; } }
+/* Lead — wide hero poster spanning the full row */
+.proj-card--lead {
+  min-height: clamp(360px, 70vw, 460px);
 
-.proj-archive-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  color: var(--ink);
-  text-decoration: none;
-  background: linear-gradient(150deg, var(--glass-tint-strong), var(--glass-tint));
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  box-shadow:
-    inset 0 1px 0 var(--glass-edge),
-    inset 0 0 0 1px var(--glass-hairline),
-    var(--glass-glow);
-  transition:
-    transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 320ms ease,
-    border-color 280ms ease;
-}
-.proj-archive-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(var(--accent-rgb), 0.5);
-  box-shadow: 0 24px 56px rgba(10, 10, 12, 0.14);
-}
-.proj-archive-card:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 4px; }
-:root[data-theme-resolved="dark"] .proj-archive-card,
-:root[data-theme-resolved="dark"] .proj-lead {
-  background: var(--card-dark-bg, color-mix(in srgb, var(--paper-2) 92%, transparent));
-  border-color: var(--card-dark-border, var(--rule-strong));
-}
-:root[data-theme-resolved="dark"] .proj-archive-card:hover,
-:root[data-theme-resolved="dark"] .proj-lead:hover {
-  border-color: rgba(var(--accent-rgb), 0.55);
-  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.5);
+  @include bp.up('md') {
+    grid-column: 1 / -1;
+    min-height: clamp(380px, 40vw, 480px);
+  }
+
+  .cover-title { font-size: clamp(2rem, 4.5vw, 3.2rem); }
+  .cover-sub { max-width: 60ch; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .proj-lead, .proj-archive-card { transition: none; }
-  .proj-lead:hover, .proj-archive-card:hover { transform: none; }
-}
-
-.proj-archive-figure {
-  margin: 0;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-bottom: 1px solid var(--rule);
-  background: var(--paper-3);
-  flex-shrink: 0;
-}
-.proj-archive-figure img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.proj-archive-card:hover .proj-archive-figure img { transform: scale(1.03); }
-.proj-archive-empty {
-  width: 100%; height: 100%;
-  display: grid; place-items: center;
-  color: var(--ink-mute); font-size: 2rem;
-}
-
-.proj-archive-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding: 1.1rem 1.2rem 1.3rem;
-  flex: 1;
-}
-
-.proj-archive-meta {
-  display: flex; flex-wrap: wrap; gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-}
-
-.proj-archive-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  letter-spacing: -0.012em;
-  color: var(--ink);
-  line-height: 1.18;
-}
-
-.proj-archive-sub {
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  line-height: 1.48;
-  flex: 1;
-}
-
-/* Tech icon strip — compact icon tiles before the CTA */
-.proj-tech-strip {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.22rem;
-  padding-top: 0.45rem;
-  margin-top: auto;         /* pushes strip + cta to bottom of card */
-  overflow: hidden;
-}
-
-.proj-archive-cta {
-  margin-top: 0;            /* strip owns the auto margin now */
-  align-self: flex-start;
-  padding-top: 0.55rem;
-}
-
-@media (max-width: 480px) {
-  .proj-lead-title { font-size: clamp(1.5rem, 6vw, 1.9rem); }
-  .projects-body { gap: 2rem; }
-}
+/* Long subnames inside the poster stay tidy */
+.cover-foot { min-width: 0; }

@@ -1,105 +1,84 @@
 <app-back></app-back>
 <main class="projects-page">
-  <header class="title page">
-    <span class="eyebrow">
-      <span class="crumb"><i class="bi bi-house" aria-hidden="true"></i><span>Home</span></span>
-      <span class="sep">·</span>
-      <span class="crumb"><i class="bi bi-grid-1x2" aria-hidden="true"></i><span>Work</span></span>
+
+  <header class="proj-mast page" [appReveal]="'up'">
+    <span class="t-tag">
+      <i class="bi bi-grid-1x2" aria-hidden="true"></i> Work — Portfolio
     </span>
-    <h1>Selected projects.</h1>
-    <p class="prose">
+    <h1 class="proj-mast-title">Selected projects<span class="period">.</span></h1>
+    <p class="proj-mast-lede">
       Production builds, client deliveries, and platform work. Open any project for the full
       case study — problem, approach, screenshots, metrics, and what I'd do differently.
     </p>
   </header>
 
-  <section class="page projects-body">
-    @if (lead) {
-      <section class="proj-lead-wrap">
-        <span class="proj-section-label">Featured</span>
-        <a [routerLink]="['/projects', lead.index]" class="proj-lead">
-          <figure class="proj-lead-figure">
-            @if (lead.project.img && lead.project.img.length > 0) {
-              <img [src]="lead.project.img[0]" [alt]="lead.project.projName" />
-            } @else {
-              <div class="proj-lead-empty"><i class="bi bi-code-slash"></i></div>
-            }
-          </figure>
-          <div class="proj-lead-body">
-            <div class="proj-lead-meta">
-              @if (lead.project.status) {
-                <span class="ed-status" [ngClass]="lead.project.status">{{ statusLabel(lead.project) }}</span>
+  <section class="page">
+    <div class="proj-bento bento-grid">
+
+      @if (lead) {
+        <a class="tile cover proj-card proj-card--lead"
+           [routerLink]="['/projects', lead.index]"
+           [appReveal]="'up'">
+          @if (lead.project.img.length) {
+            <img class="cover-img" [src]="lead.project.img[0]" [alt]="lead.project.projName" />
+          } @else {
+            <span class="cover-img cover-img--empty" aria-hidden="true">{{ lead.project.projName }}</span>
+          }
+          <span class="cover-scrim" aria-hidden="true"></span>
+          <div class="cover-content">
+            <div class="cover-top">
+              <span class="t-tag">Featured{{ lead.project.year ? ' · ' + lead.project.year : '' }}</span>
+              @if (statusLabel(lead.project)) {
+                <span class="cover-status">
+                  <span class="cover-status-dot" aria-hidden="true"></span>{{ statusLabel(lead.project) }}
+                </span>
               }
-              @if (lead.project.year) { <span>· {{ lead.project.year }}</span> }
-              @if (lead.project.role) { <span>· {{ lead.project.role }}</span> }
             </div>
-            <h2 class="proj-lead-title">{{ lead.project.projName }}</h2>
-            <p class="proj-lead-sub">{{ lead.project.subname }}</p>
-            @if (lead.project.problem) {
-              <p class="proj-lead-problem">{{ lead.project.problem }}</p>
-            }
-            @if (lead.project.stack && lead.project.stack.length > 0) {
-              <div class="proj-lead-stack">
-                @for (s of lead.project.stack; track s) {
-                  @if (techIcon(s); as t) {
-                    <span class="tech-chip">
-                      <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
-                      <span>{{ s }}</span>
-                    </span>
-                  } @else {
-                    <span class="tech-chip">{{ s }}</span>
-                  }
-                }
-              </div>
-            }
-            <span class="ed-link proj-lead-cta">Read full case study<i class="bi bi-arrow-right"></i></span>
+            <div class="cover-foot">
+              <h2 class="cover-title">{{ lead.project.projName }}</h2>
+              <p class="cover-sub">{{ lead.project.subname }}</p>
+              @if (lead.project.stack?.length) {
+                <ul class="cover-stack" role="list">
+                  @for (s of lead.project.stack!.slice(0, 5); track s) { <li>{{ s }}</li> }
+                </ul>
+              }
+            </div>
           </div>
         </a>
-      </section>
-    }
+      }
 
-    @if (archive.length > 0) {
-      <section class="proj-archive-wrap">
-        <header class="proj-archive-head">
-          <span class="proj-section-label">All work</span>
-          <span class="proj-archive-count">{{ archive.length }} {{ archive.length === 1 ? 'project' : 'projects' }}</span>
-        </header>
-        <div class="proj-archive-grid">
-          @for (item of archive; track item.index) {
-            <a [routerLink]="['/projects', item.index]" class="proj-archive-card">
-              <figure class="proj-archive-figure">
-                @if (item.project.img && item.project.img.length > 0) {
-                  <img [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
-                } @else {
-                  <div class="proj-archive-empty"><i class="bi bi-code-slash"></i></div>
-                }
-              </figure>
-              <div class="proj-archive-body">
-                <div class="proj-archive-meta">
-                  @if (item.project.status) {
-                    <span class="ed-status" [ngClass]="item.project.status">{{ statusLabel(item.project) }}</span>
-                  }
-                  @if (item.project.year) { <span>· {{ item.project.year }}</span> }
-                </div>
-                <h3 class="proj-archive-title">{{ item.project.projName }}</h3>
-                <p class="proj-archive-sub">{{ item.project.subname }}</p>
-                @if (item.project.stack && item.project.stack.length > 0) {
-                  <div class="proj-tech-strip">
-                    @for (tech of item.project.stack; track tech) {
-                      @if (techIcon(tech); as t) {
-                        <span class="tech-tile" [title]="tech">
-                          <i [class]="t.icon" [style.color]="t.color" aria-hidden="true"></i>
-                        </span>
-                      }
-                    }
-                  </div>
-                }
-                <span class="ed-link proj-archive-cta">Open case study<i class="bi bi-arrow-right"></i></span>
-              </div>
-            </a>
+      @for (item of archive; track item.index; let i = $index) {
+        <a class="tile cover proj-card"
+           [routerLink]="['/projects', item.index]"
+           [appReveal]="'up'" [revealDelay]="i * 60">
+          @if (item.project.img.length) {
+            <img class="cover-img" [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
+          } @else {
+            <span class="cover-img cover-img--empty" aria-hidden="true">{{ item.project.projName }}</span>
           }
-        </div>
-      </section>
-    }
+          <span class="cover-scrim" aria-hidden="true"></span>
+          <div class="cover-content">
+            <div class="cover-top">
+              <span class="t-tag">{{ item.project.year }}{{ item.project.role ? ' · ' + item.project.role : '' }}</span>
+              @if (statusLabel(item.project)) {
+                <span class="cover-status">
+                  <span class="cover-status-dot" aria-hidden="true"></span>{{ statusLabel(item.project) }}
+                </span>
+              }
+            </div>
+            <div class="cover-foot">
+              <h3 class="cover-title">{{ item.project.projName }}</h3>
+              <p class="cover-sub">{{ item.project.subname }}</p>
+              @if (item.project.stack?.length) {
+                <ul class="cover-stack" role="list">
+                  @for (s of item.project.stack!.slice(0, 3); track s) { <li>{{ s }}</li> }
+                </ul>
+              }
+            </div>
+          </div>
+        </a>
+      }
+
+    </div>
   </section>
 </main>
