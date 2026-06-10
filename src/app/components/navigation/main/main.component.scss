@@ -49,51 +49,9 @@
   }
 }
 
-/* ── Shared tile shell ────────────────────────────────────────────────── */
-.tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;                       // let grid tracks shrink below content min-size
-  padding: clamp(1.25rem, 2.4vw, 2rem);
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  color: var(--ink);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-/* Clickable tiles get hover lift + a faint cursor spotlight */
-a.tile {
-  text-decoration: none;
-  transition: border-color var(--transition-smooth), transform var(--transition-smooth),
-    box-shadow var(--transition-smooth);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0;
-    background: radial-gradient(
-      460px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(var(--brand-rgb), 0.06),
-      transparent 60%
-    );
-    transition: opacity var(--transition-smooth);
-  }
-
-  @media (hover: hover) {
-    &:hover {
-      border-color: var(--rule-strong);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-1);
-    }
-    &:hover::before { opacity: 1; }
-    &:hover .t-go { transform: translate(2px, -2px); }
-  }
-}
+/* Tile shell, typographic atoms (.t-tag/.t-title/.t-go/.t-foot-link/.t-btn),
+   and the cover-poster system now live in src/styles/_bento.scss (shared
+   site-wide). Only home-specific layout + tile internals remain below. */
 
 /* ── Tile area placement ───────────────────────────────────────────────
    Only assign named grid-areas from tablet up, where `grid-template-areas`
@@ -110,59 +68,6 @@ a.tile {
   .tile--certs   { grid-area: certs; }
   .tile--contact { grid-area: contact; }
 }
-
-/* ── Shared typographic atoms ─────────────────────────────────────────── */
-.t-tag, .t-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-}
-
-.t-head { margin-bottom: clamp(0.9rem, 2vw, 1.3rem); }
-
-.t-title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
-  line-height: 0.98;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  margin: 0.4rem 0 0;
-  color: var(--ink);
-}
-
-.t-go {
-  position: absolute;
-  top: clamp(1.25rem, 2.4vw, 2rem);
-  right: clamp(1.25rem, 2.4vw, 2rem);
-  font-size: 1.1rem;
-  color: var(--ink-mute);
-  transition: transform var(--transition-smooth), color var(--transition-smooth);
-}
-
-.t-foot-link {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-decoration: none;
-  padding-top: 1rem;
-
-  i { transition: transform var(--transition-smooth); }
-  @media (hover: hover) {
-    &:hover i { transform: translateX(3px); }
-  }
-  &--static { pointer-events: none; }
-}
-
-.period { color: var(--ink-mute); }
 
 /* ══════════════════════ INTRO TILE ══════════════════════ */
 .tile--intro {
@@ -230,39 +135,6 @@ app-signature { z-index: 0; }
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: clamp(1.4rem, 3vw, 2rem);
-}
-
-.t-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.15rem;
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1px solid var(--ink);
-  transition: transform var(--transition-smooth), background var(--transition-smooth),
-    color var(--transition-smooth);
-
-  i { transition: transform var(--transition-smooth); }
-
-  &--solid {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  &--line {
-    background: transparent;
-    color: var(--ink);
-    border-color: var(--rule-strong);
-  }
-
-  @media (hover: hover) {
-    &:hover { transform: translateY(-2px); }
-    &--solid:hover i { transform: translateX(3px); }
-  }
 }
 
 /* ══════════════════════ FEATURED WORK TILE (image-forward cover) ══════════

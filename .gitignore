@@ -44,3 +44,5 @@ Thumbs.db
 
 #big files
 backend
+# Local screenshot harness (not committed)
+.shots/

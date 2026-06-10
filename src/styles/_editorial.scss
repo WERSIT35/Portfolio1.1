@@ -12,16 +12,20 @@ body {
   line-height: 1.6;
 }
 
-/* Display heads — Tourney variable display, condensed editorial rhythm */
+/* Display heads — Anton, uppercase (site-wide bento language).
+   Anton is a single-weight (400) condensed display face, so the old
+   Tourney `font-weight`/`font-stretch` are dropped — they did nothing here. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   color: var(--ink);
-  line-height: 1.04;
-  font-stretch: 92%;
+  line-height: 0.98;
 }
-h1 { font-weight: 800; font-stretch: 88%; }
+
+/* Escape hatch for the rare heading that must stay sentence case. */
+.normal-case { text-transform: none; letter-spacing: -0.01em; }
 
 p { color: var(--ink-soft); }
 
