@@ -38,32 +38,33 @@
          [routerLink]="['/projects', featured.index]"
          (mousemove)="onTileMove($event)"
          [appReveal]="'up'" [revealDelay]="60">
-        <span class="t-tag">Featured project</span>
+        @if (featured.project.img.length) {
+          <img class="work-img" [src]="featured.project.img[0]" [alt]="featured.project.projName" loading="lazy" />
+        } @else {
+          <span class="work-img work-img--empty" aria-hidden="true">{{ featured.project.projName }}</span>
+        }
+        <span class="work-scrim" aria-hidden="true"></span>
 
-        <figure class="work-media">
-          @if (featured.project.img.length) {
-            <img [src]="featured.project.img[0]" [alt]="featured.project.projName" loading="lazy" />
-          } @else {
-            <span class="work-media-empty" aria-hidden="true">{{ featured.project.projName }}</span>
-          }
-          @if (statusLabel(featured.project)) {
-            <span class="work-status">
-              <span class="work-status-dot" aria-hidden="true"></span>{{ statusLabel(featured.project) }}
-            </span>
-          }
-        </figure>
-
-        <div class="work-body">
-          <h2 class="work-title">{{ featured.project.projName }}</h2>
-          <p class="work-sub">{{ featured.project.subname }}</p>
-          <ul class="work-stack" role="list">
-            @for (s of featured.project.stack?.slice(0, 4); track s) {
-              <li>{{ s }}</li>
+        <div class="work-content">
+          <div class="work-top">
+            <span class="t-tag">Featured project</span>
+            @if (statusLabel(featured.project)) {
+              <span class="work-status">
+                <span class="work-status-dot" aria-hidden="true"></span>{{ statusLabel(featured.project) }}
+              </span>
             }
-          </ul>
-        </div>
+          </div>
 
-        <span class="t-go" aria-hidden="true"><i class="bi bi-arrow-up-right"></i></span>
+          <div class="work-body">
+            <h2 class="work-title">{{ featured.project.projName }}</h2>
+            <p class="work-sub">{{ featured.project.subname }}</p>
+            <ul class="work-stack" role="list">
+              @for (s of featured.project.stack?.slice(0, 4); track s) {
+                <li>{{ s }}</li>
+              }
+            </ul>
+          </div>
+        </div>
       </a>
     }
 
