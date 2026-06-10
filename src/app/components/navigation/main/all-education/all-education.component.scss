@@ -8,12 +8,15 @@
 }
 .all-education .title .eyebrow i {
   font-size: 0.85rem;
-  color: var(--accent-primary);
+  color: var(--ink);
 }
 
 .edu-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1rem, 2.5vw, 1.6rem);
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap-md);
 }
-@media (max-width: 760px) { .edu-grid { grid-template-columns: 1fr; } }
+@media (min-width: 760px) {
+  .edu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .edu-grid > :first-child { grid-column: 1 / -1; }
+}
