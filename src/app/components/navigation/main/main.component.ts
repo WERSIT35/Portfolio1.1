@@ -1,175 +1,133 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation, signal } from '@angular/core';
-import { EducationService } from '../../../services/education.service';
-import { Education } from '../../../interfaces/education';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ExperienceComponent } from '../../experience/experience.component';
+import { Component, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CertificateComponent } from '../../certificate/certificate.component';
-import { FeaturedWorkComponent } from '../../featured-work/featured-work.component';
-import { ProcessComponent } from '../../process/process.component';
-import { ChapterComponent } from '../../shared/chapter/chapter.component';
-import { WhatIDoComponent } from '../../home/what-i-do/what-i-do.component';
-import { SkillsRailComponent } from '../../home/skills-rail/skills-rail.component';
+
+import { EducationService } from '../../../services/education.service';
+import { ExperienceService } from '../../../services/experience.service';
+import { ProjectsService } from '../../../services/projects.service';
+
+import { Education } from '../../../interfaces/education';
+import { Experience } from '../../../interfaces/experience';
+import { Projects } from '../../../interfaces/projects';
+
 import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
+import { SignatureComponent } from '../../home/signature/signature.component';
+import { getTechIcon, TechIcon } from '../../../shared/tech-icons';
 
-interface NavSection { id: string; label: string; }
+interface FeaturedEntry { project: Projects; index: number; }
+interface StatTile { value: string; label: string; }
+interface SkillChip { name: string; icon: string; }
 
+/**
+ * Home — a single-screen "index" bento grid.
+ *
+ * Replaces the old linear hero → chapter-scroll layout. Every domain (work,
+ * skills, experience, education, certs, contact) is a tile in one dense grid
+ * that re-flows from a 12-col desktop bento to a stacked mobile column. The
+ * intro tile hosts the WebGL signature centerpiece.
+ */
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    ExperienceComponent,
-    CertificateComponent,
-    FeaturedWorkComponent,
-    ProcessComponent,
-    ChapterComponent,
-    WhatIDoComponent,
-    SkillsRailComponent,
-    RevealOnScrollDirective,
-  ],
+  imports: [CommonModule, RouterLink, RevealOnScrollDirective, SignatureComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
-  // Homepage stylesheet uses body-level hooks (`body:has(.home--ops)`) and global
-  // class prefixes (`.home`, `.home--ops`, `.aur-*`) to scope its own reach.
-  // Disable emulated encapsulation so those selectors hit the document.
+  // Stylesheet uses a few document-level hooks (`body:has(.home--bento)`), so
+  // emulated encapsulation is disabled as it was on the previous home.
   encapsulation: ViewEncapsulation.None,
 })
-export class MainComponent implements OnInit, AfterViewInit, OnDestroy {
-  educationList: Education[] = [];
+export class MainComponent implements OnInit {
   readonly year = new Date().getFullYear();
 
-  /* ── Scrollspy sidebar ───────────────────────────────────────── */
-  readonly navSections: NavSection[] = [
-    { id: 'top',        label: 'Hero' },
-    { id: 'chapter-01', label: 'About' },
-    { id: 'chapter-02', label: 'Selected Projects' },
-    { id: 'chapter-03', label: 'Skills' },
-    { id: 'chapter-04', label: 'Process' },
-    { id: 'chapter-05', label: 'Experience' },
-    { id: 'chapter-06', label: 'Education' },
-    { id: 'chapter-07', label: 'Certificates' },
-    { id: 'contact',    label: 'Contact' },
-  ];
-  readonly activeSection = signal('top');
+  featured: FeaturedEntry | null = null;
+  experiences: Experience[] = [];
+  educationList: Education[] = [];
+  skills: SkillChip[] = [];
+  stats: StatTile[] = [];
 
-  private observer?: IntersectionObserver;
-  private rafId = 0;
-  private readonly onScroll = (): void => {
-    if (this.rafId) return;
-    this.rafId = requestAnimationFrame(() => {
-      this.rafId = 0;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-      doc.style.setProperty('--home-progress', `${pct}%`);
-    });
-  };
+  certCount = 0;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private educationService: EducationService,
+    private experienceService: ExperienceService,
+    private projectsService: ProjectsService,
   ) {}
 
   ngOnInit(): void {
+    this.projectsService.getProjects().subscribe((all) => {
+      const featured = all
+        .map((project, index) => ({ project, index }))
+        .filter((x) => x.project.featured);
+      this.featured = featured[0] ?? null;
+
+      const live = all.filter(
+        (p) => p.status === 'live' || p.status === 'in-production',
+      ).length;
+
+      this.stats = [
+        { value: `${all.length}`, label: 'Projects shipped' },
+        { value: `${live}`, label: 'Live / in production' },
+      ];
+    });
+
+    this.experienceService.getExperienceList().subscribe((list) => {
+      this.experiences = list.slice(0, 2);
+    });
+
+    this.experienceService.getCertificate().subscribe((list) => {
+      this.certCount = list.length;
+    });
+
     this.educationService.getEducation().subscribe((list) => {
       this.educationList = list;
     });
-  }
 
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    // Defer one frame so chapter IDs are in the DOM after content children mount.
-    queueMicrotask(() => {
-      const targets = this.navSections
-        .map((s) => document.getElementById(s.id))
-        .filter((el): el is HTMLElement => !!el);
-      if (targets.length === 0) return;
-
-      this.observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((e) => e.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-          if (visible.length > 0) {
-            this.activeSection.set(visible[0].target.id);
+    this.educationService.getSkills().subscribe((skillsList) => {
+      const s = skillsList[0];
+      if (!s) return;
+      // Lead stack first, then fill with the highest-rated remaining skills.
+      const lead = ['Angular', 'TypeScript', 'Node.js (Express)', 'RxJS', 'Docker', 'AWS'];
+      const ordered = [...s.name]
+        .map((name, i) => ({ name, icon: s.icon[i], rating: s.rating?.[i] ?? 0 }))
+        .sort((a, b) => {
+          const la = lead.indexOf(a.name);
+          const lb = lead.indexOf(b.name);
+          if (la !== -1 || lb !== -1) {
+            return (la === -1 ? 99 : la) - (lb === -1 ? 99 : lb);
           }
-        },
-        { rootMargin: '-30% 0px -55% 0px', threshold: 0 },
-      );
-      for (const el of targets) this.observer.observe(el);
+          return b.rating - a.rating;
+        })
+        .slice(0, 10);
+      this.skills = ordered.map(({ name, icon }) => ({ name, icon }));
+      this.stats = [
+        ...this.stats.slice(0, 2),
+        { value: `${s.name.length}`, label: 'Technologies' },
+      ];
     });
-
-    window.addEventListener('scroll', this.onScroll, { passive: true });
-    window.addEventListener('resize', this.onScroll, { passive: true });
-    this.onScroll();
   }
 
-  ngOnDestroy(): void {
-    this.observer?.disconnect();
-    if (this.rafId) cancelAnimationFrame(this.rafId);
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('scroll', this.onScroll);
-      window.removeEventListener('resize', this.onScroll);
+  techIcon(name: string): TechIcon | null {
+    return getTechIcon(name);
+  }
+
+  statusLabel(p: Projects): string {
+    switch (p.status) {
+      case 'live': return 'Live';
+      case 'in-production': return 'In production';
+      case 'in-development': return 'In development';
+      case 'archived': return 'Archived';
+      case 'private': return 'Private';
+      default: return '';
     }
   }
 
-  scrollToSection(id: string, e?: Event): void {
-    e?.preventDefault();
-    if (typeof document === 'undefined') return;
-    const el = document.getElementById(id);
-    if (!el) return;
-    const reduce = typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  }
-
-  /* ── Hero cursor spotlight ───────────────────────────────────── */
-  onHeroMove(e: MouseEvent): void {
+  /* ── Cursor-aware spotlight on tiles (CSS vars) ── */
+  onTileMove(e: MouseEvent): void {
     const t = e.currentTarget as HTMLElement | null;
     if (!t) return;
     const r = t.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * 100;
-    const y = ((e.clientY - r.top) / r.height) * 100;
-    t.style.setProperty('--spot-x', `${x}%`);
-    t.style.setProperty('--spot-y', `${y}%`);
-  }
-
-  /* ── Magnetic CTA ────────────────────────────────────────────── */
-  onMagnetMove(e: MouseEvent): void {
-    const t = e.currentTarget as HTMLElement | null;
-    if (!t) return;
-    const r = t.getBoundingClientRect();
-    const dx = ((e.clientX - r.left) / r.width - 0.5) * 20;
-    const dy = ((e.clientY - r.top) / r.height - 0.5) * 20;
-    t.style.setProperty('--mag-x', `${dx}px`);
-    t.style.setProperty('--mag-y', `${dy}px`);
-  }
-  onMagnetLeave(e: MouseEvent): void {
-    const t = e.currentTarget as HTMLElement | null;
-    if (!t) return;
-    t.style.setProperty('--mag-x', '0px');
-    t.style.setProperty('--mag-y', '0px');
-  }
-
-  /* ── 3D-tilt card ────────────────────────────────────────────── */
-  onTiltMove(e: MouseEvent): void {
-    const t = e.currentTarget as HTMLElement | null;
-    if (!t) return;
-    const r = t.getBoundingClientRect();
-    const rx = ((e.clientY - r.top) / r.height - 0.5) * -6;
-    const ry = ((e.clientX - r.left) / r.width - 0.5) * 6;
-    t.style.setProperty('--tilt-x', `${rx}deg`);
-    t.style.setProperty('--tilt-y', `${ry}deg`);
     t.style.setProperty('--spot-x', `${((e.clientX - r.left) / r.width) * 100}%`);
     t.style.setProperty('--spot-y', `${((e.clientY - r.top) / r.height) * 100}%`);
-  }
-  onTiltLeave(e: MouseEvent): void {
-    const t = e.currentTarget as HTMLElement | null;
-    if (!t) return;
-    t.style.setProperty('--tilt-x', '0deg');
-    t.style.setProperty('--tilt-y', '0deg');
   }
 }

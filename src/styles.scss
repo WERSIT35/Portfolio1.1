@@ -5,6 +5,7 @@
 @use "./styles/slider";
 @use "./styles/cards";
 @use "./styles/detail-page";
+@use "./styles/bento";
 
 *,
 *::before,
@@ -38,85 +39,16 @@ html {
 body {
   min-height: 100vh;
   position: relative;
-  background:
-    radial-gradient(75% 65% at 50% -5%, var(--bg-spot-warm) 0%, transparent 60%),
-    radial-gradient(65% 60% at 2% 28%, var(--bg-spot-brand) 0%, transparent 58%),
-    radial-gradient(65% 60% at 100% 42%, var(--bg-spot-cool) 0%, transparent 58%),
-    radial-gradient(80% 70% at 50% 105%, var(--bg-spot-pink) 0%, transparent 62%),
-    radial-gradient(60% 55% at 50% 55%, var(--bg-spot-brand) 0%, transparent 72%),
-    linear-gradient(180deg, var(--bg-base-1) 0%, var(--bg-base-2) 55%, var(--bg-base-3) 100%);
-  background-attachment: fixed;
+  /* Flat paper — no aurora, no spots, no orbs. Monochrome gallery canvas. */
+  background: var(--paper);
   line-height: 1.55;
   padding-top: var(--header-height-desktop);
   overflow-x: hidden;
   isolation: isolate;
 }
 
-/* ── Liquid-glass background: drifting, colour/form-shifting iridescent orbs ──
-   Two large soft blobs slowly float, morph their shape (border-radius) and
-   shift hue. They sit behind all content (z-index:-1) and never capture input.
-   Motion is disabled under prefers-reduced-motion further down. */
-body::before {
-  content: "";
-  position: fixed;
-  width: clamp(320px, 52vw, 760px);
-  height: clamp(320px, 52vw, 760px);
-  top: clamp(-40px, 2vw, 60px);
-  right: clamp(-120px, -5vw, -20px);
-  border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%;
-  background:
-    radial-gradient(circle at 35% 35%, var(--bg-orb-brand) 0%, transparent 62%),
-    radial-gradient(circle at 70% 68%, rgba(34, 211, 238, 0.28) 0%, transparent 58%);
-  filter: blur(40px) saturate(150%);
-  opacity: 0.95;
-  pointer-events: none;
-  z-index: -1;
-  animation: orb-drift-a 26s ease-in-out infinite, orb-hue 34s linear infinite;
-  will-change: transform, border-radius, filter;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  width: clamp(300px, 46vw, 680px);
-  height: clamp(300px, 46vw, 680px);
-  left: clamp(-120px, -6vw, -20px);
-  bottom: clamp(-40px, 2vh, 80px);
-  border-radius: 58% 42% 45% 55% / 55% 48% 52% 45%;
-  background:
-    radial-gradient(circle at 60% 40%, var(--bg-orb-warm) 0%, transparent 62%),
-    radial-gradient(circle at 30% 70%, rgba(236, 72, 153, 0.26) 0%, transparent 56%);
-  filter: blur(44px) saturate(150%);
-  opacity: 0.9;
-  pointer-events: none;
-  z-index: -1;
-  animation: orb-drift-b 32s ease-in-out infinite, orb-hue 40s linear infinite reverse;
-  will-change: transform, border-radius, filter;
-}
-
-@keyframes orb-drift-a {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); border-radius: 47% 53% 60% 40% / 42% 46% 54% 58%; }
-  33%      { transform: translate3d(-5vw, 4vh, 0) rotate(8deg) scale(1.08); border-radius: 60% 40% 42% 58% / 52% 56% 44% 48%; }
-  66%      { transform: translate3d(3vw, -3vh, 0) rotate(-6deg) scale(0.96); border-radius: 40% 60% 55% 45% / 48% 42% 58% 52%; }
-}
-
-@keyframes orb-drift-b {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); border-radius: 58% 42% 45% 55% / 55% 48% 52% 45%; }
-  40%      { transform: translate3d(6vw, -4vh, 0) rotate(-10deg) scale(1.1); border-radius: 42% 58% 56% 44% / 46% 54% 46% 54%; }
-  70%      { transform: translate3d(-4vw, 3vh, 0) rotate(7deg) scale(0.94); border-radius: 55% 45% 40% 60% / 52% 46% 54% 48%; }
-}
-
-@keyframes orb-hue {
-  from { filter: blur(42px) saturate(150%) hue-rotate(0deg); }
-  to   { filter: blur(42px) saturate(150%) hue-rotate(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::before,
-  body::after {
-    animation: none !important;
-  }
-}
+/* Background is intentionally flat — the animated iridescent orbs were removed for
+   the monochrome redesign. Glass is reserved for floating/overlapping surfaces only. */
 
 /* Smooth theme switching between light/dark/system */
 :root[data-theme-animating="true"] {

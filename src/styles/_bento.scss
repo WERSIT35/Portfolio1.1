@@ -1,0 +1,305 @@
+// ════════════════════════════════════════════════════════════════════════
+//  BENTO — shared design atoms for the whole site
+//
+//  The home (`/`) established this language: flat monochrome hairline tiles,
+//  uppercase Anton display, JetBrains-Mono micro-labels, pill buttons, and
+//  image-forward "cover" posters. These atoms are global so every page can
+//  reuse them. Page-specific grid layouts live in each component's SCSS.
+//
+//  Glass is reserved for floating chrome (header nav, bottom nav, back btn);
+//  content tiles here are flat paper with hairline borders.
+// ════════════════════════════════════════════════════════════════════════
+
+@use 'breakpoints' as bp;
+
+/* ── Grid container helper ─────────────────────────────────────────────────
+   Mobile-first single column; pages opt into multi-column + grid-template-areas
+   at md/lg in their own SCSS. minmax(0,1fr) tracks prevent long display words
+   from blowing the grid wider than its container. */
+.bento-grid {
+  display: grid;
+  gap: var(--grid-gap-sm);
+  grid-template-columns: 1fr;
+  align-content: start;
+
+  @include bp.up('md') { gap: var(--grid-gap-md); }
+}
+
+/* ── Tile shell ───────────────────────────────────────────────────────────── */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;                       // let grid tracks shrink below content min-size
+  padding: clamp(1.25rem, 2.4vw, 2rem);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Clickable tiles get hover lift + a faint cursor spotlight */
+a.tile {
+  text-decoration: none;
+  transition: border-color var(--transition-smooth), transform var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(
+      460px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(var(--brand-rgb), 0.06),
+      transparent 60%
+    );
+    transition: opacity var(--transition-smooth);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--rule-strong);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-1);
+    }
+    &:hover::before { opacity: 1; }
+    &:hover .t-go { transform: translate(2px, -2px); }
+  }
+}
+
+/* ── Typographic atoms ─────────────────────────────────────────────────────── */
+.t-tag, .t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.t-head { margin-bottom: clamp(0.9rem, 2vw, 1.3rem); }
+
+.t-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0.4rem 0 0;
+  color: var(--ink);
+}
+
+.t-go {
+  position: absolute;
+  top: clamp(1.25rem, 2.4vw, 2rem);
+  right: clamp(1.25rem, 2.4vw, 2rem);
+  font-size: 1.1rem;
+  color: var(--ink-mute);
+  transition: transform var(--transition-smooth), color var(--transition-smooth);
+}
+
+.t-foot-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-top: 1rem;
+
+  i { transition: transform var(--transition-smooth); }
+  @media (hover: hover) {
+    &:hover i { transform: translateX(3px); }
+  }
+  &--static { pointer-events: none; }
+}
+
+.period { color: var(--ink-mute); }
+
+/* ── Pill buttons ──────────────────────────────────────────────────────────── */
+.t-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: transform var(--transition-smooth), background var(--transition-smooth),
+    color var(--transition-smooth);
+
+  i { transition: transform var(--transition-smooth); }
+
+  &--solid {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  &--line {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  @media (hover: hover) {
+    &:hover { transform: translateY(-2px); }
+    &--solid:hover i { transform: translateX(3px); }
+  }
+}
+
+/* ── Mono tech/stack chip ──────────────────────────────────────────────────── */
+.t-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--ink-soft);
+
+  i { font-size: 0.85rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   COVER POSTER — image-forward card (generalized from the home featured tile).
+   Combine with `.tile`: <a class="tile cover">. The image fills the card under
+   a dark gradient scrim; content (tag top, title/meta bottom) is white over it,
+   so it reads as a dark "poster" in both light and dark themes.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cover {
+  padding: 0;
+  color: #fff;
+  min-height: clamp(320px, 64vw, 420px);
+
+  @include bp.up('md') { min-height: clamp(300px, 40vw, 400px); }
+}
+
+.cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: grayscale(1) contrast(1.04) brightness(0.92);
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter var(--transition-smooth);
+}
+.cover-img--empty {
+  display: grid;
+  place-items: center;
+  background: #1a1a1c;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  padding: 1rem;
+}
+@media (hover: hover) {
+  a.cover:hover .cover-img { transform: scale(1.05); filter: grayscale(0.7) brightness(0.95); }
+}
+
+.cover-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.45) 38%,
+                    rgba(0, 0, 0, 0.12) 64%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.cover-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+  padding: clamp(1.25rem, 2.4vw, 1.75rem);
+}
+.cover-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  .t-tag { color: rgba(255, 255, 255, 0.72); }
+}
+
+.cover-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+.cover-status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+  margin: 0;
+  color: #fff;
+}
+.cover-sub {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.cover-stack {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+
+  li {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.88);
+  }
+}

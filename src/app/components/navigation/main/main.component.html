@@ -1,239 +1,194 @@
-<main class="home home--ops">
+<main class="home home--bento">
+  <div class="bento page">
 
-  <!-- ╔═══════════ SCROLLSPY SIDEBAR (desktop ≥1080px) ═══════════╗ -->
-  <aside class="aur-side" aria-label="Section navigation">
-    <span class="aur-side-rail" aria-hidden="true">
-      <span class="aur-side-rail-fill"></span>
-    </span>
-    <ul class="aur-side-list" role="list">
-      @for (s of navSections; track s.id) {
-        <li>
-          <button
-            type="button"
-            class="aur-side-item"
-            [class.is-active]="activeSection() === s.id"
-            (click)="scrollToSection(s.id, $event)"
-            [attr.aria-current]="activeSection() === s.id ? 'true' : null"
-            [attr.aria-label]="'Jump to ' + s.label">
-            <span class="aur-side-label">{{ s.label }}</span>
-            <span class="aur-side-dot" aria-hidden="true"></span>
-          </button>
-        </li>
-      }
-    </ul>
-  </aside>
+    <!-- ╔═══════════ INTRO — name + WebGL signature ═══════════╗ -->
+    <section class="tile tile--intro" [appReveal]="'fade'">
+      <app-signature></app-signature>
 
-  <!-- ╔═══════════ HERO — AURORA ═══════════╗ -->
-  <section id="top" class="aur-hero" (mousemove)="onHeroMove($event)">
-    <span class="aur-hero-mesh" aria-hidden="true"></span>
-    <span class="aur-hero-grid" aria-hidden="true"></span>
-    <span class="aur-hero-spot" aria-hidden="true"></span>
-
-    <div class="aur-hero-page page">
-      <div class="aur-hero-left" [appReveal]="'up'">
-        <span class="aur-eyebrow">
-          <span class="aur-eyebrow-dot" aria-hidden="true"></span>
-          <span>PORTFOLIO · 2026</span>
+      <div class="intro-top">
+        <span class="t-eyebrow">Portfolio — {{ year }}</span>
+        <span class="t-eyebrow t-eyebrow--avail">
+          <span class="avail-dot" aria-hidden="true"></span>Available for work
         </span>
-
-        <h1 class="aur-name">
-          <span class="aur-name-line">Otar</span>
-          <span class="aur-name-line aur-name-line--em">Davitashvili<span class="aur-period">.</span></span>
-        </h1>
-
-        <p class="aur-lead">
-          Full-Stack Engineer building Angular and Node.js systems for iGaming, fraud detection,
-          and high-volume transactional platforms.
-        </p>
-
-        <div class="aur-cta">
-          <a routerLink="projects"
-             class="aur-btn aur-btn--primary"
-             (mousemove)="onMagnetMove($event)"
-             (mouseleave)="onMagnetLeave($event)">
-            <span class="aur-btn-inner">
-              <span>View selected work</span>
-              <i class="bi bi-arrow-right" aria-hidden="true"></i>
-            </span>
-            <span class="aur-btn-glow" aria-hidden="true"></span>
-          </a>
-          <a href="#contact"
-             class="aur-btn aur-btn--ghost"
-             (mousemove)="onMagnetMove($event)"
-             (mouseleave)="onMagnetLeave($event)">
-            <span class="aur-btn-inner">
-              <span>Get in touch</span>
-              <i class="bi bi-arrow-down" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-
-        <dl class="aur-meta">
-          <div class="aur-meta-row"><dt>Role</dt><dd>Angular Developer &#64; PetC</dd></div>
-          <div class="aur-meta-row"><dt>Stack</dt><dd>Angular · Node · FastAPI · AWS</dd></div>
-          <div class="aur-meta-row">
-            <dt>Status</dt>
-            <dd><span class="aur-dot" aria-hidden="true"></span>Available for new work</dd>
-          </div>
-        </dl>
       </div>
 
-      <aside class="aur-hero-right" [appReveal]="'up'" [revealDelay]="140">
-        <figure class="aur-portrait">
-          <span class="aur-portrait-glow" aria-hidden="true"></span>
-          <img src="/assets/profile/ProfilePic.jpeg" alt="Otar Davitashvili" />
-          <figcaption class="aur-portrait-tag" aria-hidden="true">
-            <span class="aur-dot"></span><span>LIVE · TBILISI</span>
-          </figcaption>
-        </figure>
-      </aside>
-    </div>
+      <h1 class="intro-name">
+        <span>Otar</span>
+        <span>Davitashvili<span class="period">.</span></span>
+      </h1>
 
-    <a class="aur-scroll" href="#chapter-01" aria-label="Scroll to first section">
-      <span>SCROLL</span>
-      <span class="aur-scroll-line" aria-hidden="true"></span>
-    </a>
-  </section>
+      <p class="intro-role">
+        Full-stack engineer — building Angular, Node and FastAPI systems for
+        iGaming, fraud&nbsp;detection and high-volume transactional platforms.
+      </p>
 
-  <!-- ╔═══════════ 01 — What I build, and why ═══════════╗ -->
-  <app-chapter id="chapter-01" title="What I build, and why">
-    <app-what-i-do></app-what-i-do>
-  </app-chapter>
+      <div class="intro-actions">
+        <a routerLink="projects" class="t-btn t-btn--solid">
+          <span>Selected work</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a routerLink="contact" class="t-btn t-btn--line">
+          <span>Get in touch</span>
+        </a>
+      </div>
+    </section>
 
-  <!-- ╔═══════════ Case studies ═══════════╗ -->
-  <app-chapter id="chapter-02" title="Selected Projects"
-               actionLabel="All projects" actionLink="/projects">
-    <app-featured-work></app-featured-work>
-  </app-chapter>
+    <!-- ╔═══════════ FEATURED WORK ═══════════╗ -->
+    @if (featured) {
+      <a class="tile tile--work"
+         [routerLink]="['/projects', featured.index]"
+         (mousemove)="onTileMove($event)"
+         [appReveal]="'up'" [revealDelay]="60">
+        @if (featured.project.img.length) {
+          <img class="work-img" [src]="featured.project.img[0]" [alt]="featured.project.projName" loading="lazy" />
+        } @else {
+          <span class="work-img work-img--empty" aria-hidden="true">{{ featured.project.projName }}</span>
+        }
+        <span class="work-scrim" aria-hidden="true"></span>
 
-  <!-- ╔═══════════ What I build with ═══════════╗ -->
-  <app-chapter id="chapter-03" title="What I build with">
-    <app-skills-rail></app-skills-rail>
-  </app-chapter>
-
-  <!-- ╔═══════════ Four stages, repeatedly ═══════════╗ -->
-  <app-chapter id="chapter-04" title="Four stages, repeatedly">
-    <app-process></app-process>
-  </app-chapter>
-
-  <!-- ╔═══════════ Where I've worked ═══════════╗ -->
-  <app-chapter id="chapter-05" title="Where I've worked"
-               actionLabel="Full timeline" actionLink="/allexp">
-    <app-experience></app-experience>
-  </app-chapter>
-
-  <!-- ╔═══════════ How I learned it ═══════════╗ -->
-  <app-chapter id="chapter-06" title="How I learned it"
-               actionLabel="All education" actionLink="/alledu">
-    <div class="edu-journey">
-      <ol class="edu-journey-list" role="list">
-        @for (item of educationList; track item.id; let i = $index) {
-          <li class="edu-journey-item" [appReveal]="'up'" [revealDelay]="i * 90">
-            <a [routerLink]="['/edu/edulist', item.id]"
-               class="edu-journey-card"
-               (mousemove)="onTiltMove($event)"
-               (mouseleave)="onTiltLeave($event)">
-              <span class="edu-journey-step" aria-hidden="true">
-                <span class="edu-journey-step-dot"></span>
-                <span class="edu-journey-step-num">{{ i + 1 }}</span>
+        <div class="work-content">
+          <div class="work-top">
+            <span class="t-tag">Featured project</span>
+            @if (statusLabel(featured.project)) {
+              <span class="work-status">
+                <span class="work-status-dot" aria-hidden="true"></span>{{ statusLabel(featured.project) }}
               </span>
-              <header class="edu-journey-head">
-                <figure class="edu-journey-logo">
-                  <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'">
-                </figure>
-                <div class="edu-journey-id">
-                  <span class="edu-journey-org">{{ item.name }}</span>
-                  <span class="edu-journey-date">{{ item.date }}</span>
-                </div>
-              </header>
-              <h3 class="edu-journey-degree">{{ item.degree }}</h3>
-              <p class="edu-journey-track">{{ item.title }}</p>
-              @if (item.subjects.length) {
-                <ul class="edu-journey-subjects" role="list">
-                  @for (subject of item.subjects.slice(0, 4); track $index) {
-                    <li>{{ subject }}</li>
-                  }
-                  @if (item.subjects.length > 4) {
-                    <li class="edu-journey-more">+{{ item.subjects.length - 4 }}</li>
-                  }
-                </ul>
+            }
+          </div>
+
+          <div class="work-body">
+            <h2 class="work-title">{{ featured.project.projName }}</h2>
+            <p class="work-sub">{{ featured.project.subname }}</p>
+            <ul class="work-stack" role="list">
+              @for (s of featured.project.stack?.slice(0, 4); track s) {
+                <li>{{ s }}</li>
               }
-              <span class="edu-journey-cta">
-                <span>View details</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </ul>
+          </div>
+        </div>
+      </a>
+    }
+
+    <!-- ╔═══════════ STATS ═══════════╗ -->
+    <section class="tile tile--stats" [appReveal]="'up'" [revealDelay]="120">
+      <span class="t-tag">By the numbers</span>
+      <ul class="stats-list" role="list">
+        @for (st of stats; track st.label) {
+          <li>
+            <span class="stat-value">{{ st.value }}</span>
+            <span class="stat-label">{{ st.label }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- ╔═══════════ SKILLS MATRIX ═══════════╗ -->
+    <section class="tile tile--skills" [appReveal]="'up'" [revealDelay]="160">
+      <header class="t-head">
+        <span class="t-tag">Stack</span>
+        <h2 class="t-title">What I build with</h2>
+      </header>
+      <ul class="skills-grid" role="list">
+        @for (sk of skills; track sk.name) {
+          <li class="skill-chip">
+            <i class="{{ sk.icon }}" aria-hidden="true"></i>
+            <span>{{ sk.name }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- ╔═══════════ EXPERIENCE ═══════════╗ -->
+    <section class="tile tile--exp" [appReveal]="'up'" [revealDelay]="200">
+      <header class="t-head">
+        <span class="t-tag">Experience</span>
+        <h2 class="t-title">Where I've worked</h2>
+      </header>
+      <ul class="exp-list" role="list">
+        @for (xp of experiences; track xp.id) {
+          <li class="exp-row">
+            <div class="exp-line">
+              <span class="exp-role">{{ xp.role }}</span>
+              <span class="exp-co">{{ xp.company }}</span>
+            </div>
+            <span class="exp-date">{{ xp.date }}</span>
+          </li>
+        }
+      </ul>
+      <a routerLink="allexp" class="t-foot-link">
+        <span>Full timeline</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <!-- ╔═══════════ EDUCATION ═══════════╗ -->
+    <section class="tile tile--edu" [appReveal]="'up'" [revealDelay]="240">
+      <header class="t-head">
+        <span class="t-tag">Education</span>
+        <h2 class="t-title">How I learned it</h2>
+      </header>
+      <ul class="edu-list" role="list">
+        @for (ed of educationList.slice(0, 3); track ed.id) {
+          <li>
+            <a [routerLink]="['/edu/edulist', ed.id]" class="edu-row">
+              <figure class="edu-logo">
+                <img [src]="ed.img" alt="" [class.logo-plain]="ed.name === 'FreeCodeCamp'" />
+              </figure>
+              <span class="edu-text">
+                <span class="edu-org">{{ ed.name }}</span>
+                <span class="edu-deg">{{ ed.degree }}</span>
               </span>
+              <span class="edu-date">{{ ed.date }}</span>
             </a>
           </li>
         }
-      </ol>
-    </div>
-  </app-chapter>
+      </ul>
+      <a routerLink="alledu" class="t-foot-link">
+        <span>All education</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </a>
+    </section>
 
-  <!-- ╔═══════════ Verified work ═══════════╗ -->
-  <app-chapter id="chapter-07" title="Verified work"
-               actionLabel="All certificates" actionLink="/allcert">
-    <app-certificate></app-certificate>
-  </app-chapter>
+    <!-- ╔═══════════ CERTIFICATES ═══════════╗ -->
+    <a class="tile tile--certs"
+       routerLink="allcert"
+       (mousemove)="onTileMove($event)"
+       [appReveal]="'up'" [revealDelay]="280">
+      <span class="t-tag">Verified</span>
+      <span class="certs-count">{{ certCount }}</span>
+      <span class="certs-label">Certificates</span>
+      <span class="t-foot-link t-foot-link--static">
+        <span>View all</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </span>
+    </a>
 
-  <!-- ╔═══════════ OUTRO — AURORA ═══════════╗ -->
-  <section class="aur-outro" id="contact" (mousemove)="onHeroMove($event)">
-    <span class="aur-outro-mesh" aria-hidden="true"></span>
-    <span class="aur-outro-spot" aria-hidden="true"></span>
-
-    <div class="page">
-      <div class="aur-outro-head" [appReveal]="'up'">
-        <span class="aur-eyebrow aur-eyebrow--accent">
-          <span class="aur-eyebrow-dot" aria-hidden="true"></span>
-          <span>CONTACT</span>
-        </span>
-        <h2 class="aur-outro-title">
-          Let's build<br/>
-          something<br/>
-          <span class="aur-outro-em">worth shipping<span class="aur-period">.</span></span>
-        </h2>
+    <!-- ╔═══════════ CONTACT CTA ═══════════╗ -->
+    <section class="tile tile--contact" [appReveal]="'up'" [revealDelay]="320">
+      <div class="contact-head">
+        <span class="t-tag">Contact</span>
+        <h2 class="contact-title">Let's build something worth shipping<span class="period">.</span></h2>
       </div>
-
-      <div class="aur-outro-grid" [appReveal]="'up'" [revealDelay]="80">
-        <div class="aur-outro-msg">
-          <p>
-            Open to full-stack roles, contracts, and product work across iGaming, fintech,
-            and high-volume transactional systems.
-          </p>
-          <ul class="aur-outro-list" role="list">
-            <li><span class="aur-bullet" aria-hidden="true"></span>Full-time Angular / Node.js roles</li>
-            <li><span class="aur-bullet" aria-hidden="true"></span>Contract &amp; freelance projects</li>
-            <li><span class="aur-bullet" aria-hidden="true"></span>Technical co-founder conversations</li>
-          </ul>
-        </div>
-
-        <div class="aur-outro-actions">
-          <a href="mailto:otowork3@gmail.com"
-             class="aur-mail"
-             (mousemove)="onMagnetMove($event)"
-             (mouseleave)="onMagnetLeave($event)">
-            <span class="aur-mail-label">FASTEST PATH</span>
-            <span class="aur-mail-addr">otowork3&#64;gmail.com</span>
-            <i class="bi bi-arrow-up-right aur-mail-go" aria-hidden="true"></i>
-            <span class="aur-mail-glow" aria-hidden="true"></span>
+      <div class="contact-actions">
+        <a href="mailto:otowork3@gmail.com" class="contact-mail">
+          <span class="contact-mail-label">Fastest path</span>
+          <span class="contact-mail-addr">otowork3&#64;gmail.com</span>
+          <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+        </a>
+        <div class="contact-links">
+          <a href="https://github.com/WERSIT35" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <i class="bi bi-github" aria-hidden="true"></i><span>GitHub</span>
           </a>
-          <div class="aur-outro-links">
-            <a href="https://github.com/WERSIT35" target="_blank" rel="noopener noreferrer" class="aur-link">
-              <i class="bi bi-github" aria-hidden="true"></i><span>GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener noreferrer" class="aur-link">
-              <i class="bi bi-linkedin" aria-hidden="true"></i><span>LinkedIn</span>
-            </a>
-            <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="aur-link">
-              <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i><span>Resume</span>
-            </a>
-          </div>
+          <a href="https://www.linkedin.com/in/otar-davitashvili/" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <i class="bi bi-linkedin" aria-hidden="true"></i><span>LinkedIn</span>
+          </a>
+          <a href="assets/me/OTAR%20DAVITASHVILI.pdf" download="Oto_Resume.pdf" class="contact-link">
+            <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i><span>Resume</span>
+          </a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="aur-footnote">
-      <span class="aur-footnote-mark">OD<span class="aur-period">.</span></span>
-      <span class="aur-footnote-line">© {{ year }} Otar Davitashvili · Built with Angular · Deployed on Firebase</span>
-    </div>
-  </section>
+  </div>
 
+  <footer class="bento-foot page">
+    <span class="foot-mark">OD<span class="period">.</span></span>
+    <span class="foot-line">© {{ year }} Otar Davitashvili · Built with Angular · Deployed on Firebase</span>
+  </footer>
 </main>

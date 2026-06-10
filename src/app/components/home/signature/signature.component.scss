@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sig {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sig-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Static fallback — a faint monochrome dot-grid, only shown if WebGL fails. */
+.sig-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-image: radial-gradient(currentColor 1px, transparent 1.4px);
+  background-size: 18px 18px;
+  color: var(--ink);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 70%);
+  transition: opacity 400ms ease;
+}
+
+.is-fallback .sig-grid {
+  opacity: 0.18;
+}

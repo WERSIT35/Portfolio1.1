@@ -108,18 +108,18 @@
   gap: 0;
   height: 100%;
   padding: 0;
-  border: 1px solid var(--rule);
-  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
   color: var(--ink);
   text-decoration: none;
   overflow: hidden;
-  transition: border-color 260ms ease, transform 240ms ease, background 260ms ease;
+  transition: border-color 260ms ease, transform 240ms ease, box-shadow 260ms ease;
 }
 .ed-slide-card:hover {
   border-color: var(--rule-strong);
-  background: rgba(var(--accent-rgb), 0.02);
   transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-1);
 }
 
 /* Figure fills the top edge-to-edge */
