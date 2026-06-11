@@ -96,12 +96,11 @@
 
 .xp-entry-role {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-  line-height: 1.0;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+  font-family: var(--font-grotesk);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--ink);
 
   a {

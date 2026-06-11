@@ -96,9 +96,9 @@ app-signature { z-index: 0; }            // canvas sits behind the text
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  line-height: 0.86;
+  line-height: 0.88;
   letter-spacing: 0.005em;
-  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-size: clamp(2.8rem, 7.5vw, 5.2rem);
   color: var(--ink);
 
   span { display: block; }

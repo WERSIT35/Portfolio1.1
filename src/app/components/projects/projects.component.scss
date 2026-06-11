@@ -20,8 +20,8 @@
 .proj-mast-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.6rem, 8vw, 5.5rem);
-  line-height: 0.88;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 0.92;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   margin: 0.6rem 0 0;
@@ -105,12 +105,11 @@
 }
 .feat-tag { color: var(--ink); }
 .feat-title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+  font-family: var(--font-grotesk);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
   margin: 0.2rem 0 0;
   color: var(--ink);
 }
@@ -207,10 +206,8 @@
   gap: 0.35rem;
   padding: 0.26rem 0.55rem;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   font-family: var(--font-mono);
   font-size: 0.56rem;
   letter-spacing: 0.1em;
@@ -236,12 +233,11 @@
   color: var(--ink-mute);
 }
 .proj-card-title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
-  line-height: 1.0;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+  font-family: var(--font-grotesk);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   margin: 0.1rem 0 0;
   color: var(--ink);
 }

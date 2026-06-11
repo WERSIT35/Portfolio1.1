@@ -12,19 +12,25 @@ body {
   line-height: 1.6;
 }
 
-/* Display heads — Anton, uppercase (site-wide bento language).
-   Anton is a single-weight (400) condensed display face, so the old
-   Tourney `font-weight`/`font-stretch` are dropped — they did nothing here. */
+/* Headings default to readable Space Grotesk, sentence case. The big all-caps
+   Anton "display" voice is reserved for the hero name + page-title mastheads
+   (applied explicitly via `.display-caps` / `main > .title.page h1`). */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+  font-family: var(--font-grotesk);
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  line-height: 0.98;
+  line-height: 1.15;
 }
 
-/* Escape hatch for the rare heading that must stay sentence case. */
+/* Oversized all-caps Anton display voice (hero + page titles only). */
+.display-caps {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+}
 .normal-case { text-transform: none; letter-spacing: -0.01em; }
 
 p { color: var(--ink-soft); }
@@ -568,9 +574,9 @@ main > .title.page::after {
 main > .title.page h1 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
   letter-spacing: 0.01em;
-  line-height: 0.92;
+  line-height: 0.95;
   text-transform: uppercase;
   color: var(--ink);
   margin: 0;

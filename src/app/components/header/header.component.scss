@@ -30,7 +30,9 @@
   background: var(--glass-tint-strong);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  box-shadow: inset 0 -1px 0 var(--glass-hairline), 0 8px 28px rgba(10, 10, 12, 0.08);
+  /* curved-glass rim: bright top edge + soft seated shadow */
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--glass-hairline),
+    0 8px 28px rgba(10, 10, 12, 0.08);
 }
 
 .ed-header-inner {
