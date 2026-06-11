@@ -357,9 +357,10 @@
   display: block;
   cursor: zoom-in;
   border-radius: 10px;
-  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  filter: grayscale(1) contrast(1.02);   // monochrome thumbnail; enlarge shows full colour
+  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1), filter var(--transition-smooth);
 }
-.doc-preview:hover img { transform: scale(1.005); }
+.doc-preview:hover img { transform: scale(1.005); filter: grayscale(0.85); }
 .doc-preview-empty {
   display: grid;
   place-items: center;

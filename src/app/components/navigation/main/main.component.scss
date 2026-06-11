@@ -120,28 +120,27 @@ app-signature { z-index: 0; }            // canvas sits behind the text
 
 /* ══════════════════════ STATS STRIP ══════════════════════ */
 .stats-strip {
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: clamp(1rem, 4vw, 2.5rem);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));   // always 3 across, never a lone wrap
+  gap: clamp(0.8rem, 4vw, 2.5rem);
   padding-block: clamp(1.2rem, 2.4vw, 1.6rem);
 }
 .stat-cell {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  flex: 1 1 auto;
-  min-width: 110px;
+  min-width: 0;
 }
 .stat-value {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   line-height: 0.9;
   color: var(--ink);
 }
 .stat-label {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: clamp(0.58rem, 1.4vw, 0.66rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-mute);
