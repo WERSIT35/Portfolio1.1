@@ -5,9 +5,11 @@ import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { LoadingService } from './services/loading.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 import { ThemeService } from './services/theme.service';
 import { SmoothScrollService } from './services/smooth-scroll.service';
+import { routeFade } from './animations/route-anim';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +21,13 @@ import { SmoothScrollService } from './services/smooth-scroll.service';
       CommonModule
     ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  animations: [routeFade],
 })
 export class AppComponent implements OnInit{
   loading$ = this.loadingService.loading$;
   hideHeader = false;
+  reducedMotion = false;
 
   constructor(
     private router: Router,
@@ -32,7 +36,13 @@ export class AppComponent implements OnInit{
     private activatedRoute: ActivatedRoute,
     private meta: Meta,
     private smoothScroll: SmoothScrollService,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
+
+  /** Changes per navigation so the route trigger fires; value itself is unused. */
+  prepareRoute(outlet: RouterOutlet): string {
+    return outlet?.isActivated ? (outlet.activatedRoute.routeConfig?.path ?? '') : '';
+  }
 
   private updateMeta(): void {
     let route = this.activatedRoute;
@@ -47,6 +57,9 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.themeService.initTheme();
     this.smoothScroll.init();
+    if (isPlatformBrowser(this.platformId)) {
+      this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {

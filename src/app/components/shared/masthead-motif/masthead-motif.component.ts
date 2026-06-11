@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SignatureComponent, MotifVariant } from '../../home/signature/signature.component';
+import { ParallaxDirective } from '../../../directives/parallax.directive';
 
 /**
  * A page-header "signature" — drops the WebGL motif engine into the right side
@@ -11,6 +12,7 @@ import { SignatureComponent, MotifVariant } from '../../home/signature/signature
   selector: 'app-masthead-motif',
   standalone: true,
   imports: [SignatureComponent],
+  hostDirectives: [ParallaxDirective],   // subtle scroll drift
   template: `<app-signature [variant]="variant"></app-signature>`,
   styleUrl: './masthead-motif.component.scss',
 })

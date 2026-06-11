@@ -1,4 +1,6 @@
 <app-loading-spinner *ngIf="loading$ | async"></app-loading-spinner>
 <app-header *ngIf="!hideHeader"></app-header>
-<router-outlet></router-outlet>
+<div class="route-host" [@routeFade]="prepareRoute(outlet)" [@.disabled]="reducedMotion">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>
 <app-footer *ngIf="!hideHeader"></app-footer>
