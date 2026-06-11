@@ -33,6 +33,14 @@
             @if (item.description) {
               <p class="cert-desc">{{ item.description }}</p>
             }
+            @if (item.skills && item.skills.length) {
+              <ul class="cert-skills" role="list">
+                @for (s of item.skills.slice(0, 5); track s) { <li class="t-chip">{{ s }}</li> }
+              </ul>
+            }
+            <span class="cert-cta">
+              <span>View certificate</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </span>
           </div>
         </a>
       }

@@ -3,11 +3,12 @@ import { Education } from '../../../../interfaces/education';
 import { RouterLink } from '@angular/router';
 import { EducationService } from '../../../../services/education.service';
 import { BackComponent } from "../../../back/back.component";
+import { RevealOnScrollDirective } from '../../../../directives/reveal-on-scroll.directive';
 
 @Component({
   selector: 'app-all-education',
   standalone: true,
-  imports: [RouterLink, BackComponent],
+  imports: [RouterLink, BackComponent, RevealOnScrollDirective],
   templateUrl: './all-education.component.html',
   styleUrl: './all-education.component.scss'
 })

@@ -11,37 +11,41 @@
   </header>
 
   <section class="page">
-    <ol class="ex-timeline">
+    <ol class="xp-log">
       @for (item of experienceList; track item.id; let i = $index) {
-        <li class="ex-row">
-          <a [routerLink]="['/exp', item.id]" class="ex-row-link">
-            <span class="ex-row-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-            <div class="ex-row-body">
-              <header class="ex-row-head">
-                <h3 class="ex-row-role">{{ item.role }}</h3>
-                <span class="ex-row-date">{{ item.date }}</span>
-              </header>
-              <p class="ex-row-org">{{ item.company }}</p>
-              <p class="ex-row-desc">{{ item.summary }}</p>
+        <li class="xp-entry" [appReveal]="'up'" [revealDelay]="i * 80">
+          <div class="xp-entry-rail">
+            <span class="xp-entry-date">{{ item.date }}</span>
+            <span class="xp-entry-co">{{ item.company }}</span>
+          </div>
 
-              @if (item.chips && item.chips.length) {
-                <div class="ex-row-tags">
-                  @for (chip of item.chips; track chip) {
-                    <span class="ed-chip">{{ chip }}</span>
-                  }
-                </div>
-              }
+          <div class="xp-entry-main">
+            <h3 class="xp-entry-role">
+              <a [routerLink]="['/exp', item.id]">{{ item.role }}</a>
+            </h3>
+            @if (item.summary) {
+              <p class="xp-entry-summary">{{ item.summary }}</p>
+            }
 
-              @if (item.bullets && item.bullets.length) {
-                <ul class="ex-row-resp">
-                  @for (bullet of item.bullets; track bullet) {
-                    <li>{{ bullet }}</li>
-                  }
+            @if (item.chips?.length) {
+              <ul class="xp-entry-points" role="list">
+                @for (chip of item.chips; track chip) {
+                  <li><i class="bi bi-dot" aria-hidden="true"></i><span>{{ chip }}</span></li>
+                }
+              </ul>
+            }
+
+            <div class="xp-entry-foot">
+              @if (item.stack?.length) {
+                <ul class="xp-entry-stack" role="list">
+                  @for (s of item.stack; track s) { <li class="t-chip">{{ s }}</li> }
                 </ul>
               }
+              <a [routerLink]="['/exp', item.id]" class="xp-entry-link">
+                <span>View role</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </a>
             </div>
-            <i class="ex-row-arrow bi bi-arrow-up-right" aria-hidden="true"></i>
-          </a>
+          </div>
         </li>
       }
     </ol>

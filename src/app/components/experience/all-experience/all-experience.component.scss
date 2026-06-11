@@ -1,40 +1,168 @@
-/* /allexp — uses shared .ex-timeline / .ex-row-link glass cards from _cards.scss.
-   The shared cards already carry border + lift hover, so this file only handles
-   page-level rhythm + responsibilities sublist styling. */
+// ════════════════════════════════════════════════════════════════════════
+//  /allexp — editorial date-rail timeline. Dates/companies align on a left
+//  rail, roles lead as big headings on a continuous spine — scannable, with
+//  rhythm, instead of a stack of identical tiles.
+// ════════════════════════════════════════════════════════════════════════
+
+@use 'breakpoints' as bp;
 
 .all-experience {
   display: block;
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* Responsibilities mini-list — small bullet sub-list inside each role card */
-.all-experience .ex-row-resp {
+.xp-log {
   list-style: none;
-  margin: 0.7rem 0 0;
-  padding-top: 0.7rem;
-  border-top: 1px dashed var(--rule);
-  display: grid;
-  gap: 0.4rem;
-}
-.all-experience .ex-row-resp li {
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  color: var(--ink-soft);
-  padding-left: 1.1rem;
-  position: relative;
-  line-height: 1.55;
-}
-.all-experience .ex-row-resp li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55rem;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-warm, var(--accent-primary)));
+  margin: 0;
+  padding: 0;
 }
 
-@media (max-width: 480px) {
-  .all-experience .ex-row-resp li { font-size: 0.88rem; }
+.xp-entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  padding: clamp(1.4rem, 2.6vw, 2rem) 0;
+  border-top: 1px solid var(--color-border);
+
+  &:first-child { border-top: 0; padding-top: 0; }
+
+  @include bp.up('md') {
+    grid-template-columns: clamp(160px, 18vw, 210px) 1fr;
+    gap: 0;
+    padding: 0;
+    border-top: 0;
+  }
+}
+
+/* ── Left rail: date + company ── */
+.xp-entry-rail {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  @include bp.up('md') {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: clamp(1.6rem, 2.8vw, 2.2rem) 1.5rem 0 0;
+    text-align: left;
+  }
+}
+.xp-entry-date {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.xp-entry-co {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ── Right column: role + summary + points + stack ── */
+.xp-entry-main {
+  position: relative;
+  min-width: 0;
+
+  @include bp.up('md') {
+    border-left: 1px solid var(--color-border);
+    padding: clamp(1.6rem, 2.8vw, 2.2rem) 0 clamp(1.8rem, 3vw, 2.6rem) clamp(1.5rem, 3vw, 2.4rem);
+  }
+
+  /* Timeline node sitting on the spine */
+  &::before {
+    @include bp.up('md') {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: clamp(1.7rem, 2.9vw, 2.3rem);
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--ink);
+      box-shadow: 0 0 0 4px var(--paper);
+    }
+  }
+}
+.xp-entry:last-child .xp-entry-main {
+  @include bp.up('md') { padding-bottom: 0; }
+}
+
+.xp-entry-role {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  line-height: 1.0;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    @media (hover: hover) { &:hover { text-decoration: underline; text-underline-offset: 4px; } }
+  }
+}
+.xp-entry-summary {
+  margin: 0.6rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 68ch;
+}
+.xp-entry-points {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 68ch;
+  }
+  i { color: var(--ink); font-size: 1.1rem; line-height: 1.3; flex: none; }
+}
+.xp-entry-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.1rem;
+}
+.xp-entry-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.xp-entry-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+
+  i { transition: transform var(--transition-smooth); }
+  @media (hover: hover) { &:hover i { transform: translateX(3px); } }
 }

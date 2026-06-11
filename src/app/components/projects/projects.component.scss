@@ -1,7 +1,7 @@
 // ════════════════════════════════════════════════════════════════════════
-//  /projects — bento mosaic of cover-poster project cards.
-//  Tile/cover atoms come from src/styles/_bento.scss; this file owns only the
-//  page masthead + the grid layout + per-card size overrides.
+//  /projects — a featured split card + a scannable index of info cards.
+//  Hierarchy (one big featured, then compact cards) + visible metadata so the
+//  page reads, instead of a wall of identical dark posters.
 // ════════════════════════════════════════════════════════════════════════
 
 @use 'breakpoints' as bp;
@@ -15,12 +15,7 @@
 /* ── Masthead ─────────────────────────────────────────────────────────── */
 .proj-mast {
   margin-bottom: clamp(1.6rem, 3.5vw, 2.8rem);
-
-  .t-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-  }
+  .t-tag { display: inline-flex; align-items: center; gap: 0.45rem; }
 }
 .proj-mast-title {
   font-family: var(--font-display);
@@ -35,36 +30,263 @@
 .proj-mast-lede {
   margin: clamp(0.9rem, 2vw, 1.3rem) 0 0;
   max-width: 64ch;
-  font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.3vw, 1.08rem);
   line-height: 1.55;
   color: var(--ink-soft);
 }
 
-/* ── Bento grid ───────────────────────────────────────────────────────── */
-.proj-bento {
-  @include bp.up('md') { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @include bp.up('lg') { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.proj-body { display: grid; gap: clamp(1.6rem, 3vw, 2.4rem); }
+
+/* ══════════════════════ FEATURED SPLIT ══════════════════════ */
+.feat-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+
+  @include bp.up('md') { grid-template-columns: 1.05fr 1fr; }
 }
+.feat-media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 11;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
 
-/* Archive cards — portrait-ish cover posters */
-.proj-card {
-  min-height: clamp(300px, 64vw, 340px);
-  @include bp.up('md') { min-height: 320px; }
-}
+  @include bp.up('md') { aspect-ratio: auto; border-bottom: 0; border-right: 1px solid var(--color-border); }
 
-/* Lead — wide hero poster spanning the full row */
-.proj-card--lead {
-  min-height: clamp(360px, 70vw, 460px);
-
-  @include bp.up('md') {
-    grid-column: 1 / -1;
-    min-height: clamp(380px, 40vw, 480px);
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(1) contrast(1.03);
+    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter var(--transition-smooth);
   }
-
-  .cover-title { font-size: clamp(2rem, 4.5vw, 3.2rem); }
-  .cover-sub { max-width: 60ch; }
+}
+.feat-media-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  opacity: 0.5;
+  text-align: center;
+  padding: 1rem;
+}
+@media (hover: hover) {
+  .feat-card:hover .feat-media img { transform: scale(1.03); filter: grayscale(0.85); }
 }
 
-/* Long subnames inside the poster stay tidy */
-.cover-foot { min-width: 0; }
+.feat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  justify-content: center;
+  min-width: 0;
+}
+.feat-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.feat-tag { color: var(--ink); }
+.feat-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0.2rem 0 0;
+  color: var(--ink);
+}
+.feat-sub {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.feat-problem {
+  margin: 0.4rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  max-width: 52ch;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.feat-stack {
+  list-style: none;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.feat-cta { margin-top: 1.1rem; align-self: flex-start; }
+
+/* ══════════════════════ INDEX ══════════════════════ */
+.proj-index-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.proj-index-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.proj-index {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap-md);
+  margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+
+  @include bp.up('sm') { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @include bp.up('xl') { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.proj-card {
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+}
+.proj-thumb {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(1) contrast(1.03);
+    transition: transform 640ms cubic-bezier(0.2, 0.8, 0.2, 1), filter var(--transition-smooth);
+  }
+}
+.proj-thumb-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  color: var(--ink-mute);
+}
+@media (hover: hover) {
+  .proj-card:hover .proj-thumb img { transform: scale(1.05); filter: grayscale(0.8); }
+}
+.proj-card-status {
+  position: absolute;
+  top: 0.6rem; left: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.26rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.proj-card-status-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; }
+
+.proj-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: clamp(1.1rem, 2vw, 1.4rem);
+  flex: 1;
+}
+.proj-card-meta {
+  display: flex;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.proj-card-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+  line-height: 1.0;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0.1rem 0 0;
+  color: var(--ink);
+}
+.proj-card-sub {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.proj-card-stack {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+
+  li {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    color: var(--ink-soft);
+  }
+}
+.proj-card-cta {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+
+  i { transition: transform var(--transition-smooth); }
+}
+@media (hover: hover) {
+  .proj-card:hover .proj-card-cta i { transform: translateX(3px); }
+}

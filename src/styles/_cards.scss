@@ -341,12 +341,11 @@
    ──────────────────────────────────────────────── */
 .cert-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-  gap: clamp(1.1rem, 2.2vw, 1.75rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--grid-gap-md);
   align-items: stretch;
 }
-@media (max-width: 720px) { .cert-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .cert-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .cert-grid { grid-template-columns: 1fr; } }
 
 .cert-card {
   position: relative;
@@ -490,10 +489,33 @@
   line-height: 1.55;
   margin-top: 0.35rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.cert-skills {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cert-cta {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+
+  i { transition: transform var(--transition-smooth); }
+}
+.cert-card:hover .cert-cta i { transform: translateX(3px); }
 
 
 @media (max-width: 480px) {
