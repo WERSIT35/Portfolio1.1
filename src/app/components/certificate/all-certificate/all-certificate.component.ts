@@ -4,11 +4,12 @@ import { ExperienceService } from '../../../services/experience.service';
 import { RouterLink } from '@angular/router';
 import { BackComponent } from "../../back/back.component";
 import { TiltDirective } from '../../../directives/tilt.directive';
+import { MastheadMotifComponent } from '../../shared/masthead-motif/masthead-motif.component';
 
 @Component({
   selector: 'app-all-certificate',
   standalone: true,
-  imports: [RouterLink, BackComponent, TiltDirective],
+  imports: [RouterLink, BackComponent, TiltDirective, MastheadMotifComponent],
   templateUrl: './all-certificate.component.html',
   styleUrl: './all-certificate.component.scss'
 })

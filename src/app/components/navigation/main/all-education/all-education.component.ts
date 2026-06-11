@@ -5,11 +5,12 @@ import { EducationService } from '../../../../services/education.service';
 import { BackComponent } from "../../../back/back.component";
 import { RevealOnScrollDirective } from '../../../../directives/reveal-on-scroll.directive';
 import { SpotlightDirective } from '../../../../directives/spotlight.directive';
+import { MastheadMotifComponent } from '../../../shared/masthead-motif/masthead-motif.component';
 
 @Component({
   selector: 'app-all-education',
   standalone: true,
-  imports: [RouterLink, BackComponent, RevealOnScrollDirective, SpotlightDirective],
+  imports: [RouterLink, BackComponent, RevealOnScrollDirective, SpotlightDirective, MastheadMotifComponent],
   templateUrl: './all-education.component.html',
   styleUrl: './all-education.component.scss'
 })

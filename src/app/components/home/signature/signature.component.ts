@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   PLATFORM_ID,
   ViewChild,
@@ -10,6 +11,9 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
+
+/** Point-cloud silhouettes; one per section for a distinct "signature" each page. */
+export type MotifVariant = 'sphere' | 'torus' | 'helix' | 'rings' | 'scatter';
 
 /**
  * Signature — a monochrome interactive point-cloud sphere rendered with WebGL (ogl).
@@ -29,6 +33,9 @@ import { ThemeService } from '../../../services/theme.service';
 export class SignatureComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true })
   private canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  /** Which point-cloud motif to render (hero = sphere; others vary per page). */
+  @Input() variant: MotifVariant = 'sphere';
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly theme = inject(ThemeService);
@@ -103,7 +110,7 @@ export class SignatureComponent implements AfterViewInit, OnDestroy {
   private async boot(): Promise<void> {
     try {
       const ogl = await import('ogl');
-      this.onScene = createScene(ogl, this.canvasRef.nativeElement);
+      this.onScene = createScene(ogl, this.canvasRef.nativeElement, this.variant);
       this.onScene.setInk(this.theme.resolved() === 'dark');
 
       if (this.reduced) {
@@ -162,7 +169,7 @@ interface SceneHandle {
 
 // `ogl` ships without first-class types for our usage; treat the module loosely.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function createScene(ogl: any, canvas: HTMLCanvasElement): SceneHandle {
+function createScene(ogl: any, canvas: HTMLCanvasElement, variant: MotifVariant = 'sphere'): SceneHandle {
   const { Renderer, Camera, Geometry, Program, Mesh } = ogl;
 
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -179,19 +186,9 @@ function createScene(ogl: any, canvas: HTMLCanvasElement): SceneHandle {
   const coarse = window.matchMedia('(pointer: coarse)').matches;
   const count = coarse ? 1800 : 3600;
 
-  // Fibonacci sphere → evenly distributed point cloud.
-  const positions = new Float32Array(count * 3);
+  const positions = buildPositions(variant, count);
   const rnd = new Float32Array(count);
-  const golden = Math.PI * (3 - Math.sqrt(5));
-  for (let i = 0; i < count; i++) {
-    const y = 1 - (i / (count - 1)) * 2;
-    const radius = Math.sqrt(1 - y * y);
-    const theta = golden * i;
-    positions[i * 3] = Math.cos(theta) * radius;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = Math.sin(theta) * radius;
-    rnd[i] = Math.random();
-  }
+  for (let i = 0; i < count; i++) rnd[i] = Math.random();
 
   const geometry = new Geometry(gl, {
     position: { size: 3, data: positions },
@@ -220,6 +217,9 @@ function createScene(ogl: any, canvas: HTMLCanvasElement): SceneHandle {
     const h = parent?.clientHeight || canvas.clientHeight || 300;
     renderer.setSize(w, h);
     camera.perspective({ aspect: w / h });
+    // Re-draw at the new size. Critical for the reduced-motion path, which only
+    // renders a single static frame at boot and otherwise never repaints.
+    renderer.render({ scene: mesh, camera });
   };
   resize();
   const ro = new ResizeObserver(resize);
@@ -252,6 +252,76 @@ function createScene(ogl: any, canvas: HTMLCanvasElement): SceneHandle {
       ext?.loseContext?.();
     },
   };
+}
+
+/** Base point positions for each motif (the shader adds organic noise on top). */
+function buildPositions(variant: MotifVariant, count: number): Float32Array {
+  const p = new Float32Array(count * 3);
+  const set = (i: number, x: number, y: number, z: number) => {
+    p[i * 3] = x; p[i * 3 + 1] = y; p[i * 3 + 2] = z;
+  };
+
+  if (variant === 'torus') {
+    // dense points over a torus surface, tilted ~35° so it reads as an ellipse
+    // (a flat donut would be viewed edge-on by the camera and vanish).
+    const R = 0.72, rr = 0.3, tilt = 0.62, ct = Math.cos(tilt), st = Math.sin(tilt);
+    for (let i = 0; i < count; i++) {
+      const u = Math.random() * Math.PI * 2;
+      const v = Math.random() * Math.PI * 2;
+      const x = (R + rr * Math.cos(v)) * Math.cos(u);
+      const y = rr * Math.sin(v);
+      const z = (R + rr * Math.cos(v)) * Math.sin(u);
+      set(i, x, y * ct - z * st, y * st + z * ct);
+    }
+    return p;
+  }
+
+  if (variant === 'helix') {
+    const strands = 3;
+    for (let i = 0; i < count; i++) {
+      const t = i / count;
+      const ang = t * Math.PI * 9 + ((i % strands) / strands) * Math.PI * 2;
+      const r = 0.6 + 0.12 * Math.sin(t * Math.PI * 3);
+      set(i, Math.cos(ang) * r, (t - 0.5) * 2.3, Math.sin(ang) * r);
+    }
+    return p;
+  }
+
+  if (variant === 'rings') {
+    const ringCount = 5;
+    for (let i = 0; i < count; i++) {
+      const ring = i % ringCount;
+      const ang = (i / count) * Math.PI * 2 * ringCount;
+      const tilt = (ring / ringCount) * Math.PI; // each orbit tilted differently
+      const x = Math.cos(ang);
+      const z = Math.sin(ang) * 0.0; // start in the X-Y? build then tilt around X
+      // circle in X/Z then rotate around X by `tilt`
+      const cz = Math.sin(ang);
+      set(i, x, cz * Math.sin(tilt) + z, cz * Math.cos(tilt));
+    }
+    return p;
+  }
+
+  if (variant === 'scatter') {
+    // fuzzy spherical shell — a hazy "constellation", denser at the silhouette
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * 2 - 1, y = Math.random() * 2 - 1, z = Math.random() * 2 - 1;
+      const len = Math.hypot(x, y, z) || 1;
+      const r = 0.82 + Math.random() * 0.22;
+      set(i, (x / len) * r, (y / len) * r, (z / len) * r);
+    }
+    return p;
+  }
+
+  // sphere (default) — Fibonacci distribution.
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < count; i++) {
+    const y = 1 - (i / (count - 1)) * 2;
+    const radius = Math.sqrt(1 - y * y);
+    const theta = golden * i;
+    set(i, Math.cos(theta) * radius, y, Math.sin(theta) * radius);
+  }
+  return p;
 }
 
 const VERTEX = /* glsl */ `

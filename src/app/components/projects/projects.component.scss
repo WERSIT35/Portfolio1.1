@@ -14,8 +14,12 @@
 
 /* ── Masthead ─────────────────────────────────────────────────────────── */
 .proj-mast {
+  position: relative;
+  overflow: hidden;
   margin-bottom: clamp(1.6rem, 3.5vw, 2.8rem);
   .t-tag { display: inline-flex; align-items: center; gap: 0.45rem; }
+
+  > *:not(app-masthead-motif) { position: relative; z-index: 1; }
 }
 .proj-mast-title {
   font-family: var(--font-display);

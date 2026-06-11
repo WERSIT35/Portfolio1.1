@@ -555,12 +555,15 @@ a { color: inherit; }
    handle the side gutter on mobile (a padding shorthand would zero it out). */
 main > .title.page {
   position: relative;
+  overflow: hidden;                    // clip the masthead motif to the header
   padding-block: clamp(2.2rem, 4vw, 3.6rem) clamp(1.6rem, 3vw, 2.4rem);
   border-bottom: 1px solid var(--rule);
   margin-bottom: clamp(1.8rem, 3.2vw, 2.6rem);
   display: grid;
   gap: 0.85rem;
 }
+/* keep the title/eyebrow/prose above the motif canvas */
+main > .title.page > *:not(app-masthead-motif) { position: relative; z-index: 1; }
 /* Accent leader bar under the eyebrow — visual signature shared with the homepage. */
 main > .title.page::after {
   content: "";

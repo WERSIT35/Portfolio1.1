@@ -8,6 +8,7 @@ import { getTechIcon, TechIcon } from '../../shared/tech-icons';
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
 import { TiltDirective } from '../../directives/tilt.directive';
 import { SpotlightDirective } from '../../directives/spotlight.directive';
+import { MastheadMotifComponent } from '../shared/masthead-motif/masthead-motif.component';
 
 interface ProjectEntry {
   project: Projects;
@@ -17,7 +18,7 @@ interface ProjectEntry {
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [BackComponent, RouterLink, CommonModule, RevealOnScrollDirective, TiltDirective, SpotlightDirective],
+  imports: [BackComponent, RouterLink, CommonModule, RevealOnScrollDirective, TiltDirective, SpotlightDirective, MastheadMotifComponent],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
