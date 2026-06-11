@@ -2,8 +2,8 @@
 
 .ss-stage {
   position: relative;
-  height: clamp(300px, 36vw, 380px);
-  perspective: 900px;
+  height: clamp(280px, 30vw, 340px);
+  perspective: 1000px;
   cursor: grab;
   touch-action: pan-y;
 
@@ -21,8 +21,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -0.9rem 0 0 -3rem;       // rough centering; chips vary in width
-  will-change: transform, opacity;
+  will-change: transform, opacity;   // centered per-frame via translate(-50%,-50%)
 
   .skill-chip {
     display: inline-flex;

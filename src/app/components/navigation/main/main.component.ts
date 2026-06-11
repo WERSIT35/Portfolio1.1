@@ -105,7 +105,7 @@ export class MainComponent implements OnInit {
           }
           return b.rating - a.rating;
         })
-        .slice(0, 14);
+        .slice(0, 12);
       this.skills = ordered.map(({ name, icon }) => ({ name, icon }));
       this.stats = [
         ...this.stats.slice(0, 2),

@@ -43,7 +43,7 @@ export class SkillSphereComponent implements AfterViewInit, OnDestroy {
 
     const stage = this.stageRef?.nativeElement;
     if (!stage) return;
-    this.radius = Math.min(150, Math.max(110, stage.clientWidth * 0.32));
+    this.radius = Math.min(180, Math.max(130, stage.clientWidth * 0.36));
 
     const els = Array.from(stage.querySelectorAll<HTMLElement>('.ss-item'));
     const n = els.length || 1;
@@ -104,10 +104,12 @@ export class SkillSphereComponent implements AfterViewInit, OnDestroy {
       const z2 = node.y * sx + z1 * cx;
 
       const depth = (z2 + 1) / 2;                       // 0 (back) … 1 (front)
+      // translate(-50%,-50%) centres each chip on its point regardless of width
       node.el.style.transform =
-        `translate3d(${(x1 * this.radius).toFixed(1)}px, ${(y2 * this.radius).toFixed(1)}px, ${(z2 * this.radius).toFixed(1)}px)`;
-      node.el.style.opacity = (0.35 + depth * 0.65).toFixed(2);
+        `translate(-50%, -50%) translate3d(${(x1 * this.radius).toFixed(1)}px, ${(y2 * this.radius).toFixed(1)}px, ${(z2 * this.radius).toFixed(1)}px)`;
+      node.el.style.opacity = (0.12 + depth * 0.88).toFixed(2);   // back chips recede harder
       node.el.style.zIndex = `${Math.round(depth * 100)}`;
+      node.el.style.pointerEvents = depth > 0.5 ? 'auto' : 'none';
     }
     this.raf = requestAnimationFrame(this.tick);
   };

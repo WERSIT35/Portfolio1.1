@@ -196,7 +196,7 @@ a.tile {
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  filter: grayscale(1) contrast(1.04) brightness(0.92);
+  filter: grayscale(1) contrast(1.05) brightness(0.78);
   transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter var(--transition-smooth);
 }
 .cover-img--empty {
@@ -211,7 +211,7 @@ a.tile {
   padding: 1rem;
 }
 @media (hover: hover) {
-  a.cover:hover .cover-img { transform: scale(1.05); filter: grayscale(0.7) brightness(0.95); }
+  a.cover:hover .cover-img { transform: scale(1.05); filter: grayscale(0.7) brightness(0.85); }
 }
 
 .cover-scrim {
