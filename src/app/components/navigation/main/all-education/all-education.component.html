@@ -12,7 +12,7 @@
 
   <section class="page edu-stack">
     @for (item of educationList; track item.id; let i = $index) {
-      <a [routerLink]="['/edu/edulist', item.id]" class="tile edu-split" [appReveal]="'up'" [revealDelay]="i * 70">
+      <a [routerLink]="['/edu/edulist', item.id]" class="tile edu-split" appSpotlight [appReveal]="'up'" [revealDelay]="i * 70">
         <figure class="edu-split-media">
           @if (item.coverImage) {
             <img [src]="item.coverImage" [alt]="item.coverAlt || ''" loading="lazy" />

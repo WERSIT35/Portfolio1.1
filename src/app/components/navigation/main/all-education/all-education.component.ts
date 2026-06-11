@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { EducationService } from '../../../../services/education.service';
 import { BackComponent } from "../../../back/back.component";
 import { RevealOnScrollDirective } from '../../../../directives/reveal-on-scroll.directive';
+import { SpotlightDirective } from '../../../../directives/spotlight.directive';
 
 @Component({
   selector: 'app-all-education',
   standalone: true,
-  imports: [RouterLink, BackComponent, RevealOnScrollDirective],
+  imports: [RouterLink, BackComponent, RevealOnScrollDirective, SpotlightDirective],
   templateUrl: './all-education.component.html',
   styleUrl: './all-education.component.scss'
 })

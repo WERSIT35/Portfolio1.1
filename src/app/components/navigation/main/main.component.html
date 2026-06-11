@@ -24,7 +24,7 @@
         </p>
 
         <div class="intro-actions">
-          <a routerLink="projects" class="t-btn t-btn--solid">
+          <a routerLink="projects" class="t-btn t-btn--solid" appMagnetic>
             <span>Selected work</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
           </a>
           <a routerLink="contact" class="t-btn t-btn--line">
@@ -55,6 +55,7 @@
         @for (item of featuredList; track item.index; let i = $index) {
           <a class="tile cover work-card"
              [routerLink]="['/projects', item.index]"
+             appTilt
              [appReveal]="'up'" [revealDelay]="120 + i * 70">
             @if (item.project.img.length) {
               <img class="cover-img" [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
@@ -155,7 +156,7 @@
     <!-- ╔═══════════ CERTIFICATES — slim credentials strip ═══════════╗ -->
     <a class="tile certs-strip"
        routerLink="allcert"
-       (mousemove)="onTileMove($event)"
+       appSpotlight
        [appReveal]="'up'" [revealDelay]="200">
       <div class="certs-lead">
         <span class="t-tag">Verified</span>

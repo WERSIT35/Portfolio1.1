@@ -3,11 +3,12 @@ import { Certifications } from '../../../interfaces/certifications';
 import { ExperienceService } from '../../../services/experience.service';
 import { RouterLink } from '@angular/router';
 import { BackComponent } from "../../back/back.component";
+import { TiltDirective } from '../../../directives/tilt.directive';
 
 @Component({
   selector: 'app-all-certificate',
   standalone: true,
-  imports: [RouterLink, BackComponent],
+  imports: [RouterLink, BackComponent, TiltDirective],
   templateUrl: './all-certificate.component.html',
   styleUrl: './all-certificate.component.scss'
 })
