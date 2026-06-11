@@ -9,6 +9,7 @@ import { ProjectsService } from '../../../services/projects.service';
 import { Education } from '../../../interfaces/education';
 import { Experience } from '../../../interfaces/experience';
 import { Projects } from '../../../interfaces/projects';
+import { Certifications } from '../../../interfaces/certifications';
 
 import { RevealOnScrollDirective } from '../../../directives/reveal-on-scroll.directive';
 import { SignatureComponent } from '../../home/signature/signature.component';
@@ -19,12 +20,9 @@ interface StatTile { value: string; label: string; }
 interface SkillChip { name: string; icon: string; }
 
 /**
- * Home — a single-screen "index" bento grid.
- *
- * Replaces the old linear hero → chapter-scroll layout. Every domain (work,
- * skills, experience, education, certs, contact) is a tile in one dense grid
- * that re-flows from a 12-col desktop bento to a stacked mobile column. The
- * intro tile hosts the WebGL signature centerpiece.
+ * Home — a hero followed by content-sized sections (work, skills, experience,
+ * education, certificates, contact). Each section fits its own content so there
+ * is no dead space; the hero hosts the WebGL signature centerpiece.
  */
 @Component({
   selector: 'app-main',
@@ -39,12 +37,13 @@ interface SkillChip { name: string; icon: string; }
 export class MainComponent implements OnInit {
   readonly year = new Date().getFullYear();
 
-  featured: FeaturedEntry | null = null;
+  featuredList: FeaturedEntry[] = [];
   experiences: Experience[] = [];
   educationList: Education[] = [];
   skills: SkillChip[] = [];
   stats: StatTile[] = [];
 
+  certList: Certifications[] = [];
   certCount = 0;
 
   constructor(
@@ -56,10 +55,10 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectsService.getProjects().subscribe((all) => {
-      const featured = all
+      this.featuredList = all
         .map((project, index) => ({ project, index }))
-        .filter((x) => x.project.featured);
-      this.featured = featured[0] ?? null;
+        .filter((x) => x.project.featured)
+        .slice(0, 3);
 
       const live = all.filter(
         (p) => p.status === 'live' || p.status === 'in-production',
@@ -72,10 +71,11 @@ export class MainComponent implements OnInit {
     });
 
     this.experienceService.getExperienceList().subscribe((list) => {
-      this.experiences = list.slice(0, 2);
+      this.experiences = list.slice(0, 3);
     });
 
     this.experienceService.getCertificate().subscribe((list) => {
+      this.certList = list;
       this.certCount = list.length;
     });
 
@@ -98,7 +98,7 @@ export class MainComponent implements OnInit {
           }
           return b.rating - a.rating;
         })
-        .slice(0, 10);
+        .slice(0, 14);
       this.skills = ordered.map(({ name, icon }) => ({ name, icon }));
       this.stats = [
         ...this.stats.slice(0, 2),
