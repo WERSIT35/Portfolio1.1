@@ -93,14 +93,7 @@
         <span class="t-tag">Stack</span>
         <h2 class="t-title">What I build with</h2>
       </header>
-      <ul class="skills-grid" role="list">
-        @for (sk of skills; track sk.name) {
-          <li class="skill-chip">
-            <i class="{{ sk.icon }}" aria-hidden="true"></i>
-            <span>{{ sk.name }}</span>
-          </li>
-        }
-      </ul>
+      <app-skill-sphere [skills]="skills"></app-skill-sphere>
     </section>
 
     <!-- ╔═══════════ EXPERIENCE + EDUCATION ═══════════╗ -->

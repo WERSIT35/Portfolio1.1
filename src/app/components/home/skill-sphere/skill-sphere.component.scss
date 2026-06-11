@@ -1,0 +1,45 @@
+:host { display: block; }
+
+.ss-stage {
+  position: relative;
+  height: clamp(300px, 36vw, 380px);
+  perspective: 900px;
+  cursor: grab;
+  touch-action: pan-y;
+
+  &:active { cursor: grabbing; }
+}
+
+.ss-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* Each tag is centered, then pushed onto the sphere by the rAF transform. */
+.ss-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -0.9rem 0 0 -3rem;       // rough centering; chips vary in width
+  will-change: transform, opacity;
+
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-card);
+    white-space: nowrap;
+
+    i { font-size: 1rem; color: var(--ink); }
+    span {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.02em;
+      color: var(--ink-soft);
+    }
+  }
+}

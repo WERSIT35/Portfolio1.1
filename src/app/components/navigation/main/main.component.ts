@@ -16,6 +16,7 @@ import { TiltDirective } from '../../../directives/tilt.directive';
 import { MagneticDirective } from '../../../directives/magnetic.directive';
 import { SpotlightDirective } from '../../../directives/spotlight.directive';
 import { SignatureComponent } from '../../home/signature/signature.component';
+import { SkillSphereComponent } from '../../home/skill-sphere/skill-sphere.component';
 import { getTechIcon, TechIcon } from '../../../shared/tech-icons';
 
 interface FeaturedEntry { project: Projects; index: number; }
@@ -31,7 +32,7 @@ interface SkillChip { name: string; icon: string; }
   selector: 'app-main',
   standalone: true,
   imports: [
-    CommonModule, RouterLink, RevealOnScrollDirective, SignatureComponent,
+    CommonModule, RouterLink, RevealOnScrollDirective, SignatureComponent, SkillSphereComponent,
     TiltDirective, MagneticDirective, SpotlightDirective,
   ],
   templateUrl: './main.component.html',
