@@ -9,13 +9,6 @@
   display: block;
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
-.all-education .title .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  i { font-size: 0.85rem; color: var(--ink); }
-}
-
 .edu-stack {
   display: grid;
   gap: var(--grid-gap-md);

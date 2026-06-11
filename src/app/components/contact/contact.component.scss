@@ -32,6 +32,14 @@
 
 /* ── Left: intro ── */
 .contact-intro { min-width: 0; }
+/* match the breadcrumb leader-bar used on the editorial `.title.page` mastheads */
+.contact-intro .eyebrow {
+  display: inline-block;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule-strong);
+  width: max-content;
+  max-width: 100%;
+}
 .contact-title {
   font-family: var(--font-display);
   font-weight: 400;
