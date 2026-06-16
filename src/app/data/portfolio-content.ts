@@ -10,7 +10,7 @@ export const EXPERIENCES: Experience[] = [
     id: 1,
     role: 'Angular Developer',
     company: 'PetC',
-    date: 'Dec 2025 – Present',
+    date: 'Dec 2025 – Jun 2026',
     summary:
       'Product-focused Angular engineering within a production-grade platform environment, with emphasis on performance, modularity, and architecture quality.',
     chips: [
@@ -343,9 +343,9 @@ export const PROJECTS: Projects[] = [
       'Math simulation tooling for 1M spin validation and streamed simulation output',
     ],
     img: [],
-    link: '',
+    link: 'https://provider-flame.vercel.app/',
     github: 'https://github.com/WERSIT35/Provider',
-    iflink: false,
+    iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #151720, #3f6f4b);',
     role: 'Full-stack game prototype engineer',
     year: 2026,
@@ -368,7 +368,7 @@ export const PROJECTS: Projects[] = [
     ],
     lessons:
       'For slot prototypes, the flashy part only works when the math and event flow are boringly deterministic to inspect. Keeping the server authoritative made tumbling, retriggers, and multiplier payouts much easier to audit.',
-    demoEmbedUrl: '',
+    demoEmbedUrl: 'https://provider-flame.vercel.app/',
   },
   {
     projName: 'Elite Weddings',

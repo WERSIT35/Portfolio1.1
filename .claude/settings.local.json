@@ -10,7 +10,13 @@
       "Bash(git add *)",
       "Bash(git commit -m *)",
       "Bash(git push *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(git commit -q -m 'Monochrome foundation: pure greyscale tokens + flat background *)",
+      "Bash(git commit -q -m 'Homepage: full-bleed inverted Anton hero, flat editorial cards *)",
+      "Bash(grep -q \"Local:\" /tmp/ng-serve.log)",
+      "Bash(break)",
+      "Read(//tmp/**)",
+      "Bash(git commit *)"
     ],
     "deny": [
       "Bash(git reset --hard *)",
