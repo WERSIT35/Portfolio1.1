@@ -1,22 +1,152 @@
-/* /alledu — uses shared .edu-card / .edu-card--page from _cards.scss */
-.all-education { display: block; padding-bottom: 3rem; }
+// ════════════════════════════════════════════════════════════════════════
+//  /alledu — info-forward split cards (grayscale cover + visible credential
+//  details). Hierarchy via the program name; no heavy cover banners.
+// ════════════════════════════════════════════════════════════════════════
 
-.all-education .title .eyebrow {
+@use 'breakpoints' as bp;
+
+.all-education {
+  display: block;
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.edu-stack {
+  display: grid;
+  gap: var(--grid-gap-md);
+}
+
+.edu-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+
+  @include bp.up('md') { grid-template-columns: 0.85fr 1.15fr; }
+}
+
+.edu-split-media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+
+  @include bp.up('md') { aspect-ratio: auto; border-bottom: 0; border-right: 1px solid var(--color-border); }
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.03);
+    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter var(--transition-smooth);
+  }
+}
+@media (hover: hover) {
+  .edu-split:hover .edu-split-media img { transform: scale(1.03); filter: grayscale(0.85); }
+}
+.edu-split-kind {
+  position: absolute;
+  top: 0.8rem; left: 0.8rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-}
-.all-education .title .eyebrow i {
-  font-size: 0.85rem;
-  color: var(--ink);
+  padding: 0.26rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
 }
 
-.edu-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--grid-gap-md);
+.edu-split-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: clamp(1.4rem, 2.6vw, 2.1rem);
+  min-width: 0;
 }
-@media (min-width: 760px) {
-  .edu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
-  .edu-grid > :first-child { grid-column: 1 / -1; }
+.edu-split-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.edu-split-logo {
+  margin: 0;
+  width: 44px; height: 44px;
+  flex: none;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.94);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  img { max-width: 76%; max-height: 76%; object-fit: contain; }
+}
+.edu-split-id { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.edu-split-org {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.edu-split-date {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.edu-split-degree {
+  font-family: var(--font-grotesk);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.edu-split-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+
+  :is(p) { margin: 0 0 0.5rem; }
+  :is(p):last-child { margin-bottom: 0; }
+}
+.edu-split-subjects {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.edu-split-more { color: var(--ink-mute); }
+.edu-split-cta {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+
+  i { transition: transform var(--transition-smooth); }
+}
+@media (hover: hover) {
+  .edu-split:hover .edu-split-cta i { transform: translateX(3px); }
 }

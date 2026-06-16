@@ -1,15 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BackComponent } from '../back/back.component';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
+import { MagneticDirective } from '../../directives/magnetic.directive';
 
 type CopyKey = 'email' | 'phone';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [BackComponent, CommonModule, RouterLink, RevealOnScrollDirective],
+  imports: [BackComponent, CommonModule, RevealOnScrollDirective, MagneticDirective],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })

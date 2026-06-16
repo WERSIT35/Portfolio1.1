@@ -700,15 +700,6 @@ a, button, [role="button"], input, textarea, select, label {
   background: var(--card-dark-chip-bg) !important;
 }
 
-:root[data-theme-resolved="dark"] .contact-page .eyebrow {
-  color: var(--card-dark-title) !important;
-  border-color: rgba(var(--brand-rgb), 0.4) !important;
-  background: rgba(var(--brand-rgb), 0.14) !important;
-}
-
-:root[data-theme-resolved="dark"] .contact-page .contact-links a i {
-  color: var(--color-icon-accent) !important;
-}
 
 :root[data-theme-resolved="dark"] .section-header a p {
   color: var(--card-dark-title);

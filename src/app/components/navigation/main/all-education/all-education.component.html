@@ -1,6 +1,6 @@
 <app-back></app-back>
 <main class="all-education">
-  <header class="title page">
+  <header class="title page" [appReveal]="'up'">
     <span class="eyebrow">
       <span class="crumb"><i class="bi bi-house" aria-hidden="true"></i><span>Home</span></span>
       <span class="sep">·</span>
@@ -8,53 +8,50 @@
     </span>
     <h1>How I learned it.</h1>
     <p class="prose">University coursework, structured DevOps, and the long tail of self-directed learning that pays off in production.</p>
+    <app-masthead-motif variant="rings"></app-masthead-motif>
   </header>
-  <section class="page">
-    <div class="edu-grid">
-      @for (item of educationList; track item.id) {
-        <a [routerLink]="['/edu/edulist', item.id]" class="ed-slide-card edu-card edu-card--page">
-          <div class="edu-card-cover" role="img" [attr.aria-label]="item.coverAlt || (item.name + ' cover')">
-            @if (item.coverImage) {
-              <img [src]="item.coverImage" [alt]="item.coverAlt || ''" loading="lazy" />
-            }
-            <span class="edu-card-kind">
-              <i class="bi bi-mortarboard"></i>
-              <span>{{ item.title }}</span>
-            </span>
-          </div>
 
-          <div class="edu-card-body">
-            <header class="edu-card-head">
-              <figure class="edu-card-logo">
-                <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'" />
-              </figure>
-              <div class="edu-card-id">
-                <p class="edu-card-org">{{ item.name }}</p>
-                <p class="edu-card-track">{{ item.date }}</p>
-              </div>
-            </header>
+  <section class="page edu-stack">
+    @for (item of educationList; track item.id; let i = $index) {
+      <a [routerLink]="['/edu/edulist', item.id]" class="tile edu-split" appSpotlight [appReveal]="'up'" [revealDelay]="i * 70">
+        <figure class="edu-split-media">
+          @if (item.coverImage) {
+            <img [src]="item.coverImage" [alt]="item.coverAlt || ''" loading="lazy" />
+          }
+          <span class="edu-split-kind"><i class="bi bi-mortarboard" aria-hidden="true"></i>{{ item.title }}</span>
+        </figure>
 
-            <h3 class="edu-card-degree">{{ item.degree }}</h3>
+        <div class="edu-split-body">
+          <header class="edu-split-head">
+            <figure class="edu-split-logo">
+              <img [src]="item.img" alt="" [class.logo-plain]="item.name === 'FreeCodeCamp'" />
+            </figure>
+            <div class="edu-split-id">
+              <span class="edu-split-org">{{ item.name }}</span>
+              <span class="edu-split-date">{{ item.date }}</span>
+            </div>
+          </header>
 
-            @if (item.description) {
-              <div class="edu-card-desc" [innerHTML]="item.description"></div>
-            }
+          <h2 class="edu-split-degree">{{ item.degree }}</h2>
 
-            @if (item.subjects && item.subjects.length) {
-              <div class="edu-card-subjects">
-                <span class="edu-card-subjects-label">Focus areas</span>
-                <div class="ed-slide-tags edu-card-tags">
-                  @for (subject of item.subjects; track $index) {
-                    <span class="ed-chip">{{ subject }}</span>
-                  }
-                </div>
-              </div>
-            }
+          @if (item.description) {
+            <div class="edu-split-desc" [innerHTML]="item.description"></div>
+          }
 
-            <span class="ed-slide-cta">View details<i class="bi bi-arrow-right"></i></span>
-          </div>
-        </a>
-      }
-    </div>
+          @if (item.subjects && item.subjects.length) {
+            <ul class="edu-split-subjects" role="list">
+              @for (s of item.subjects.slice(0, 6); track s) { <li class="t-chip">{{ s }}</li> }
+              @if (item.subjects.length > 6) {
+                <li class="t-chip edu-split-more">+{{ item.subjects.length - 6 }}</li>
+              }
+            </ul>
+          }
+
+          <span class="edu-split-cta">
+            <span>View details</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </span>
+        </div>
+      </a>
+    }
   </section>
 </main>

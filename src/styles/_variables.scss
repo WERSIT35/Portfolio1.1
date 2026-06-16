@@ -49,13 +49,14 @@
   --brand-warm-rgb: 10, 10, 10;
   --brand-cool-rgb: 134, 134, 139;
 
-  /* ── Liquid-glass material tokens (single source for frosted surfaces) ──
-     Neutral white frost — applied ONLY to floating/overlapping surfaces. */
-  --glass-blur: 26px;
-  --glass-saturate: 140%;
-  --glass-tint: rgba(255, 255, 255, 0.55);
-  --glass-tint-strong: rgba(255, 255, 255, 0.72);
-  --glass-edge: rgba(255, 255, 255, 0.9);           /* specular top highlight */
+  /* ── Liquid-glass material tokens (single source for floating surfaces) ──
+     Crisp curved glass: NO blur — a translucent tint + saturate + luminous
+     beveled edges so light reads as bending at the rim, content stays sharp. */
+  --glass-blur: 0px;
+  --glass-saturate: 165%;
+  --glass-tint: rgba(255, 255, 255, 0.78);
+  --glass-tint-strong: rgba(255, 255, 255, 0.9);
+  --glass-edge: rgba(255, 255, 255, 0.95);          /* specular top highlight */
   --glass-border: rgba(255, 255, 255, 0.7);         /* luminous hairline */
   --glass-hairline: rgba(10, 10, 10, 0.08);         /* definition on light bg */
   --glass-sheen: rgba(255, 255, 255, 0.6);          /* hover sweep */
@@ -212,13 +213,13 @@
   --shadow-1: 0 12px 30px rgba(0, 0, 0, 0.5);
   --shadow-2: 0 20px 44px rgba(0, 0, 0, 0.6);
 
-  /* Liquid-glass material (dark) — neutral near-black frost */
-  --glass-blur: 28px;
-  --glass-saturate: 135%;
-  --glass-tint: rgba(20, 20, 22, 0.55);
-  --glass-tint-strong: rgba(24, 24, 26, 0.72);
-  --glass-edge: rgba(255, 255, 255, 0.14);
-  --glass-border: rgba(255, 255, 255, 0.16);
+  /* Liquid-glass material (dark) — crisp near-black curved glass, no blur */
+  --glass-blur: 0px;
+  --glass-saturate: 150%;
+  --glass-tint: rgba(20, 20, 22, 0.72);
+  --glass-tint-strong: rgba(26, 26, 28, 0.88);
+  --glass-edge: rgba(255, 255, 255, 0.16);
+  --glass-border: rgba(255, 255, 255, 0.2);
   --glass-hairline: rgba(255, 255, 255, 0.08);
   --glass-sheen: rgba(255, 255, 255, 0.18);
   --glass-scrim: rgba(10, 10, 10, 0.5);
@@ -334,12 +335,12 @@
     --shadow-1: 0 12px 30px rgba(0, 0, 0, 0.5);
     --shadow-2: 0 20px 44px rgba(0, 0, 0, 0.6);
 
-    --glass-blur: 28px;
-    --glass-saturate: 135%;
-    --glass-tint: rgba(20, 20, 22, 0.55);
-    --glass-tint-strong: rgba(24, 24, 26, 0.72);
-    --glass-edge: rgba(255, 255, 255, 0.14);
-    --glass-border: rgba(255, 255, 255, 0.16);
+    --glass-blur: 0px;
+    --glass-saturate: 150%;
+    --glass-tint: rgba(20, 20, 22, 0.72);
+    --glass-tint-strong: rgba(26, 26, 28, 0.88);
+    --glass-edge: rgba(255, 255, 255, 0.16);
+    --glass-border: rgba(255, 255, 255, 0.2);
     --glass-hairline: rgba(255, 255, 255, 0.08);
     --glass-sheen: rgba(255, 255, 255, 0.18);
     --glass-scrim: rgba(10, 10, 10, 0.5);

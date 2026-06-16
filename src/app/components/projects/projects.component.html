@@ -10,75 +10,98 @@
       Production builds, client deliveries, and platform work. Open any project for the full
       case study — problem, approach, screenshots, metrics, and what I'd do differently.
     </p>
+    <app-masthead-motif variant="torus"></app-masthead-motif>
   </header>
 
-  <section class="page">
-    <div class="proj-bento bento-grid">
+  <section class="page proj-body">
 
-      @if (lead) {
-        <a class="tile cover proj-card proj-card--lead"
-           [routerLink]="['/projects', lead.index]"
-           [appReveal]="'up'">
+    <!-- ─── Featured (split) ─── -->
+    @if (lead) {
+      <a class="tile feat-card"
+         [routerLink]="['/projects', lead.index]"
+         appSpotlight
+         [appReveal]="'up'">
+        <figure class="feat-media">
           @if (lead.project.img.length) {
-            <img class="cover-img" [src]="lead.project.img[0]" [alt]="lead.project.projName" />
+            <img [src]="lead.project.img[0]" [alt]="lead.project.projName" />
           } @else {
-            <span class="cover-img cover-img--empty" aria-hidden="true">{{ lead.project.projName }}</span>
+            <span class="feat-media-empty" aria-hidden="true">{{ lead.project.projName }}</span>
           }
-          <span class="cover-scrim" aria-hidden="true"></span>
-          <div class="cover-content">
-            <div class="cover-top">
-              <span class="t-tag">Featured{{ lead.project.year ? ' · ' + lead.project.year : '' }}</span>
-              @if (statusLabel(lead.project)) {
-                <span class="cover-status">
-                  <span class="cover-status-dot" aria-hidden="true"></span>{{ statusLabel(lead.project) }}
-                </span>
-              }
-            </div>
-            <div class="cover-foot">
-              <h2 class="cover-title">{{ lead.project.projName }}</h2>
-              <p class="cover-sub">{{ lead.project.subname }}</p>
-              @if (lead.project.stack?.length) {
-                <ul class="cover-stack" role="list">
-                  @for (s of lead.project.stack!.slice(0, 5); track s) { <li>{{ s }}</li> }
-                </ul>
-              }
-            </div>
+        </figure>
+        <div class="feat-body">
+          <div class="feat-meta">
+            @if (statusLabel(lead.project)) {
+              <span class="ed-status" [ngClass]="lead.project.status">{{ statusLabel(lead.project) }}</span>
+            }
+            <span class="feat-tag">Featured</span>
+            @if (lead.project.year) { <span>{{ lead.project.year }}</span> }
           </div>
-        </a>
-      }
-
-      @for (item of archive; track item.index; let i = $index) {
-        <a class="tile cover proj-card"
-           [routerLink]="['/projects', item.index]"
-           [appReveal]="'up'" [revealDelay]="i * 60">
-          @if (item.project.img.length) {
-            <img class="cover-img" [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
-          } @else {
-            <span class="cover-img cover-img--empty" aria-hidden="true">{{ item.project.projName }}</span>
+          <h2 class="feat-title">{{ lead.project.projName }}</h2>
+          <p class="feat-sub">{{ lead.project.subname }}</p>
+          @if (lead.project.problem) {
+            <p class="feat-problem">{{ lead.project.problem }}</p>
           }
-          <span class="cover-scrim" aria-hidden="true"></span>
-          <div class="cover-content">
-            <div class="cover-top">
-              <span class="t-tag">{{ item.project.year }}{{ item.project.role ? ' · ' + item.project.role : '' }}</span>
+          @if (lead.project.stack?.length) {
+            <ul class="feat-stack" role="list">
+              @for (s of lead.project.stack!.slice(0, 6); track s) {
+                @if (techIcon(s); as t) {
+                  <li class="t-chip"><i [class]="t.icon" aria-hidden="true"></i>{{ s }}</li>
+                } @else {
+                  <li class="t-chip">{{ s }}</li>
+                }
+              }
+            </ul>
+          }
+          <span class="t-btn t-btn--line feat-cta">
+            <span>Read case study</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </span>
+        </div>
+      </a>
+    }
+
+    <!-- ─── The rest — scannable index cards ─── -->
+    @if (archive.length) {
+      <div class="proj-index-head">
+        <span class="t-tag">All work</span>
+        <span class="proj-index-count">{{ archive.length + 1 }} projects</span>
+      </div>
+      <div class="proj-index">
+        @for (item of archive; track item.index; let i = $index) {
+          <a class="tile proj-card"
+             [routerLink]="['/projects', item.index]"
+             appTilt appSpotlight
+             [appReveal]="'up'" [revealDelay]="i * 55">
+            <figure class="proj-thumb">
+              @if (item.project.img.length) {
+                <img [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
+              } @else {
+                <span class="proj-thumb-empty" aria-hidden="true"><i class="bi bi-code-slash"></i></span>
+              }
               @if (statusLabel(item.project)) {
-                <span class="cover-status">
-                  <span class="cover-status-dot" aria-hidden="true"></span>{{ statusLabel(item.project) }}
+                <span class="proj-card-status">
+                  <span class="proj-card-status-dot" aria-hidden="true"></span>{{ statusLabel(item.project) }}
                 </span>
               }
-            </div>
-            <div class="cover-foot">
-              <h3 class="cover-title">{{ item.project.projName }}</h3>
-              <p class="cover-sub">{{ item.project.subname }}</p>
+            </figure>
+            <div class="proj-card-body">
+              <div class="proj-card-meta">
+                <span>{{ item.project.year }}</span>
+                @if (item.project.role) { <span>· {{ item.project.role }}</span> }
+              </div>
+              <h3 class="proj-card-title">{{ item.project.projName }}</h3>
+              <p class="proj-card-sub">{{ item.project.subname }}</p>
               @if (item.project.stack?.length) {
-                <ul class="cover-stack" role="list">
+                <ul class="proj-card-stack" role="list">
                   @for (s of item.project.stack!.slice(0, 3); track s) { <li>{{ s }}</li> }
                 </ul>
               }
+              <span class="proj-card-cta">
+                <span>Open case study</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </span>
             </div>
-          </div>
-        </a>
-      }
-
-    </div>
+          </a>
+        }
+      </div>
+    }
   </section>
 </main>

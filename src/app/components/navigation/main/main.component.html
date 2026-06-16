@@ -1,166 +1,172 @@
 <main class="home home--bento">
   <div class="bento page">
 
-    <!-- ╔═══════════ INTRO — name + WebGL signature ═══════════╗ -->
+    <!-- ╔═══════════ HERO — name + WebGL signature ═══════════╗ -->
     <section class="tile tile--intro" [appReveal]="'fade'">
       <app-signature></app-signature>
 
-      <div class="intro-top">
-        <span class="t-eyebrow">Portfolio — {{ year }}</span>
-        <span class="t-eyebrow t-eyebrow--avail">
-          <span class="avail-dot" aria-hidden="true"></span>Available for work
-        </span>
-      </div>
-
-      <h1 class="intro-name">
-        <span>Otar</span>
-        <span>Davitashvili<span class="period">.</span></span>
-      </h1>
-
-      <p class="intro-role">
-        Full-stack engineer — building Angular, Node and FastAPI systems for
-        iGaming, fraud&nbsp;detection and high-volume transactional platforms.
-      </p>
-
-      <div class="intro-actions">
-        <a routerLink="projects" class="t-btn t-btn--solid">
-          <span>Selected work</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
-        </a>
-        <a routerLink="contact" class="t-btn t-btn--line">
-          <span>Get in touch</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ╔═══════════ FEATURED WORK ═══════════╗ -->
-    @if (featured) {
-      <a class="tile tile--work"
-         [routerLink]="['/projects', featured.index]"
-         (mousemove)="onTileMove($event)"
-         [appReveal]="'up'" [revealDelay]="60">
-        @if (featured.project.img.length) {
-          <img class="work-img" [src]="featured.project.img[0]" [alt]="featured.project.projName" loading="lazy" />
-        } @else {
-          <span class="work-img work-img--empty" aria-hidden="true">{{ featured.project.projName }}</span>
-        }
-        <span class="work-scrim" aria-hidden="true"></span>
-
-        <div class="work-content">
-          <div class="work-top">
-            <span class="t-tag">Featured project</span>
-            @if (statusLabel(featured.project)) {
-              <span class="work-status">
-                <span class="work-status-dot" aria-hidden="true"></span>{{ statusLabel(featured.project) }}
-              </span>
-            }
-          </div>
-
-          <div class="work-body">
-            <h2 class="work-title">{{ featured.project.projName }}</h2>
-            <p class="work-sub">{{ featured.project.subname }}</p>
-            <ul class="work-stack" role="list">
-              @for (s of featured.project.stack?.slice(0, 4); track s) {
-                <li>{{ s }}</li>
-              }
-            </ul>
-          </div>
+      <div class="intro-text">
+        <div class="intro-top">
+          <span class="t-eyebrow">Portfolio — {{ year }}</span>
+          <span class="t-eyebrow t-eyebrow--avail">
+            <span class="avail-dot" aria-hidden="true"></span>Available for work
+          </span>
         </div>
-      </a>
-    }
 
-    <!-- ╔═══════════ STATS ═══════════╗ -->
-    <section class="tile tile--stats" [appReveal]="'up'" [revealDelay]="120">
-      <span class="t-tag">By the numbers</span>
-      <ul class="stats-list" role="list">
-        @for (st of stats; track st.label) {
-          <li>
-            <span class="stat-value">{{ st.value }}</span>
-            <span class="stat-label">{{ st.label }}</span>
-          </li>
-        }
-      </ul>
+        <h1 class="intro-name">
+          <span>Otar</span>
+          <span>Davitashvili<span class="period">.</span></span>
+        </h1>
+
+        <p class="intro-role">
+          Full-stack engineer — building Angular, Node and FastAPI systems for
+          iGaming, fraud&nbsp;detection and high-volume transactional platforms.
+        </p>
+
+        <div class="intro-actions">
+          <a routerLink="projects" class="t-btn t-btn--solid" appMagnetic>
+            <span>Selected work</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a routerLink="contact" class="t-btn t-btn--line">
+            <span>Get in touch</span>
+          </a>
+        </div>
+      </div>
     </section>
 
-    <!-- ╔═══════════ SKILLS MATRIX ═══════════╗ -->
-    <section class="tile tile--skills" [appReveal]="'up'" [revealDelay]="160">
+    <!-- ╔═══════════ STATS STRIP ═══════════╗ -->
+    <section class="tile stats-strip" [appReveal]="'up'" [revealDelay]="60">
+      @for (st of stats; track st.label) {
+        <div class="stat-cell">
+          <span class="stat-value">{{ st.value }}</span>
+          <span class="stat-label">{{ st.label }}</span>
+        </div>
+      }
+    </section>
+
+    <!-- ╔═══════════ SELECTED WORK ═══════════╗ -->
+    <section class="home-band home-work" [appReveal]="'up'" [revealDelay]="80">
+      <header class="band-head">
+        <span class="t-tag">Selected work</span>
+        <a routerLink="projects" class="band-link">All projects<i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </header>
+
+      <div class="work-grid">
+        @for (item of featuredList; track item.index; let i = $index) {
+          <a class="tile cover work-card"
+             [routerLink]="['/projects', item.index]"
+             appTilt
+             [appReveal]="'up'" [revealDelay]="120 + i * 70">
+            @if (item.project.img.length) {
+              <img class="cover-img" [src]="item.project.img[0]" [alt]="item.project.projName" loading="lazy" />
+            } @else {
+              <span class="cover-img cover-img--empty" aria-hidden="true">{{ item.project.projName }}</span>
+            }
+            <span class="cover-scrim" aria-hidden="true"></span>
+            <div class="cover-content">
+              <div class="cover-top">
+                <span class="t-tag">{{ item.project.year }}</span>
+                @if (statusLabel(item.project)) {
+                  <span class="cover-status">
+                    <span class="cover-status-dot" aria-hidden="true"></span>{{ statusLabel(item.project) }}
+                  </span>
+                }
+              </div>
+              <div class="cover-foot">
+                <h3 class="cover-title">{{ item.project.projName }}</h3>
+                <p class="cover-sub">{{ item.project.subname }}</p>
+                @if (item.project.stack?.length) {
+                  <ul class="cover-stack" role="list">
+                    @for (s of item.project.stack!.slice(0, 3); track s) { <li>{{ s }}</li> }
+                  </ul>
+                }
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+
+    <!-- ╔═══════════ SKILLS ═══════════╗ -->
+    <section class="tile home-skills" [appReveal]="'up'" [revealDelay]="120">
       <header class="t-head">
         <span class="t-tag">Stack</span>
         <h2 class="t-title">What I build with</h2>
       </header>
-      <ul class="skills-grid" role="list">
-        @for (sk of skills; track sk.name) {
-          <li class="skill-chip">
-            <i class="{{ sk.icon }}" aria-hidden="true"></i>
-            <span>{{ sk.name }}</span>
-          </li>
-        }
-      </ul>
+      <app-skill-sphere [skills]="skills"></app-skill-sphere>
     </section>
 
-    <!-- ╔═══════════ EXPERIENCE ═══════════╗ -->
-    <section class="tile tile--exp" [appReveal]="'up'" [revealDelay]="200">
-      <header class="t-head">
-        <span class="t-tag">Experience</span>
-        <h2 class="t-title">Where I've worked</h2>
-      </header>
-      <ul class="exp-list" role="list">
-        @for (xp of experiences; track xp.id) {
-          <li class="exp-row">
-            <div class="exp-line">
-              <span class="exp-role">{{ xp.role }}</span>
-              <span class="exp-co">{{ xp.company }}</span>
-            </div>
-            <span class="exp-date">{{ xp.date }}</span>
-          </li>
-        }
-      </ul>
-      <a routerLink="allexp" class="t-foot-link">
-        <span>Full timeline</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
-      </a>
-    </section>
+    <!-- ╔═══════════ EXPERIENCE + EDUCATION ═══════════╗ -->
+    <div class="cred-grid">
+      <section class="tile tile--exp" [appReveal]="'up'" [revealDelay]="140">
+        <header class="t-head">
+          <span class="t-tag">Experience</span>
+          <h2 class="t-title">Where I've worked</h2>
+        </header>
+        <ul class="exp-list" role="list">
+          @for (xp of experiences; track xp.id) {
+            <li class="exp-row">
+              <div class="exp-line">
+                <span class="exp-role">{{ xp.role }}</span>
+                <span class="exp-co">{{ xp.company }}</span>
+              </div>
+              <span class="exp-date">{{ xp.date }}</span>
+            </li>
+          }
+        </ul>
+        <a routerLink="allexp" class="t-foot-link">
+          <span>Full timeline</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </a>
+      </section>
 
-    <!-- ╔═══════════ EDUCATION ═══════════╗ -->
-    <section class="tile tile--edu" [appReveal]="'up'" [revealDelay]="240">
-      <header class="t-head">
-        <span class="t-tag">Education</span>
-        <h2 class="t-title">How I learned it</h2>
-      </header>
-      <ul class="edu-list" role="list">
-        @for (ed of educationList.slice(0, 3); track ed.id) {
-          <li>
-            <a [routerLink]="['/edu/edulist', ed.id]" class="edu-row">
-              <figure class="edu-logo">
-                <img [src]="ed.img" alt="" [class.logo-plain]="ed.name === 'FreeCodeCamp'" />
-              </figure>
-              <span class="edu-text">
-                <span class="edu-org">{{ ed.name }}</span>
-                <span class="edu-deg">{{ ed.degree }}</span>
-              </span>
-              <span class="edu-date">{{ ed.date }}</span>
-            </a>
-          </li>
-        }
-      </ul>
-      <a routerLink="alledu" class="t-foot-link">
-        <span>All education</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
-      </a>
-    </section>
+      <section class="tile tile--edu" [appReveal]="'up'" [revealDelay]="180">
+        <header class="t-head">
+          <span class="t-tag">Education</span>
+          <h2 class="t-title">How I learned it</h2>
+        </header>
+        <ul class="edu-list" role="list">
+          @for (ed of educationList.slice(0, 3); track ed.id) {
+            <li>
+              <a [routerLink]="['/edu/edulist', ed.id]" class="edu-row">
+                <figure class="edu-logo">
+                  <img [src]="ed.img" alt="" [class.logo-plain]="ed.name === 'FreeCodeCamp'" />
+                </figure>
+                <span class="edu-text">
+                  <span class="edu-org">{{ ed.name }}</span>
+                  <span class="edu-deg">{{ ed.degree }}</span>
+                </span>
+                <span class="edu-date">{{ ed.date }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+        <a routerLink="alledu" class="t-foot-link">
+          <span>All education</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </a>
+      </section>
+    </div>
 
-    <!-- ╔═══════════ CERTIFICATES ═══════════╗ -->
-    <a class="tile tile--certs"
+    <!-- ╔═══════════ CERTIFICATES — slim credentials strip ═══════════╗ -->
+    <a class="tile certs-strip"
        routerLink="allcert"
-       (mousemove)="onTileMove($event)"
-       [appReveal]="'up'" [revealDelay]="280">
-      <span class="t-tag">Verified</span>
-      <span class="certs-count">{{ certCount }}</span>
-      <span class="certs-label">Certificates</span>
-      <span class="t-foot-link t-foot-link--static">
+       appSpotlight
+       [appReveal]="'up'" [revealDelay]="200">
+      <div class="certs-lead">
+        <span class="t-tag">Verified</span>
+        <span class="certs-count">{{ certCount }} certificates</span>
+      </div>
+      <ul class="certs-list" role="list">
+        @for (c of certList; track c.id) {
+          <li class="t-chip">{{ c.imageName.length ? c.imageName[0] : c.name }}</li>
+        }
+      </ul>
+      <span class="t-foot-link t-foot-link--static certs-go">
         <span>View all</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
       </span>
     </a>
 
     <!-- ╔═══════════ CONTACT CTA ═══════════╗ -->
-    <section class="tile tile--contact" [appReveal]="'up'" [revealDelay]="320">
+    <section class="tile tile--contact" [appReveal]="'up'" [revealDelay]="240">
       <div class="contact-head">
         <span class="t-tag">Contact</span>
         <h2 class="contact-title">Let's build something worth shipping<span class="period">.</span></h2>
@@ -186,9 +192,4 @@
     </section>
 
   </div>
-
-  <footer class="bento-foot page">
-    <span class="foot-mark">OD<span class="period">.</span></span>
-    <span class="foot-line">© {{ year }} Otar Davitashvili · Built with Angular · Deployed on Firebase</span>
-  </footer>
 </main>
