@@ -28,7 +28,7 @@
               <p class="xp-entry-summary">{{ item.summary }}</p>
             }
 
-            @if (item.chips?.length) {
+            @if (item.chips.length) {
               <ul class="xp-entry-points" role="list">
                 @for (chip of item.chips; track chip) {
                   <li><i class="bi bi-dot" aria-hidden="true"></i><span>{{ chip }}</span></li>
