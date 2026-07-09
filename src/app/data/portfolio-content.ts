@@ -567,7 +567,7 @@ export const PROJECTS: Projects[] = [
       'assets/projects/heatFlow/1.png', 'assets/projects/heatFlow/2.png',
       'assets/projects/heatFlow/3.png', 'assets/projects/heatFlow/4.png',
     ],
-    link: 'https://heatflow.netlify.app',
+    link: 'https://tns-khaki.vercel.app/',
     github: 'https://github.com/WERSIT35/Artisan-Marketplace',
     iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #221411,#643C2E);',
@@ -587,7 +587,7 @@ export const PROJECTS: Projects[] = [
       { label: 'Pages shipped', value: '5' },
       { label: 'Status', value: 'Live' },
     ],
-    demoEmbedUrl: 'https://heatflow.netlify.app',
+    demoEmbedUrl: 'https://tns-khaki.vercel.app/',
   },
   
 ];
