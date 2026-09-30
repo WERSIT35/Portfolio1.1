@@ -1,7 +1,8 @@
 # CLAUDE_CHECKPOINT — Portfolio Redesign (resume point)
 
-> Last updated: 2026-09-30. Read this file **and** `CLAUDE.md` before touching any code.
-> This portfolio is being rebuilt **from scratch, one section at a time** — never patch the old layout.
+> Last updated: 2026-10-01. Read this file **and** `CLAUDE.md` before touching any code.
+> **Status: the redesign is 100% complete** — all seven sections shipped, committed to `main` and pushed to
+> `origin` (https://github.com/WERSIT35/Portfolio1.1). Future work is polish/maintenance, not a rebuild.
 
 ---
 
@@ -58,7 +59,7 @@
     Tune new springs offline with a tiny node simulation (overshoot / 90% time / settle time) before shipping.
   - Exponential easing with time constants: Skills marquees `BRAKE_TAU 160ms`, `RESUME_TAU 450ms`, scroll-velocity boost.
   - Loops run only while needed (IntersectionObserver / settle detection); `cancelAnimationFrame` on destroy.
-- **Section heads:** every section except the Hero opens with `NN / Name` + title (the Hero is a cover: no header row; the island calls it "Prologue" and "Architecting digital experiences." lives under the name in the intro tile) — 02 Experience · Three roles, in parallel, 03 Projects · Selected works, 04 Skills · The toolkit, in motion, 05 Certifications · On the record, 06 Education · The foundation, 07 Contact · The next step.
+- **Section heads:** every section except the Hero opens with `NN / Name` + title (the Hero is a cover: no header row; the island calls it "Prologue" and "Architecting digital experiences." lives under the name in the intro tile) — 02 Experience · Professional trajectory, 03 Projects · Selected works, 04 Skills · The toolkit, in motion, 05 Certifications · On the record, 06 Education · The foundation, 07 Contact · The next step.
 - **Magnetic weights:** `magneticWeight="heavy"` (K 0.022 / D 0.81, shared with the Contact letters) for CTAs; default `light` (K 0.14 / D 0.78) for the island. The directive is dt-normalised (same feel at 60/120Hz).
 - **Magnetic** (`appMagnetic`) is a JS spring on the standalone `translate` property — it must **never write
   `transition`/`transform` inline** (that bug once killed the island's transitions).
@@ -109,7 +110,12 @@
 
 Also still open (not blocking): `og:image` needs an absolute URL once the production domain is known;
 `og-card.png` may still contain the old green; `src/styles.scss` uses deprecated Sass `@import 'tailwindcss'`.
-**Committed** on branch `feature/luxury-brutalism-redesign` (branched from `master`; main branch: `main`). Not pushed.
+**Committed and pushed** (2026-10-01): the redesign lives on `main`, tracking `origin/main` at
+https://github.com/WERSIT35/Portfolio1.1.git. The old remote `main` was force-replaced, and its five old branches and
+the `v1.1.0` tag were deleted from GitHub. Local-only backups of everything removed: `backup/old-main`,
+`backup/bento-3d-redesign`, `backup/test-design`, `backup/feature/admin-panel-backend`,
+`backup/agent-fixing-an-issue-c1e2`, `backup/codex/fix-typo-in-experience-service`, and the local tag `v1.1.0`.
+GitHub keeps the old pull requests (#1–#14) and their `refs/pull/*` regardless.
 
 ## 6. Browser-testing gotchas (Claude-in-Chrome)
 
@@ -127,7 +133,7 @@ Also still open (not blocking): `og:image` needs an absolute URL once the produc
 
 ---
 
-## 7. NEXT: Education — two concepts (awaiting the user's pick)
+## 7. Archive: the original Education concepts (resolved — the user chose a mix, "Cinematic Transcript")
 
 **Facts available (site-data.ts → `EDUCATION_ITEMS`):**
 - **University of Georgia** — BSc Computer Science, `2019–2025`; subjects: Data Structures & Algorithms, Computer Networks,

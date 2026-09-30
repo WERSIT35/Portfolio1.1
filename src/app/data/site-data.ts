@@ -40,6 +40,7 @@ export const EXPERIENCES: Experience[] = [
     id: 4,
     role: 'System Team Lead',
     company: 'Lean Tech',
+    employment: 'Full-time',
     date: 'Jan 2024 – Mar 2026',
     summary:
       'Led an engineering team in building embedded system prototypes using STM32 microcontrollers. Managed development cycles from planning to implementation, utilizing GPIO, UART, I2C, and SPI interfaces.',
@@ -49,6 +50,7 @@ export const EXPERIENCES: Experience[] = [
     id: 5,
     role: 'IT Content Manager',
     company: 'Icecat',
+    employment: 'Full-time',
     date: 'Oct 2022 – Jul 2023',
     summary:
       'Managed and optimized IT-related product content across multiple platforms, ensuring accuracy, consistency, and SEO compliance. Analyzed technical content performance metrics and implemented improvements to enhance visibility.',
