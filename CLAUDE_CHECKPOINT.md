@@ -112,10 +112,9 @@ Also still open (not blocking): `og:image` needs an absolute URL once the produc
 `og-card.png` may still contain the old green; `src/styles.scss` uses deprecated Sass `@import 'tailwindcss'`.
 **Committed and pushed** (2026-10-01): the redesign lives on `main`, tracking `origin/main` at
 https://github.com/WERSIT35/Portfolio1.1.git. The old remote `main` was force-replaced, and its five old branches and
-the `v1.1.0` tag were deleted from GitHub. Local-only backups of everything removed: `backup/old-main`,
-`backup/bento-3d-redesign`, `backup/test-design`, `backup/feature/admin-panel-backend`,
-`backup/agent-fixing-an-issue-c1e2`, `backup/codex/fix-typo-in-experience-service`, and the local tag `v1.1.0`.
-GitHub keeps the old pull requests (#1–#14) and their `refs/pull/*` regardless.
+the `v1.1.0` tag were deleted from GitHub. The temporary local `backup/*` branches and the local `v1.1.0` tag were
+also deleted at the user's request, so the old code is gone locally. GitHub keeps the old pull requests (#1–#14)
+and their `refs/pull/*` regardless.
 
 ## 6. Browser-testing gotchas (Claude-in-Chrome)
 
