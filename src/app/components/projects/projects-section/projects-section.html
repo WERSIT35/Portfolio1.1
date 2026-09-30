@@ -1,0 +1,144 @@
+<section #host id="projects" appSpySection class="pj" aria-labelledby="pj-title">
+  <header class="pj__head">
+    <p class="pj__kicker">03 / Projects</p>
+    <h2 id="pj-title" class="pj__title">Selected works</h2>
+    <p class="pj__count">{{ count }} entries</p>
+  </header>
+
+  <ol
+    class="index"
+    [style.--rows]="rows.length"
+    [class.is-hovering]="hot() !== null"
+    (pointermove)="onListMove($event)"
+    (mouseleave)="onListLeave()"
+    (focusout)="onListFocusOut($event)"
+  >
+    @for (row of rows; track row.slug; let i = $index) {
+      <li
+        class="row"
+        [class.is-hot]="hot() === i"
+        [class.is-open]="open() === i"
+        (mouseenter)="onRowEnter(i)"
+        (focusin)="onRowFocus(i, $event)"
+      >
+        <!-- Desktop: the whole row is the link. Phones: the row header is a disclosure button
+             and the case-study link lives inside the expanded body. CSS shows one of the two. -->
+        <a class="row__link row__link--nav" [routerLink]="['/work', row.slug]">
+          <ng-container *ngTemplateOutlet="rowLine; context: { $implicit: row }" />
+        </a>
+        <button
+          type="button"
+          class="row__link row__link--toggle"
+          [attr.aria-expanded]="open() === i"
+          [attr.aria-controls]="'pj-media-' + i"
+          (click)="open.set(i)"
+        >
+          <ng-container *ngTemplateOutlet="rowLine; context: { $implicit: row }" />
+        </button>
+
+        <!-- Phones only: the expanded accordion body. -->
+        <div class="row__media" [id]="'pj-media-' + i" [attr.inert]="open() === i ? null : ''">
+          <div class="strip">
+            @for (src of row.desktop; track src) {
+              <img class="strip__desktop" [src]="src" alt="" loading="lazy" decoding="async" />
+            }
+            @for (src of row.mobile; track src) {
+              <span class="strip__phone"><img [src]="src" alt="" loading="lazy" decoding="async" /></span>
+            }
+            @if (row.kind === 'spec') {
+              <div class="strip__spec">
+                <p class="spec__label">// stack</p>
+                <p class="spec__stack">{{ row.stack.join(' · ') }}</p>
+              </div>
+            }
+          </div>
+          <a class="row__cta" [routerLink]="['/work', row.slug]">
+            Open case study
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <ng-template #rowLine let-row>
+    <span class="row__index">{{ row.index }}</span>
+    <span class="row__name">{{ row.projName }}</span>
+    <span class="row__meta">
+      <span class="row__category">{{ row.category }}</span>
+      <span class="row__stack">{{ row.stackLine }}</span>
+    </span>
+    <span class="row__year">{{ row.year }}</span>
+    <span class="row__status" [attr.data-status]="row.status">{{ row.statusLabel }}</span>
+  </ng-template>
+
+  <!-- Desktop: glass lens trailing the cursor (decorative; the rows carry the content). -->
+  <div
+    #lens
+    class="lens"
+    [class.is-visible]="lensVisible()"
+    [attr.data-kind]="lensRow()?.kind"
+    aria-hidden="true"
+  >
+    @if (lensRow(); as p) {
+      <div class="lens__body">
+        @switch (p.kind) {
+          @case ('spec') {
+            <div class="lens__spec">
+              <p class="spec__label">// stack</p>
+              <ul>
+                @for (tech of p.stack; track tech) {
+                  <li>{{ tech }}</li>
+                }
+              </ul>
+              @if (p.metrics?.length) {
+                <dl>
+                  @for (m of p.metrics; track m.label) {
+                    <div>
+                      <dt>{{ m.label }}</dt>
+                      <dd>{{ m.value }}</dd>
+                    </div>
+                  }
+                </dl>
+              }
+            </div>
+          }
+          @default {
+            @if (p.desktop.length) {
+              <div class="lens__browser">
+                <span class="lens__dots"><i></i><i></i><i></i></span>
+                <div class="lens__screen">
+                  @for (src of p.desktop; track src; let k = $index) {
+                    <img [src]="src" alt="" decoding="async" [class.is-on]="k === shot() % p.desktop.length" />
+                  }
+                </div>
+              </div>
+            }
+            @if (p.mobile.length) {
+              <div class="lens__phones">
+                @for (slot of p.kind === 'mobile' ? [0, 1] : [0]; track slot) {
+                  <div class="lens__phone">
+                    @for (src of p.mobile; track src; let k = $index) {
+                      <img
+                        [src]="src"
+                        alt=""
+                        decoding="async"
+                        [class.is-on]="k === (shot() + slot) % p.mobile.length"
+                      />
+                    }
+                  </div>
+                }
+              </div>
+            }
+          }
+        }
+      </div>
+      <p class="lens__caption">
+        <span>{{ p.projName }}</span>
+        <span>{{ p.statusLabel }} · {{ p.year }}</span>
+      </p>
+    }
+  </div>
+</section>

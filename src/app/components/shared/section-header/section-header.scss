@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  max-width: 40rem;
+}
+
+.section-header__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+  margin: 0 0 1rem;
+}
+
+.section-header__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.section-header__title {
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3.6vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.section-header__description {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-ink-dim);
+}

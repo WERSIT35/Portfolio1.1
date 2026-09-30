@@ -1,0 +1,816 @@
+:host {
+  display: block;
+}
+
+// ---------------------------------------------------------------------------
+// Frame: exactly one viewport, and the bento owns all of it — the hero is a
+// cover, not a section with a header. The island floats over it (no clearance).
+// ---------------------------------------------------------------------------
+.hero {
+  position: relative;
+  height: 100svh;
+  padding: 1.25rem;
+  isolation: isolate;
+}
+
+// Structural glow behind the grid — the only light source on the page.
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 18% 30%, rgb(255 255 255 / 5%), transparent 70%),
+    radial-gradient(30% 40% at 78% 85%, rgb(255 255 255 / 4%), transparent 70%);
+}
+
+// Reading order is the 6-second scan: identity + pitch (i), face (p), current
+// role (n), proof (k), stack keywords (s), then the two actions (r, w) bottom-right
+// where the eye lands last. The plane: JS lerps a restrained lean + drift onto it
+// (inline transform); flat, not preserve-3d, so the tiles' backdrop blur works.
+.bento {
+  display: grid;
+  height: 100%;
+  gap: var(--gap-bento);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  grid-template-areas:
+    'i i i i i i i p p p n n'
+    'i i i i i i i p p p n n'
+    'i i i i i i i p p p k k'
+    'i i i i i i i p p p k k'
+    's s s s s s r r r w w w'
+    's s s s s s r r r w w w';
+  max-width: 110rem;
+  margin-inline: auto;
+  transform-origin: 50% 50%;
+}
+
+// ---------------------------------------------------------------------------
+// Tile system
+// ---------------------------------------------------------------------------
+.tile {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(0.9rem, 3.2cqmin, 1.75rem);
+  border-radius: var(--radius-tile);
+  border: 1px solid var(--color-border);
+  background: linear-gradient(160deg, rgb(255 255 255 / 4.5%), rgb(255 255 255 / 1.5%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 6%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--color-ink);
+  text-decoration: none;
+  transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition:
+    transform 0.5s var(--ease-out-expo),
+    border-color 0.3s ease,
+    background 0.3s ease;
+  animation: tile-in 1.1s var(--ease-luxe) backwards;
+  animation-delay: calc(var(--n, 0) * 70ms + 180ms);
+}
+
+// Cursor-following spotlight (position fed by appSpotlight).
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  // Behind the tile's content, above its background (the tile is a stacking context).
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgb(255 255 255 / 7%),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.tile:hover {
+  border-color: var(--color-border-strong);
+}
+
+.tile:hover::before {
+  opacity: 1;
+}
+
+// Cinematic entrance: each tile drops a short way into place from 0.95, un-blurring
+// as it lands. Uses the standalone translate/scale properties so it never fights the
+// hover tilt (transform) — and the magnets only write translate after it's done.
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    translate: 0 -1.5rem;
+    scale: 0.95;
+    filter: blur(8px);
+  }
+  60% {
+    filter: blur(0);
+  }
+}
+
+.tile__kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.live-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-white);
+  animation: live-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 45%);
+  }
+  60% {
+    box-shadow: 0 0 0 7px rgb(255 255 255 / 0%);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Intro — the contrast ladder: name (white, 800) › role (white, 700) › pitch
+// (near-white) › tagline (silver, poetic) › status (dim label).
+// ---------------------------------------------------------------------------
+.tile--intro {
+  grid-area: i;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 3cqh, 1.5rem);
+  padding: clamp(1.25rem, 4.5cqmin, 2.75rem);
+}
+
+.intro__status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: clamp(0.625rem, 1.6cqi, 0.75rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.intro__heading {
+  display: grid;
+  gap: clamp(0.5rem, 2.2cqh, 1.1rem);
+}
+
+.intro__name {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: min(15.5cqi, 25cqh);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  color: var(--color-white);
+}
+
+// Each line rises out of a clipping mask on load.
+.intro__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.intro__line > span {
+  display: block;
+  animation: line-rise 1s var(--ease-out-expo) backwards;
+}
+
+.intro__line:nth-child(2) > span {
+  animation-delay: 90ms;
+  // Second line steps in: an intentional off-grid indent.
+  padding-left: 0.5em;
+}
+
+@keyframes line-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+// The prologue line, woven in under the name and aligned to its stepped indent.
+.intro__tagline {
+  padding-left: calc(min(15.5cqi, 25cqh) * 0.5);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: min(3.4cqi, 5.5cqh);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--color-accent);
+  opacity: 0.72;
+  animation: tagline-in 1s var(--ease-luxe) 320ms backwards;
+}
+
+@keyframes tagline-in {
+  from {
+    opacity: 0;
+    translate: 0 0.4em;
+  }
+}
+
+.intro__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(1rem, 4cqi, 3rem);
+  align-items: end;
+  padding-top: clamp(0.75rem, 3cqh, 1.5rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.intro__role {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 3cqi, 1.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--color-white);
+}
+
+.intro__summary {
+  font-size: clamp(0.8125rem, 1.75cqi, 1rem);
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+// ---------------------------------------------------------------------------
+// Portrait — stark greyscale at rest; hover restores the colour photograph.
+// ---------------------------------------------------------------------------
+.tile--portrait {
+  grid-area: p;
+  margin: 0;
+  padding: 0;
+}
+
+.portrait__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.portrait__photo {
+  position: absolute;
+  inset: 0;
+  filter: grayscale(1) contrast(1.35) brightness(0.88);
+  transition: filter 0.7s var(--ease-out-expo);
+}
+
+.portrait__photo img {
+  object-fit: cover;
+  object-position: 50% 28%;
+  transform: scale(1.12);
+  transform-origin: 50% 32%;
+  transition:
+    transform 0.9s var(--ease-out-expo),
+    opacity 0.4s ease-out,
+    filter 0.4s ease-out;
+}
+
+// Vignette: deepens the frame edges.
+.portrait__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(0 0 0 / 25%), transparent 35%, transparent 70%, rgb(0 0 0 / 45%)),
+    radial-gradient(120% 90% at 50% 35%, transparent 55%, rgb(0 0 0 / 45%));
+  transition: opacity 0.7s var(--ease-out-expo);
+}
+
+.tile--portrait:hover .portrait__photo {
+  filter: grayscale(0) contrast(1.02) brightness(0.92);
+}
+
+.tile--portrait:hover .portrait__photo img {
+  transform: scale(1.06);
+}
+
+.tile--portrait:hover .portrait__media::after {
+  opacity: 0.5;
+}
+
+// ---------------------------------------------------------------------------
+// Currently + proof
+// ---------------------------------------------------------------------------
+.tile--current {
+  grid-area: n;
+  justify-content: space-between;
+}
+
+// Every active role, lead role first; later ones step down a size under a hairline.
+.current__roles {
+  display: grid;
+  gap: clamp(0.5rem, 4cqh, 0.9rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.current__role {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.current__role + .current__role {
+  padding-top: clamp(0.5rem, 4cqh, 0.9rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.current__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.05rem, min(11cqi, 12cqh), 1.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--color-white);
+}
+
+.current__role + .current__role .current__title {
+  font-size: clamp(0.9rem, min(8cqi, 9cqh), 1.2rem);
+  color: var(--color-ink);
+}
+
+.current__sub {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.tile--stat {
+  grid-area: k;
+  justify-content: space-between;
+}
+
+.stat__value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: min(40cqi, 50cqh);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-white);
+}
+
+.stat__label {
+  font-size: clamp(0.75rem, 6.5cqi, 0.875rem);
+  line-height: 1.35;
+  color: var(--color-ink-mid);
+}
+
+.stat__label-short {
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// Core stack — static, readable keyword rows (no marquee: a recruiter scans words).
+// ---------------------------------------------------------------------------
+.tile--stack {
+  grid-area: s;
+  justify-content: space-between;
+  gap: clamp(0.4rem, 3cqh, 0.9rem);
+}
+
+.stack__head {
+  justify-content: space-between;
+}
+
+.stack__all {
+  color: var(--color-ink-mid);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.stack__all:hover,
+.stack__all:focus-visible {
+  color: var(--color-white);
+}
+
+.stack__all:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+.stack__groups {
+  display: grid;
+  margin: 0;
+}
+
+.stack__row {
+  display: grid;
+  grid-template-columns: clamp(6.5rem, 26cqi, 11rem) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: clamp(0.2rem, 1.6cqh, 0.45rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.stack__row dt {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.stack__row dd {
+  margin: 0;
+  font-size: clamp(0.8125rem, 2.3cqi, 1rem);
+  font-weight: 500;
+  line-height: 1.35;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+.stack__item {
+  white-space: nowrap;
+}
+
+.stack__item + .stack__item::before {
+  content: ' · ';
+  color: var(--color-ink-dim);
+}
+
+// ---------------------------------------------------------------------------
+// The two actions — the brightest, heaviest tiles after the name. The CTA is a
+// solid white slab; the résumé is a lit silver panel with the same arrow disc.
+// ---------------------------------------------------------------------------
+.tile--resume,
+.tile--cta {
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.resume__kicker,
+.cta__kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.resume__label,
+.cta__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.1rem, min(13cqi, 26cqh), 2.25rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.resume__icon,
+.cta__arrow {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(2.25rem, 22cqh, 3rem);
+  height: clamp(2.25rem, 22cqh, 3rem);
+  border-radius: 999px;
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.tile--resume {
+  grid-area: r;
+  border-color: var(--color-border-strong);
+  background: linear-gradient(160deg, rgb(255 255 255 / 12%), rgb(255 255 255 / 5%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%);
+  color: var(--color-white);
+}
+
+.tile--resume:hover {
+  border-color: rgb(255 255 255 / 40%);
+  background: linear-gradient(160deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 7%));
+}
+
+.resume__kicker {
+  color: var(--color-ink-mid);
+}
+
+.resume__icon {
+  border: 1px solid rgb(255 255 255 / 45%);
+  color: var(--color-white);
+}
+
+.tile--resume:hover .resume__icon {
+  transform: translateY(3px);
+}
+
+.tile--cta {
+  grid-area: w;
+  border-color: transparent;
+  background: var(--color-white);
+  color: #0a0a0a;
+  box-shadow:
+    inset 0 -1px 0 rgb(0 0 0 / 12%),
+    0 0 56px -12px rgb(255 255 255 / 40%);
+  backdrop-filter: none;
+}
+
+.tile--cta::before {
+  background: radial-gradient(
+    300px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgb(0 0 0 / 8%),
+    transparent 60%
+  );
+}
+
+.tile--cta:hover {
+  border-color: transparent;
+  background: var(--color-accent);
+}
+
+.cta__kicker {
+  opacity: 0.6;
+}
+
+.cta__arrow {
+  background: #0a0a0a;
+  color: var(--color-white);
+}
+
+.tile--cta:hover .cta__arrow {
+  transform: translateX(4px) rotate(-45deg);
+}
+
+.tile--resume:focus-visible,
+.tile--cta:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+.tile--cta:focus-visible {
+  outline-color: var(--color-ink);
+}
+
+// ---------------------------------------------------------------------------
+// Tablet — 6 columns, same reading order.
+// ---------------------------------------------------------------------------
+@media (max-width: 1023px) {
+  .bento {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-areas:
+      'i i i i p p'
+      'i i i i p p'
+      'i i i i n n'
+      's s s s k k'
+      's s s s k k'
+      'r r r w w w';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Phone — 4 columns fitted above the dock band; the long pitch drops (the role
+// and tagline carry it), everything else stays.
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .hero {
+    padding: 0.75rem 0.75rem var(--dock-clear);
+  }
+
+  .bento {
+    --gap-bento: 0.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 2.3fr 1fr 0.8fr 1fr 0.85fr;
+    grid-template-areas:
+      'i i i i'
+      'p p n n'
+      'p p k k'
+      's s s s'
+      'r r w w';
+  }
+
+  .tile {
+    --radius-tile: 1.1rem;
+    padding: 0.85rem;
+  }
+
+  .tile--intro {
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .intro__status {
+    gap: 0.45rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .intro__name {
+    font-size: min(17cqi, 27cqh);
+  }
+
+  .intro__tagline {
+    padding-left: calc(min(17cqi, 27cqh) * 0.5);
+    font-size: min(5.2cqi, 8cqh);
+  }
+
+  .intro__foot {
+    display: block;
+    padding-top: 0.6rem;
+  }
+
+  .intro__summary {
+    display: none;
+  }
+
+  .tile--current {
+    padding-block: 0.65rem;
+  }
+
+  .current__role {
+    gap: 0.15rem;
+  }
+
+  .current__roles {
+    gap: 0.3rem;
+  }
+
+  .current__role + .current__role {
+    padding-top: 0.3rem;
+  }
+
+  .current__title {
+    font-size: min(0.9375rem, 10cqi);
+  }
+
+  .current__role + .current__role .current__title {
+    font-size: min(0.75rem, 8cqi);
+  }
+
+  .current__sub {
+    overflow: hidden;
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .stat__value {
+    font-size: min(46cqi, 58cqh);
+  }
+
+  .stat__label {
+    font-size: 0.6875rem;
+  }
+
+  .stat__label-long {
+    display: none;
+  }
+
+  .stat__label-short {
+    display: inline;
+  }
+
+  // Phones: one flowing line of keywords — the top two per group, no row labels.
+  .tile--stack {
+    justify-content: flex-start;
+    gap: 0.45rem;
+  }
+
+  .stack__groups {
+    display: block;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .stack__row,
+  .stack__row dd {
+    display: inline;
+    padding: 0;
+    border: 0;
+  }
+
+  .stack__row dt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .stack__row dd {
+    font-size: inherit;
+  }
+
+  .stack__item:nth-child(n + 3) {
+    display: none;
+  }
+
+  .stack__row + .stack__row dd::before {
+    content: ' · ';
+    color: var(--color-ink-dim);
+  }
+
+  .tile--resume,
+  .tile--cta {
+    padding: 0.75rem;
+  }
+
+  .resume__label,
+  .cta__label {
+    font-size: min(1.15rem, 11cqi);
+  }
+
+  .resume__icon,
+  .cta__arrow {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+}
+
+// Short phones (e.g. 375×667): the secondary line under "Currently" goes first, and the
+// keyword line gets a touch more room.
+@media (max-width: 767px) and (max-height: 700px) {
+  .bento {
+    grid-template-rows: 2.2fr 0.95fr 0.75fr 1.15fr 0.85fr;
+  }
+
+  .current__sub {
+    display: none;
+  }
+
+  .tile--stack {
+    padding-block: 0.7rem;
+  }
+
+  .stack__groups {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Short screens (landscape phones, small laptops): let the grid grow instead
+// of crushing tiles — the hero becomes at-least-one viewport tall.
+// ---------------------------------------------------------------------------
+@media (max-height: 619px), (max-width: 767px) and (max-height: 639px) {
+  .hero {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .bento {
+    height: auto;
+    grid-template-rows: none;
+    grid-auto-rows: minmax(7.5rem, auto);
+  }
+
+  .tile {
+    container-type: inline-size;
+  }
+
+  .tile--intro {
+    min-height: 22rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .intro__line > span,
+  .intro__tagline {
+    animation: none;
+  }
+
+  .tile {
+    transform: none;
+  }
+
+  .live-dot {
+    animation: none;
+  }
+}

@@ -1,0 +1,151 @@
+<section
+  id="top"
+  appSpySection
+  class="hero"
+  aria-label="Introduction"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="onPointerLeave()"
+>
+  <div #bento class="bento">
+    <!-- Intro: who, what, and the value proposition — the highest-contrast tile. -->
+    <div class="tile tile--intro" appSpotlight style="--n: 0">
+      <p class="intro__status">
+        <span class="live-dot" aria-hidden="true"></span>
+        {{ contact.location }} — Open to select engagements
+      </p>
+
+      <div class="intro__heading">
+        <h1 class="intro__name">
+          <span class="intro__line"><span>{{ contact.name }}</span></span>
+          <span class="intro__line"><span>{{ contact.surname }}</span></span>
+        </h1>
+        <p class="intro__tagline">Architecting digital experiences.</p>
+      </div>
+
+      <div class="intro__foot">
+        <p class="intro__role">Applied AI &amp; Full-Stack Engineer</p>
+        <p class="intro__summary">
+          I build production systems end to end — modular Angular frontends, secure Node.js and
+          Fastify services, and the data layers underneath — then pair that with applied
+          generative-AI workflows to ship faster without cutting corners on architecture.
+        </p>
+      </div>
+    </div>
+
+    <!-- Portrait: greyscale at rest, full colour on hover. -->
+    <figure class="tile tile--portrait" appSpotlight [tilt]="true" style="--n: 1">
+      <div class="portrait__media">
+        <div class="portrait__photo">
+          <img
+            appImgLoaded
+            [ngSrc]="contact.image"
+            fill
+            priority
+            [alt]="'Portrait of ' + contact.name + ' ' + contact.surname"
+          />
+        </div>
+      </div>
+    </figure>
+
+    <!-- Currently -->
+    <div class="tile tile--current" appSpotlight [tilt]="true" style="--n: 2">
+      <p class="tile__kicker">
+        <span class="live-dot" aria-hidden="true"></span>
+        Currently
+      </p>
+      <ul class="current__roles">
+        @for (role of currentRoles; track role.id) {
+          <li class="current__role">
+            <span class="current__title">{{ role.role }}</span>
+            <span class="current__sub">
+              {{ role.company }}@if (role.employment) { · {{ role.employment }}}
+            </span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- Proof -->
+    <div class="tile tile--stat" appSpotlight [tilt]="true" style="--n: 3">
+      <span class="stat__value" [appCountUp]="projectCount"></span>
+      <span class="stat__label">
+        <span class="stat__label-long">Shipped or in-flight production projects</span>
+        <span class="stat__label-short" aria-hidden="true">Production projects</span>
+      </span>
+    </div>
+
+    <!-- Core stack: readable keywords, strongest first — scannable in one pass. -->
+    <div class="tile tile--stack" appSpotlight style="--n: 4">
+      <p class="tile__kicker stack__head">
+        <span>Core stack</span>
+        <a class="stack__all" routerLink="/" fragment="skills">All {{ skillCount }} →</a>
+      </p>
+      <dl class="stack__groups">
+        @for (group of stackGroups; track group.category) {
+          <div class="stack__row">
+            <dt>{{ group.category }}</dt>
+            <dd>
+              @for (item of group.items; track item) {
+                <span class="stack__item">{{ item }}</span>
+              }
+            </dd>
+          </div>
+        }
+      </dl>
+    </div>
+
+    <!-- Résumé -->
+    @if (contact.resumeUrl) {
+      <a
+        class="tile tile--resume"
+        [href]="contact.resumeUrl"
+        download
+        [appMagnetic]="0.12"
+        magneticWeight="heavy"
+        style="--n: 5"
+      >
+        <span class="resume__kicker">Résumé · PDF</span>
+        <span class="resume__label">
+          Download CV
+          <span class="resume__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <path
+                d="M12 4v12M6 11l6 6 6-6M5 20h14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </span>
+      </a>
+    }
+
+    <!-- Primary CTA -->
+    <a
+      class="tile tile--cta"
+      routerLink="/"
+      fragment="projects"
+      [appMagnetic]="0.14"
+      magneticWeight="heavy"
+      style="--n: 6"
+    >
+      <span class="cta__kicker">Selected works</span>
+      <span class="cta__label">
+        View the work
+        <span class="cta__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </span>
+    </a>
+  </div>
+</section>

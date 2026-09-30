@@ -1,0 +1,128 @@
+<section id="education" appSpySection class="edu" [class.is-warm]="warm()" aria-labelledby="edu-title">
+  <!-- Cinematic background: one B/W still per institution, crossfaded by the active track. -->
+  <div class="stills" aria-hidden="true">
+    @for (t of tracks; track t.id; let i = $index) {
+      <div class="still" [class.is-active]="i === active()" [style.--i]="i">
+        <img class="still__img" [src]="t.coverImage" alt="" loading="lazy" decoding="async" />
+      </div>
+    }
+  </div>
+
+  <header class="edu__head">
+    <p class="edu__kicker">06 / Education</p>
+    <h2 id="edu-title" class="edu__title">The foundation</h2>
+    <p class="edu__count">
+      <span class="edu__count-now">{{ current().index }}</span> / {{ count }}
+    </p>
+  </header>
+
+  <!-- Timeline: lanes are tabs; a mouse scrubs the playhead across the rail. -->
+  <div
+    #timeline
+    class="tl"
+    role="tablist"
+    [attr.aria-label]="'Education timeline, ' + startYear + ' to ' + endYear"
+    [style.--ph]="initialPh"
+    [style.--years]="axis.length"
+    (pointermove)="onScrub($event)"
+    (pointerleave)="onScrubEnd()"
+  >
+    <div #rail class="tl__axis" aria-hidden="true">
+      @for (y of axis; track y.year) {
+        <span class="tl__year" [style.--at]="y.at">{{ y.year }}</span>
+      }
+    </div>
+
+    <div #lanes class="tl__lanes">
+      @for (t of tracks; track t.id; let i = $index) {
+        <button
+          type="button"
+          role="tab"
+          class="lane"
+          [id]="t.tabId"
+          [class.is-active]="i === active()"
+          [attr.aria-selected]="i === active()"
+          [attr.tabindex]="i === active() ? 0 : -1"
+          [attr.aria-label]="t.name + ', ' + t.degree + ', ' + t.date"
+          aria-controls="edu-panel"
+          (click)="select(i)"
+          (keydown)="onTabKeydown($event)"
+        >
+          <span class="lane__label" aria-hidden="true">
+            <span class="lane__mono">{{ t.mono }}</span>
+            <span class="lane__tag">{{ t.tag }}</span>
+          </span>
+          <span class="lane__track" aria-hidden="true">
+            @switch (t.kind) {
+              @case ('span') {
+                <span class="seg seg--solid" [style.--from]="t.from" [style.--to]="t.to"></span>
+              }
+              @case ('expected') {
+                <span class="seg seg--dashed" [style.--from]="t.from" [style.--to]="t.to"></span>
+                <span class="diamond" [style.--at]="t.to"></span>
+              }
+              @case ('ticks') {
+                <span class="seg seg--faint" [style.--from]="t.from" [style.--to]="t.to"></span>
+                @for (tick of t.ticks; track $index) {
+                  <span class="tick" [style.--at]="tick.at" [attr.title]="tick.label"></span>
+                }
+              }
+            }
+          </span>
+        </button>
+      }
+    </div>
+
+    <div class="playhead" aria-hidden="true">
+      <div class="playhead__move">
+        <span class="playhead__line"></span>
+        <span #readout class="playhead__year">{{ initialYear }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transcript: re-keyed per track so every line replays its masked rise. -->
+  <div id="edu-panel" class="tx" role="tabpanel" [attr.aria-labelledby]="current().tabId">
+    @for (t of [current()]; track t.id) {
+      <div class="tx__degree">
+        <p class="tx__tag line">
+          <span>{{ t.tag }}</span>
+          @if (t.status) {
+            <span class="tx__badge">{{ t.status }}</span>
+          }
+        </p>
+        <h3 class="tx__title line" style="--l: 1">{{ t.title }}</h3>
+        <p class="tx__inst line" style="--l: 2">
+          <span class="tx__chip"><img class="tx__logo" [src]="t.img" alt="" width="24" height="24" /></span>
+          <span>{{ t.name }}</span>
+        </p>
+        <p class="tx__date line" style="--l: 3">{{ t.dateLabel }}</p>
+        @if (t.status) {
+          <p class="tx__note line" style="--l: 4">Coursework in progress — not professional experience.</p>
+        }
+      </div>
+
+      <div
+        class="tx__list"
+        tabindex="0"
+        [attr.aria-label]="'Subjects, ' + t.subjects.length + ' in total'"
+        (pointerenter)="$event.pointerType === 'mouse' && warm.set(true)"
+        (pointerleave)="warm.set(false)"
+        (focusin)="warm.set(true)"
+        (focusout)="warm.set(false)"
+      >
+        <p class="tx__list-label line" aria-hidden="true">
+          <span>Coursework</span><span>{{ t.subjects.length }}</span>
+        </p>
+        <ol class="courses">
+          @for (c of t.subjects; track c.n; let n = $index) {
+            <li class="course" [style.--l]="n">
+              <span class="course__n">{{ c.n }}</span>
+              <span class="course__s">{{ c.s }}</span>
+            </li>
+          }
+        </ol>
+      </div>
+    }
+  </div>
+</section>

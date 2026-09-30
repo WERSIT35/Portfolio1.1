@@ -1,0 +1,334 @@
+:host {
+  display: block;
+}
+
+$ease-close: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ---------------------------------------------------------------------------
+// Frame — exactly one viewport. It sits pinned beneath the page (see the
+// .stage--curtain rules in styles.scss) and is uncovered as Education lifts.
+// ---------------------------------------------------------------------------
+.ct {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(0.75rem, 2svh, 1.5rem);
+  height: 100svh;
+  padding: 1.25rem 1.25rem 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0c0c0c;
+}
+
+// One cold spotlight low behind the address.
+.ct::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(55% 45% at 38% 58%, rgb(255 255 255 / 4.5%), transparent 70%);
+}
+
+.ct__head,
+.ct__zone,
+.actions {
+  width: min(100%, 110rem);
+  margin-inline: auto;
+}
+
+.ct__head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.ct__kicker,
+.ct__meta {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.ct__title {
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.ct__meta {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------------------------------------------------------------------------
+// The address — Cabinet Extrabold, fitted in JS (--mail-size) so the widest line
+// spans the row. Outline at rest, pure white on hover / focus.
+// ---------------------------------------------------------------------------
+.ct__zone {
+  display: grid;
+  align-items: center;
+  min-height: 0;
+}
+
+.mail {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  justify-items: start;
+  width: max-content;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--mail-size, min(13vw, 24svh));
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  text-decoration: none;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 15%);
+  transition:
+    color 0.28s $ease-close,
+    -webkit-text-stroke-color 0.28s $ease-close;
+}
+
+.mail:hover,
+.mail:focus-visible {
+  color: var(--color-white);
+  -webkit-text-stroke-color: rgb(255 255 255 / 0%);
+  transition:
+    color 0.6s var(--ease-luxe),
+    -webkit-text-stroke-color 0.6s var(--ease-luxe);
+}
+
+.mail:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 0.08em;
+}
+
+.mail__part {
+  white-space: nowrap;
+}
+
+// Desktop: local part on row one; the domain steps in on row two (split at the @),
+// an asymmetric stagger rather than a centred block.
+.mail__part:nth-child(1) {
+  grid-column: 1 / -1;
+}
+
+.mail__part:nth-child(2) {
+  padding-left: 0.55em;
+}
+
+.mail__ch {
+  display: inline-block;
+}
+
+// ---------------------------------------------------------------------------
+// Action row — 1px-ruled cells along the bottom edge, clock in the corner.
+// ---------------------------------------------------------------------------
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border-top: 1px solid var(--color-border);
+}
+
+.act {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: clamp(1rem, 2.6svh, 1.5rem) clamp(1rem, 1.8vw, 1.75rem);
+  border: 0;
+  border-right: 1px solid var(--color-border);
+  background: transparent;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-ink-mid);
+  cursor: pointer;
+  transition:
+    color 0.28s $ease-close,
+    background-color 0.28s $ease-close;
+}
+
+.act:first-child {
+  padding-left: 0;
+}
+
+.act:hover,
+.act:focus-visible {
+  color: var(--color-white);
+  background-color: rgb(255 255 255 / 4%);
+  transition:
+    color 0.45s var(--ease-luxe),
+    background-color 0.45s var(--ease-luxe);
+}
+
+.act:first-child:hover,
+.act:first-child:focus-visible {
+  background-color: transparent;
+}
+
+.act:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: -1px;
+}
+
+.act__hint {
+  color: var(--color-ink-dim);
+  letter-spacing: 0.06em;
+}
+
+.act--phone {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+// Both labels share one grid cell, so the button keeps the wider width and the
+// swap is a quick crossfade rather than a layout jump.
+.act__swap {
+  display: grid;
+}
+
+.act__idle,
+.act__done {
+  grid-area: 1 / 1;
+  transition: opacity 0.12s linear;
+}
+
+.act__done {
+  opacity: 0;
+  color: var(--color-white);
+}
+
+.act--copy.is-copied .act__idle {
+  opacity: 0;
+}
+
+.act--copy.is-copied .act__done {
+  opacity: 1;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+  padding-left: clamp(1rem, 1.8vw, 1.75rem);
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.clock__label {
+  color: var(--color-ink-dim);
+}
+
+.clock__time {
+  min-width: 8ch;
+  color: var(--color-white);
+  letter-spacing: 0.08em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Phones — same curtain; actions become a ruled 2-column grid above the dock band.
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .ct {
+    padding: 0.75rem 0.75rem var(--dock-clear);
+  }
+
+  .ct__head {
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+
+  .ct__title {
+    order: 3;
+    width: 100%;
+    font-size: 1.35rem;
+  }
+
+  // Thin strokes blur on phone screens: solid graphite instead of an outline.
+  // Three stepped rows (local / @domain / .tld) so the type can grow.
+  .mail {
+    grid-template-columns: auto;
+    color: #3a3a3a;
+    -webkit-text-stroke: 0;
+  }
+
+  .mail__part:nth-child(1) {
+    grid-column: auto;
+  }
+
+  .mail__part:nth-child(2) {
+    padding-left: 0.3em;
+  }
+
+  .mail__part:nth-child(3) {
+    padding-left: 0.9em;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .act,
+  .act:first-child {
+    justify-content: space-between;
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.6875rem;
+  }
+
+  .act:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .clock {
+    justify-content: space-between;
+    margin: 0;
+    padding: 0.85rem 0.75rem;
+    gap: 0.4rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+
+  .clock__label:last-child {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-height: 619px) {
+  .ct {
+    height: auto;
+    min-height: 100svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mail {
+    color: var(--color-white);
+    -webkit-text-stroke: 0;
+    transition: none;
+  }
+}

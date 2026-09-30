@@ -1,0 +1,152 @@
+@if (project(); as p) {
+  <article class="detail">
+    <a class="detail__back" routerLink="/" fragment="projects" appReveal>
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+        <path
+          d="M15 18 9 12l6-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      Back to work
+    </a>
+
+    <header class="detail__header" appReveal [appRevealDelay]="40">
+      <div class="detail__meta">
+        <span class="detail__status" [attr.data-status]="p.status">{{ statusLabel() }}</span>
+        <span class="detail__year">{{ p.year }}</span>
+      </div>
+
+      <h1 class="detail__title">{{ p.projName }}</h1>
+      <p class="detail__subname">{{ p.subname }}</p>
+
+      <div class="detail__links">
+        @if (p.iflink && p.link) {
+          <a class="detail__link detail__link--primary" [href]="p.link" target="_blank" rel="noopener">
+            Live demo
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+              <path
+                d="M7 17 17 7M9 7h8v8"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        }
+        @if (p.github) {
+          <a class="detail__link" [href]="p.github" target="_blank" rel="noopener">
+            Source
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+              <path
+                d="M7 17 17 7M9 7h8v8"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        }
+      </div>
+    </header>
+
+    @if (p.img.length) {
+      <div class="detail__cover" appReveal [appRevealDelay]="80">
+        <img [src]="p.img[0]" [alt]="p.projName + ' cover'" />
+      </div>
+    }
+
+    <div class="detail__body">
+      <div class="detail__prose" appReveal [appRevealDelay]="120">
+        <section>
+          <h2>About</h2>
+          <p>{{ p.about }}</p>
+        </section>
+
+        @if (p.problem) {
+          <section>
+            <h2>Problem</h2>
+            <p>{{ p.problem }}</p>
+          </section>
+        }
+
+        @if (p.approach?.length) {
+          <section>
+            <h2>Approach</h2>
+            <ul>
+              @for (step of p.approach; track step) {
+                <li>{{ step }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (p.lessons) {
+          <section>
+            <h2>Lessons</h2>
+            <p class="detail__lessons">{{ p.lessons }}</p>
+          </section>
+        }
+      </div>
+
+      <aside class="detail__sidebar" appReveal [appRevealDelay]="160">
+        @if (p.metrics?.length) {
+          <app-glass-card class="detail__facts">
+            <p class="detail__facts-label">At a glance</p>
+            <div class="detail__metrics">
+              @for (metric of p.metrics; track metric.label) {
+                <app-metric-tile [label]="metric.label" [value]="metric.value" />
+              }
+            </div>
+          </app-glass-card>
+        }
+
+        <app-glass-card class="detail__facts">
+          <p class="detail__facts-label">Stack</p>
+          <div class="detail__stack">
+            @for (item of p.stack; track item) {
+              <app-badge-chip>{{ item }}</app-badge-chip>
+            }
+          </div>
+        </app-glass-card>
+      </aside>
+    </div>
+
+    @if (galleryImages().length) {
+      @defer (on viewport) {
+        <section class="detail__gallery">
+          <h2>Gallery</h2>
+          <div class="detail__gallery-grid">
+            @for (img of galleryImages(); track img) {
+              <img [src]="img" [alt]="p.projName + ' screenshot'" loading="lazy" />
+            }
+          </div>
+        </section>
+      } @placeholder {
+        <div class="detail__gallery-placeholder"></div>
+      }
+    }
+
+    @if (safeEmbedUrl()) {
+      @defer (on viewport) {
+        <section class="detail__embed">
+          <h2>Live preview</h2>
+          <div class="detail__embed-frame">
+            <iframe [src]="safeEmbedUrl()" title="Live demo embed" loading="lazy"></iframe>
+          </div>
+        </section>
+      } @placeholder {
+        <div class="detail__embed-placeholder"></div>
+      }
+    }
+  </article>
+} @else {
+  <div class="detail-missing">
+    <p>Project not found.</p>
+    <a routerLink="/" fragment="projects">Back to work</a>
+  </div>
+}

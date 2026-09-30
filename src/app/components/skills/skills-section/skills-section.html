@@ -1,0 +1,82 @@
+<section #host id="skills" appSpySection class="sk" aria-labelledby="sk-title">
+  <header class="sk__head">
+    <p class="sk__kicker">04 / Skills</p>
+    <h2 id="sk-title" class="sk__title">The toolkit, in motion</h2>
+    <p class="sk__count">{{ total }} tools</p>
+  </header>
+
+  <div class="ticker" [class.is-hovering]="hot() !== null" [style.--bands]="bands.length">
+    @for (band of bands; track band.category; let b = $index) {
+      <div class="band" [class.is-hot]="hot()?.band === b" role="group" [attr.aria-label]="band.category">
+        <div class="band__label" aria-hidden="true">
+          <span class="band__index">{{ band.index }}</span>
+          <span class="band__name">{{ band.category }}</span>
+          <span class="band__count">{{ band.items.length }}</span>
+        </div>
+
+        <div class="band__viewport">
+          <!-- Three identical copies; the loop wraps the offset by one copy's width. -->
+          <div #track class="band__track">
+            @for (copy of copies; track copy) {
+              <ul class="band__copy" [attr.aria-hidden]="copy === 0 ? null : 'true'">
+                @for (item of band.items; track item.name; let i = $index) {
+                  <li>
+                    <button
+                      type="button"
+                      class="word"
+                      [class.is-hot]="hotKey() === b + ':' + i"
+                      [attr.tabindex]="copy === 0 ? null : -1"
+                      [attr.aria-describedby]="copy === 0 && hotKey() === b + ':' + i ? 'sk-card' : null"
+                      (pointerenter)="onWordEnter($event, b, i)"
+                      (pointerleave)="onWordLeave($event)"
+                      (focus)="onWordFocus($event, b, i)"
+                      (blur)="release()"
+                      (click)="onWordTap(b, i, $event)"
+                    >
+                      @if (item.glyph) {
+                        <i [class]="'word__glyph ' + item.glyph" aria-hidden="true"></i>
+                      }
+                      <span class="word__text">{{ item.name }}</span>
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Glass detail card: trails the hot word on desktop, a bottom sheet on phones. -->
+  <div #card id="sk-card" class="card" role="tooltip" [class.is-visible]="cardVisible()">
+    @if (detail(); as s) {
+      <div class="card__top">
+        <span class="card__category">{{ s.category }}</span>
+        <span class="card__rating" [attr.aria-label]="'Proficiency ' + s.rating + ' of 5'">
+          @for (dot of dots; track dot) {
+            <i [class.is-on]="dot <= s.rating"></i>
+          }
+        </span>
+      </div>
+      <p class="card__name">
+        @if (s.glyph) {
+          <i [class]="s.glyph" aria-hidden="true"></i>
+        }
+        {{ s.name }}
+      </p>
+      @if (s.learned.length) {
+        <div class="card__row">
+          <span class="card__label">Learned</span>
+          <span>{{ s.learned.join(' · ') }}</span>
+        </div>
+      }
+      @if (s.gained.length) {
+        <div class="card__row">
+          <span class="card__label">Gained</span>
+          <span>{{ s.gained.join(' · ') }}</span>
+        </div>
+      }
+    }
+  </div>
+</section>

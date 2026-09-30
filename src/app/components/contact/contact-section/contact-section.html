@@ -1,0 +1,53 @@
+<section id="contact" appSpySection class="ct" aria-labelledby="ct-title">
+  <header class="ct__head">
+    <p class="ct__kicker">07 / Contact</p>
+    <h2 id="ct-title" class="ct__title">The next step</h2>
+    <p class="ct__meta">&copy; {{ year }} {{ contact.name }} {{ contact.surname }}</p>
+  </header>
+
+  <!-- The address, split at the @ and fitted to the row; letters lean toward the cursor. -->
+  <div
+    #zone
+    class="ct__zone"
+    (pointerenter)="onZoneEnter($event)"
+    (pointermove)="onZoneMove($event)"
+    (pointerleave)="onZoneLeave()"
+  >
+    <a #mail class="mail" [href]="'mailto:' + contact.email" [attr.aria-label]="'Email ' + contact.email">
+      @for (part of parts; track $index) {
+        <span class="mail__part" aria-hidden="true">
+          @for (ch of part; track $index) {
+            <span #ch class="mail__ch">{{ ch }}</span>
+          }
+        </span>
+      }
+    </a>
+  </div>
+
+  <nav class="actions" aria-label="Contact options">
+    <button type="button" class="act act--copy" [class.is-copied]="copied()" (click)="copy()">
+      <span class="act__swap">
+        <span class="act__idle">Copy email</span>
+        <span class="act__done" aria-hidden="true">Copied ✓</span>
+      </span>
+    </button>
+    <a class="act" [href]="contact.resumeUrl" download>
+      Résumé <span class="act__hint">PDF ↓</span>
+    </a>
+    <a class="act" [href]="contact.github" target="_blank" rel="noopener">
+      GitHub <span class="act__hint">↗</span>
+    </a>
+    <a class="act" [href]="contact.linkedin" target="_blank" rel="noopener">
+      LinkedIn <span class="act__hint">↗</span>
+    </a>
+    <a class="act act--phone" [href]="telHref">{{ contact.phone }}</a>
+
+    <p class="clock">
+      <span class="clock__label">{{ contact.location.split(',')[0] }}</span>
+      <time class="clock__time">{{ time() ?? '--:--:--' }}</time>
+      <span class="clock__label">GMT+4</span>
+    </p>
+
+    <span class="sr-only" aria-live="polite">{{ copied() ? 'Email address copied' : '' }}</span>
+  </nav>
+</section>

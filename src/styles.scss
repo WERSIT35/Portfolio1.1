@@ -1,1 +1,409 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+  --font-body: 'Satoshi', -apple-system, sans-serif;
+
+  --color-bg: #0a0a0a;
+  --color-bg-raised: #0d0f12;
+  --color-ink: #ededed;
+  --color-ink-mid: #b8b8b8;
+  --color-ink-dim: #9a9a9a;
+  // Obsidian & Silver: monochrome only. Accent = metallic silver, highlights = pure white.
+  --color-accent: #e0e0e0;
+  --color-white: #ffffff;
+  --color-border: rgb(255 255 255 / 10%);
+  --color-border-strong: rgb(255 255 255 / 20%);
+
+  // Spring with ~15% overshoot, approximated with linear() stops.
+  --ease-spring: linear(
+    0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121,
+    1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991,
+    0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1
+  );
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  // Heavy, deliberate settle used for layout morphs (island, triptych).
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
+  --radius-tile: 1.5rem;
+  --gap-bento: 0.75rem;
+  --island-h: 3rem;
+  --island-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+  --island-bottom: calc(env(safe-area-inset-bottom, 0px) + 2rem);
+  // Band each stage keeps clear under the phone dock (0 on desktop, where the island
+  // floats in the empty centre of each head row). Stages stay exactly 100svh either way.
+  --dock-clear: 0px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --dock-clear: calc(var(--island-bottom) + var(--island-h) + 0.75rem);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+// Proximity, not mandatory: the page only settles onto a stage when a scroll ends
+// near one, so small wheel nudges glide freely instead of hopping a whole viewport.
+html.has-snap {
+  scroll-snap-type: y proximity;
+}
+
+// ---------------------------------------------------------------------------
+// Stages: each home-page section is a full-viewport sheet. As one scrolls off
+// the top it sinks back (scale + parallax + veil) while the next slides over it.
+// ---------------------------------------------------------------------------
+.stage {
+  position: relative;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  background: var(--color-bg);
+}
+
+// The hairline is painted, not a border: a real border-top would make every stage
+// 1px taller than the viewport and push each snap point a pixel further down.
+.stage + .stage {
+  border-radius: var(--radius-tile) var(--radius-tile) 0 0;
+}
+
+.stage + .stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-top: 1px solid var(--color-border);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.stage__inner {
+  position: relative;
+  min-height: inherit;
+  transform-origin: 50% 0%;
+}
+
+.stage__inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+// Heavy parallax: the outgoing stage drifts at ~70% of scroll speed while sinking
+// back. Eased keyframes so the depth builds slowly, then commits.
+@keyframes stage-exit {
+  from {
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  to {
+    transform: translateY(30%) scale(0.95);
+  }
+}
+
+@keyframes stage-veil {
+  from {
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+  }
+  to {
+    opacity: 0.65;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stage__inner,
+    .stage__inner::after {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .stage__inner {
+      animation-name: stage-exit;
+    }
+
+    .stage__inner::after {
+      animation-name: stage-veil;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Curtain finale: Contact (.stage--curtain) is pinned beneath the page, and the
+// stage before it (.stage--lift) slides up and off it like a lifted sheet,
+// casting a heavy shadow onto it. Painting order is explicit: every stage sits
+// above the curtain even though the curtain comes last in the DOM.
+// ---------------------------------------------------------------------------
+app-home-page {
+  display: block;
+  // Lets the curtain animate on the lifting stage's view timeline.
+  timeline-scope: --curtain;
+}
+
+.stage {
+  z-index: 1;
+}
+
+.stage--lift {
+  view-timeline-name: --curtain;
+  border-radius: var(--radius-tile);
+  // Rounded bottom edge clips the stills; the shadow (outside the box) isn't clipped.
+  overflow: clip;
+  box-shadow:
+    0 2.5rem 5rem 0.5rem rgb(0 0 0 / 85%),
+    0 0.75rem 1.5rem rgb(0 0 0 / 60%);
+}
+
+.stage--lift::before {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.stage--curtain {
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  border-radius: 0;
+  // Keeps the travelling shade (translated below the box at the start) from adding scroll area.
+  overflow: clip;
+}
+
+.stage--curtain::before {
+  content: none;
+}
+
+// Contact shadow: a black band that rides exactly on the lifting edge (the sheet's
+// bottom sits at (1 - progress) × 100svh, so a linear translate on the same
+// timeline tracks it). A box-shadow alone can't darken a surface that's already black.
+.stage--curtain::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: 45svh;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 95%) 0%,
+    rgb(0 0 0 / 60%) 25%,
+    rgb(0 0 0 / 20%) 60%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes curtain-shade {
+  from {
+    transform: translateY(100svh);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+// While it's covered the curtain rests slightly sunk and dark; it rises and
+// clears exactly as the sheet above it leaves the viewport.
+@keyframes curtain-rise {
+  from {
+    transform: translateY(-6%) scale(0.96);
+  }
+}
+
+@keyframes curtain-veil {
+  from {
+    opacity: 0.85;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    // The lifting sheet leaves cleanly instead of sinking back.
+    .stage--lift > .stage__inner,
+    .stage--lift > .stage__inner::after {
+      animation: none;
+    }
+
+    .stage--curtain > .stage__inner,
+    .stage--curtain > .stage__inner::after {
+      animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+      animation-fill-mode: both;
+      animation-timeline: --curtain;
+      animation-range: exit 0% exit 100%;
+    }
+
+    .stage--curtain > .stage__inner {
+      animation-name: curtain-rise;
+    }
+
+    .stage--curtain > .stage__inner::after {
+      animation-name: curtain-veil;
+    }
+
+    .stage--curtain::after {
+      animation: curtain-shade linear both;
+      animation-timeline: --curtain;
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+// Film grain over everything; purely decorative.
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.8s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  17% { transform: translate(-4%, 3%); }
+  33% { transform: translate(3%, -5%); }
+  50% { transform: translate(-6%, -2%); }
+  67% { transform: translate(5%, 4%); }
+  83% { transform: translate(-2%, 6%); }
+  100% { transform: translate(0, 0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px) scale(0.97);
+  transition:
+    opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.img-fade {
+  opacity: 0;
+  filter: blur(8px);
+  transition:
+    opacity 0.4s ease-out,
+    filter 0.4s ease-out;
+}
+
+.img-fade.is-loaded {
+  opacity: 1;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  .img-fade {
+    transition: none;
+    filter: none;
+    opacity: 1;
+  }
+
+  .grain {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

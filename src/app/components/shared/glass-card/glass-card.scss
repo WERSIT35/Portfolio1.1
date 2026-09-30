@@ -1,0 +1,31 @@
+:host {
+  position: relative;
+  display: block;
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, white 4%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.glass-card__glow {
+  position: absolute;
+  inset: -35% -15% auto -15%;
+  height: 55%;
+  background: radial-gradient(
+    ellipse 60% 60% at 28% 15%,
+    color-mix(in srgb, var(--color-accent) 13%, transparent),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.glass-card__content {
+  position: relative;
+  z-index: 1;
+  padding: 1.75rem;
+}

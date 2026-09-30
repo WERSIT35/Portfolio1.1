@@ -1,0 +1,414 @@
+:host {
+  --island-close: 0.28s;
+  --ease-close: cubic-bezier(0.4, 0, 0.2, 1);
+
+  position: fixed;
+  top: var(--island-top);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  // The host spans the viewport width; only the pill itself should catch the pointer.
+  pointer-events: none;
+}
+
+// Closed: [OD] [section label] [dot]. Open: the label's width eases to 0 while the link
+// panel's width eases to its measured size, so the pill itself physically grows/shrinks.
+// Sizes are real pixels (--label-w / --panel-w, measured in TS) because CSS can't
+// interpolate to or from auto.
+.island {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  height: var(--island-h);
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background-color: rgb(10 10 10 / 72%);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 8%),
+    0 12px 32px -16px rgb(0 0 0 / 80%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  // Transitions use the timing of the state being entered: collapsing back to rest is
+  // quick and immediate; expanding (.is-open) takes the slow luxe curve.
+  transition:
+    padding var(--island-close) var(--ease-close),
+    background-color var(--island-close) var(--ease-close),
+    border-color var(--island-close) var(--ease-close),
+    box-shadow var(--island-close) var(--ease-close);
+}
+
+.island.is-open {
+  transition:
+    padding 0.55s var(--ease-luxe),
+    background-color 0.55s var(--ease-luxe),
+    border-color 0.55s var(--ease-luxe),
+    box-shadow 0.55s var(--ease-luxe);
+  padding: 0 0.4rem;
+  background-color: rgb(16 16 16 / 88%);
+  border-color: var(--color-border-strong);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 12%),
+    0 18px 44px -18px rgb(0 0 0 / 90%);
+}
+
+.island__brand {
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.island__brand:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.island__brand,
+.island__toggle {
+  flex: none;
+}
+
+.island__label {
+  flex: none;
+  width: var(--label-w, auto);
+  overflow: hidden;
+  transition:
+    width var(--island-close) var(--ease-close),
+    opacity var(--island-close) var(--ease-close);
+}
+
+.island.is-open .island__label {
+  width: 0;
+  opacity: 0;
+  transition:
+    width 0.6s var(--ease-luxe),
+    opacity 0.3s var(--ease-luxe);
+}
+
+.island__label-text {
+  display: block;
+  width: max-content;
+  padding: 0 0.85rem 0 0.75rem;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-ink-mid);
+}
+
+// Re-created whenever the active section changes, so each new label rolls in.
+.island__label-word {
+  display: inline-block;
+  animation: island-label-in 0.45s var(--ease-out-expo) both;
+}
+
+@keyframes island-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(60%);
+    filter: blur(4px);
+  }
+}
+
+// Links stay in the DOM; the panel clips them while its width animates, and hides them
+// from focus/AT once fully closed (visibility flips after the collapse finishes).
+.island__panel {
+  flex: none;
+  width: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition:
+    width var(--island-close) var(--ease-close),
+    visibility 0s linear var(--island-close);
+}
+
+.island.is-open .island__panel {
+  width: var(--panel-w, auto);
+  visibility: visible;
+  transition:
+    width 0.6s var(--ease-luxe),
+    visibility 0s;
+}
+
+.island__panel-inner {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.35rem;
+  white-space: nowrap;
+}
+
+.island__links,
+.island__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.island__links li,
+.island__socials {
+  opacity: 0;
+  transform: translateX(-6px);
+  // Closing: everything leaves together, no stagger, no delay.
+  transition:
+    opacity 0.15s var(--ease-close),
+    transform 0.2s var(--ease-close);
+}
+
+.island.is-open .island__links li,
+.island.is-open .island__socials {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s var(--ease-luxe) calc(var(--i, 0) * 30ms + 140ms),
+    transform 0.8s var(--ease-luxe) calc(var(--i, 0) * 30ms + 140ms);
+}
+
+.island__link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-ink-dim);
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.island__link:hover,
+.island__link:focus-visible {
+  color: var(--color-ink);
+  background: rgb(255 255 255 / 7%);
+}
+
+.island__link.is-active {
+  color: var(--color-ink);
+}
+
+.island__link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0.2rem;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 999px;
+  background: var(--color-white);
+}
+
+.island__divider {
+  flex: none;
+  width: 1px;
+  height: 1.25rem;
+  margin: 0 0.25rem;
+  background: var(--color-border-strong);
+}
+
+.island__social {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  color: var(--color-ink-dim);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.island__social:hover,
+.island__social:focus-visible {
+  color: var(--color-white);
+  background: rgb(255 255 255 / 7%);
+}
+
+.island__toggle {
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.island__toggle:focus-visible,
+.island__brand:focus-visible,
+.island__link:focus-visible,
+.island__social:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.island__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-white);
+  animation: island-pulse 2.4s ease-in-out infinite;
+  transition:
+    transform 0.4s var(--ease-spring),
+    background 0.3s ease;
+}
+
+.island.is-open .island__dot {
+  transform: scale(0.6);
+  background: var(--color-ink);
+  animation: none;
+}
+
+@keyframes island-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 40%);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(255 255 255 / 0%);
+  }
+}
+
+// Phones: docked at the bottom like a native tab bar; the island grows upward into a
+// panel instead of sideways (the panel row sits above the header row).
+@media (max-width: 767px) {
+  :host {
+    top: auto;
+    bottom: var(--island-bottom);
+  }
+
+  .island {
+    flex-wrap: wrap;
+    width: 13rem;
+    height: auto;
+    padding: 0.3rem;
+    border-radius: 1.5rem;
+    // A deeper drop than desktop so the dock reads as floating above full-bleed stages.
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 8%),
+      0 20px 40px rgb(0 0 0 / 50%);
+    transition:
+      width var(--island-close) var(--ease-close),
+      padding var(--island-close) var(--ease-close),
+      background-color var(--island-close) var(--ease-close),
+      border-color var(--island-close) var(--ease-close),
+      box-shadow var(--island-close) var(--ease-close);
+  }
+
+  .island.is-open {
+    transition:
+      width 0.6s var(--ease-luxe),
+      padding 0.55s var(--ease-luxe),
+      background-color 0.55s var(--ease-luxe),
+      border-color 0.55s var(--ease-luxe),
+      box-shadow 0.55s var(--ease-luxe);
+    width: min(calc(100vw - 2rem), 22rem);
+    padding: 0.35rem;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 12%),
+      0 20px 40px rgb(0 0 0 / 50%);
+  }
+
+  // Header row: [OD] [label, fills] [dot]; the panel wraps onto its own full-width row.
+  .island__label,
+  .island.is-open .island__label {
+    flex: 1 1 0;
+    width: auto;
+    opacity: 1;
+  }
+
+  .island__toggle {
+    order: 3;
+  }
+
+  // Docked at the bottom, so the panel opens above the header row.
+  .island__panel {
+    order: -1;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 0;
+    transition:
+      height var(--island-close) var(--ease-close),
+      visibility 0s linear var(--island-close);
+  }
+
+  .island.is-open .island__panel {
+    width: 100%;
+    height: var(--panel-h, auto);
+    transition:
+      height 0.6s var(--ease-luxe),
+      visibility 0s;
+  }
+
+  // Fixed at the open width so its measured height doesn't change mid-animation.
+  .island__panel-inner {
+    width: calc(min(100vw - 2rem, 22rem) - 0.7rem - 2px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.35rem 0.25rem 0.5rem;
+  }
+
+  .island__links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.15rem;
+  }
+
+  .island__link {
+    padding: 0.7rem 0.85rem;
+    border-radius: 0.9rem;
+    font-size: 0.9375rem;
+  }
+
+  .island__link.is-active::after {
+    left: auto;
+    right: 0.85rem;
+    bottom: 50%;
+    margin: 0 0 -2px;
+  }
+
+  .island__divider {
+    width: auto;
+    height: 1px;
+    margin: 0 0.5rem;
+  }
+
+  .island__socials {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .island,
+  .island__links li,
+  .island__socials,
+  .island__dot {
+    transition: none !important;
+  }
+
+  .island__dot,
+  .island__label-word {
+    animation: none;
+  }
+}

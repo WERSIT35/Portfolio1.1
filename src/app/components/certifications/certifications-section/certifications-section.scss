@@ -1,0 +1,611 @@
+:host {
+  display: block;
+}
+
+// ---------------------------------------------------------------------------
+// Frame — exactly one viewport; the island floats over it (no clearance).
+// ---------------------------------------------------------------------------
+.cx {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(0.75rem, 2svh, 1.5rem);
+  height: 100svh;
+  padding: 1.25rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+// One soft top-light behind the deck: the "gallery spot".
+.cx::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(38% 55% at 64% 42%, rgb(255 255 255 / 5%), transparent 70%);
+}
+
+.cx__head,
+.cx__body {
+  width: min(100%, 110rem);
+  margin-inline: auto;
+}
+
+.cx__head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.cx__kicker,
+.cx__count {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.cx__title {
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.cx__count {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.cx__count-now {
+  color: var(--color-white);
+}
+
+.cx__body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  min-height: 0;
+  border-top: 1px solid var(--color-border);
+  padding-top: clamp(1rem, 3svh, 2rem);
+}
+
+// ---------------------------------------------------------------------------
+// Detail column — each line rises out of a mask when the card changes.
+// ---------------------------------------------------------------------------
+.detail {
+  display: grid;
+  align-content: center;
+  gap: clamp(0.6rem, 1.6svh, 1rem);
+  max-width: 32rem;
+  min-height: 0;
+}
+
+.line {
+  animation: line-in 0.9s var(--ease-luxe) backwards;
+  animation-delay: calc(var(--l, 0) * 70ms);
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem);
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+.detail__issuer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-mid);
+}
+
+// Issuer logos are forced monochrome.
+.detail__logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.6);
+}
+
+.detail__mark {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.625rem;
+  color: var(--color-white);
+}
+
+.detail__title {
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.3vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  color: var(--color-white);
+}
+
+.detail__meta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.detail__desc {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  line-height: 1.6;
+  color: var(--color-ink-mid);
+}
+
+.detail__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail__skills li {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--color-ink-mid);
+}
+
+.detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.action:hover,
+.action--primary {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: #0a0a0a;
+}
+
+.action--primary:hover {
+  background: var(--color-accent);
+}
+
+.action:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+// ---------------------------------------------------------------------------
+// Deck
+// ---------------------------------------------------------------------------
+.stage3d {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.deck {
+  // Plate width: as large as fits the deck box at the certificates' ~1.35:1 ratio.
+  --pw: min(82cqw, calc(70cqh * 1.35));
+
+  position: relative;
+  min-height: 0;
+  container-type: size;
+  perspective: 1600px;
+  perspective-origin: 50% 35%;
+  touch-action: pan-y; // vertical page scroll still works; horizontal drags page the deck
+  user-select: none;
+  cursor: grab;
+  outline: none;
+}
+
+.deck:active {
+  cursor: grabbing;
+}
+
+.deck:focus-visible {
+  outline: 1px solid var(--color-border-strong);
+  outline-offset: 6px;
+  border-radius: var(--radius-tile);
+}
+
+// Default (server render / reduced motion) stack from --d; the spring loop takes over
+// with inline transforms once the page is interactive.
+.plate {
+  position: absolute;
+  inset: 0;
+  width: var(--pw);
+  height: calc(var(--pw) / 1.35);
+  margin: auto;
+  transform: translate3d(0, calc(var(--d, 0) * 22px), calc(var(--d, 0) * -90px))
+    scale(calc(1 - var(--d, 0) * 0.055));
+  transform-origin: 50% 60%;
+  z-index: calc(100 - var(--d, 0) * 10);
+}
+
+.plate__glass {
+  position: relative;
+  height: 100%;
+  padding: clamp(0.5rem, 2cqmin, 1rem);
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-border-strong);
+  // Smoked glass without backdrop-filter: Chrome mis-orders backdrop-filtered layers
+  // inside 3D-transformed stacks (a back plate painted over the front one).
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 1%) 45%),
+    rgb(16 16 16 / 94%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 14%),
+    inset 0 0 0 1px rgb(255 255 255 / 3%),
+    0 60px 120px -50px rgb(0 0 0 / 95%);
+}
+
+.plate__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0.6rem;
+  pointer-events: none;
+  filter: grayscale(1) brightness(0.7) contrast(1.05);
+  transition: filter 0.8s var(--ease-luxe);
+}
+
+.plate.is-front .plate__img {
+  filter: grayscale(1) brightness(0.95) contrast(1.05);
+}
+
+// Only the active front plate warms to full colour — on hover or keyboard focus.
+.deck.is-lit .plate.is-front .plate__img,
+.deck:focus-visible .plate.is-front .plate__img {
+  filter: none;
+}
+
+// Glass catching light: a soft highlight that tracks the (lerped) pointer.
+.plate__glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      45% 55% at var(--glare-x, 50%) var(--glare-y, 30%),
+      rgb(255 255 255 / 20%),
+      transparent 70%
+    ),
+    linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 5%) 48%, transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-luxe);
+}
+
+.deck.is-lit .plate.is-front .plate__glare,
+.deck:focus-visible .plate.is-front .plate__glare {
+  opacity: 1;
+}
+
+// ---------------------------------------------------------------------------
+// Controls
+// ---------------------------------------------------------------------------
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.controls__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.controls__arrow:hover:not(:disabled) {
+  background: var(--color-white);
+  color: #0a0a0a;
+}
+
+.controls__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.controls__arrow:focus-visible,
+.controls__dots button:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+.controls__dots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.controls__dots button {
+  width: 1.4rem;
+  height: 1rem;
+  padding: 0;
+  border: 0;
+  background: linear-gradient(rgb(255 255 255 / 20%), rgb(255 255 255 / 20%)) center / 100% 3px no-repeat;
+  cursor: pointer;
+  transition: background-size 0.5s var(--ease-luxe);
+}
+
+.controls__dots button.is-on {
+  background-image: linear-gradient(var(--color-white), var(--color-white));
+}
+
+.controls__hint {
+  position: absolute;
+  right: 0;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+// ---------------------------------------------------------------------------
+// Lightbox — native <dialog> in the top layer.
+// ---------------------------------------------------------------------------
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+  animation: lightbox-fade 0.4s ease both;
+}
+
+.lightbox::backdrop {
+  background: rgb(5 5 5 / 82%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@keyframes lightbox-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.lightbox__figure {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem;
+  animation: lightbox-zoom 0.7s var(--ease-luxe) both;
+}
+
+@keyframes lightbox-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+}
+
+.lightbox__figure img {
+  max-width: min(92vw, 1400px);
+  max-height: 78dvh;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border-strong);
+  box-shadow: 0 60px 140px -50px rgb(0 0 0 / 95%);
+}
+
+.lightbox__figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.4rem 1.25rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+.lightbox__figure strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--color-white);
+}
+
+.lightbox__close {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 1.25rem);
+  right: 1.25rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: rgb(18 18 18 / 70%);
+  color: var(--color-white);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.lightbox__close:hover {
+  background: var(--color-white);
+  color: #0a0a0a;
+}
+
+.lightbox__close:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+// ---------------------------------------------------------------------------
+// Tablet
+// ---------------------------------------------------------------------------
+@media (max-width: 1023px) {
+  .cx__body {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 2rem;
+  }
+
+  .detail__desc {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Phones — deck on top, compact detail below; everything inside 100svh.
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .cx {
+    padding: 0.75rem 0.75rem var(--dock-clear);
+  }
+
+  .cx__head {
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+
+  .cx__title {
+    width: 100%;
+    order: 3;
+    font-size: 1.35rem;
+  }
+
+  .cx__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  .stage3d {
+    order: -1;
+    gap: 0.6rem;
+  }
+
+  .deck {
+    --pw: min(88cqw, calc(78cqh * 1.35));
+  }
+
+  .detail {
+    gap: 0.45rem;
+    max-width: none;
+  }
+
+  .detail__title {
+    font-size: 1.5rem;
+  }
+
+  .detail__desc,
+  .controls__hint {
+    display: none;
+  }
+
+  .action {
+    padding: 0.55rem 0.9rem;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 720px) {
+  .detail__skills {
+    display: none;
+  }
+}
+
+// Short desktop screens: grow instead of crushing the deck.
+@media (min-width: 768px) and (max-height: 619px) {
+  .cx {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .stage3d {
+    height: 30rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced motion — a flat carousel: plates crossfade in place, no 3D, no peel.
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  .plate {
+    transform: none !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    transition: opacity 0.5s ease;
+  }
+
+  .plate.is-front {
+    opacity: 1 !important;
+  }
+
+  .line,
+  .lightbox[open],
+  .lightbox__figure {
+    animation: none;
+  }
+
+  .plate__img,
+  .plate__glare {
+    transition: none;
+  }
+}

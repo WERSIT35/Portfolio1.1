@@ -1,0 +1,8 @@
+<p class="section-header__eyebrow">
+  <span class="section-header__dot" aria-hidden="true"></span>
+  {{ eyebrow() }}
+</p>
+<h2 class="section-header__title">{{ title() }}</h2>
+@if (description(); as desc) {
+  <p class="section-header__description">{{ desc }}</p>
+}
