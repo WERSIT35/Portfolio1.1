@@ -54,6 +54,8 @@ export class DynamicIsland {
     () => !this.dismissed() && (this.pinned() || this.hovered() || this.focusWithin()),
   );
 
+  protected readonly labels = [...new Set(['Prologue', ...NAV_ITEMS.map((item) => item.label)])];
+
   protected readonly activeId = computed(() => this.activeSectionId() ?? 'top');
   protected readonly activeLabel = computed(
     () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? 'Prologue',

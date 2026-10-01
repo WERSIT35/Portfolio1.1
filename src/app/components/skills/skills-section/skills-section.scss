@@ -397,6 +397,17 @@
 }
 
 // Reduced motion: no auto-scroll; each band becomes a plain horizontal scroller.
+// ---------------------------------------------------------------------------
+// Touch ergonomics — short words (e.g. "C") get a 44px-wide hit area.
+// ---------------------------------------------------------------------------
+@media (pointer: coarse) {
+  .word::after {
+    content: '';
+    position: absolute;
+    inset: 0 -8px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .band__viewport {
     overflow-x: auto;

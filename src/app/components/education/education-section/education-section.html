@@ -1,39 +1,62 @@
-<section id="education" appSpySection class="edu" [class.is-warm]="warm()" aria-labelledby="edu-title">
-  <!-- Cinematic background: one B/W still per institution, crossfaded by the active track. -->
-  <div class="stills" aria-hidden="true">
-    @for (t of tracks; track t.id; let i = $index) {
-      <div class="still" [class.is-active]="i === active()" [style.--i]="i">
-        <img class="still__img" [src]="t.coverImage" alt="" loading="lazy" decoding="async" />
-      </div>
-    }
-  </div>
-
+<section id="education" appSpySection class="edu" aria-labelledby="edu-title">
   <header class="edu__head">
     <p class="edu__kicker">06 / Education</p>
     <h2 id="edu-title" class="edu__title">The foundation</h2>
-    <p class="edu__count">
-      <span class="edu__count-now">{{ current().index }}</span> / {{ count }}
-    </p>
+    <dl class="edu__term" aria-hidden="true">
+      <div>
+        <dt>T</dt>
+        <dd data-readout>{{ initialReadout }}</dd>
+      </div>
+      <div>
+        <dt>Rec</dt>
+        <dd>
+          <span class="edu__term-now">{{ current().index }}</span> / {{ count }}
+        </dd>
+      </div>
+      <div class="edu__term-lock" [class.is-free]="!snapLabel()">
+        <dt>Lock</dt>
+        <dd>{{ snapLabel() ?? 'Free scrub' }}</dd>
+      </div>
+    </dl>
   </header>
 
-  <!-- Timeline: lanes are tabs; a mouse scrubs the playhead across the rail. -->
+  <!-- Scrubber: full-bleed rail. Lanes are tabs; a mouse scrubs on hover, touch drags. -->
   <div
-    #timeline
+    #scrubber
     class="tl"
-    role="tablist"
-    [attr.aria-label]="'Education timeline, ' + startYear + ' to ' + endYear"
     [style.--ph]="initialPh"
     [style.--years]="axis.length"
-    (pointermove)="onScrub($event)"
-    (pointerleave)="onScrubEnd()"
+    [style.--year-idx]="yearIdx()"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerEnd($event)"
+    (pointercancel)="onPointerEnd($event)"
+    (pointerleave)="onPointerEnd($event)"
   >
+    <div class="tl__corner" aria-hidden="true">
+      <span>Programme</span>
+      <span>{{ startYear }} → {{ endYear }}</span>
+    </div>
+
     <div #rail class="tl__axis" aria-hidden="true">
-      @for (y of axis; track y.year) {
-        <span class="tl__year" [style.--at]="y.at">{{ y.year }}</span>
+      @for (y of axis; track y.year; let i = $index) {
+        <span class="tl__year" [class.is-now]="i === yearIdx()" [style.--at]="y.at">
+          <span class="tl__century">{{ y.century }}</span>{{ y.short }}
+        </span>
       }
     </div>
 
-    <div #lanes class="tl__lanes">
+    <!-- The column under the playhead: a hard-edged band, no easing. -->
+    <div class="tl__band" aria-hidden="true"></div>
+
+    <div
+      #lanes
+      class="tl__lanes"
+      role="tablist"
+      aria-orientation="vertical"
+      [attr.aria-label]="'Education timeline, ' + startYear + ' to ' + endYear"
+      aria-describedby="edu-keys"
+    >
       @for (t of tracks; track t.id; let i = $index) {
         <button
           type="button"
@@ -41,6 +64,7 @@
           class="lane"
           [id]="t.tabId"
           [class.is-active]="i === active()"
+          [class.is-hit]="hits()[i]"
           [attr.aria-selected]="i === active()"
           [attr.tabindex]="i === active() ? 0 : -1"
           [attr.aria-label]="t.name + ', ' + t.degree + ', ' + t.date"
@@ -49,6 +73,7 @@
           (keydown)="onTabKeydown($event)"
         >
           <span class="lane__label" aria-hidden="true">
+            <span class="lane__n">{{ t.index }}</span>
             <span class="lane__mono">{{ t.mono }}</span>
             <span class="lane__tag">{{ t.tag }}</span>
           </span>
@@ -59,14 +84,19 @@
               }
               @case ('expected') {
                 <span class="seg seg--dashed" [style.--from]="t.from" [style.--to]="t.to"></span>
-                <span class="diamond" [style.--at]="t.to"></span>
               }
               @case ('ticks') {
                 <span class="seg seg--faint" [style.--from]="t.from" [style.--to]="t.to"></span>
-                @for (tick of t.ticks; track $index) {
-                  <span class="tick" [style.--at]="tick.at" [attr.title]="tick.label"></span>
-                }
               }
+            }
+            @for (m of t.milestones; track $index; let n = $index) {
+              <span
+                class="mark"
+                [class.mark--diamond]="t.kind === 'expected'"
+                [class.mark--tick]="t.kind === 'ticks'"
+                [class.is-locked]="snapped()?.[0] === i && snapped()?.[1] === n"
+                [style.--at]="m.at"
+              ></span>
             }
           </span>
         </button>
@@ -76,53 +106,62 @@
     <div class="playhead" aria-hidden="true">
       <div class="playhead__move">
         <span class="playhead__line"></span>
-        <span #readout class="playhead__year">{{ initialYear }}</span>
+        <span class="playhead__year" data-readout>{{ initialReadout }}</span>
       </div>
     </div>
   </div>
+  <p id="edu-keys" class="edu__sr">Up and down arrows switch programme; left and right arrows step through milestones.</p>
 
-  <!-- Transcript: re-keyed per track so every line replays its masked rise. -->
-  <div id="edu-panel" class="tx" role="tabpanel" [attr.aria-labelledby]="current().tabId">
-    @for (t of [current()]; track t.id) {
-      <div class="tx__degree">
-        <p class="tx__tag line">
-          <span>{{ t.tag }}</span>
-          @if (t.status) {
-            <span class="tx__badge">{{ t.status }}</span>
-          }
-        </p>
-        <h3 class="tx__title line" style="--l: 1">{{ t.title }}</h3>
-        <p class="tx__inst line" style="--l: 2">
-          <span class="tx__chip"><img class="tx__logo" [src]="t.img" alt="" width="24" height="24" /></span>
-          <span>{{ t.name }}</span>
-        </p>
-        <p class="tx__date line" style="--l: 3">{{ t.dateLabel }}</p>
-        @if (t.status) {
-          <p class="tx__note line" style="--l: 4">Coursework in progress — not professional experience.</p>
-        }
-      </div>
+  <!-- Ledger: one block per track, created on activation so every cell replays its reveal. -->
+  <div id="edu-panel" class="ledger" role="tabpanel" [attr.aria-labelledby]="current().tabId">
+    @for (t of tracks; track t.id; let i = $index) {
+      @if (i === active()) {
+        <div class="cell cell--degree">
+          <p class="cell__label line">
+            <span class="cell__record">Record {{ t.index }} / {{ count }}</span>
+            <span>{{ t.tag }}</span>
+            <span class="cell__period">{{ t.period }}</span>
+          </p>
+          <h3 class="ledger__title line" style="--l: 1">{{ t.title }}</h3>
+        </div>
 
-      <div
-        class="tx__list"
-        tabindex="0"
-        [attr.aria-label]="'Subjects, ' + t.subjects.length + ' in total'"
-        (pointerenter)="$event.pointerType === 'mouse' && warm.set(true)"
-        (pointerleave)="warm.set(false)"
-        (focusin)="warm.set(true)"
-        (focusout)="warm.set(false)"
-      >
-        <p class="tx__list-label line" aria-hidden="true">
-          <span>Coursework</span><span>{{ t.subjects.length }}</span>
-        </p>
-        <ol class="courses">
-          @for (c of t.subjects; track c.n; let n = $index) {
-            <li class="course" [style.--l]="n">
-              <span class="course__n">{{ c.n }}</span>
-              <span class="course__s">{{ c.s }}</span>
-            </li>
+        <div class="cell cell--inst">
+          <p class="cell__label line" style="--l: 1">Institution</p>
+          <p class="ledger__inst line" style="--l: 2">
+            <span class="stamp"><img class="stamp__logo" [src]="t.img" alt="" width="24" height="24" /></span>
+            <span>{{ t.name }}</span>
+          </p>
+        </div>
+
+        <div class="cell cell--period">
+          <p class="cell__label line" style="--l: 2">Period</p>
+          <p class="ledger__value line" style="--l: 3">{{ t.period }}</p>
+        </div>
+
+        <div class="cell cell--status">
+          <p class="cell__label line" style="--l: 3">Status</p>
+          <p class="ledger__value line" style="--l: 4">
+            <span class="status" [class.is-open]="t.status !== 'Completed'">{{ t.status }}</span>
+          </p>
+          @if (t.caveat) {
+            <p class="ledger__note line" style="--l: 5">{{ t.caveat }}</p>
           }
-        </ol>
-      </div>
+        </div>
+
+        <div class="cell cell--courses">
+          <p class="cell__label line" style="--l: 1">
+            <span>Coursework</span><span>{{ t.subjects.length }} subjects</span>
+          </p>
+          <ol class="courses" [attr.aria-label]="'Subjects, ' + t.subjects.length + ' in total'">
+            @for (c of t.subjects; track c.n; let n = $index) {
+              <li class="course" [style.--l]="n">
+                <span class="course__n">{{ c.n }}</span>
+                <span class="course__s">{{ c.s }}</span>
+              </li>
+            }
+          </ol>
+        </div>
+      }
     }
   </div>
 </section>

@@ -127,7 +127,8 @@ export class ProjectsSection {
   }
 
   protected onRowEnter(index: number): void {
-    if (this.isCompact()) return;
+    // iOS fires compatibility mouseenter on tap: only a real hovering pointer opens the lens.
+    if (this.isCompact() || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     this.activate(index);
   }
 

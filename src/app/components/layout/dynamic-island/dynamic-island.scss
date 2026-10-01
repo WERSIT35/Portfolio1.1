@@ -71,8 +71,10 @@
   transition: background 0.25s ease;
 }
 
-.island__brand:hover {
-  background: rgb(255 255 255 / 12%);
+@media (hover: hover) and (pointer: fine) {
+  .island__brand:hover {
+    background: rgb(255 255 255 / 12%);
+  }
 }
 
 .island__brand,
@@ -193,10 +195,16 @@
     background 0.2s ease;
 }
 
-.island__link:hover,
 .island__link:focus-visible {
   color: var(--color-ink);
   background: rgb(255 255 255 / 7%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .island__link:hover {
+    color: var(--color-ink);
+    background: rgb(255 255 255 / 7%);
+  }
 }
 
 .island__link.is-active {
@@ -235,10 +243,16 @@
     background 0.2s ease;
 }
 
-.island__social:hover,
 .island__social:focus-visible {
   color: var(--color-white);
   background: rgb(255 255 255 / 7%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .island__social:hover {
+    color: var(--color-white);
+    background: rgb(255 255 255 / 7%);
+  }
 }
 
 .island__toggle {
@@ -396,6 +410,18 @@
   .island__socials {
     justify-content: center;
     gap: 0.5rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Touch ergonomics — on the phone dock, brand and menu are true 44px buttons
+// (the pill grows to 3.5rem via --island-h in styles.scss).
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .island__brand,
+  .island__toggle {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 

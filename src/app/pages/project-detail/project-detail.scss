@@ -28,10 +28,12 @@
     transform 0.2s ease;
 }
 
-.detail__back:hover {
-  color: var(--color-ink);
-  border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 50%, transparent);
-  transform: translateX(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .detail__back:hover {
+    color: var(--color-ink);
+    border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 50%, transparent);
+    transform: translateX(-2px);
+  }
 }
 
 .detail__header {
@@ -110,9 +112,11 @@
     transform 0.2s ease;
 }
 
-.detail__link:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 55%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .detail__link:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 55%, transparent);
+  }
 }
 
 .detail__link--primary {

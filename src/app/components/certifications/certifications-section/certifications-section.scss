@@ -196,15 +196,24 @@
     border-color 0.3s ease;
 }
 
-.action:hover,
 .action--primary {
   background: var(--color-white);
   border-color: var(--color-white);
   color: #0a0a0a;
 }
 
-.action--primary:hover {
-  background: var(--color-accent);
+@media (hover: hover) and (pointer: fine) {
+  .action:hover {
+    background: var(--color-white);
+    border-color: var(--color-white);
+    color: #0a0a0a;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action--primary:hover {
+    background: var(--color-accent);
+  }
 }
 
 .action:focus-visible {
@@ -232,7 +241,8 @@
   container-type: size;
   perspective: 1600px;
   perspective-origin: 50% 35%;
-  touch-action: pan-y; // vertical page scroll still works; horizontal drags page the deck
+  // Vertical page scroll and pinch-zoom stay native; horizontal drags page the deck.
+  touch-action: pan-y pinch-zoom;
   user-select: none;
   cursor: grab;
   outline: none;
@@ -349,9 +359,11 @@
     opacity 0.3s ease;
 }
 
-.controls__arrow:hover:not(:disabled) {
-  background: var(--color-white);
-  color: #0a0a0a;
+@media (hover: hover) and (pointer: fine) {
+  .controls__arrow:hover:not(:disabled) {
+    background: var(--color-white);
+    color: #0a0a0a;
+  }
 }
 
 .controls__arrow:disabled {
@@ -487,9 +499,11 @@
   backdrop-filter: blur(12px);
 }
 
-.lightbox__close:hover {
-  background: var(--color-white);
-  color: #0a0a0a;
+@media (hover: hover) and (pointer: fine) {
+  .lightbox__close:hover {
+    background: var(--color-white);
+    color: #0a0a0a;
+  }
 }
 
 .lightbox__close:focus-visible {
@@ -561,7 +575,23 @@
   }
 
   .action {
+    min-height: 2.75rem;
     padding: 0.55rem 0.9rem;
+  }
+
+  // Touch: eight 22px dots can't all be 44px targets. Swipe + 44px arrows page the
+  // deck, and the head already reads "03 / 08", so the dots step aside.
+  .controls {
+    justify-content: space-between;
+  }
+
+  .controls__dots {
+    display: none;
+  }
+
+  .controls__arrow {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 

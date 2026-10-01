@@ -129,9 +129,11 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
     background 0.4s ease;
 }
 
-.panel:not(.is-active) .panel__strip:hover {
-  color: var(--color-white);
-  background: rgb(255 255 255 / 3.5%);
+@media (hover: hover) and (pointer: fine) {
+  .panel:not(.is-active) .panel__strip:hover {
+    color: var(--color-white);
+    background: rgb(255 255 255 / 3.5%);
+  }
 }
 
 .panel.is-active .panel__strip {
@@ -331,9 +333,11 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
     transform 0.5s $ease-luxe;
 }
 
-.detail__nav button:hover {
-  background: var(--color-white);
-  color: #0a0a0a;
+@media (hover: hover) and (pointer: fine) {
+  .detail__nav button:hover {
+    background: var(--color-white);
+    color: #0a0a0a;
+  }
 }
 
 .detail__nav button:active {
@@ -488,6 +492,22 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
   .triptych {
     height: 34rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Touch ergonomics — 44px role bands (the 1px divider sat inside the band) and
+// prev/next back at their full 44px (they sit on the panel's clipped edge, so an
+// invisible hit area would be cut off).
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .xp {
+    --strip: calc(2.75rem + 1px);
+  }
+
+  .detail__nav button {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 

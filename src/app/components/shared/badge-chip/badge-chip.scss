@@ -16,7 +16,9 @@
     color 0.2s ease;
 }
 
-:host(:hover) {
-  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
-  color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  :host(:hover) {
+    border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+    color: var(--color-ink);
+  }
 }

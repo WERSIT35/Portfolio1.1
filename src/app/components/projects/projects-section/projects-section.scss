@@ -403,6 +403,12 @@
   color: var(--color-white);
 }
 
+// Status · year stays one unit; a long project name wraps instead.
+.lens__caption span:last-child {
+  flex: none;
+  white-space: nowrap;
+}
+
 .lens[data-kind='both'] .lens__caption {
   padding-right: 22%;
 }
@@ -616,6 +622,21 @@
 
   .row__name {
     font-size: 2.5rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Touch ergonomics — rows never drop below 44px on short phones, and the
+// "Open case study" link is a real 44px target (the next row would cover an
+// invisible hit area below it).
+// ---------------------------------------------------------------------------
+@media (max-width: 767px) {
+  .index {
+    --row: clamp(2.75rem, 5.6svh, 3rem);
+  }
+
+  .row__cta {
+    min-height: 2.75rem;
   }
 }
 

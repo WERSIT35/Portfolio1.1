@@ -205,16 +205,15 @@ export const EDUCATION_ITEMS: Education[] = [
     coverImage: '/assets/education/covers/fcc.jpg',
     coverAlt: 'FreeCodeCamp',
     name: 'FreeCodeCamp',
-    title: 'Frontend + Cloud Foundations',
+    title: 'Frontend & Data Structures',
     degree: 'Professional Certificates',
     subjects: [
       'Responsive Web Design',
       'JavaScript Algorithms and Data Structures',
       'Front-End Development Libraries',
-      'Introduction to AWS Solutions',
     ],
     description:
-      'Completed focused certification path to strengthen practical frontend architecture and cloud fundamentals used in production work.',
+      'Completed focused certification path to strengthen practical frontend architecture used in production work.',
     date: 'Ongoing',
   },
 ];
@@ -491,6 +490,37 @@ export const PROJECTS: Projects[] = [
     lessons:
       'On AI products the perimeter matters more than the prompt — rate limiting and tight upload validation are what keep the demo cheap to run and the production version safe to ship.',
     demoEmbedUrl: '',
+  },
+  {
+    projName: 'STM32 Ethernet MQTT Controller',
+    subname: 'Smart-Building IoT Communication Node',
+    date: 'Embedded Systems',
+    about:
+      'Developed an Ethernet-connected STM32F767 microcontroller node utilizing the lwIP TCP/IP stack and a Mosquitto MQTT broker. Enables real-time bidirectional communication, telemetry publishing, and remote hardware control as the foundational layer for a smart-building management system.',
+    numOfPage: 0,
+    duration: 'C · STM32F767 · lwIP · MQTT · Ethernet',
+    highlights: [
+      'Ethernet-connected node on the STM32F767 microcontroller',
+      'lwIP TCP/IP stack for on-device networking',
+      'Mosquitto MQTT broker for real-time bidirectional communication',
+      'Telemetry publishing and remote hardware control',
+      'Foundational layer for a smart-building management system',
+    ],
+    img: [],
+    link: '',
+    github: '',
+    iflink: false,
+    gradient: 'background-image: linear-gradient(90deg, #101014, #2f3336);',
+    role: 'Embedded systems engineer',
+    year: 2024,
+    status: 'prototype',
+    featured: false,
+    stack: ['C', 'STM32F767', 'lwIP', 'MQTT', 'Ethernet'],
+    metrics: [
+      { label: 'MCU', value: 'STM32F767' },
+      { label: 'TCP/IP stack', value: 'lwIP' },
+      { label: 'Messaging', value: 'MQTT · Mosquitto' },
+    ],
   },
   {
     projName: 'Akhali Sakhli',

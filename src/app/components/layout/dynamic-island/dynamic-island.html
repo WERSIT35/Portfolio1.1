@@ -15,8 +15,11 @@
 
   <div class="island__label" aria-hidden="true">
     <span #labelText class="island__label-text">
-      @for (label of [activeLabel()]; track label) {
-        <span class="island__label-word">{{ label }}</span>
+      <!-- One slot per label: the active one is created fresh, so each new label rolls in. -->
+      @for (label of labels; track label) {
+        @if (label === activeLabel()) {
+          <span class="island__label-word">{{ label }}</span>
+        }
       }
     </span>
   </div>

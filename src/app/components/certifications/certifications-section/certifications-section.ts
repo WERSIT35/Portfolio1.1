@@ -169,16 +169,29 @@ export class CertificationsSection {
   }
 
   protected onPointerDown(event: PointerEvent): void {
-    if (event.button !== 0) return;
+    // A second finger (pinch) must not hijack the drag in progress.
+    if (event.button !== 0 || !event.isPrimary) return;
     const now = performance.now();
     this.drag = { startX: event.clientX, startPos: this.pos, lastX: event.clientX, lastT: now, v: 0, moved: false };
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    try {
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer already gone (cancelled before capture): the drag simply runs uncaptured.
+    }
   }
 
   protected onPointerUp(event: PointerEvent): void {
+    if (!event.isPrimary) return;
     const drag = this.drag;
     this.drag = null;
     if (!drag) return;
+
+    // The browser took the gesture (vertical scroll, pinch-zoom): never a tap —
+    // just settle on the nearest card (or spring back if it barely moved).
+    if (event.type === 'pointercancel') {
+      this.go(drag.moved ? Math.round(this.pos) : this.active());
+      return;
+    }
 
     if (!drag.moved) {
       // A tap on the front plate opens it.

@@ -19,7 +19,7 @@ export interface Projects {
   gradient: string;
   role: string;
   year: number;
-  status: 'live' | 'in-production' | 'in-development';
+  status: 'live' | 'in-production' | 'in-development' | 'prototype';
   featured: boolean;
   stack: string[];
   problem?: string;

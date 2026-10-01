@@ -3,108 +3,61 @@
 }
 
 $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
+$label: 0.6875rem;
 
 // ---------------------------------------------------------------------------
-// Frame — exactly one viewport; the island floats over it (no clearance).
+// Frame — exactly one viewport: head, full-bleed scrubber, ruled ledger.
 // The section is also the named view timeline the rail draws itself in on.
 // ---------------------------------------------------------------------------
 .edu {
+  --gutter: 1.25rem;
+
   position: relative;
   display: grid;
-  grid-template-rows: auto clamp(8.5rem, 24svh, 13.5rem) minmax(0, 1fr);
-  gap: clamp(0.75rem, 2.2svh, 1.5rem);
+  grid-template-rows: auto minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: clamp(0.75rem, 2svh, 1.25rem);
   height: 100svh;
-  padding: 1.25rem;
+  padding: var(--gutter);
   overflow: hidden;
   isolation: isolate;
+  background:
+    radial-gradient(60% 45% at 50% 18%, rgb(255 255 255 / 3.5%), transparent 70%),
+    var(--color-bg);
   view-timeline-name: --edu;
 }
 
-// ---------------------------------------------------------------------------
-// Stills — full-bleed campus covers, very dark high-contrast B/W with a slow
-// continuous drift. The active one fades in slowly; the outgoing one leaves fast.
-// ---------------------------------------------------------------------------
-.stills {
+.edu__sr {
   position: absolute;
-  inset: 0;
-  z-index: -1;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  background: #050505;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-// Scrim + one soft spotlight: keeps the type legible even when the still warms up.
-.stills::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(50% 60% at 30% 70%, rgb(255 255 255 / 4%), transparent 70%),
-    linear-gradient(180deg, rgb(10 10 10 / 78%) 0%, rgb(10 10 10 / 40%) 38%, rgb(10 10 10 / 88%) 100%),
-    linear-gradient(90deg, rgb(10 10 10 / 55%) 0%, transparent 60%);
-}
-
-.still {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.7s $ease-close;
-}
-
-.still.is-active {
-  opacity: 1;
-  transition: opacity 1.2s var(--ease-luxe);
-}
-
-.still__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.35) brightness(0.32);
-  transition: filter 0.28s $ease-close;
-  animation: edu-drift 40s ease-in-out infinite alternate;
-  animation-delay: calc(var(--i, 0) * -13s);
-  will-change: transform;
-}
-
-// Hovering the course list develops the active still into colour.
-.edu.is-warm .still.is-active .still__img {
-  filter: grayscale(0) contrast(1.05) brightness(0.6);
-  transition: filter 0.9s var(--ease-luxe);
-}
-
-@keyframes edu-drift {
-  from {
-    transform: scale(1.06) translate3d(-1.5%, -1%, 0);
-  }
-  to {
-    transform: scale(1.16) translate3d(1.5%, 1.2%, 0);
-  }
+// Architectural labels: tiny, uppercase, tracked out.
+%label {
+  font-size: $label;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
 }
 
 // ---------------------------------------------------------------------------
-// Head
+// Head — kicker, title, and a terminal readout of the playhead state.
 // ---------------------------------------------------------------------------
-.edu__head,
-.tl,
-.tx {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
 .edu__head {
   display: flex;
   align-items: baseline;
   gap: clamp(1rem, 3vw, 2.5rem);
+  min-width: 0;
 }
 
-.edu__kicker,
-.edu__count {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
+.edu__kicker {
+  @extend %label;
 }
 
 .edu__title {
@@ -114,63 +67,151 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--color-white);
 }
 
-.edu__count {
-  margin-left: auto;
-  font-variant-numeric: tabular-nums;
+// Stays in the right half, clear of the island floating at the centre of this row.
+.edu__term {
+  display: flex;
+  justify-content: flex-end;
+  gap: clamp(1rem, 2.4vw, 2.25rem);
+  min-width: 0;
+  max-width: calc(50% - 8rem);
+  margin: 0 0 0 auto;
+
+  div {
+    display: flex;
+    flex: none;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  dt {
+    @extend %label;
+  }
+
+  dd {
+    @extend %label;
+    margin: 0;
+    color: var(--color-ink);
+  }
 }
 
-.edu__count-now {
+.edu__term-now {
   color: var(--color-white);
 }
 
-// ---------------------------------------------------------------------------
-// Timeline — [labels | rail] × [axis, three lanes]. Positions are fractions
-// (--from/--to/--at, 0–1) so the same markup can turn vertical on phones.
-// ---------------------------------------------------------------------------
-.tl {
-  --vertical: 0;
-  --grid: 90deg;
-  --flow: 11px 0;
-  --draw-from: 0 1;
-
-  position: relative;
-  display: grid;
-  grid-template-columns: clamp(8rem, 12vw, 11rem) minmax(0, 1fr);
-  grid-template-rows: auto repeat(3, minmax(0, 1fr));
-  column-gap: clamp(1rem, 2vw, 2rem);
-  padding: 0.5rem clamp(1rem, 2vw, 1.75rem) 0;
-  border-block: 1px solid var(--color-border);
-  background: rgb(10 10 10 / 50%);
-  min-height: 0;
+.edu__term .edu__term-lock {
+  flex: 0 1 auto;
 }
 
-.tl__lanes {
-  display: contents;
+.edu__term-lock dd {
+  overflow: hidden;
+  min-width: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-white);
 }
 
-.tl__axis {
-  position: relative;
-  grid-column: 2;
-  grid-row: 1;
-  height: 1.75rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.tl__year {
-  position: absolute;
-  left: calc(var(--at) * 100%);
-  bottom: 0;
-  padding: 0 0 0.4rem 0.45rem;
-  border-left: 1px solid var(--color-border-strong);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.1em;
-  line-height: 1;
+.edu__term-lock.is-free dd {
   color: var(--color-ink-dim);
 }
 
+// ---------------------------------------------------------------------------
+// Scrubber — full-bleed [labels | rail] × [axis, lanes]. Positions are
+// fractions of the rail (--from/--to/--at, 0–1); JS springs --ph.
+// ---------------------------------------------------------------------------
+.tl {
+  --label-w: clamp(8.5rem, 12vw, 11.5rem);
+  --pad-x: clamp(1rem, 2vw, 1.75rem);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--label-w) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: clamp(1rem, 2vw, 2rem);
+  min-height: 0;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--pad-x);
+  border-block: 1px solid var(--color-border-strong);
+  background: rgb(255 255 255 / 1.5%);
+  // Vertical page scroll and pinch-zoom stay native; horizontal drags scrub.
+  touch-action: pan-y pinch-zoom;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.tl__corner {
+  @extend %label;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--color-border-strong);
+  font-size: 0.625rem;
+}
+
+// Massive year numerals, fitted to their column; outline at rest, the one under
+// the playhead fills solid white the instant it's entered.
+.tl__axis {
+  container-type: inline-size;
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--years), minmax(0, 1fr));
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.tl__year {
+  padding: clamp(0.6rem, 2svh, 1.25rem) 0 0.45rem 0.5rem;
+  border-left: 1px solid var(--color-border-strong);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: min(calc(100cqi / var(--years) / 2.65), 11svh);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 0.86;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 22%);
+  transition:
+    color 0.12s linear,
+    -webkit-text-stroke-color 0.12s linear;
+}
+
+.tl__year.is-now {
+  color: var(--color-white);
+  -webkit-text-stroke-color: transparent;
+}
+
+// Hard-edged band marking the year column under the playhead.
+.tl__band {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1 / -1;
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--year-idx) / var(--years) * 100%);
+    width: calc(100% / var(--years));
+    border-inline: 1px solid rgb(255 255 255 / 22%);
+    background: linear-gradient(180deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 2.5%));
+  }
+}
+
+.tl__lanes {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
 .lane {
+  position: relative;
+  z-index: 1;
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
@@ -183,30 +224,29 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   background: none;
   font: inherit;
   text-align: left;
-  cursor: pointer;
-  color: rgb(255 255 255 / 38%);
-  transition: color 0.28s $ease-close;
+  cursor: inherit;
+  color: rgb(255 255 255 / 30%);
+  transition: color 0.2s $ease-close;
 }
 
 .lane:last-child {
   border-bottom: 0;
 }
 
-// Explicit rows: the playhead spans every row of the rail column, so auto-placement
-// would otherwise push these full-width lanes into new implicit rows.
-@for $n from 1 through 3 {
-  .lane:nth-child(#{$n}) {
-    grid-row: $n + 1;
+.lane.is-active {
+  color: rgb(255 255 255 / 62%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lane:hover {
+    color: rgb(255 255 255 / 62%);
   }
 }
 
-.lane:hover {
-  color: rgb(255 255 255 / 70%);
-}
-
-.lane.is-active {
+// The playhead crosses this track: full white, sharply.
+.lane.is-hit {
   color: var(--color-white);
-  transition: color 0.6s var(--ease-luxe);
+  transition-duration: 0.08s;
 }
 
 .lane:focus-visible {
@@ -221,22 +261,22 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 0;
 }
 
+.lane__n {
+  @extend %label;
+  font-size: 0.625rem;
+}
+
 .lane__mono {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  letter-spacing: 0.01em;
 }
 
 .lane__tag {
-  overflow: hidden;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: var(--color-ink-dim);
+  @extend %label;
+  font-size: 0.5625rem;
+  line-height: 1.35;
 }
 
 // Year gridlines run through every lane.
@@ -244,8 +284,8 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   align-self: stretch;
   background: repeating-linear-gradient(
-    var(--grid),
-    rgb(255 255 255 / 6%) 0 1px,
+    90deg,
+    rgb(255 255 255 / 7%) 0 1px,
     transparent 1px calc(100% / var(--years))
   );
 }
@@ -258,65 +298,75 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   height: var(--thick, 2px);
   translate: 0 -50%;
   transform-origin: 0 50%;
+  background: currentColor;
+}
+
+.lane.is-hit .seg {
+  box-shadow: 0 0 14px rgb(255 255 255 / 30%);
 }
 
 // Completed programme: a solid bar.
 .seg--solid {
-  --thick: 0.4rem;
-  background: currentColor;
+  --thick: clamp(0.4rem, 1.1svh, 0.6rem);
 }
 
-// In progress: a dashed line that keeps flowing toward the expected date, fading in
-// from nothing because the data gives no start year.
+// In progress: a dashed line flowing toward the expected date, fading in from
+// nothing because the data gives no start year.
 .seg--dashed {
-  --thick: 2px;
-  background: repeating-linear-gradient(var(--grid), currentColor 0 6px, transparent 6px 11px);
-  mask: linear-gradient(var(--grid), transparent, #000 75%);
+  background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 11px);
+  mask: linear-gradient(90deg, transparent, #000 75%);
   animation: edu-flow 1.4s linear infinite;
 }
 
 // Ongoing: a faint thread from the first certificate onwards.
 .seg--faint {
   --thick: 1px;
-  background: currentColor;
-  opacity: 0.35;
-}
-
-.tick {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--at) * 100%);
-  width: 2px;
-  height: 0.9rem;
-  translate: -50% -50%;
-  background: currentColor;
-}
-
-.diamond {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--at) * 100%);
-  width: 0.6rem;
-  height: 0.6rem;
-  translate: -50% -50%;
-  rotate: 45deg;
-  border: 1px solid currentColor;
-  background: var(--color-bg);
-  transition: background-color 0.6s var(--ease-luxe);
-}
-
-.lane.is-active .diamond {
-  background: currentColor;
+  opacity: 0.4;
 }
 
 @keyframes edu-flow {
   to {
-    background-position: var(--flow);
+    background-position: 11px 0;
   }
 }
 
+// Milestones the playhead snaps to: end caps, ◆ for expected, ticks for certificates.
+.mark {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--at) * 100%);
+  width: 2px;
+  height: 1.4rem;
+  translate: -50% -50%;
+  background: currentColor;
+  transition:
+    scale 0.28s $ease-close,
+    box-shadow 0.28s $ease-close;
+}
+
+.mark--tick {
+  height: 1rem;
+}
+
+.mark--diamond {
+  width: 0.7rem;
+  height: 0.7rem;
+  rotate: 45deg;
+  border: 1px solid currentColor;
+  background: var(--color-bg);
+}
+
+.mark.is-locked {
+  scale: 1.6;
+  background: var(--color-white);
+  box-shadow: 0 0 12px rgb(255 255 255 / 70%);
+  transition:
+    scale 0.5s var(--ease-spring),
+    box-shadow 0.5s var(--ease-luxe);
+}
+
 // Playhead: the wrapper is exactly the rail's size, so translating it by
-// --ph × its own size lands the line on the right year. JS lerps --ph.
+// --ph × its own width lands the line on the right moment.
 .playhead {
   position: relative;
   z-index: 2;
@@ -338,20 +388,35 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   left: 0;
   width: 1px;
   translate: -50% 0;
-  background: linear-gradient(180deg, var(--color-white), var(--color-accent) 60%, rgb(224 224 224 / 20%));
-  box-shadow: 0 0 14px rgb(255 255 255 / 35%);
+  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-accent) 70%, rgb(224 224 224 / 35%));
+  box-shadow:
+    0 0 6px rgb(255 255 255 / 70%),
+    0 0 22px rgb(255 255 255 / 28%);
+
+  // Sharp cap where the line meets the frame.
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    translate: -50% -50%;
+    rotate: 45deg;
+    background: var(--color-white);
+  }
 }
 
 .playhead__year {
   position: absolute;
-  top: 0.05rem;
+  bottom: 0.5rem;
   left: 0;
   translate: -50% 0;
-  padding: 0.2rem 0.45rem;
-  border-radius: 999px;
+  padding: 0.3rem 0.45rem;
+  border-radius: 2px;
   background: var(--color-accent);
   color: var(--color-bg);
-  font-size: 0.6875rem;
+  font-size: $label;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
@@ -359,15 +424,8 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ---------------------------------------------------------------------------
-// Transcript — giant degree title on the left, numbered course list on the right.
+// Ledger — strict 1px-ruled grid: the rules are the 1px gaps showing through.
 // ---------------------------------------------------------------------------
-.tx {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(2rem, 5vw, 6rem);
-  min-height: 0;
-}
-
 .line {
   animation: edu-line-in 0.9s var(--ease-luxe) backwards;
   animation-delay: calc(var(--l, 0) * 70ms);
@@ -381,47 +439,57 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.tx__degree {
-  container-type: inline-size;
+.ledger {
   display: grid;
-  align-content: end;
-  gap: clamp(0.5rem, 1.4svh, 0.9rem);
-  min-width: 0;
-  min-height: 0;
-}
-
-.tx__tag {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-mid);
-}
-
-.tx__badge {
-  padding: 0.25rem 0.6rem;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.75fr) minmax(0, 1.2fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 1px;
   border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  color: var(--color-white);
+  background: var(--color-border);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: clamp(0.8rem, 1.6svh, 1.3rem) clamp(0.9rem, 1.3vw, 1.4rem);
+  background: var(--color-bg);
+}
+
+.cell__label {
+  @extend %label;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cell__period {
+  display: none;
+}
+
+.cell--degree {
+  container-type: inline-size;
+  grid-row: 1 / -1;
+  justify-content: space-between;
+}
+
+.cell--courses {
+  grid-column: 3;
+  grid-row: 1 / -1;
 }
 
 // Arrives as an outline, then fills pure white.
-.tx__title {
+.ledger__title {
   font-weight: 800;
-  font-size: clamp(2.5rem, min(12.5cqi, 11svh), 9rem);
-  line-height: 0.88;
+  font-size: clamp(2.5rem, min(15.5cqi, 14svh), 10rem);
+  line-height: 0.86;
   letter-spacing: -0.045em;
   text-wrap: balance;
   color: transparent;
   -webkit-text-stroke: 1px rgb(255 255 255 / 35%);
   animation:
     edu-line-in 0.9s var(--ease-luxe) backwards,
-    edu-fill 1.1s var(--ease-luxe) 0.35s forwards;
+    edu-fill 1.1s var(--ease-luxe) forwards;
   animation-delay: 70ms, 0.35s;
 }
 
@@ -432,78 +500,85 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.tx__inst {
+.ledger__inst {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: clamp(0.95rem, 1.2vw, 1.125rem);
+  margin-top: auto;
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
   font-weight: 500;
+  line-height: 1.25;
   color: var(--color-ink);
 }
 
-.tx__chip {
+// 40px glass stamp — the only place a logo appears.
+.stamp {
   display: grid;
   flex: none;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.6rem;
-  background: rgb(255 255 255 / 6%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, rgb(255 255 255 / 9%), rgb(255 255 255 / 3%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 12%);
 }
 
-// Institution marks are forced monochrome.
-.tx__logo {
+.stamp__logo {
   width: 1.4rem;
   height: 1.4rem;
   object-fit: contain;
   filter: grayscale(1) brightness(1.5);
 }
 
-.tx__date {
+// Vector marks are dark artwork on transparency: render them as solid white.
+.stamp__logo[src$=".svg"] {
+  filter: brightness(0) invert(1);
+}
+
+.ledger__value {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--color-white);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+
+  &::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    background: currentColor;
+  }
+
+  &.is-open::before {
+    background: none;
+    border: 1px solid currentColor;
+  }
+}
+
+.ledger__note {
   font-size: 0.75rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-mid);
-}
-
-.tx__note {
-  max-width: 28rem;
-  font-size: 0.8125rem;
-  color: var(--color-ink-dim);
-}
-
-.tx__list {
-  display: grid;
-  align-content: end;
-  min-width: 0;
-  min-height: 0;
-  outline: none;
-}
-
-.tx__list:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: 0.5rem;
-}
-
-.tx__list-label {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--color-border-strong);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  line-height: 1.35;
   color: var(--color-ink-dim);
 }
 
 .courses {
+  display: grid;
+  grid-auto-rows: minmax(0, auto);
+  align-content: start;
+  min-height: 0;
   margin: 0;
   padding: 0;
+  border-top: 1px solid var(--color-border-strong);
   list-style: none;
 }
 
@@ -511,18 +586,27 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   display: grid;
   grid-template-columns: 2.75rem minmax(0, 1fr);
   align-items: baseline;
-  padding: clamp(0.3rem, 1.05svh, 0.65rem) 0;
+  padding: clamp(0.3rem, 0.95svh, 0.6rem) 0;
   border-bottom: 1px solid var(--color-border);
-  font-size: clamp(0.875rem, 1.9svh, 1.125rem);
+  font-size: clamp(0.85rem, 1.8svh, 1.05rem);
   font-weight: 500;
+  line-height: 1.3;
   color: var(--color-ink-mid);
   transition: color 0.28s $ease-close;
-  animation: edu-line-in 0.8s var(--ease-luxe) backwards;
-  animation-delay: calc(0.18s + var(--l, 0) * 55ms);
+  // Printed line by line, left to right, like a terminal.
+  animation: edu-print 0.55s var(--ease-out-expo) backwards;
+  animation-delay: calc(0.2s + var(--l, 0) * 60ms);
+}
+
+@keyframes edu-print {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.2;
+  }
 }
 
 .course__n {
-  font-size: 0.6875rem;
+  font-size: $label;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.1em;
   color: var(--color-ink-dim);
@@ -532,22 +616,24 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   transition: translate 0.28s $ease-close;
 }
 
-.course:hover {
-  color: var(--color-white);
-  transition: color 0.45s var(--ease-luxe);
-}
+@media (hover: hover) and (pointer: fine) {
+  .course:hover {
+    color: var(--color-white);
+    transition: color 0.45s var(--ease-luxe);
+  }
 
-.course:hover .course__s {
-  translate: 0.5rem 0;
-  transition: translate 0.55s var(--ease-luxe);
+  .course:hover .course__s {
+    translate: 0.5rem 0;
+    transition: translate 0.55s var(--ease-luxe);
+  }
 }
 
 // ---------------------------------------------------------------------------
-// Scroll-driven draw-in: the rail's marks grow along the axis as the stage arrives.
+// Scroll-driven draw-in: bars grow along the axis as the stage arrives.
 // ---------------------------------------------------------------------------
 @keyframes edu-draw {
   from {
-    scale: var(--draw-from);
+    scale: 0 1;
     opacity: 0;
   }
 }
@@ -575,8 +661,7 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
       animation-range: normal, entry 20% entry 95%;
     }
 
-    .tick,
-    .diamond,
+    .mark,
     .tl__year {
       animation: edu-fade linear both;
       animation-timeline: --edu;
@@ -586,20 +671,20 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ---------------------------------------------------------------------------
-// Phones — the rail turns vertical down the left edge; the transcript fills
-// the right. Tapping a lane swaps the still and the course list.
+// Phones — the scrubber stays horizontal (drag to scrub) with two-digit years;
+// the ledger restacks: degree, institution | status, courses.
 // ---------------------------------------------------------------------------
 @media (max-width: 767px) {
   .edu {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    column-gap: 0.9rem;
-    row-gap: 0.75rem;
-    padding: 0.75rem 0.75rem var(--dock-clear);
+    --gutter: 0.75rem;
+
+    // Scrubber sized by its content: an axis plus three 44px lanes (tap targets).
+    grid-template-rows: auto auto minmax(0, 1fr);
+    gap: 0.6rem;
+    padding-bottom: var(--dock-clear);
   }
 
   .edu__head {
-    grid-column: 1 / -1;
     flex-wrap: wrap;
     row-gap: 0.25rem;
   }
@@ -609,181 +694,164 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
     flex-basis: 100%;
   }
 
-  .tl {
-    --vertical: 1;
-    --grid: 180deg;
-    --flow: 0 11px;
-    --draw-from: 1 0;
-
-    grid-column: 1;
-    grid-row: 2;
-    grid-template-columns: 1.7rem repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto minmax(0, 1fr);
-    column-gap: 0;
-    padding: 0 0 0.5rem;
-    border-block: 0;
-    border-inline-end: 1px solid var(--color-border);
-    background: rgb(10 10 10 / 35%);
+  .edu__term {
+    max-width: none;
   }
 
-  .tl__axis {
-    grid-column: 1;
-    grid-row: 2;
-    height: auto;
-    border-bottom: 0;
-  }
-
-  .tl__year {
-    top: calc(var(--at) * 100%);
-    bottom: auto;
-    left: 0;
-    padding: 0.2rem 0 0;
-    border-left: 0;
-    border-top: 1px solid var(--color-border-strong);
-    font-size: 0.5625rem;
-    letter-spacing: 0.02em;
-  }
-
-  .lane {
-    grid-template-columns: none;
-    grid-template-rows: subgrid;
-    justify-items: center;
-    border-bottom: 0;
-  }
-
-  @for $n from 1 through 3 {
-    .lane:nth-child(#{$n}) {
-      grid-row: 1 / -1;
-      grid-column: $n + 1;
-    }
-  }
-
-  .lane__label {
-    padding: 0.1rem 0 0.5rem;
-  }
-
-  // Lanes are ~1rem wide: set the monogram vertically, reading bottom-up.
-  .lane__mono {
-    writing-mode: vertical-rl;
-    rotate: 180deg;
-    font-size: 0.625rem;
-    letter-spacing: 0.08em;
-  }
-
-  .lane__tag {
+  .edu__term .edu__term-lock {
     display: none;
   }
 
-  .lane__track {
-    width: 100%;
+  .tl {
+    --label-w: 2.1rem;
+    --pad-x: 0.75rem;
+
+    column-gap: 0.5rem;
   }
 
-  .seg {
-    top: calc(var(--from) * 100%);
-    left: 50%;
-    width: var(--thick, 2px);
-    height: calc((var(--to) - var(--from)) * 100%);
-    translate: -50% 0;
-    transform-origin: 50% 0;
+  .tl__corner {
+    font-size: 0;
+    padding-bottom: 0;
   }
 
-  .seg--solid {
-    --thick: 0.3rem;
+  .tl__century {
+    display: none;
   }
 
-  .tick {
-    top: calc(var(--at) * 100%);
-    left: 50%;
-    width: 0.7rem;
-    height: 2px;
-  }
-
-  .diamond {
-    top: calc(var(--at) * 100%);
-    left: 50%;
-  }
-
-  .playhead {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-
-  .playhead__move {
-    transform: translateY(calc(var(--ph) * 100%));
-  }
-
-  .playhead__line {
-    top: 0;
-    bottom: auto;
-    left: 0;
-    right: 0;
-    width: auto;
-    height: 1px;
-    translate: 0 -50%;
-    background: linear-gradient(90deg, var(--color-white), var(--color-accent) 60%, rgb(224 224 224 / 20%));
-  }
-
-  .playhead__year {
-    top: 0;
-    left: 0;
-    translate: 0 -50%;
-    padding: 0.15rem 0.2rem;
-    font-size: 0.5625rem;
-    letter-spacing: 0;
-  }
-
-  .tx {
-    grid-column: 2;
-    grid-row: 2;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 1rem;
-    width: auto;
-  }
-
-  .tx__degree {
-    align-content: start;
-    gap: 0.45rem;
-  }
-
-  // Thin strokes blur on phone screens: arrive as solid graphite instead.
-  .tx__title {
-    font-size: clamp(1.9rem, 15cqi, 3rem);
+  .tl__year {
+    padding: 0.5rem 0 0.35rem 0.3rem;
+    font-size: calc(100cqi / var(--years) / 1.55);
     color: #3a3a3a;
     -webkit-text-stroke: 0;
   }
 
-  .tx__inst {
-    font-size: 0.875rem;
+  .tl__year.is-now {
+    color: var(--color-white);
   }
 
-  .tx__chip {
-    width: 1.9rem;
-    height: 1.9rem;
+  .tl__lanes {
+    grid-auto-rows: minmax(2.75rem, 1fr);
   }
 
-  .tx__logo {
-    width: 1.15rem;
-    height: 1.15rem;
+  .lane__n,
+  .lane__tag {
+    display: none;
   }
 
-  .tx__note {
-    font-size: 0.75rem;
+  .lane__mono {
+    font-size: 0.6875rem;
   }
 
-  .tx__list {
-    align-content: start;
+  .mark {
+    height: 1rem;
+  }
+
+  .mark--tick {
+    height: 0.75rem;
+  }
+
+  .mark--diamond {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
+
+  .playhead__year {
+    bottom: 0.3rem;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.5625rem;
+  }
+
+  .ledger {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .cell {
+    gap: 0.35rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .cell__label {
+    font-size: 0.5625rem;
+  }
+
+  .cell__record {
+    display: none;
+  }
+
+  .cell__period {
+    display: inline;
+  }
+
+  .cell--degree {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .cell--period {
+    display: none;
+  }
+
+  .cell--inst {
+    grid-row: 2;
+  }
+
+  .cell--status {
+    grid-row: 2;
+  }
+
+  .cell--courses {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  // Thin strokes blur on phone screens: arrive as solid graphite instead.
+  .ledger__title {
+    font-size: clamp(1.6rem, 10.5cqi, 2.6rem);
+    color: #3a3a3a;
+    -webkit-text-stroke: 0;
+  }
+
+  .ledger__inst {
+    gap: 0.55rem;
+    font-size: 0.8125rem;
+  }
+
+  .ledger__value {
+    font-size: 0.9375rem;
+  }
+
+  .ledger__note {
+    font-size: 0.625rem;
   }
 
   .course {
     grid-template-columns: 1.75rem minmax(0, 1fr);
-    padding: 0.32rem 0;
-    font-size: 0.8125rem;
-    line-height: 1.3;
+    padding: 0.28rem 0;
+    font-size: 0.75rem;
+    line-height: 1.25;
   }
 
   .course__n {
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
+  }
+}
+
+// Short phones (~667px): 44px lanes + nine comfortable course rows need ~720px, so
+// the stage grows a little past one viewport instead of crushing either.
+@media (max-width: 767px) and (max-height: 720px) {
+  .edu {
+    height: auto;
+    min-height: 100svh;
+    grid-template-rows: auto auto auto;
+  }
+
+  .ledger {
+    grid-template-rows: auto auto auto;
+  }
+
+  .ledger__title {
+    font-size: clamp(1.5rem, 9cqi, 2.2rem);
   }
 }
 
@@ -793,25 +861,28 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
   .edu {
     height: auto;
     min-height: 100svh;
+    grid-template-rows: auto auto auto;
+  }
+
+  .tl {
+    min-height: 13rem;
+  }
+
+  .ledger {
+    min-height: 22rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .still__img,
   .seg--dashed,
   .line,
   .course {
     animation: none;
   }
 
-  .tx__title {
+  .ledger__title {
     animation: none;
     color: var(--color-white);
     -webkit-text-stroke: 0;
-  }
-
-  .still,
-  .still.is-active {
-    transition-duration: 0.4s;
   }
 }

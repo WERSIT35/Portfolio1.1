@@ -88,6 +88,8 @@
 
 @media (max-width: 767px) {
   :root {
+    // Dock pill fits two 44px buttons (brand, menu) + its ring; --dock-clear follows it.
+    --island-h: 3.5rem;
     --dock-clear: calc(var(--island-bottom) + var(--island-h) + 0.75rem);
   }
 }
@@ -384,6 +386,24 @@ app-home-page {
 .img-fade.is-loaded {
   opacity: 1;
   filter: none;
+}
+
+// ---------------------------------------------------------------------------
+// Touch press state — hover effects are gated to fine pointers, so on touch a
+// pressed control dims instantly instead (native iOS feel), replacing the grey
+// tap flash. iOS needs a touchstart listener for :active (added in App).
+// ---------------------------------------------------------------------------
+@media (hover: none) {
+  a,
+  button,
+  [role='tab'] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :is(a, button, [role='tab']):active:not(:disabled) {
+    opacity: 0.6;
+    transition: opacity 0s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
