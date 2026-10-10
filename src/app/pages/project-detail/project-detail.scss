@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: block;
 }
@@ -290,7 +292,7 @@
   border: 0;
 }
 
-@media (max-width: 900px) {
+@include bp.below-desktop {
   .detail__body {
     grid-template-columns: 1fr;
   }
@@ -300,10 +302,11 @@
   }
 }
 
-@media (max-width: 640px) {
+@include bp.phone {
+  // The bottom band clears the docked island, so the last content can scroll above it.
   .detail {
     padding-top: 1.5rem;
-    padding-bottom: 3rem;
+    padding-bottom: calc(var(--dock-clear) + 1rem);
   }
 
   .detail__back {
@@ -341,4 +344,15 @@
   margin-top: 1rem;
   color: var(--color-accent);
   text-decoration: none;
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .detail__status,
+  .detail__year {
+    font-size: 0.875rem;
+  }
 }

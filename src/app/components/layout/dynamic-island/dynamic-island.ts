@@ -113,7 +113,10 @@ export class DynamicIsland {
     }
   }
 
-  protected onFocusIn(): void {
+  protected onFocusIn(event: FocusEvent): void {
+    // Only keyboard focus opens the island. A tap also focuses the toggle (Android, not
+    // iOS) just before its click; opening here made toggle() read "open" and close again.
+    if (!(event.target as HTMLElement).matches(':focus-visible')) return;
     this.dismissed.set(false);
     this.focusWithin.set(true);
   }

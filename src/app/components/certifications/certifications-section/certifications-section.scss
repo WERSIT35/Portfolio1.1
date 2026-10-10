@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: block;
 }
@@ -514,7 +516,7 @@
 // ---------------------------------------------------------------------------
 // Tablet
 // ---------------------------------------------------------------------------
-@media (max-width: 1023px) {
+@include bp.below-desktop {
   .cx__body {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 2rem;
@@ -526,13 +528,10 @@
 }
 
 // ---------------------------------------------------------------------------
-// Phones — deck on top, compact detail below; everything inside 100svh.
+// Below desktop the head row can't keep the top-centred island's spot empty, so
+// the title drops to its own line at the left, clear of it.
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
-  .cx {
-    padding: 0.75rem 0.75rem var(--dock-clear);
-  }
-
+@include bp.below-desktop {
   .cx__head {
     flex-wrap: wrap;
     gap: 0.25rem 1rem;
@@ -541,6 +540,18 @@
   .cx__title {
     width: 100%;
     order: 3;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Phones — deck on top, compact detail below; everything inside 100svh.
+// ---------------------------------------------------------------------------
+@include bp.phone {
+  .cx {
+    padding: 0.75rem 0.75rem var(--dock-clear);
+  }
+
+  .cx__title {
     font-size: 1.35rem;
   }
 
@@ -575,14 +586,19 @@
   }
 
   .action {
-    min-height: 2.75rem;
     padding: 0.55rem 0.9rem;
   }
 
-  // Touch: eight 22px dots can't all be 44px targets. Swipe + 44px arrows page the
-  // deck, and the head already reads "03 / 08", so the dots step aside.
   .controls {
     justify-content: space-between;
+  }
+}
+
+// Touch, at any width: eight 22px dots can't all be 44px targets. Swipe + 44px arrows
+// page the deck, and the head already reads "03 / 08", so the dots step aside.
+@include bp.touch {
+  .action {
+    min-height: 2.75rem;
   }
 
   .controls__dots {
@@ -595,14 +611,14 @@
   }
 }
 
-@media (max-width: 767px) and (max-height: 720px) {
+@include bp.phone-shorter-than(721px) {
   .detail__skills {
     display: none;
   }
 }
 
 // Short desktop screens: grow instead of crushing the deck.
-@media (min-width: 768px) and (max-height: 619px) {
+@include bp.tablet-up-short {
   .cx {
     height: auto;
     min-height: 100svh;
@@ -637,5 +653,23 @@
   .plate__img,
   .plate__glare {
     transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .action,
+  .detail__issuer,
+  .detail__meta,
+  .detail__skills li {
+    font-size: 0.875rem;
+  }
+
+  // Tighter tracking keeps both actions on one row at the larger size.
+  .action {
+    letter-spacing: 0.06em;
   }
 }

@@ -12,7 +12,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
-import { desktopShots, mobileShots } from '../../../utils/project-media';
+import { desktopShots, mobileShots, shotSize, shotSrcset } from '../../../utils/project-media';
 import { projectStatusLabel } from '../../../utils/project-status';
 
 type LensKind = 'both' | 'desktop' | 'mobile' | 'spec';
@@ -36,6 +36,9 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
   styleUrl: './projects-section.scss',
 })
 export class ProjectsSection {
+  protected readonly shotSize = shotSize;
+  protected readonly shotSrcset = shotSrcset;
+
   protected readonly rows = PROJECTS.map((project, i) => {
     const desktop = desktopShots(project);
     const mobile = mobileShots(project);

@@ -7,6 +7,7 @@ import { BadgeChip } from '../../components/shared/badge-chip/badge-chip';
 import { MetricTile } from '../../components/shared/metric-tile/metric-tile';
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
 import { projectStatusLabel } from '../../utils/project-status';
+import { shotSize, shotSrcset } from '../../utils/project-media';
 
 @Component({
   selector: 'app-project-detail',
@@ -26,6 +27,9 @@ export class ProjectDetail {
     const project = this.project();
     return project ? projectStatusLabel(project.status) : '';
   });
+
+  protected readonly shotSize = shotSize;
+  protected readonly shotSrcset = shotSrcset;
 
   protected readonly galleryImages = computed(() => this.project()?.img.slice(1) ?? []);
 

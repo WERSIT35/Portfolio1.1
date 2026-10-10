@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: block;
 }
@@ -164,6 +166,16 @@
   justify-content: space-between;
   gap: clamp(0.75rem, 3cqh, 1.5rem);
   padding: clamp(1.25rem, 4.5cqmin, 2.75rem);
+}
+
+// Tablets (incl. landscape phones): the top-centred island lands on the status line —
+// on desktop it floats in the tile's empty right side — so the tile starts below it.
+@include bp.tablet-up {
+  @include bp.below-desktop {
+    .tile--intro {
+      padding-top: calc(var(--island-top) + var(--island-h) + 0.75rem - 1.25rem);
+    }
+  }
 }
 
 .intro__status {
@@ -602,7 +614,7 @@
 // ---------------------------------------------------------------------------
 // Tablet — 6 columns, same reading order.
 // ---------------------------------------------------------------------------
-@media (max-width: 1023px) {
+@include bp.below-desktop {
   .bento {
     grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-template-areas:
@@ -619,7 +631,7 @@
 // Phone — 4 columns fitted above the dock band; the long pitch drops (the role
 // and tagline carry it), everything else stays.
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
+@include bp.phone {
   .hero {
     padding: 0.75rem 0.75rem var(--dock-clear);
   }
@@ -778,7 +790,7 @@
 
 // Short phones (e.g. 375×667): the secondary line under "Currently" goes first, and the
 // keyword line gets a touch more room.
-@media (max-width: 767px) and (max-height: 700px) {
+@include bp.phone-shorter-than(701px) {
   .bento {
     grid-template-rows: 2.2fr 0.95fr 0.75fr 1.15fr 0.85fr;
   }
@@ -801,7 +813,7 @@
 // Short screens (landscape phones, small laptops): let the grid grow instead
 // of crushing tiles — the hero becomes at-least-one viewport tall.
 // ---------------------------------------------------------------------------
-@media (max-height: 619px), (max-width: 767px) and (max-height: 639px) {
+@media #{bp.$mq-short}, #{bp.$mq-phone} and (max-height: 639px) {
   .hero {
     height: auto;
     min-height: 100svh;
@@ -825,7 +837,7 @@
 // ---------------------------------------------------------------------------
 // Touch ergonomics — the small "All N →" link gets a 44px hit area.
 // ---------------------------------------------------------------------------
-@media (pointer: coarse) {
+@include bp.touch {
   .stack__all {
     position: relative;
   }
@@ -851,5 +863,17 @@
 
   .live-dot {
     animation: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .stack__all,
+  .stack__item,
+  .current__title {
+    font-size: 0.875rem;
   }
 }
