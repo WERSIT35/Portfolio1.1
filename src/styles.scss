@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 @import 'tailwindcss';
 
 @font-face {
@@ -86,10 +88,17 @@
   --dock-clear: 0px;
 }
 
-@media (max-width: 767px) {
+// On touch screens the pill fits two 44px buttons (brand, menu) + its ring.
+@include bp.touch {
   :root {
-    // Dock pill fits two 44px buttons (brand, menu) + its ring; --dock-clear follows it.
     --island-h: 3.5rem;
+  }
+}
+
+@include bp.phone {
+  :root {
+    --island-h: 3.5rem;
+    // The dock's band at the bottom of every stage follows its height.
     --dock-clear: calc(var(--island-bottom) + var(--island-h) + 0.75rem);
   }
 }
@@ -128,6 +137,19 @@ a {
 
 html {
   scroll-behavior: smooth;
+}
+
+// Nav links move focus to their section (tabindex="-1") so keyboard and screen-reader
+// users continue from there; a ring around a whole viewport-sized stage is just noise.
+section[tabindex='-1']:focus {
+  outline: none;
+}
+
+// Long words, URLs and emails wrap instead of pushing past the viewport. break-word,
+// not anywhere: it only breaks what would overflow and leaves min-content sizing (and
+// so the pill rows and fitted headings) untouched.
+body {
+  overflow-wrap: break-word;
 }
 
 // Proximity, not mandatory: the page only settles onto a stage when a scroll ends

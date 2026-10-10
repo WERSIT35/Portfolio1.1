@@ -5,7 +5,7 @@
   aria-label="Primary"
   (mouseenter)="onEnter()"
   (mouseleave)="onLeave()"
-  (focusin)="onFocusIn()"
+  (focusin)="onFocusIn($event)"
   (focusout)="onFocusOut($event)"
   (keydown.escape)="close()"
 >

@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: block;
 }
@@ -416,7 +418,7 @@
 // ---------------------------------------------------------------------------
 // Tablet — drop the meta column.
 // ---------------------------------------------------------------------------
-@media (max-width: 1023px) {
+@include bp.below-desktop {
   .row__link {
     grid-template-columns: 2.5rem minmax(0, 1fr) 3.5rem 8rem;
   }
@@ -434,7 +436,7 @@
 // Phones — vertical accordion fitted to 100svh: seven slim rows plus one open
 // row that takes the remaining height with a swipeable screenshot strip.
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
+@include bp.phone {
   .pj {
     padding: 0.75rem 0.75rem var(--dock-clear);
   }
@@ -608,7 +610,7 @@
 }
 
 // Short desktop screens: grow instead of crushing the rows.
-@media (min-width: 768px) and (max-height: 619px) {
+@include bp.tablet-up-short {
   .pj {
     height: auto;
     min-height: 100svh;
@@ -630,7 +632,7 @@
 // "Open case study" link is a real 44px target (the next row would cover an
 // invisible hit area below it).
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
+@include bp.phone {
   .index {
     --row: clamp(2.75rem, 5.6svh, 3rem);
   }
@@ -650,5 +652,15 @@
 
   .lens {
     --lens-tilt: 0deg;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .row__cta {
+    font-size: 0.875rem;
   }
 }

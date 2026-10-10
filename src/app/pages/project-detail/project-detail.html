@@ -56,7 +56,14 @@
 
     @if (p.img.length) {
       <div class="detail__cover" appReveal [appRevealDelay]="80">
-        <img [src]="p.img[0]" [alt]="p.projName + ' cover'" />
+        <img
+          [src]="p.img[0]"
+          [attr.srcset]="shotSrcset(p.img[0])"
+          sizes="(max-width: 1151px) 100vw, 1035px"
+          [width]="shotSize(p.img[0]).width"
+          [height]="shotSize(p.img[0]).height"
+          [alt]="p.projName + ' cover'"
+        />
       </div>
     }
 
@@ -122,7 +129,15 @@
           <h2>Gallery</h2>
           <div class="detail__gallery-grid">
             @for (img of galleryImages(); track img) {
-              <img [src]="img" [alt]="p.projName + ' screenshot'" loading="lazy" />
+              <img
+                [src]="img"
+                [attr.srcset]="shotSrcset(img)"
+                sizes="(max-width: 767px) 100vw, 345px"
+                [width]="shotSize(img).width"
+                [height]="shotSize(img).height"
+                [alt]="p.projName + ' screenshot'"
+                loading="lazy"
+              />
             }
           </div>
         </section>

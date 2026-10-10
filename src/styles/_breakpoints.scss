@@ -1,0 +1,69 @@
+// Shared breakpoints. New rules should be written mobile-first with the `*-up` mixins;
+// `phone` / `below-desktop` mirror them for the existing desktop-first overrides, so
+// both directions meet at the same edges.
+//
+//   phone          0 – 767     docked island at the bottom, accordion stages
+//   tablet         768 – 1023  island back at the top, single-column details
+//   desktop        1024 +
+//   short          < 620 tall  landscape phones, small laptops: stages grow instead of crushing
+
+$tablet: 768px;
+$desktop: 1024px;
+$short: 620px;
+
+// Raw queries, for the rare compound `@media #{$a}, #{$b}` a single mixin can't express.
+$mq-phone: '(max-width: #{$tablet - 1})';
+$mq-tablet-up-short: '(min-width: #{$tablet}) and (max-height: #{$short - 1})';
+$mq-short: '(max-height: #{$short - 1})';
+
+@mixin tablet-up {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media (max-width: ($tablet - 1)) {
+    @content;
+  }
+}
+
+@mixin below-desktop {
+  @media (max-width: ($desktop - 1)) {
+    @content;
+  }
+}
+
+// Any width, short viewport.
+@mixin short {
+  @media (max-height: ($short - 1)) {
+    @content;
+  }
+}
+
+// Tablet and wider, short viewport.
+@mixin tablet-up-short {
+  @media (min-width: $tablet) and (max-height: ($short - 1)) {
+    @content;
+  }
+}
+
+// Phones shorter than $height (each stage has its own fit threshold).
+@mixin phone-shorter-than($height) {
+  @media (max-width: ($tablet - 1)) and (max-height: ($height - 1)) {
+    @content;
+  }
+}
+
+// Touch input, at any width (tablets and landscape phones included).
+@mixin touch {
+  @media (pointer: coarse) {
+    @content;
+  }
+}

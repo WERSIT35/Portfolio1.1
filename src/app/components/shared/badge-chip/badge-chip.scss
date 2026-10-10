@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: inline-flex;
   align-items: center;
@@ -20,5 +22,15 @@
   :host(:hover) {
     border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
     color: var(--color-ink);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  :host {
+    font-size: 0.875rem;
   }
 }

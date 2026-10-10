@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: block;
 }
@@ -352,7 +354,7 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 // ---------------------------------------------------------------------------
 // Tablet — single-column detail.
 // ---------------------------------------------------------------------------
-@media (max-width: 1023px) {
+@include bp.below-desktop {
   .detail__body {
     grid-template-columns: 1fr;
     align-content: end;
@@ -361,16 +363,10 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 // ---------------------------------------------------------------------------
-// Phone — the row becomes a vertical accordion fitted to 100svh: (count − 1)
-// closed 44px bands + one open panel that takes the remaining height.
+// Below desktop the head row can't keep the top-centred island's spot empty, so
+// the title drops to its own line at the left, clear of it.
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
-  .xp {
-    --strip: 2.75rem;
-
-    padding: 0.75rem 0.75rem var(--dock-clear);
-  }
-
+@include bp.below-desktop {
   .xp__head {
     flex-wrap: wrap;
     gap: 0.25rem 1rem;
@@ -379,6 +375,21 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
   .xp__title {
     width: 100%;
     order: 3;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Phone — the row becomes a vertical accordion fitted to 100svh: (count − 1)
+// closed 44px bands + one open panel that takes the remaining height.
+// ---------------------------------------------------------------------------
+@include bp.phone {
+  .xp {
+    --strip: 2.75rem;
+
+    padding: 0.75rem 0.75rem var(--dock-clear);
+  }
+
+  .xp__title {
     font-size: 1.35rem;
   }
 
@@ -426,9 +437,13 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
     font-size: 0.625rem;
   }
 
+  // On narrow phones the duties can outgrow the fitted panel; they scroll inside it
+  // instead of running under the stack pills.
   .detail__body {
     align-content: start;
     gap: 1rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .detail__role {
@@ -448,12 +463,25 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
   }
 
   .detail__foot {
-    align-items: flex-end;
+    align-items: center;
+  }
+
+  // One swipeable row of pills beside the arrows, so readable-size pills don't stack
+  // up and squeeze the duties above them.
+  .detail__stack {
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 85%, transparent);
   }
 
   .detail__stack li {
+    flex: none;
     padding: 0.25rem 0.6rem;
-    font-size: 0.6875rem;
+    white-space: nowrap;
   }
 
   .detail__nav button {
@@ -464,7 +492,7 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
 // Very short phones: keep the fit by dropping the footer (stack pills + arrows;
 // the tappable bands already switch roles).
-@media (max-width: 767px) and (max-height: 700px) {
+@include bp.phone-shorter-than(701px) {
   .detail__foot {
     display: none;
   }
@@ -484,7 +512,7 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 // Short desktop screens: grow instead of crushing the detail.
-@media (min-width: 768px) and (max-height: 619px) {
+@include bp.tablet-up-short {
   .xp {
     height: auto;
     min-height: 100svh;
@@ -500,7 +528,7 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 // prev/next back at their full 44px (they sit on the panel's clipped edge, so an
 // invisible hit area would be cut off).
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
+@include bp.phone {
   .xp {
     --strip: calc(2.75rem + 1px);
   }
@@ -517,5 +545,16 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
   .rise,
   .panel.is-active .rise {
     transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .strip__role,
+  .detail__stack li {
+    font-size: 0.875rem;
   }
 }

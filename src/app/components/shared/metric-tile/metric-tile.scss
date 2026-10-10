@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -20,4 +22,14 @@
 .metric-tile__label {
   font-size: 0.75rem;
   color: var(--color-ink-dim);
+}
+
+// ---------------------------------------------------------------------------
+// Readable on phones and tablets: text people read or tap is at least 14px
+// (the small uppercase labels and counters stay as designed).
+// ---------------------------------------------------------------------------
+@include bp.below-desktop {
+  .metric-tile__label {
+    font-size: 0.875rem;
+  }
 }

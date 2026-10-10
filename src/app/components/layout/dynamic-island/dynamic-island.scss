@@ -1,3 +1,5 @@
+@use 'breakpoints' as bp;
+
 :host {
   --island-close: 0.28s;
   --ease-close: cubic-bezier(0.4, 0, 0.2, 1);
@@ -304,7 +306,7 @@
 
 // Phones: docked at the bottom like a native tab bar; the island grows upward into a
 // panel instead of sideways (the panel row sits above the header row).
-@media (max-width: 767px) {
+@include bp.phone {
   :host {
     top: auto;
     bottom: var(--island-bottom);
@@ -414,14 +416,22 @@
 }
 
 // ---------------------------------------------------------------------------
-// Touch ergonomics — on the phone dock, brand and menu are true 44px buttons
-// (the pill grows to 3.5rem via --island-h in styles.scss).
+// Touch ergonomics — on any touch screen (phone dock, tablets, landscape phones)
+// brand, menu, links and socials are true 44px targets (the pill grows to 3.5rem
+// via --island-h in styles.scss).
 // ---------------------------------------------------------------------------
-@media (max-width: 767px) {
+@include bp.touch {
   .island__brand,
-  .island__toggle {
+  .island__toggle,
+  .island__social {
     width: 2.75rem;
     height: 2.75rem;
+  }
+
+  .island__link {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 }
 
