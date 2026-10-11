@@ -18,8 +18,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: 2,
-    role: 'Full-Stack Engineer',
-    company: 'Upwork',
+    role: 'Freelance Full-Stack Engineer',
     employment: 'Freelance',
     date: 'Sep 2022 – Present',
     summary:

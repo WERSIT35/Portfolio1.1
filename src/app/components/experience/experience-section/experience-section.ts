@@ -56,6 +56,9 @@ export class ExperienceSection {
       ...role,
       index: String(i + 1).padStart(2, '0'),
       years: yearSpan(role.date),
+      // Who it was for: the employer, or the employment type for independent work.
+      org: role.company ?? role.employment ?? '',
+      orgLine: [role.company, role.employment].filter(Boolean).join(' · '),
       lead,
       points,
     };

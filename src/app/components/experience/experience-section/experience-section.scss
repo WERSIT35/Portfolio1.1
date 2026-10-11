@@ -417,8 +417,10 @@ $ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
     writing-mode: horizontal-tb;
     rotate: none;
     text-align: left;
-    text-overflow: ellipsis;
     font-size: 0.8125rem;
+    // Long titles take a second line (two fit the 44px strip) instead of an ellipsis.
+    white-space: normal;
+    line-height: 1.2;
   }
 
   .strip__meta span:first-child {
