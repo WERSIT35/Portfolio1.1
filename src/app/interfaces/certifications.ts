@@ -1,9 +1,11 @@
+import { IssuerId } from './issuers';
+
 export interface Certifications {
   id: number;
   name: string;
   imageName: string[];
   image: string[];
-  issuerLogo?: string;
+  issuerId?: IssuerId;
   certificateUrl?: string;
   description: string;
   date: string;

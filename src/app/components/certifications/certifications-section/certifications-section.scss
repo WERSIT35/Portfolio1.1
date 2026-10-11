@@ -109,25 +109,19 @@
   color: var(--color-ink-mid);
 }
 
-// Issuer logos are forced monochrome.
-.detail__logo {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  filter: grayscale(1) brightness(1.6);
+// Grid children size to the column, never to their text, so long issuer names,
+// descriptions and tags wrap inside it at every width.
+.detail > * {
+  min-width: 0;
 }
 
-.detail__mark {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.625rem;
-  color: var(--color-white);
+.detail__issuer-name {
+  min-width: 0;
+}
+
+.detail__desc,
+.detail__issuer-name {
+  overflow-wrap: anywhere;
 }
 
 .detail__title {
@@ -162,6 +156,8 @@
 }
 
 .detail__skills li {
+  max-width: 100%;
+  overflow-wrap: anywhere;
   padding: 0.3rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -475,6 +471,13 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-dim);
+}
+
+.lightbox__issuer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: center;
 }
 
 .lightbox__figure strong {

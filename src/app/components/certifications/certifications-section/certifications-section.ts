@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CERTIFICATIONS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
+import { IssuerLogoComponent } from '../../shared/issuer-logo/issuer-logo';
 
 // Deck spring (per 60fps frame, dt-normalised): a heavy card with a slight settle —
 // ~3.6% overshoot, 90% there at ~220ms, fully at rest by ~530ms.
@@ -39,7 +40,7 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 @Component({
   selector: 'app-certifications-section',
   standalone: true,
-  imports: [SpySectionDirective],
+  imports: [SpySectionDirective, IssuerLogoComponent],
   templateUrl: './certifications-section.html',
   styleUrl: './certifications-section.scss',
 })

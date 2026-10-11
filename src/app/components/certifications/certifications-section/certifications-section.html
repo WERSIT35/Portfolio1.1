@@ -13,12 +13,10 @@
       @for (c of [current()]; track c.id) {
         <p class="detail__issuer line">
           <span>
-            @if (c.issuerLogo) {
-              <img class="detail__logo" [src]="c.issuerLogo" alt="" width="20" height="20" />
-            } @else {
-              <span class="detail__mark" aria-hidden="true">{{ c.issuer.charAt(0) }}</span>
+            @if (c.issuerId) {
+              <app-issuer-logo [issuer]="c.issuerId" />
             }
-            {{ c.issuer }}
+            <span class="detail__issuer-name">{{ c.issuer }}</span>
           </span>
         </p>
         <h3 class="detail__title line" style="--l: 1"><span>{{ c.title }}</span></h3>
@@ -134,7 +132,12 @@
       <figure class="lightbox__figure">
         <img [src]="c.full" [alt]="c.title + ' certificate, issued by ' + c.issuer" />
         <figcaption>
-          <span>{{ c.issuer }}</span>
+          <span class="lightbox__issuer">
+            @if (c.issuerId) {
+              <app-issuer-logo [issuer]="c.issuerId" size="lg" />
+            }
+            {{ c.issuer }}
+          </span>
           <strong>{{ c.title }}</strong>
           <span>{{ c.issued }}</span>
         </figcaption>

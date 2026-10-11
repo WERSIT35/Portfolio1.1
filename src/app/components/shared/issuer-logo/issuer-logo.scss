@@ -1,0 +1,12 @@
+// Shown in the issuer's own colours (no filters): every file is already the light variant.
+// Size comes from the width/height attributes (height per context, width from the ratio).
+:host {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.issuer-logo {
+  display: block;
+  max-width: none;
+}
