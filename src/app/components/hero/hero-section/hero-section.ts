@@ -1,4 +1,4 @@
-import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
@@ -6,6 +6,12 @@ import { SpySectionDirective } from '../../../directives/spy-section.directive';
 // Hero copy: fixed statements, everything else is read from site-data.
 const ROLE = 'Full-Stack Engineer · Applied AI';
 const CORE_STACK = ['Angular', 'React', 'Node.js', 'PostgreSQL', 'Docker', 'Claude API'];
+
+// The edge's cursor drift: lerp per 60fps frame, range as a fraction of the viewport width
+// either way (matches --drift-max in the styles), and the settle threshold in px.
+const DRIFT_FOLLOW = 0.08;
+const DRIFT_RANGE = 0.025;
+const DRIFT_EPSILON = 0.1;
 
 const tbilisiTime = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Asia/Tbilisi',
@@ -22,9 +28,11 @@ const tbilisiTime = new Intl.DateTimeFormat('en-GB', {
   styleUrl: './hero-section.scss',
 })
 export class HeroSection {
+  private readonly host = inject(ElementRef<HTMLElement>);
   protected readonly contact = CONTACT;
   protected readonly role = ROLE;
-  protected readonly stack = CORE_STACK;
+  // One line of plain text; non-breaking spaces keep multi-word items ("Claude API") whole.
+  protected readonly stackLine = CORE_STACK.map((item) => item.replace(/ /g, '\u00a0')).join(', ');
 
   /** The running engineering role (one line in the hero; the full history lives in Experience). */
   protected readonly current = EXPERIENCES.find(
@@ -33,8 +41,8 @@ export class HeroSection {
 
   /**
    * ["Freelance", "since 2022"]: who it's for (employer, or the employment type for independent
-   * work) and the start year, so the card adds facts instead of repeating the role headline.
-   * Joined with " · " on one line, or stacked where the card is narrow.
+   * work) and the start year, so the colophon adds facts instead of repeating the role headline.
+   * Joined with " · " in the colophon.
    */
   protected readonly currentParts = [
     this.current.company ?? this.current.employment,
@@ -61,6 +69,68 @@ export class HeroSection {
       };
       tick();
       destroyRef.onDestroy(() => clearTimeout(timer));
+
+      this.followCursorWithEdge(destroyRef);
+    });
+  }
+
+  /**
+   * The slab's edge drifts toward the cursor (±DRIFT_RANGE of the viewport, lerped), and the
+   * name's inversion follows it. Mouse only, never with reduced motion; the loop runs only
+   * while the edge is moving and the hero is on screen.
+   */
+  private followCursorWithEdge(destroyRef: DestroyRef): void {
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canHover || reduced) return;
+
+    // Observe the host, not a template node (HMR replays rebuild template DOM).
+    const el = this.host.nativeElement;
+    let target = 0;
+    let value = 0;
+    let frame = 0;
+    let last = 0;
+    let visible = true;
+
+    const step = (now: number) => {
+      const k = Math.min(now - last, 64) / 16.667;
+      last = now;
+      value += (target - value) * (1 - Math.pow(1 - DRIFT_FOLLOW, k));
+      if (Math.abs(target - value) < DRIFT_EPSILON) value = target;
+      el.style.setProperty('--drift', `${value.toFixed(2)}px`);
+      frame = value === target ? 0 : requestAnimationFrame(step);
+    };
+    const start = () => {
+      if (frame || !visible) return;
+      last = performance.now();
+      frame = requestAnimationFrame(step);
+    };
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      target = (event.clientX / innerWidth - 0.5) * 2 * DRIFT_RANGE * innerWidth;
+      start();
+    };
+    const onLeave = () => {
+      target = 0;
+      start();
+    };
+
+    el.addEventListener('pointermove', onMove, { passive: true });
+    el.addEventListener('pointerleave', onLeave);
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (!visible) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    io.observe(el);
+
+    destroyRef.onDestroy(() => {
+      cancelAnimationFrame(frame);
+      io.disconnect();
+      el.removeEventListener('pointermove', onMove);
+      el.removeEventListener('pointerleave', onLeave);
     });
   }
 }
