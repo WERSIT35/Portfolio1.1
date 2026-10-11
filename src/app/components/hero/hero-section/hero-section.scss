@@ -37,8 +37,8 @@
   --radius: 20px;
   --gutter: 16px;
   --name-size: clamp(44px, 15vw, 96px);
-  // Phones: the photo is a band across the top.
-  --band: 38svh;
+  // Phones: the photo band takes whatever height the text and actions leave, never less.
+  --band-min: 28svh;
   // Tablet/desktop: where the slab starts, and how far its edge may drift either way.
   --edge: 58vw;
   --drift-max: 2.5vw;
@@ -52,10 +52,14 @@
 
 // The hero is one stacking context (isolation), and nothing inside it creates another
 // around the ink: that's what lets the name blend with the photo behind it.
+// Phones: band / name / colophon rows. The band row absorbs the spare height, so on any phone
+// (Safari toolbars included) the actions end above the dock's band (--dock-clear).
 .hero {
   position: relative;
   isolation: isolate;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(var(--band-min), 1fr) auto auto;
   min-height: 100svh;
   padding: 0 var(--gutter) var(--dock-clear);
   overflow: clip;
@@ -66,10 +70,11 @@
 // The slab
 // ---------------------------------------------------------------------------
 .slab {
-  position: absolute;
-  inset: 0 0 auto;
-  height: var(--band);
-  margin: 0;
+  position: relative;
+  grid-row: 1;
+  grid-column: 1;
+  // Full-bleed: out through the gutters to the screen edges.
+  margin: 0 calc(-1 * var(--gutter));
   overflow: hidden;
   background: #ececec;
   // An explicit inset (not `none`) so the scroll lift interpolates instead of jumping.
@@ -90,18 +95,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  // Face and shoulders in the band; the tee meets the band's bottom edge.
-  object-position: 50% 25%;
+  // Face and shoulders in the band, whatever height it gets.
+  object-position: 50% 30%;
 }
 
 // ---------------------------------------------------------------------------
-// Content (positioned, z-index auto: painted after the slab, same stacking context)
+// Content. Phones: its children join the hero grid directly (display: contents) so the
+// label can sit on the band. Each ink element is positioned with z-index auto: painted after
+// the slab, inside the same stacking context, so its blend sees the photo.
 // ---------------------------------------------------------------------------
 .content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  display: contents;
 }
 
 // Ink: white text that inverts over the photo.
@@ -111,10 +115,11 @@
 }
 
 .label {
-  position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 16px);
-  left: 0;
-  margin: 0;
+  position: relative;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: start;
+  margin: calc(env(safe-area-inset-top, 0px) + 16px) 0 0;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -131,9 +136,11 @@
   visibility: hidden;
 }
 
-// Phones: the first line sits on the band's bottom edge, half on the photo.
+// Phones: pulled up by half a line, so the first line straddles the band's bottom edge.
 .name {
-  margin: calc(var(--band) - 0.5 * 0.9 * var(--name-size)) 0 0;
+  position: relative;
+  grid-row: 2;
+  margin: calc(-0.5 * 0.9 * var(--name-size)) 0 0;
   font-family: inherit;
   font-size: var(--name-size);
   font-weight: 700;
@@ -155,6 +162,7 @@
 }
 
 .colophon {
+  grid-row: 3;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -164,7 +172,8 @@
 
 .role {
   margin: 0;
-  font-size: 20px;
+  // Scales down just enough to keep the role on one line on the narrowest phones.
+  font-size: clamp(16px, 5.6vw, 20px);
   font-weight: 500;
   line-height: 28px;
   text-wrap: balance;
@@ -232,14 +241,15 @@
   margin-top: 8px;
 }
 
+// Phones: side by side when both fit (saves a row above the dock), stacked when they don't.
 .btn {
   display: inline-flex;
-  flex: 1 1 100%;
+  flex: 1 1 max-content;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  padding: 12px 24px;
+  padding: 12px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 15px;
@@ -287,6 +297,19 @@ a:focus-visible {
 // ---------------------------------------------------------------------------
 // Tablet and up: the slab stands on the right, full height, bleeding off three edges.
 // ---------------------------------------------------------------------------
+// Very narrow phones can't set the two actions side by side; the band gives up height instead.
+// A strip that thin shows the chin and neck at its edge, so the name sits below it rather than
+// straddling it (inverted over mid-grey skin it would be illegible).
+@media (max-width: 359px) {
+  :host {
+    --band-min: 13svh;
+  }
+
+  .name {
+    margin-top: 8px;
+  }
+}
+
 @include bp.tablet-up {
   :host {
     --gutter: max(32px, 4vw);
@@ -294,14 +317,19 @@ a:focus-visible {
   }
 
   .hero {
+    grid-template-rows: minmax(0, 1fr);
     padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
   }
 
   // The slab box starts drift-max before the edge so the edge can move both ways; the clip
   // decides where the photo actually begins.
+  // Placement back to auto: an absolutely positioned grid item with a grid area would be
+  // framed by that area (inside the padding) instead of the hero's full box.
   .slab {
+    position: absolute;
+    grid-area: auto;
     inset: 0 0 0 calc(var(--edge) - var(--drift-max));
-    height: auto;
+    margin: 0;
     clip-path: inset(0 0 0 calc(var(--drift-max) + var(--drift)));
   }
 
@@ -317,10 +345,14 @@ a:focus-visible {
 
   .content {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 
   .label {
     position: static;
+    margin: 0;
   }
 
   // Name and colophon sit at the foot; the name's second line runs across the edge.
@@ -343,8 +375,8 @@ a:focus-visible {
   }
 
   .btn {
-    flex-basis: max-content;
     flex-grow: 0;
+    padding-inline: 24px;
   }
 }
 
