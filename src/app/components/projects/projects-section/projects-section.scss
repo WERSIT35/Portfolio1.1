@@ -103,7 +103,8 @@
   color: var(--color-ink-dim);
 }
 
-// Massive stroke-only names; the hot row fills pure white and steps right.
+// Massive names, solid dim grey at rest (#7b7b7b: 4.7:1 on the page, WCAG AA — an outline-only
+// name has no fill to measure); the hot row fills pure white and steps right.
 .row__name {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -114,8 +115,8 @@
   font-size: min(8cqh, 3.7cqi);
   line-height: 1;
   letter-spacing: -0.035em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(255 255 255 / 20%);
+  color: #7b7b7b;
+  -webkit-text-stroke: 1px transparent;
   transition:
     color 0.5s var(--ease-luxe),
     -webkit-text-stroke-color 0.5s var(--ease-luxe),
@@ -503,11 +504,8 @@
     display: none;
   }
 
-  // A 1px outline blurs at this size, so inactive names are solid dark grey on phones.
   .row__name {
     font-size: 1.25rem;
-    color: rgb(255 255 255 / 30%);
-    -webkit-text-stroke-color: transparent;
   }
 
   .row.is-open .row__name {

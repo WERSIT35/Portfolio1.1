@@ -49,7 +49,14 @@
   </div>
 
   <!-- Glass detail card: trails the hot word on desktop, a bottom sheet on phones. -->
-  <div #card id="sk-card" class="card" role="tooltip" [class.is-visible]="cardVisible()">
+  <!-- A tooltip only once it has a skill to describe (its content is its accessible name). -->
+  <div
+    #card
+    id="sk-card"
+    class="card"
+    [attr.role]="detail() ? 'tooltip' : null"
+    [class.is-visible]="cardVisible()"
+  >
     @if (detail(); as s) {
       <div class="card__top">
         <span class="card__category">{{ s.category }}</span>

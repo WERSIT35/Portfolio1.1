@@ -15,6 +15,35 @@
   pointer-events: none;
 }
 
+// Over the hero the pill steps aside (opacity only, so keyboard focus still reaches it
+// and brings it back).
+:host {
+  transition:
+    opacity 0.25s ease-out,
+    translate 0.25s ease-out;
+}
+
+:host(.is-over-hero:not(:focus-within)) {
+  opacity: 0;
+  translate: 0 -8px;
+}
+
+:host(.is-over-hero:not(:focus-within)) .island {
+  pointer-events: none;
+}
+
+@include bp.phone {
+  :host(.is-over-hero:not(:focus-within)) {
+    translate: 0 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}
+
 // Closed: [OD] [section label] [dot]. Open: the label's width eases to 0 while the link
 // panel's width eases to its measured size, so the pill itself physically grows/shrinks.
 // Sizes are real pixels (--label-w / --panel-w, measured in TS) because CSS can't

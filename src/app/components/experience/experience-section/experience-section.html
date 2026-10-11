@@ -31,7 +31,7 @@
           <span class="strip__index">{{ role.index }}</span>
           <span class="strip__role">{{ role.role }}</span>
           <span class="strip__meta">
-            <span>{{ role.company }}</span>
+            <span>{{ role.org }}</span>
             <span>{{ role.years }}</span>
           </span>
         </button>
@@ -46,7 +46,7 @@
           [attr.inert]="active() === i ? null : ''"
         >
           <div class="detail__top rise" style="--d: 0">
-            <span>{{ role.index }} — {{ role.company }}@if (role.employment) { · {{ role.employment }}}</span>
+            <span>{{ role.index }} — {{ role.orgLine }}</span>
             <span>{{ role.date }}</span>
           </div>
 
