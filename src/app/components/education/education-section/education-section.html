@@ -2,166 +2,72 @@
   <header class="edu__head">
     <p class="edu__kicker">06 / Education</p>
     <h2 id="edu-title" class="edu__title">The foundation</h2>
-    <dl class="edu__term" aria-hidden="true">
-      <div>
-        <dt>T</dt>
-        <dd data-readout>{{ initialReadout }}</dd>
-      </div>
-      <div>
-        <dt>Rec</dt>
-        <dd>
-          <span class="edu__term-now">{{ current().index }}</span> / {{ count }}
-        </dd>
-      </div>
-      <div class="edu__term-lock" [class.is-free]="!snapLabel()">
-        <dt>Lock</dt>
-        <dd>{{ snapLabel() ?? 'Free scrub' }}</dd>
-      </div>
-    </dl>
+    <p class="edu__range">{{ ticks[0].year }} → {{ ticks[ticks.length - 1].year }}</p>
   </header>
 
-  <!-- Scrubber: full-bleed rail. Lanes are tabs; a mouse scrubs on hover, touch drags. -->
-  <div
-    #scrubber
-    class="tl"
-    [style.--ph]="initialPh"
-    [style.--years]="axis.length"
-    [style.--year-idx]="yearIdx()"
-    (pointerdown)="onPointerDown($event)"
-    (pointermove)="onPointerMove($event)"
-    (pointerup)="onPointerEnd($event)"
-    (pointercancel)="onPointerEnd($event)"
-    (pointerleave)="onPointerEnd($event)"
-  >
-    <div class="tl__corner" aria-hidden="true">
-      <span>Programme</span>
-      <span>{{ startYear }} → {{ endYear }}</span>
-    </div>
-
-    <div #rail class="tl__axis" aria-hidden="true">
-      @for (y of axis; track y.year; let i = $index) {
-        <span class="tl__year" [class.is-now]="i === yearIdx()" [style.--at]="y.at">
-          <span class="tl__century">{{ y.century }}</span>{{ y.short }}
-        </span>
-      }
-    </div>
-
-    <!-- The column under the playhead: a hard-edged band, no easing. -->
-    <div class="tl__band" aria-hidden="true"></div>
-
-    <div
-      #lanes
-      class="tl__lanes"
-      role="tablist"
-      aria-orientation="vertical"
-      [attr.aria-label]="'Education timeline, ' + startYear + ' to ' + endYear"
-      aria-describedby="edu-keys"
-    >
-      @for (t of tracks; track t.id; let i = $index) {
-        <button
-          type="button"
-          role="tab"
-          class="lane"
-          [id]="t.tabId"
-          [class.is-active]="i === active()"
-          [class.is-hit]="hits()[i]"
-          [attr.aria-selected]="i === active()"
-          [attr.tabindex]="i === active() ? 0 : -1"
-          [attr.aria-label]="t.name + ', ' + t.degree + ', ' + t.date"
-          aria-controls="edu-panel"
-          (click)="select(i)"
-          (keydown)="onTabKeydown($event)"
+  <!-- Year rule: one hairline bar per degree (a marker when only the end year is known). -->
+  <div class="rule" aria-hidden="true">
+    @for (tick of ticks; track tick.year) {
+      <span class="rule__tick" [style.left.%]="tick.at">{{ tick.year }}</span>
+    }
+    @for (d of degrees; track d.id) {
+      @if (d.from !== null) {
+        <span
+          class="rule__bar"
+          [class.is-on]="active() === d.id"
+          [class.is-dim]="active() !== null && active() !== d.id"
+          [style.left.%]="d.from"
+          [style.width.%]="d.at - d.from"
+        ></span>
+      } @else {
+        <span
+          class="rule__marker"
+          [class.is-on]="active() === d.id"
+          [class.is-dim]="active() !== null && active() !== d.id"
+          [style.left.%]="d.at"
+          ><span class="rule__marker-label">Expected</span></span
         >
-          <span class="lane__label" aria-hidden="true">
-            <span class="lane__n">{{ t.index }}</span>
-            <span class="lane__mono">{{ t.mono }}</span>
-            <span class="lane__tag">{{ t.tag }}</span>
-          </span>
-          <span class="lane__track" aria-hidden="true">
-            @switch (t.kind) {
-              @case ('span') {
-                <span class="seg seg--solid" [style.--from]="t.from" [style.--to]="t.to"></span>
-              }
-              @case ('expected') {
-                <span class="seg seg--dashed" [style.--from]="t.from" [style.--to]="t.to"></span>
-              }
-              @case ('ticks') {
-                <span class="seg seg--faint" [style.--from]="t.from" [style.--to]="t.to"></span>
-              }
-            }
-            @for (m of t.milestones; track $index; let n = $index) {
-              <span
-                class="mark"
-                [class.mark--diamond]="t.kind === 'expected'"
-                [class.mark--tick]="t.kind === 'ticks'"
-                [class.is-locked]="snapped()?.[0] === i && snapped()?.[1] === n"
-                [style.--at]="m.at"
-              ></span>
-            }
-          </span>
-        </button>
-      }
-    </div>
-
-    <div class="playhead" aria-hidden="true">
-      <div class="playhead__move">
-        <span class="playhead__line"></span>
-        <span class="playhead__year" data-readout>{{ initialReadout }}</span>
-      </div>
-    </div>
-  </div>
-  <p id="edu-keys" class="edu__sr">Up and down arrows switch programme; left and right arrows step through milestones.</p>
-
-  <!-- Ledger: one block per track, created on activation so every cell replays its reveal. -->
-  <div id="edu-panel" class="ledger" role="tabpanel" [attr.aria-labelledby]="current().tabId">
-    @for (t of tracks; track t.id; let i = $index) {
-      @if (i === active()) {
-        <div class="cell cell--degree">
-          <p class="cell__label line">
-            <span class="cell__record">Record {{ t.index }} / {{ count }}</span>
-            <span>{{ t.tag }}</span>
-            <span class="cell__period">{{ t.period }}</span>
-          </p>
-          <h3 class="ledger__title line" style="--l: 1">{{ t.title }}</h3>
-        </div>
-
-        <div class="cell cell--inst">
-          <p class="cell__label line" style="--l: 1">Institution</p>
-          <p class="ledger__inst line" style="--l: 2">
-            <span class="stamp"><img class="stamp__logo" [src]="t.img" alt="" width="24" height="24" /></span>
-            <span>{{ t.name }}</span>
-          </p>
-        </div>
-
-        <div class="cell cell--period">
-          <p class="cell__label line" style="--l: 2">Period</p>
-          <p class="ledger__value line" style="--l: 3">{{ t.period }}</p>
-        </div>
-
-        <div class="cell cell--status">
-          <p class="cell__label line" style="--l: 3">Status</p>
-          <p class="ledger__value line" style="--l: 4">
-            <span class="status" [class.is-open]="t.status !== 'Completed'">{{ t.status }}</span>
-          </p>
-          @if (t.caveat) {
-            <p class="ledger__note line" style="--l: 5">{{ t.caveat }}</p>
-          }
-        </div>
-
-        <div class="cell cell--courses">
-          <p class="cell__label line" style="--l: 1">
-            <span>Coursework</span><span>{{ t.subjects.length }} subjects</span>
-          </p>
-          <ol class="courses" [attr.aria-label]="'Subjects, ' + t.subjects.length + ' in total'">
-            @for (c of t.subjects; track c.n; let n = $index) {
-              <li class="course" [style.--l]="n">
-                <span class="course__n">{{ c.n }}</span>
-                <span class="course__s">{{ c.s }}</span>
-              </li>
-            }
-          </ol>
-        </div>
       }
     }
   </div>
+
+  <!-- Mouse only: a touch fires pointerleave on lift, just before its click toggles. -->
+  <div class="records" (pointerleave)="$event.pointerType === 'mouse' && active.set(null)">
+    @for (d of degrees; track d.id) {
+      <article
+        class="record"
+        tabindex="0"
+        [attr.aria-labelledby]="'edu-degree-' + d.id"
+        [class.is-on]="active() === d.id"
+        [class.is-dim]="active() !== null && active() !== d.id"
+        (pointerenter)="$event.pointerType === 'mouse' && active.set(d.id)"
+        (focus)="onFocus($event, d.id)"
+        (blur)="active.set(null)"
+        (click)="onTap($event, d.id)"
+      >
+        <p class="record__inst">
+          <img class="record__logo" [src]="d.logo" alt="" width="40" height="40" />
+          {{ d.institution }}
+        </p>
+        <h3 class="record__degree" [id]="'edu-degree-' + d.id">{{ d.degree }}</h3>
+        <p class="record__meta">
+          {{ d.years }} ·
+          <span class="record__status" [class.is-progress]="d.status === 'In progress'">{{
+            d.status
+          }}</span>
+        </p>
+        <p class="record__course">
+          <span class="record__label">Coursework</span>
+          {{ d.coursework }}
+        </p>
+      </article>
+    }
+  </div>
+
+  <a class="certs" routerLink="/" fragment="certifications">
+    Plus {{ certCount }} certifications — {{ certIssuers }}
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+  </a>
 </section>
