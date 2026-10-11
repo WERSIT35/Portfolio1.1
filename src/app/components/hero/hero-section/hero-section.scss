@@ -24,74 +24,102 @@
 }
 
 // ---------------------------------------------------------------------------
-// Tokens: pure monochrome. Muted #A1A1A1 on the #111 card is 7.4:1 (AA, AAA).
-// Spacing sits on an 8px grid; gap and card padding are the spec's 12 / 20 / 28.
+// "Cover": a full-height portrait slab and a name that crosses its edge. The name is
+// white ink with mix-blend-mode: difference, so wherever it overlaps the bright photo it
+// turns dark on its own. The slab's left edge is the one moving part: wiped in on load,
+// then drifting with the cursor (--drift, written by the component).
 // ---------------------------------------------------------------------------
 :host {
   --bg: #0a0a0a;
-  --card: #111;
-  --line: rgb(255 255 255 / 8%);
-  --line-hover: rgb(255 255 255 / 16%);
+  --line: rgb(255 255 255 / 16%);
   --text: #fafafa;
   --muted: #a1a1a1;
   --radius: 20px;
-  --gap: 12px;
-  --pad: 20px;
+  --gutter: 16px;
+  --name-size: clamp(44px, 15vw, 96px);
+  // Phones: the photo is a band across the top.
+  --band: 38svh;
+  // Tablet/desktop: where the slab starts, and how far its edge may drift either way.
+  --edge: 58vw;
+  --drift-max: 2.5vw;
+  --drift: 0px;
+  --ease-edge: cubic-bezier(0.19, 1, 0.22, 1);
 
   display: block;
   font-family: 'Geist', system-ui, sans-serif;
   color: var(--text);
 }
 
-@include bp.desktop-up {
-  :host {
-    --pad: 28px;
-  }
-}
-
-// At least one viewport tall, never fixed: content always sets the height.
+// The hero is one stacking context (isolation), and nothing inside it creates another
+// around the ink: that's what lets the name blend with the photo behind it.
 .hero {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  align-content: center;
   min-height: 100svh;
-  // Phones: the island docks at the bottom, so the hero keeps its band (--dock-clear,
-  // safe area included) clear and the actions never sit under it.
-  padding: 24px 16px max(calc(24px + env(safe-area-inset-bottom, 0px)), var(--dock-clear));
+  padding: 0 var(--gutter) var(--dock-clear);
+  overflow: clip;
   background: var(--bg);
 }
 
-.hero__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--gap);
+// ---------------------------------------------------------------------------
+// The slab
+// ---------------------------------------------------------------------------
+.slab {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--band);
+  margin: 0;
+  overflow: hidden;
+  background: #ececec;
+  // An explicit inset (not `none`) so the scroll lift interpolates instead of jumping.
+  clip-path: inset(0 0 0 0);
+}
+
+// The load wipe lives on <picture> so it can't fight the slab's own clip (drift / scroll).
+.slab picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  // Wipe end state: an explicit inset (`none` can't interpolate, the wipe would jump).
+  clip-path: inset(0 0 0 0);
+}
+
+.slab img {
+  display: block;
   width: 100%;
-  max-width: 1200px;
-  margin-inline: auto;
+  height: 100%;
+  object-fit: cover;
+  // Face and shoulders in the band; the tee meets the band's bottom edge.
+  object-position: 50% 25%;
 }
 
 // ---------------------------------------------------------------------------
-// Intro: location → name → role. Plain type on the page, not a card.
+// Content (positioned, z-index auto: painted after the slab, same stacking context)
 // ---------------------------------------------------------------------------
-// A size container, so the name can be capped to its own column (see .intro__name).
-.intro {
-  container-type: inline-size;
-  grid-column: 1 / -1;
+.content {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 16px;
   min-width: 0;
-  padding-bottom: 12px;
+}
+
+// Ink: white text that inverts over the photo.
+.ink {
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 .label {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  left: 0;
   margin: 0;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
 }
 
 // Fixed-width digits; hidden (not removed) until the browser fills in the real time.
@@ -103,200 +131,74 @@
   visibility: hidden;
 }
 
-.intro__main {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
-
-.intro__name {
-  margin: 0;
+// Phones: the first line sits on the band's bottom edge, half on the photo.
+.name {
+  margin: calc(var(--band) - 0.5 * 0.9 * var(--name-size)) 0 0;
   font-family: inherit;
-  // Spec scale clamp(48px, 12vw, 120px), additionally capped at 18cqi: "Davitashvili" is
-  // 5.38em wide, so the longest line always fits its column and never breaks mid-word.
-  font-size: clamp(48px, min(12vw, 18cqi), 120px);
+  font-size: var(--name-size);
   font-weight: 700;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  // A 0.9 line box is tighter than the glyphs; a little block padding keeps
-  // ascenders and descenders inside the element's own box.
-  padding-block: 0.04em 0.06em;
   overflow-wrap: normal;
 }
 
-// Both lines flush left, no indent.
-.intro__line {
+// Each line rises out of its own mask; padding keeps ascenders/descenders inside it.
+.name__line {
   display: block;
+  overflow: clip;
+  padding-block: 0.04em 0.06em;
 }
 
-.intro__role {
+.name__word {
+  display: block;
+  white-space: nowrap;
+}
+
+.colophon {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+  min-width: 0;
+}
+
+.role {
   margin: 0;
-  text-wrap: balance;
   font-size: 20px;
   font-weight: 500;
   line-height: 28px;
-}
-
-// ---------------------------------------------------------------------------
-// Cards: one radius, one border, height always from content.
-// ---------------------------------------------------------------------------
-.card {
-  min-width: 0;
-  height: auto;
-  margin: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--card);
-  transition: border-color 150ms ease-out;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    border-color: var(--line-hover);
-  }
-}
-
-// Square, edge to edge; the image is the only thing the radius trims.
-.photo {
-  align-self: start;
-  overflow: hidden;
-  aspect-ratio: 1;
-}
-
-.photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.current,
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: var(--pad);
-}
-
-.current__role {
-  margin: 0;
-  font-size: 15px;
-  line-height: 24px;
-  overflow-wrap: break-word;
   text-wrap: balance;
 }
 
-// Narrow card (phones): one fact per line, no dangling separator. One line from 768px.
-.current__part {
-  display: block;
-}
-
-.current__sep {
-  display: none;
-}
-
-// Proof stat: the numeral carries the weight, the label explains it. Sits right under the
-// role line (8px rhythm), not pinned to the card's foot. On phones the label sits beside
-// the numeral (keeps the card about as tall as the photo next to it); above that, under it.
-.stat {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: end;
-  column-gap: 12px;
-  align-self: stretch;
-  margin-top: 8px;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.stat__value {
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
-}
-
-// Inline, so a wrapped label keeps the arrow after its last word.
-.stat__label {
-  font-size: 15px;
-  line-height: 24px;
-  color: var(--muted);
-  transition: color 150ms ease-out;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .stat:hover .stat__label {
-    color: var(--text);
-  }
-}
-
-.stack {
-  grid-column: 1 / -1;
-}
-
-.stack__title {
-  margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  color: var(--muted);
-}
-
-.stack__list {
+.facts {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
   margin: 0;
-  padding: 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
   list-style: none;
-}
-
-.chip {
-  padding: 6px 12px;
-  border: 1px solid var(--line-hover);
-  border-radius: var(--radius);
-  font-size: 13px;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-// ---------------------------------------------------------------------------
-// Actions: primary is the only inverted element on the hero.
-// ---------------------------------------------------------------------------
-// Side by side whenever both fit on one line; otherwise each takes the full row.
-.ctas {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex: 1 1 100%;
-  min-height: 48px;
-  padding: 12px 24px;
-  white-space: nowrap;
-  border: 1px solid var(--line-hover);
-  border-radius: var(--radius);
   font-size: 15px;
-  font-weight: 500;
   line-height: 24px;
+  color: var(--muted);
+}
+
+.fact-link {
   color: var(--text);
   text-decoration: none;
-  transition: border-color 150ms ease-out;
 }
 
-.btn--primary {
-  border-color: var(--text);
-  background: var(--text);
-  color: var(--bg);
+.fact-num {
+  margin-right: 4px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  vertical-align: -0.12em;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 // Inline (Tailwind's preflight makes svg block), so it follows the text.
@@ -307,124 +209,166 @@
   transition: transform 150ms ease-out;
 }
 
+.fact-link .arrow {
+  margin-left: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Actions: primary is the only filled element.
+// ---------------------------------------------------------------------------
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  flex: 1 1 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  white-space: nowrap;
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    border-color 150ms ease-out,
+    scale 100ms ease-out;
+}
+
+.btn--primary {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn:active {
+  scale: 0.98;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .btn--secondary:hover {
     border-color: rgb(255 255 255 / 32%);
   }
 
   .btn:hover .arrow,
-  .stat:hover .arrow {
+  .fact-link:hover .arrow {
     transform: translateX(4px);
   }
 }
 
-// Visible focus everywhere, offset so it reads on the white button too.
 a:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;
-}
-
-// The arrow travels with the last word instead of wrapping onto a line of its own.
-.nowrap {
-  white-space: nowrap;
-}
-
-.stat .arrow {
-  margin-left: 4px;
-}
-
-.stat:focus-visible {
   border-radius: 4px;
 }
 
+.btn:focus-visible {
+  border-radius: var(--radius);
+}
+
 // ---------------------------------------------------------------------------
-// Tablet: same single column, roomier frame, actions side by side.
+// Tablet and up: the slab stands on the right, full height, bleeding off three edges.
 // ---------------------------------------------------------------------------
 @include bp.tablet-up {
-  // The island floats top-centre from here up: the hero starts below it.
+  :host {
+    --gutter: max(32px, 4vw);
+    --name-size: clamp(64px, 12vw, 220px);
+  }
+
   .hero {
-    padding: calc(var(--island-top) + var(--island-h) + 16px) 32px 48px;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
+  }
+
+  // The slab box starts drift-max before the edge so the edge can move both ways; the clip
+  // decides where the photo actually begins.
+  .slab {
+    inset: 0 0 0 calc(var(--edge) - var(--drift-max));
+    height: auto;
+    clip-path: inset(0 0 0 calc(var(--drift-max) + var(--drift)));
+  }
+
+  // Taller than the slab and anchored to its foot, so the tee rises to meet the name.
+  .slab picture {
+    inset: auto 0 0;
+    height: 115%;
+  }
+
+  .slab img {
+    object-position: 50% 100%;
+  }
+
+  .content {
+    position: relative;
+  }
+
+  .label {
+    position: static;
+  }
+
+  // Name and colophon sit at the foot; the name's second line runs across the edge.
+  .name {
+    margin: auto 0 0;
+    padding-top: 32px;
+  }
+
+  // The colophon never runs under the slab, wherever the edge drifts.
+  .colophon {
+    max-width: calc(var(--edge) - var(--drift-max) - var(--gutter) - 32px);
+    margin-top: 32px;
+  }
+
+  .facts {
+    flex-flow: row wrap;
+    align-items: baseline;
+    column-gap: 32px;
+    row-gap: 4px;
   }
 
   .btn {
     flex-basis: max-content;
-  }
-
-  // A third of the row for the photo (a half made it 346px square and left the card hollow).
-  .hero__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .photo {
-    grid-column: 1;
-  }
-
-  // Label and role on the card's top line, the stat on its bottom line (level with the photo).
-  .current {
-    grid-column: 2 / span 2;
-  }
-
-  .current__part {
-    display: inline;
-  }
-
-  .current__sep {
-    display: inline;
-  }
-
-  .stat {
-    grid-template-columns: none;
-    justify-items: start;
-    row-gap: 4px;
-    align-self: flex-start;
-    // Bottom of the card when it has spare height; never closer than 16px to the role.
-    margin-top: auto;
-    padding-top: 8px;
+    flex-grow: 0;
   }
 }
 
-// ---------------------------------------------------------------------------
-// Desktop: 12-column bento. Name 8 / photo 4, then current 4 / stack 4 / actions 4.
-// ---------------------------------------------------------------------------
 @include bp.desktop-up {
-  .hero__grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  :host {
+    --edge: 60vw;
   }
 
-  .stat__value {
-    font-size: 64px;
-  }
-
-  // Row 2 shares edges: labels on the top line, content (chips, stat, buttons) on the bottom.
-  .stack {
-    justify-content: space-between;
-  }
-
-  .intro {
-    grid-column: 1 / span 8;
-  }
-
-  .photo {
-    grid-column: 9 / span 4;
-  }
-
-  .current {
-    grid-column: 1 / span 4;
-  }
-
-  .stack {
-    grid-column: 5 / span 4;
-  }
-
-  .ctas {
-    grid-column: 9 / span 4;
-    align-self: end;
+  .role {
+    font-size: 24px;
+    line-height: 32px;
   }
 }
 
 // ---------------------------------------------------------------------------
-// Load: one stagger, 40ms apart, 8px up. Off entirely for reduced motion.
+// Motion: the name rises, the slab's edge wipes in, then the colophon follows.
+// Phones: the band's bottom edge rises as the hero scrolls away.
 // ---------------------------------------------------------------------------
+@keyframes name-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -432,9 +376,61 @@ a:focus-visible {
   }
 }
 
+@keyframes wipe-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@keyframes band-lift {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .name__word {
+    animation: name-rise 600ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .name__line + .name__line .name__word {
+    animation-delay: 60ms;
+  }
+
   .rise {
     animation: rise 400ms ease-out both;
-    animation-delay: calc(var(--i, 0) * 40ms);
+    animation-delay: calc(200ms + var(--i, 0) * 40ms);
+  }
+
+  .slab picture {
+    animation: wipe-down 1000ms var(--ease-edge) 100ms both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .slab {
+      animation: band-lift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: bp.$tablet) {
+  .slab picture {
+    animation-name: wipe-in;
+    animation-duration: 1100ms;
+  }
+
+  // The tablet/desktop slab keeps its edge clip; no scroll lift there.
+  @supports (animation-timeline: view()) {
+    .slab {
+      animation: none;
+    }
   }
 }
