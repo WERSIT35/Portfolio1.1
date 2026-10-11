@@ -135,6 +135,20 @@ a {
   color: inherit;
 }
 
+// Every page reserves the docked island's band (0 above phone width), so the last
+// content always scrolls clear of the pill and the home indicator / Safari toolbar.
+// Home opts out: each of its 100svh stages keeps that band inside itself. The side
+// insets keep content out of the notch in landscape (viewport-fit=cover).
+main {
+  display: block;
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+  padding-bottom: var(--dock-clear);
+}
+
+main:has(> app-home-page) {
+  padding-bottom: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
