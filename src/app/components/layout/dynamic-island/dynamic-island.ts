@@ -8,9 +8,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { RouterLink } from '@angular/router';
 import { CONTACT } from '../../../data/site-data';
 import { MagneticDirective } from '../../../directives/magnetic.directive';
 import { ScrollSpyService } from '../../../services/scroll-spy.service';
@@ -35,7 +33,6 @@ const NAV_ITEMS: NavItem[] = [
   imports: [RouterLink, MagneticDirective],
   templateUrl: './dynamic-island.html',
   styleUrl: './dynamic-island.scss',
-  host: { '[class.is-over-hero]': 'overHero()' },
 })
 export class DynamicIsland {
   private readonly host = inject(ElementRef<HTMLElement>);
@@ -57,24 +54,16 @@ export class DynamicIsland {
     () => !this.dismissed() && (this.pinned() || this.hovered() || this.focusWithin()),
   );
 
-  protected readonly labels = [...new Set(['Prologue', ...NAV_ITEMS.map((item) => item.label)])];
+  // Outside the named sections (the hero, a case study) the pill shows the availability
+  // status instead of a section name.
+  private readonly status = CONTACT.availability;
+  protected readonly labels = [...new Set([this.status, ...NAV_ITEMS.map((item) => item.label)])];
 
   protected readonly activeId = computed(() => this.activeSectionId() ?? 'top');
-  // The hero carries its own identity and actions, so the pill steps aside while it's the
-  // active stage on the home page (it stays focusable and reappears on keyboard focus).
-  private readonly router = inject(Router);
-  private readonly path = toSignal(
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      map((event) => event.urlAfterRedirects.split(/[?#]/)[0]),
-    ),
-    { initialValue: this.router.url.split(/[?#]/)[0] },
-  );
-  protected readonly overHero = computed(() => this.path() === '/' && this.activeId() === 'top');
-
   protected readonly activeLabel = computed(
-    () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? 'Prologue',
+    () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? this.status,
   );
+  protected readonly isStatus = computed(() => this.activeLabel() === this.status);
 
   constructor() {
     const destroyRef = inject(DestroyRef);

@@ -1,7 +1,11 @@
 <section id="top" appSpySection tabindex="-1" class="hero" aria-labelledby="hero-name">
   <div class="hero__grid">
     <header class="intro">
-      <p class="label rise" style="--i: 0">{{ contact.location }} · {{ availability }}</p>
+      <!-- The time renders in the browser only; a hidden 00:00 holds its width meanwhile. -->
+      <p class="label rise" style="--i: 0">
+        {{ contact.location }} ·
+        <span class="clock" [class.is-pending]="!time()">{{ time() ?? '00:00' }}</span> local
+      </p>
       <div class="intro__main">
         <h1 id="hero-name" class="intro__name rise" style="--i: 1">
           <span class="intro__line">{{ contact.name }} </span>
@@ -16,12 +20,12 @@
         <source
           type="image/avif"
           srcset="/assets/profile/portrait-400.avif 400w, /assets/profile/portrait-800.avif 800w"
-          sizes="(min-width: 1024px) 392px, 50vw"
+          sizes="(min-width: 1024px) 392px, (min-width: 768px) 33vw, 50vw"
         />
         <source
           type="image/webp"
           srcset="/assets/profile/portrait-400.webp 400w, /assets/profile/portrait-800.webp 800w"
-          sizes="(min-width: 1024px) 392px, 50vw"
+          sizes="(min-width: 1024px) 392px, (min-width: 768px) 33vw, 50vw"
         />
         <img
           src="/assets/profile/portrait-400.webp"
@@ -37,14 +41,28 @@
     <div class="card current rise" style="--i: 4">
       <p class="label">Currently</p>
       <p class="current__role">
-        {{ current.company ? current.role + ' at ' + current.company : current.role }}
+        @for (part of currentParts; track part; let first = $first) {
+          @if (!first) {
+            <span class="current__sep"> · </span>
+          }
+          <span class="current__part">{{ part }}</span>
+        }
       </p>
-      <a class="current__stat" routerLink="/" fragment="projects">
-        {{ shippedCount }} shipped
-        <span class="nowrap">
-          projects<svg class="arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" />
-          </svg>
+      <a class="stat" routerLink="/" fragment="projects">
+        <span class="stat__value">{{ shippedCount }}</span>
+        <span class="stat__label">
+          shipped
+          <span class="nowrap">
+            projects<svg
+              class="arrow"
+              viewBox="0 0 16 16"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </span>
         </span>
       </a>
     </div>

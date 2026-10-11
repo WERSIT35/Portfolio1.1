@@ -54,7 +54,9 @@
   display: grid;
   align-content: center;
   min-height: 100svh;
-  padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  // Phones: the island docks at the bottom, so the hero keeps its band (--dock-clear,
+  // safe area included) clear and the actions never sit under it.
+  padding: 24px 16px max(calc(24px + env(safe-area-inset-bottom, 0px)), var(--dock-clear));
   background: var(--bg);
 }
 
@@ -84,12 +86,21 @@
 
 .label {
   margin: 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+// Fixed-width digits; hidden (not removed) until the browser fills in the real time.
+.clock {
+  font-variant-numeric: tabular-nums;
+}
+
+.clock.is-pending {
+  visibility: hidden;
 }
 
 .intro__main {
@@ -176,23 +187,47 @@
   text-wrap: balance;
 }
 
-// Pinned to the card's foot so it lines up with the photo's bottom edge.
+// Narrow card (phones): one fact per line, no dangling separator. One line from 768px.
+.current__part {
+  display: block;
+}
+
+.current__sep {
+  display: none;
+}
+
+// Proof stat: the numeral carries the weight, the label explains it. Sits right under the
+// role line (8px rhythm), not pinned to the card's foot. On phones the label sits beside
+// the numeral (keeps the card about as tall as the photo next to it); above that, under it.
+.stat {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  column-gap: 12px;
+  align-self: stretch;
+  margin-top: 8px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.stat__value {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
 // Inline, so a wrapped label keeps the arrow after its last word.
-.current__stat {
-  align-self: flex-start;
-  margin-top: auto;
-  padding-top: 8px;
+.stat__label {
   font-size: 15px;
   line-height: 24px;
   color: var(--muted);
-  text-decoration: underline;
-  text-decoration-color: var(--line-hover);
-  text-underline-offset: 4px;
   transition: color 150ms ease-out;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .current__stat:hover {
+  .stat:hover .stat__label {
     color: var(--text);
   }
 }
@@ -204,7 +239,7 @@
 .stack__title {
   margin: 0;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 16px;
   color: var(--muted);
@@ -278,7 +313,7 @@
   }
 
   .btn:hover .arrow,
-  .current__stat:hover .arrow {
+  .stat:hover .arrow {
     transform: translateX(4px);
   }
 }
@@ -294,11 +329,11 @@ a:focus-visible {
   white-space: nowrap;
 }
 
-.current__stat .arrow {
+.stat .arrow {
   margin-left: 4px;
 }
 
-.current__stat:focus-visible {
+.stat:focus-visible {
   border-radius: 4px;
 }
 
@@ -306,12 +341,45 @@ a:focus-visible {
 // Tablet: same single column, roomier frame, actions side by side.
 // ---------------------------------------------------------------------------
 @include bp.tablet-up {
+  // The island floats top-centre from here up: the hero starts below it.
   .hero {
-    padding: 48px 32px;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) 32px 48px;
   }
 
   .btn {
     flex-basis: max-content;
+  }
+
+  // A third of the row for the photo (a half made it 346px square and left the card hollow).
+  .hero__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .photo {
+    grid-column: 1;
+  }
+
+  // Label and role on the card's top line, the stat on its bottom line (level with the photo).
+  .current {
+    grid-column: 2 / span 2;
+  }
+
+  .current__part {
+    display: inline;
+  }
+
+  .current__sep {
+    display: inline;
+  }
+
+  .stat {
+    grid-template-columns: none;
+    justify-items: start;
+    row-gap: 4px;
+    align-self: flex-start;
+    // Bottom of the card when it has spare height; never closer than 16px to the role.
+    margin-top: auto;
+    padding-top: 8px;
   }
 }
 
@@ -321,6 +389,15 @@ a:focus-visible {
 @include bp.desktop-up {
   .hero__grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .stat__value {
+    font-size: 64px;
+  }
+
+  // Row 2 shares edges: labels on the top line, content (chips, stat, buttons) on the bottom.
+  .stack {
+    justify-content: space-between;
   }
 
   .intro {
