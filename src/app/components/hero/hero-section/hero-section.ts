@@ -31,6 +31,16 @@ export class HeroSection {
     (job) => /present/i.test(job.date) && /engineer|developer/i.test(job.role),
   )!;
 
+  /**
+   * ["Freelance", "since 2022"]: who it's for (employer, or the employment type for independent
+   * work) and the start year, so the card adds facts instead of repeating the role headline.
+   * Joined with " · " on one line, or stacked where the card is narrow.
+   */
+  protected readonly currentParts = [
+    this.current.company ?? this.current.employment,
+    `since ${this.current.date.match(/\d{4}/)?.[0]}`,
+  ].filter(Boolean);
+
   /** Projects that are out in the world: live, or running in production. */
   protected readonly shippedCount = PROJECTS.filter(
     (project) => project.status === 'live' || project.status === 'in-production',
