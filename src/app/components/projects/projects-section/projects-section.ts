@@ -43,13 +43,23 @@ export class ProjectsSection {
     const desktop = desktopShots(project);
     const mobile = mobileShots(project);
     const kind: LensKind =
-      desktop.length && mobile.length ? 'both' : desktop.length ? 'desktop' : mobile.length ? 'mobile' : 'spec';
+      desktop.length && mobile.length
+        ? 'both'
+        : desktop.length
+          ? 'desktop'
+          : mobile.length
+            ? 'mobile'
+            : 'spec';
     return {
       ...project,
       index: String(i + 1).padStart(2, '0'),
       category: project.subname.split(' — ')[0],
       stackLine: project.stack.slice(0, 3).join(' · '),
       statusLabel: projectStatusLabel(project.status),
+      // A real live URL only ('#' and empty links are placeholders).
+      live: project.iflink && project.link && project.link !== '#' ? project.link : null,
+      // Phone strip: one slide per shot, or the spec card when there are none.
+      slides: desktop.length + mobile.length || 1,
       desktop,
       mobile,
       kind,
@@ -62,6 +72,8 @@ export class ProjectsSection {
   protected readonly hot = signal<number | null>(null);
   /** Expanded accordion row (phones). */
   protected readonly open = signal(0);
+  /** Slide in view in the open row's strip (phones), for the page indicator. */
+  protected readonly page = signal(0);
   protected readonly lensVisible = signal(false);
   /** Ever-increasing counter; each gallery reads it modulo its own length. */
   protected readonly shot = signal(0);
@@ -156,6 +168,24 @@ export class ProjectsSection {
     if (!(event.currentTarget as HTMLElement).contains(next)) this.onListLeave();
   }
 
+  /** Phones: open a row (its strip starts at the first slide). */
+  protected openRow(index: number): void {
+    if (this.open() !== index) this.page.set(0);
+    this.open.set(index);
+  }
+
+  /** Phones: the slide whose left edge is nearest the strip's start is the current page. */
+  protected onStripScroll(event: Event): void {
+    const strip = event.target as HTMLElement;
+    const start = strip.scrollLeft + parseFloat(getComputedStyle(strip).paddingLeft);
+    const slides = Array.from(strip.children) as HTMLElement[];
+    let page = 0;
+    slides.forEach((slide, k) => {
+      if (Math.abs(slide.offsetLeft - start) < Math.abs(slides[page].offsetLeft - start)) page = k;
+    });
+    this.page.set(page);
+  }
+
   /** Read live: desktop-only behaviour (lens) must not run on the phone layout. */
   private isCompact(): boolean {
     return typeof matchMedia === 'function' && matchMedia(COMPACT_QUERY).matches;
@@ -207,7 +237,9 @@ export class ProjectsSection {
     this.pos.y += dy * LENS_FOLLOW;
 
     // Lean into the direction of travel, proportional to how far it's trailing.
-    const tilt = this.reducedMotion ? 0 : clamp(dx * LENS_TILT_PER_PX, -LENS_MAX_TILT_DEG, LENS_MAX_TILT_DEG);
+    const tilt = this.reducedMotion
+      ? 0
+      : clamp(dx * LENS_TILT_PER_PX, -LENS_MAX_TILT_DEG, LENS_MAX_TILT_DEG);
     const el = this.lens().nativeElement;
     el.style.setProperty('--lens-x', `${this.pos.x.toFixed(1)}px`);
     el.style.setProperty('--lens-y', `${this.pos.y.toFixed(1)}px`);

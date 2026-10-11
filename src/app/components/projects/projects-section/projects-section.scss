@@ -1,206 +1,316 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "Selected work": an editorial index. Huge names (solid dim grey at rest, white when
+// hot), a colophon per row, "Live ↗" where a live site exists. Desktop keeps the lens that
+// trails the cursor with the project's screens; the hot name inverts where it crosses it.
+// Phones: an accordion whose open row has a full-bleed swipe strip with a page count.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  // Names at rest: 4.7:1 on the ground (AA for any size).
+  --rest: #7b7b7b;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
 }
 
-// ---------------------------------------------------------------------------
-// Frame — exactly one viewport; the island floats over it (no clearance).
-// ---------------------------------------------------------------------------
 .pj {
   position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(0.75rem, 2svh, 1.5rem);
-  height: 100svh;
-  padding: 1.25rem;
-  overflow: hidden;
-  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 24px var(--gutter) var(--dock-clear);
+  background: var(--bg);
 }
 
-.pj__head,
-.index {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
+// ---------------------------------------------------------------------------
+// Head (same pattern as every redesigned section)
+// ---------------------------------------------------------------------------
 .pj__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 4px 16px;
+  margin-bottom: 24px;
 }
 
 .pj__kicker,
 .pj__count {
-  font-size: 0.6875rem;
+  margin: 0;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.pj__title {
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--muted);
 }
 
 .pj__count {
   margin-left: auto;
 }
 
-// ---------------------------------------------------------------------------
-// The index — every row shares the remaining height exactly.
-// ---------------------------------------------------------------------------
-.index {
-  display: grid;
-  grid-template-rows: repeat(var(--rows, 8), minmax(0, 1fr));
-  min-height: 0;
-  margin-block: 0;
-  padding: 0;
-  list-style: none;
-  container-type: size;
-  border-bottom: 1px solid var(--color-border);
+.pj__title {
+  order: 3;
+  width: 100%;
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
+// ---------------------------------------------------------------------------
+// Index rows
+// ---------------------------------------------------------------------------
+.index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+// Grid: the row's own link/button, then the live link (desktop). No transforms or z-index
+// here: the hot name must share the section's stacking context with the lens.
 .row {
-  position: relative;
-  min-height: 0;
-  border-top: 1px solid var(--color-border);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
 }
 
 .row__link {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 17rem) 4rem 8.5rem;
-  align-items: center;
-  gap: 1.5rem;
-  height: 100%;
+  grid-template-columns: 28px minmax(0, 1fr) 20px;
+  align-items: baseline;
+  column-gap: 12px;
   width: 100%;
-  padding-inline: 0.25rem;
+  padding: 14px 0;
   border: 0;
   background: none;
   font: inherit;
-  text-align: left;
   color: inherit;
+  text-align: left;
   text-decoration: none;
   cursor: pointer;
-  outline: none;
 }
 
-// The phone disclosure button only exists in the phone layout.
-.row__link--toggle {
+.row__link--nav,
+.row__visit {
   display: none;
 }
 
-.row__index,
-.row__year,
-.row__status {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
+.row__link:focus-visible,
+.row__visit:focus-visible,
+.row__cta:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 
-// Massive names, solid dim grey at rest (#7b7b7b: 4.7:1 on the page, WCAG AA — an outline-only
-// name has no fill to measure); the hot row fills pure white and steps right.
+.row__index {
+  grid-column: 1;
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
 .row__name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-block: 0.08em;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: min(8cqh, 3.7cqi);
-  line-height: 1;
-  letter-spacing: -0.035em;
-  color: #7b7b7b;
-  -webkit-text-stroke: 1px transparent;
+  grid-column: 2;
+  min-width: 0;
+  font-size: clamp(22px, 6.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--rest);
+  overflow-wrap: break-word;
   transition:
-    color 0.5s var(--ease-luxe),
-    -webkit-text-stroke-color 0.5s var(--ease-luxe),
-    transform 0.7s var(--ease-luxe);
+    color 0.4s var(--ease-luxe),
+    translate 0.6s var(--ease-luxe);
 }
 
-.row.is-hot .row__name {
-  color: var(--color-white);
-  -webkit-text-stroke-color: transparent;
-  transform: translateX(1.5rem);
-}
-
-.row__link:focus-visible .row__name {
-  outline: 1px solid var(--color-border-strong);
-  outline-offset: 0.35rem;
+// Phones: the colophon under the name — category, then year · status.
+.row__meta,
+.row__when {
+  grid-column: 2;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
 }
 
 .row__meta {
-  display: grid;
-  gap: 0.2rem;
-  min-width: 0;
-}
-
-.row__category,
-.row__stack {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.row__category {
-  font-size: 0.8125rem;
-  color: var(--color-ink-mid);
+  margin-top: 2px;
 }
 
 .row__stack {
-  font-size: 0.75rem;
-  color: var(--color-ink-dim);
-}
-
-.row__year {
-  text-align: right;
-}
-
-.row__status {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  white-space: nowrap;
-}
-
-.row__status::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  border: 1px solid var(--color-accent);
-}
-
-.row__status[data-status='live']::before,
-.row__status[data-status='in-production']::before {
-  background: var(--color-white);
-  border-color: var(--color-white);
-}
-
-// Everything but the hot row recedes while the index is being explored.
-.row__index,
-.row__meta,
-.row__year,
-.row__status {
-  transition: opacity 0.5s var(--ease-luxe);
-}
-
-.index.is-hovering .row:not(.is-hot) :is(.row__index, .row__meta, .row__year, .row__status) {
-  opacity: 0.25;
-}
-
-.row__media {
   display: none;
 }
 
+.row__status::before {
+  content: ' · ';
+}
+
+.row__status[data-status='live'],
+.row__status[data-status='in-production'] {
+  color: var(--text);
+}
+
+// +/– for the phone accordion.
+.row__link--toggle::after {
+  content: '+';
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.row.is-open .row__link--toggle::after {
+  content: '–';
+}
+
+.row.is-open .row__name {
+  color: var(--text);
+}
+
 // ---------------------------------------------------------------------------
-// Lens — glass panel trailing the cursor (position fed by the rAF lerp).
+// Phone accordion body: full-bleed swipe strip + actions
+// ---------------------------------------------------------------------------
+.row__media {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 500ms var(--ease-luxe),
+    visibility 0s linear 500ms;
+}
+
+.row.is-open .row__media {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 500ms var(--ease-luxe),
+    visibility 0s;
+}
+
+.row__media-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.strip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px calc(-1 * var(--gutter)) 0;
+  padding: 0 var(--gutter) 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.strip::-webkit-scrollbar {
+  display: none;
+}
+
+.strip > * {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.strip__desktop {
+  display: block;
+  width: min(88vw, 520px);
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: 50% 0%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #111;
+}
+
+.strip__phone {
+  display: block;
+  width: min(42vw, 200px);
+  aspect-ratio: 9 / 19.5;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #111;
+}
+
+.strip__phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.strip__spec {
+  width: min(88vw, 520px);
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #111;
+}
+
+.spec__label {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.spec__stack {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  padding: 16px 0 20px;
+}
+
+.strip__count {
+  margin: 0 auto 0 0;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.row__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+
+// ---------------------------------------------------------------------------
+// Lens — trails the cursor (position fed by the rAF lerp in the component). A solid panel
+// in the hero's palette; sizes per kind are what the component's aim/flip maths expects.
 // ---------------------------------------------------------------------------
 .lens {
   --lens-x: 0px;
@@ -211,18 +321,14 @@
   left: 0;
   top: 0;
   z-index: 5;
+  display: none;
   width: 30rem;
-  padding: 0.75rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--color-border-strong);
-  background: rgb(18 18 18 / 55%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 10%),
-    0 40px 90px -35px rgb(0 0 0 / 90%);
-  backdrop-filter: blur(18px) saturate(120%);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: #111;
+  box-shadow: 0 40px 90px -35px rgb(0 0 0 / 90%);
   pointer-events: none;
-  // Top-left corner placed by the rAF lerp (already offset from the cursor in TS).
   transform: translate3d(var(--lens-x), var(--lens-y), 0) rotate(var(--lens-tilt));
   opacity: 0;
   scale: 0.86;
@@ -252,16 +358,16 @@
 
 .lens__browser {
   overflow: hidden;
-  border-radius: 0.75rem;
-  border: 1px solid var(--color-border);
-  background: #0a0a0a;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
 }
 
 .lens__dots {
   display: flex;
-  gap: 0.3rem;
-  padding: 0.5rem 0.6rem;
-  border-bottom: 1px solid var(--color-border);
+  gap: 5px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
 }
 
 .lens__dots i {
@@ -299,7 +405,7 @@
 .lens__phones {
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 12px;
 }
 
 .lens__phone {
@@ -308,17 +414,17 @@
   width: 42%;
   aspect-ratio: 9 / 19.5;
   overflow: hidden;
-  border-radius: 1.1rem;
-  border: 1px solid var(--color-border-strong);
-  background: #0a0a0a;
+  border-radius: 18px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: var(--bg);
   box-shadow: 0 0 0 3px rgb(10 10 10 / 90%);
 }
 
 // With a desktop shot, one phone overlaps its lower-right corner.
 .lens[data-kind='both'] .lens__phones {
   position: absolute;
-  right: -1.5rem;
-  bottom: -1.75rem;
+  right: -24px;
+  bottom: -28px;
   width: 24%;
 }
 
@@ -329,84 +435,75 @@
 // Mobile-only projects: two phones, fanned.
 .lens[data-kind='mobile'] .lens__phone:first-child {
   rotate: -4deg;
-  translate: 0 0.4rem;
+  translate: 0 6px;
 }
 
 .lens[data-kind='mobile'] .lens__phone:last-child {
   rotate: 4deg;
-  translate: 0 -0.4rem;
+  translate: 0 -6px;
 }
 
 .lens__spec {
-  padding: 0.75rem 0.5rem;
-}
-
-.spec__label {
-  margin-bottom: 0.75rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
+  padding: 12px 8px;
 }
 
 .lens__spec ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0 0 1rem;
+  gap: 6px;
+  margin: 0 0 16px;
   padding: 0;
   list-style: none;
 }
 
 .lens__spec li {
-  padding: 0.3rem 0.65rem;
-  border: 1px solid var(--color-border);
+  padding: 4px 10px;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  font-size: 0.75rem;
-  color: var(--color-ink-mid);
+  font-size: 13px;
+  color: #c8c8c8;
 }
 
 .lens__spec dl {
   display: grid;
-  gap: 0.5rem;
+  gap: 8px;
   margin: 0;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
 
 .lens__spec dl > div {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.8125rem;
+  gap: 16px;
+  font-size: 13px;
 }
 
 .lens__spec dt {
-  color: var(--color-ink-dim);
+  color: var(--muted);
 }
 
 .lens__spec dd {
   margin: 0;
-  color: var(--color-white);
+  color: var(--text);
 }
 
 .lens__caption {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  margin-top: 0.7rem;
-  padding-inline: 0.2rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  gap: 16px;
+  margin: 12px 0 0;
+  padding-inline: 4px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
+  color: var(--muted);
 }
 
 .lens__caption span:first-child {
-  color: var(--color-white);
+  color: var(--text);
 }
 
-// Status · year stays one unit; a long project name wraps instead.
 .lens__caption span:last-child {
   flex: none;
   white-space: nowrap;
@@ -417,248 +514,134 @@
 }
 
 // ---------------------------------------------------------------------------
-// Tablet — drop the meta column.
+// Tablet and up: the whole row is the link (no accordion), the lens trails the cursor.
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .row__link {
-    grid-template-columns: 2.5rem minmax(0, 1fr) 3.5rem 8rem;
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
   }
 
-  .row__meta {
-    display: none;
-  }
-
-  .row__name {
-    font-size: min(8cqh, 6cqi);
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Phones — vertical accordion fitted to 100svh: seven slim rows plus one open
-// row that takes the remaining height with a swipeable screenshot strip.
-// ---------------------------------------------------------------------------
-@include bp.phone {
+  // The island floats top-centre from here up: the section starts below it.
   .pj {
-    padding: 0.75rem 0.75rem var(--dock-clear);
-  }
-
-  .pj__head {
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-  }
-
-  .pj__title {
-    width: 100%;
-    order: 3;
-    font-size: 1.35rem;
-  }
-
-  .lens {
-    display: none;
-  }
-
-  .index {
-    --row: clamp(2.4rem, 5.6svh, 3rem);
-
-    display: flex;
-    flex-direction: column;
-    container-type: normal;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
   }
 
   .row {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 var(--row);
-    overflow: hidden;
-    transition: flex-grow 0.6s var(--ease-luxe);
+    grid-template-columns: minmax(0, 1fr) 80px;
+    align-items: center;
   }
 
-  .row.is-open {
-    flex: 1 1 0;
-    min-height: var(--row);
+  .row__link--toggle,
+  .row__media {
+    display: none;
+  }
+
+  // The accordion's open row means nothing here (the whole row is a link): names rest grey.
+  .row.is-open .row__name {
+    color: var(--rest);
   }
 
   .row__link--nav {
-    display: none;
-  }
-
-  .row__link--toggle {
     display: grid;
-  }
-
-  .row__link--toggle:focus-visible {
-    outline: 1px solid var(--color-border-strong);
-    outline-offset: -1px;
-  }
-
-  .row__link {
-    flex: 0 0 var(--row);
-    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
-    gap: 0.75rem;
-    height: var(--row);
-    padding-inline: 0;
-  }
-
-  .row__meta,
-  .row__status {
-    display: none;
-  }
-
-  .row__name {
-    font-size: 1.25rem;
-  }
-
-  .row.is-open .row__name {
-    color: var(--color-white);
-    -webkit-text-stroke-color: transparent;
-  }
-
-  .row.is-hot .row__name {
-    transform: none;
-  }
-
-  .row__media {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    gap: 0.6rem;
-    padding-bottom: 0.75rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .row.is-open .row__media {
-    opacity: 1;
-    transition: opacity 0.6s var(--ease-luxe) 0.2s;
-  }
-
-  .strip {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-    gap: 0.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .strip::-webkit-scrollbar {
-    display: none;
-  }
-
-  .strip__desktop,
-  .strip__phone {
-    flex: none;
-    height: 100%;
-    scroll-snap-align: start;
-  }
-
-  .strip__desktop {
-    aspect-ratio: 16 / 10;
-    width: auto;
-    max-width: 88%;
-    object-fit: cover;
-    object-position: 50% 0%;
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-border);
-  }
-
-  .strip__phone {
-    aspect-ratio: 9 / 19.5;
-    overflow: hidden;
-    border-radius: 0.9rem;
-    border: 1px solid var(--color-border-strong);
-  }
-
-  .strip__phone img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 0%;
-  }
-
-  .strip__spec {
-    flex: 1;
-    padding: 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 0.9rem;
-  }
-
-  .spec__stack {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.1rem;
-    line-height: 1.35;
-    color: var(--color-white);
-  }
-
-  .row__cta {
-    display: inline-flex;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    grid-template-columns: 40px minmax(0, 1fr) minmax(0, 15rem) 9.5rem 80px;
     align-items: center;
-    align-self: flex-start;
-    gap: 0.4rem;
-    font-size: 0.6875rem;
+    column-gap: 24px;
+    padding: 12px 0;
+  }
+
+  // Long names wrap at word boundaries (never mid-word) rather than run over the columns.
+  .row__name {
+    font-size: clamp(32px, 4vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+
+  .row__meta {
+    grid-column: 3;
+    display: grid;
+    gap: 2px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .row__stack {
+    display: block;
+  }
+
+  .row__when {
+    grid-column: 4;
+    grid-row: 1;
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    justify-self: start;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .row__status::before {
+    content: none;
+  }
+
+  // Live ↗ sits in the row's last column, over the row link (its own link, not nested).
+  .row__visit {
+    display: inline-flex;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
     font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-white);
+    color: var(--text);
     text-decoration: none;
   }
-}
 
-// Short desktop screens: grow instead of crushing the rows.
-@include bp.tablet-up-short {
-  .pj {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .index {
-    grid-template-rows: none;
-    grid-auto-rows: 4rem;
-    container-type: inline-size;
-  }
-
-  .row__name {
-    font-size: 2.5rem;
+  .lens {
+    display: block;
   }
 }
 
-// ---------------------------------------------------------------------------
-// Touch ergonomics — rows never drop below 44px on short phones, and the
-// "Open case study" link is a real 44px target (the next row would cover an
-// invisible hit area below it).
-// ---------------------------------------------------------------------------
-@include bp.phone {
-  .index {
-    --row: clamp(2.75rem, 5.6svh, 3rem);
+// Desktop: the section head shares its row with the island's empty centre.
+@include bp.desktop-up {
+  .pj__title {
+    order: 0;
+    width: auto;
   }
+}
 
-  .row__cta {
-    min-height: 2.75rem;
+// Hot row (mouse / keyboard focus): white, steps right, and inverts where it crosses the
+// lens (white ink + difference blend, painted above the lens in the same stacking context).
+@include bp.tablet-up {
+  .row.is-hot .row__name {
+    position: relative;
+    z-index: 6;
+    color: #fff;
+    mix-blend-mode: difference;
+    translate: 16px 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .row__visit:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .row__name,
-  .lens,
-  .row,
-  .row__media {
-    transition: none !important;
-  }
-
+  .row__media,
+  .row.is-open .row__media,
   .lens {
-    --lens-tilt: 0deg;
+    transition: none;
   }
-}
 
-// ---------------------------------------------------------------------------
-// Readable on phones and tablets: text people read or tap is at least 14px
-// (the small uppercase labels and counters stay as designed).
-// ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .row__cta {
-    font-size: 0.875rem;
+  .row.is-hot .row__name {
+    translate: none;
   }
 }
