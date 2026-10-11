@@ -763,4 +763,5 @@ export const CONTACT: Contact = {
   github: 'https://github.com/WERSIT35',
   linkedin: 'https://www.linkedin.com/in/otar-davitashvili/',
   location: 'Tbilisi, Georgia',
+  availability: 'Open to freelance',
 };

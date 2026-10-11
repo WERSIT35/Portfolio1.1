@@ -18,7 +18,12 @@
       <!-- One slot per label: the active one is created fresh, so each new label rolls in. -->
       @for (label of labels; track label) {
         @if (label === activeLabel()) {
-          <span class="island__label-word">{{ label }}</span>
+          <span class="island__label-word">
+            @if (isStatus()) {
+              <span class="island__status-dot"></span>
+            }
+            {{ label }}
+          </span>
         }
       }
     </span>

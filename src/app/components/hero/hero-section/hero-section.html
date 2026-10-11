@@ -1,7 +1,11 @@
 <section id="top" appSpySection tabindex="-1" class="hero" aria-labelledby="hero-name">
   <div class="hero__grid">
     <header class="intro">
-      <p class="label rise" style="--i: 0">{{ contact.location }} · {{ availability }}</p>
+      <!-- The time renders in the browser only; a hidden 00:00 holds its width meanwhile. -->
+      <p class="label rise" style="--i: 0">
+        {{ contact.location }} ·
+        <span class="clock" [class.is-pending]="!time()">{{ time() ?? '00:00' }}</span> local
+      </p>
       <div class="intro__main">
         <h1 id="hero-name" class="intro__name rise" style="--i: 1">
           <span class="intro__line">{{ contact.name }} </span>

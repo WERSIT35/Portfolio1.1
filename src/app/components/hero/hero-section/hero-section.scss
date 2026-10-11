@@ -54,7 +54,9 @@
   display: grid;
   align-content: center;
   min-height: 100svh;
-  padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  // Phones: the island docks at the bottom, so the hero keeps its band (--dock-clear,
+  // safe area included) clear and the actions never sit under it.
+  padding: 24px 16px max(calc(24px + env(safe-area-inset-bottom, 0px)), var(--dock-clear));
   background: var(--bg);
 }
 
@@ -90,6 +92,15 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+// Fixed-width digits; hidden (not removed) until the browser fills in the real time.
+.clock {
+  font-variant-numeric: tabular-nums;
+}
+
+.clock.is-pending {
+  visibility: hidden;
 }
 
 .intro__main {
@@ -306,8 +317,9 @@ a:focus-visible {
 // Tablet: same single column, roomier frame, actions side by side.
 // ---------------------------------------------------------------------------
 @include bp.tablet-up {
+  // The island floats top-centre from here up: the hero starts below it.
   .hero {
-    padding: 48px 32px;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) 32px 48px;
   }
 
   .btn {
