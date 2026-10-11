@@ -53,9 +53,33 @@
   font-display: swap;
 }
 
+// Geist: the type of the redesigned sections (hero onward), three weights (self-hosted, OFL — see /fonts/geist/OFL.txt).
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/geist/Geist-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/geist/Geist-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/geist/Geist-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
   --font-body: 'Satoshi', -apple-system, sans-serif;
+  --font-geist: 'Geist', system-ui, sans-serif;
 
   --color-bg: #0a0a0a;
   --color-bg-raised: #0d0f12;
