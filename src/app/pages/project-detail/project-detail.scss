@@ -150,6 +150,12 @@
   align-items: start;
 }
 
+.detail__prose,
+.detail__sidebar,
+.detail__facts {
+  min-width: 0;
+}
+
 .detail__prose {
   max-width: 42rem;
 }
@@ -229,9 +235,10 @@
   margin: 0 0 1rem;
 }
 
+// One tile per row in the narrow sidebar and on phones; two or more once there's room.
 .detail__metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.75rem), 1fr));
   gap: 0.6rem;
 }
 
@@ -258,7 +265,7 @@
 
 .detail__gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: 1rem;
 }
 
@@ -294,7 +301,7 @@
 
 @include bp.below-desktop {
   .detail__body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .detail__sidebar {
@@ -303,10 +310,10 @@
 }
 
 @include bp.phone {
-  // The bottom band clears the docked island, so the last content can scroll above it.
+  // <main> reserves the docked island's band (styles.scss); this is just breathing room.
   .detail {
     padding-top: 1.5rem;
-    padding-bottom: calc(var(--dock-clear) + 1rem);
+    padding-bottom: 1rem;
   }
 
   .detail__back {
