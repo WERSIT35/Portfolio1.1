@@ -1,167 +1,254 @@
-@if (project(); as p) {
-  <article class="detail">
-    <a class="detail__back" routerLink="/" fragment="projects" appReveal>
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
-        <path
-          d="M15 18 9 12l6-6"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      Back to work
-    </a>
+@for (p of current(); track p.slug) {
+  <article class="cs" [attr.aria-labelledby]="'cs-title-' + p.slug">
+    <!-- Bar: back to the index, case number, year · status. -->
+    <nav class="bar" aria-label="Case study">
+      <a class="bar__back" routerLink="/" fragment="projects">
+        <span aria-hidden="true">←</span> All work
+      </a>
+      <p class="bar__case">Case {{ p.index }} / {{ total }}</p>
+      <p class="bar__when">{{ p.year }} · {{ p.statusLabel }}</p>
+    </nav>
 
-    <header class="detail__header" appReveal [appRevealDelay]="40">
-      <div class="detail__meta">
-        <span class="detail__status" [attr.data-status]="p.status">{{ statusLabel() }}</span>
-        <span class="detail__year">{{ p.year }}</span>
-      </div>
+    <!-- Cover: the name crosses the slab in difference blend. -->
+    <header class="cover" [attr.data-kind]="p.cover ? 'shot' : 'spec'">
+      <h1 class="cover__name" [id]="'cs-title-' + p.slug">{{ p.projName }}</h1>
 
-      <h1 class="detail__title">{{ p.projName }}</h1>
-      <p class="detail__subname">{{ p.subname }}</p>
+      @if (p.cover) {
+        <button
+          type="button"
+          class="cover__slab"
+          (click)="openPlate(p.img.indexOf(p.cover))"
+          [attr.aria-label]="'View the ' + p.projName + ' screens in colour'"
+        >
+          <img
+            [src]="p.cover"
+            [attr.srcset]="shotSrcset(p.cover)"
+            sizes="(max-width: 767px) 100vw, 66vw"
+            [width]="shotSize(p.cover).width"
+            [height]="shotSize(p.cover).height"
+            alt=""
+            fetchpriority="high"
+          />
+        </button>
+      } @else {
+        <div class="cover__slab cover__slab--spec" aria-hidden="true">
+          <p class="plate__label">// {{ p.spec.label }}</p>
+          <p class="plate__value">{{ p.spec.value }}</p>
+          <p class="plate__stack">{{ p.spec.stack.join(' · ') }}</p>
+        </div>
+      }
 
-      <div class="detail__links">
-        @if (p.iflink && p.link) {
-          <a class="detail__link detail__link--primary" [href]="p.link" target="_blank" rel="noopener">
-            Live demo
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
-              <path
-                d="M7 17 17 7M9 7h8v8"
-                stroke="currentColor"
-                stroke-width="1.75"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
-        }
-        @if (p.github) {
-          <a class="detail__link" [href]="p.github" target="_blank" rel="noopener">
-            Source
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
-              <path
-                d="M7 17 17 7M9 7h8v8"
-                stroke="currentColor"
-                stroke-width="1.75"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
-        }
-      </div>
+      <p class="cover__sub">{{ p.subname }}</p>
+
+      @if (p.live || p.github) {
+        <p class="cover__links">
+          @if (p.live) {
+            <a [href]="p.live" target="_blank" rel="noopener"
+              >Live site <span aria-hidden="true">↗</span></a
+            >
+          }
+          @if (p.github) {
+            <a [href]="p.github" target="_blank" rel="noopener"
+              >Source <span aria-hidden="true">↗</span></a
+            >
+          }
+        </p>
+      }
     </header>
 
-    @if (p.img.length) {
-      <div class="detail__cover" appReveal [appRevealDelay]="80">
-        <img
-          [src]="p.img[0]"
-          [attr.srcset]="shotSrcset(p.img[0])"
-          sizes="(max-width: 1151px) 100vw, 1035px"
-          [width]="shotSize(p.img[0]).width"
-          [height]="shotSize(p.img[0]).height"
-          [alt]="p.projName + ' cover'"
-        />
-      </div>
-    }
+    <!-- Colophon: the facts as one hairline band. -->
+    <dl class="colophon">
+      @for (fact of p.facts; track fact.label) {
+        <div class="fact" [class.fact--wide]="fact.wide">
+          <dt>{{ fact.label }}</dt>
+          <dd>{{ fact.value }}</dd>
+        </div>
+      }
+    </dl>
 
-    <div class="detail__body">
-      <div class="detail__prose" appReveal [appRevealDelay]="120">
-        <section>
-          <h2>About</h2>
-          <p>{{ p.about }}</p>
-        </section>
-
-        @if (p.problem) {
-          <section>
-            <h2>Problem</h2>
-            <p>{{ p.problem }}</p>
-          </section>
-        }
-
-        @if (p.approach?.length) {
-          <section>
-            <h2>Approach</h2>
-            <ul>
-              @for (step of p.approach; track step) {
-                <li>{{ step }}</li>
+    <!-- Chapters: the rail fills as the read line moves through them. -->
+    <div class="chapters" [style.--progress]="progress()">
+      <span class="chapters__fill" aria-hidden="true"></span>
+      @for (chapter of p.chapters; track chapter.name; let k = $index) {
+        <section
+          class="chapter"
+          [class.is-active]="activeChapter() === k"
+          [attr.aria-labelledby]="'ch-' + k"
+        >
+          <h2 class="chapter__head" [id]="'ch-' + k">
+            <span class="chapter__num" aria-hidden="true">{{ chapter.num }}</span>
+            <span class="chapter__name">{{ chapter.name }}</span>
+          </h2>
+          <div class="chapter__body">
+            @switch (chapter.kind) {
+              @case ('list') {
+                <ol class="steps">
+                  @for (item of chapter.items; track item; let s = $index) {
+                    <li>
+                      <span class="steps__n" aria-hidden="true">{{ s + 1 }}</span>
+                      <span>{{ item }}</span>
+                    </li>
+                  }
+                </ol>
               }
-            </ul>
-          </section>
-        }
-
-        @if (p.lessons) {
-          <section>
-            <h2>Lessons</h2>
-            <p class="detail__lessons">{{ p.lessons }}</p>
-          </section>
-        }
-      </div>
-
-      <aside class="detail__sidebar" appReveal [appRevealDelay]="160">
-        @if (p.metrics?.length) {
-          <app-glass-card class="detail__facts">
-            <p class="detail__facts-label">At a glance</p>
-            <div class="detail__metrics">
-              @for (metric of p.metrics; track metric.label) {
-                <app-metric-tile [label]="metric.label" [value]="metric.value" />
+              @case ('quote') {
+                <blockquote class="quote">
+                  <p>{{ chapter.text }}</p>
+                </blockquote>
               }
-            </div>
-          </app-glass-card>
-        }
-
-        <app-glass-card class="detail__facts">
-          <p class="detail__facts-label">Stack</p>
-          <div class="detail__stack">
-            @for (item of p.stack; track item) {
-              <app-badge-chip>{{ item }}</app-badge-chip>
+              @default {
+                <p class="prose">{{ chapter.text }}</p>
+              }
             }
           </div>
-        </app-glass-card>
-      </aside>
+        </section>
+      }
     </div>
 
-    @if (galleryImages().length) {
-      @defer (on viewport) {
-        <section class="detail__gallery">
-          <h2>Gallery</h2>
-          <div class="detail__gallery-grid">
-            @for (img of galleryImages(); track img) {
+    <!-- Plates: a contact sheet in greyscale; each opens in colour. -->
+    @if (plates().length) {
+      <section class="plates" aria-labelledby="plates-title">
+        <header class="plates__head">
+          <h2 id="plates-title" class="kicker">Plates</h2>
+          <p class="kicker">{{ plateCount() }} screens</p>
+        </header>
+        <div class="sheet">
+          @for (plate of plates(); track plate.src; let k = $index) {
+            <button
+              type="button"
+              class="plate"
+              [class.plate--phone]="plate.phone"
+              [style.--ratio]="plate.ratio"
+              (click)="openPlate(k)"
+              [attr.aria-label]="
+                'Screen ' + plate.label + ' of ' + plates().length + (plate.phone ? ', mobile' : '')
+              "
+            >
               <img
-                [src]="img"
-                [attr.srcset]="shotSrcset(img)"
-                sizes="(max-width: 767px) 100vw, 345px"
-                [width]="shotSize(img).width"
-                [height]="shotSize(img).height"
-                [alt]="p.projName + ' screenshot'"
+                [src]="plate.src"
+                [attr.srcset]="shotSrcset(plate.src)"
+                [attr.sizes]="plate.phone ? null : '(max-width: 767px) 80vw, 40vw'"
+                [width]="shotSize(plate.src).width"
+                [height]="shotSize(plate.src).height"
+                alt=""
                 loading="lazy"
+                decoding="async"
               />
-            }
-          </div>
-        </section>
-      } @placeholder {
-        <div class="detail__gallery-placeholder"></div>
-      }
+              <span class="plate__tag">{{ plate.label }}</span>
+            </button>
+          }
+        </div>
+      </section>
     }
 
-    @if (safeEmbedUrl()) {
-      @defer (on viewport) {
-        <section class="detail__embed">
-          <h2>Live preview</h2>
-          <div class="detail__embed-frame">
-            <iframe [src]="safeEmbedUrl()" title="Live demo embed" loading="lazy"></iframe>
+    <!-- Next case: the index's hover — grey at rest, white and inverting over the lens. -->
+    <section
+      #nextBlock
+      class="next"
+      [class.is-hot]="nextHot()"
+      aria-label="Next case study"
+      (pointermove)="onNextMove($event)"
+      (pointerleave)="onNextLeave($event)"
+    >
+      <p class="kicker next__kicker">Next case — {{ p.next.index }} / {{ total }}</p>
+      <a
+        class="next__link"
+        [routerLink]="['/work', p.next.slug]"
+        (focus)="onNextFocus($event)"
+        (blur)="onNextBlur()"
+      >
+        <span class="next__name">{{ p.next.projName }}</span>
+        <span class="next__meta">
+          {{ p.next.category }} · {{ p.next.year }}
+          <span class="next__arrow" aria-hidden="true">→</span>
+        </span>
+      </a>
+      <a class="next__all" routerLink="/" fragment="projects">All work</a>
+
+      <div #lens class="lens" [class.is-visible]="nextHot()" aria-hidden="true">
+        @if (p.next.cover; as src) {
+          <div class="lens__screen">
+            <img
+              [src]="src"
+              [attr.srcset]="shotSrcset(src)"
+              sizes="26rem"
+              [width]="shotSize(src).width"
+              [height]="shotSize(src).height"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-        </section>
-      } @placeholder {
-        <div class="detail__embed-placeholder"></div>
+        } @else {
+          <div class="lens__spec">
+            <p class="plate__label">// {{ p.next.spec.label }}</p>
+            <p class="lens__value">{{ p.next.spec.value }}</p>
+            <p class="plate__stack">{{ p.next.spec.stack.join(' · ') }}</p>
+          </div>
+        }
+        <p class="lens__caption">
+          <span>{{ p.next.projName }}</span>
+          <span>{{ p.next.statusLabel }} · {{ p.next.year }}</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- The screens at full size, in their own colours. -->
+    <dialog
+      #dialog
+      class="lightbox"
+      [attr.aria-label]="p.projName + ' screens'"
+      (click)="onDialogClick($event)"
+      (keydown)="onDialogKey($event)"
+      (close)="shown.set(null)"
+    >
+      @if (shown() !== null) {
+        @let plate = plates()[shown()!];
+        <figure class="lightbox__figure" [class.is-phone]="plate.phone">
+          <img
+            [src]="plate.src"
+            [width]="shotSize(plate.src).width"
+            [height]="shotSize(plate.src).height"
+            [alt]="p.projName + ', screen ' + (shown()! + 1) + ' of ' + plates().length"
+          />
+          <figcaption class="lightbox__caption">
+            {{ p.projName }} · {{ shown()! + 1 }} / {{ plates().length }}
+          </figcaption>
+        </figure>
+        @if (plates().length > 1) {
+          <button
+            type="button"
+            class="lightbox__nav lightbox__nav--prev"
+            (click)="step(-1)"
+            aria-label="Previous screen"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            class="lightbox__nav lightbox__nav--next"
+            (click)="step(1)"
+            aria-label="Next screen"
+          >
+            →
+          </button>
+        }
+        <button type="button" class="lightbox__close" (click)="close()" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+            <path
+              d="M6 6l12 12M18 6 6 18"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
       }
-    }
+    </dialog>
   </article>
-} @else {
-  <div class="detail-missing">
-    <p>Project not found.</p>
-    <a routerLink="/" fragment="projects">Back to work</a>
+} @empty {
+  <div class="missing">
+    <h1>Project not found.</h1>
+    <a routerLink="/" fragment="projects">← All work</a>
   </div>
 }

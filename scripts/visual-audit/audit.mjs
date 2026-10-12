@@ -6,7 +6,7 @@ const BASE = process.env.BASE ?? 'http://localhost:4200';
 const OUT = path.resolve(process.argv[2] ?? 'shots');
 const SLUGS = [
   'shello',
-  'provider-banana-x-engine',
+  'lumina-games',
   'elite-weddings',
   'tatoogen',
   'stm32-ethernet-mqtt-controller',
