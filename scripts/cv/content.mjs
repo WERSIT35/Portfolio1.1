@@ -54,7 +54,7 @@ export const EXPERIENCE = {
     meta: 'Freelance, alongside employment',
     bullets: [
       '**Elite Weddings** ([elitewe.com.ge](https://elitewe.com.ge/)): bilingual EN/KA wedding-agency platform on Angular and a framework-free Node.js backend with hand-written JWT, scrypt and RFC 6238 TOTP; layered inquiry anti-abuse (honeypot, rate limits, daily caps, CAPTCHA); Docker on k3s with network policies and cert-manager TLS.',
-      '**HeatFlow / Tenebi** ([tns-khaki.vercel.app](https://tns-khaki.vercel.app/)): bilingual KA/EN catalogue of **309 products in 9 categories** for a heating-element shop; Angular SSR and prerendering on Express with schema.org Product JSON-LD and per-page SEO; later migrated from Angular 17 to 20 (signals, OnPush, lazy routes).',
+      '**HeatFlow / Tenebi** ([tns-khaki.vercel.app](https://tns-khaki.vercel.app/)): bilingual KA/EN catalogue of **309 products in 9 categories** for a heating-element shop; Angular SSR and prerendering on Express with schema.org Product JSON-LD and per-page SEO; migrated from Angular 17 to 20; scores **Lighthouse 97–100 performance and 100 SEO**.',
       '**Akhali Sakhli** ([akhalisakhli.com](https://akhalisakhli.com/)): responsive Angular website for a real-estate platform, live.',
     ],
   },
