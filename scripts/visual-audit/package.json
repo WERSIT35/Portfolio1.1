@@ -1,0 +1,11 @@
+{
+  "name": "visual-audit",
+  "private": true,
+  "description": "Playwright layout/interaction audits and Lighthouse for the portfolio. Not part of the app build.",
+  "type": "module",
+  "dependencies": {
+    "lighthouse": "^12.8.2",
+    "playwright": "^1.64.0",
+    "sharp": "^0.35.5"
+  }
+}
