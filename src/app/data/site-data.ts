@@ -952,5 +952,10 @@ export const CONTACT: Contact = {
   linkedin: 'https://www.linkedin.com/in/otar-davitashvili/',
   location: 'Tbilisi, Georgia',
   availability: 'Open to freelance',
-  languages: ['Georgian (native)', 'English (full professional)', 'Russian (professional working)'],
+  languages: [
+    'Georgian (native)',
+    'English (full professional)',
+    'Russian (professional working)',
+    'German (conversational)',
+  ],
 };

@@ -94,8 +94,9 @@ Gotchas:
   The site's "Download CV" (`CONTACT.resumeUrl`) serves the Founding-Engineer PDF at
   `public/assets/me/Otar-Davitashvili-CV.pdf`; the old `OTAR DAVITASHVILI.pdf` path holds the same file so old
   links get the new CV. The old repo-root `Otar Davitashvili Resume.pdf` (freelance 09/2024, "Banana X") was
-  deleted on 2026-10-12 at the user's request; git history has it. Lumina Games' "GLI-certified" comes from
-  the user; no reference number yet.
+  deleted on 2026-10-12 at the user's request; git history has it.
+  Lumina Games has NO GLI certification (user confirmed 2026-10-12: "this is not production"); never
+  claim it. RTP is validated in-house only.
 - W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
   set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
