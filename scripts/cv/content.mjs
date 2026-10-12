@@ -33,6 +33,7 @@ export const EXPERIENCE = {
       'Secured casino integration with an **HMAC-signed operator API** (raw-byte signatures, nonce replay protection, timestamp-skew checks, rate limiting) and seamless-wallet webhooks with idempotent debits and lost-debit rollback, proven end to end against a demo casino.',
       'Made every round auditable and traceable: seeded RNG, **hash-chained, Ed25519-signed append-only ledgers** behind Postgres triggers, signed round exports, W3C tracing through to wallet webhooks, Prometheus metrics.',
       'Ran an internal security review: 8 findings (2 High: a concurrent-round race, reusable idempotency keys), each fixed with a regression test in a **57-test abuse suite**; 300+ tests in CI; 45 design docs.',
+      'Load-tested over real HTTP on one Node process: **~1,150 spins/s, p99 13 ms** at 10 concurrent sessions, **0 errors over 69k spins**, ledger and wallet reconciled to the cent.',
     ],
   },
   betlive: {
@@ -53,7 +54,7 @@ export const EXPERIENCE = {
     meta: 'Freelance, alongside employment',
     bullets: [
       '**Elite Weddings** ([elitewe.com.ge](https://elitewe.com.ge/)): bilingual EN/KA wedding-agency platform on Angular and a framework-free Node.js backend (plain node:http) with hand-written JWT, scrypt and RFC 6238 TOTP; layered inquiry anti-abuse (honeypot, rate limits, daily caps, CAPTCHA); Docker on k3s with network policies and cert-manager TLS.',
-      '**HeatFlow / Tenebi** ([tns-khaki.vercel.app](https://tns-khaki.vercel.app/)): bilingual KA/EN catalogue of **309 products in 9 categories** for a heating-element shop; Angular SSR and prerendering on Express with schema.org Product JSON-LD and per-page SEO; migrated from Angular 17 to 20; scores **Lighthouse 97–100 performance and 100 SEO**.',
+      '**HeatFlow / Tenebi** ([tns-khaki.vercel.app](https://tns-khaki.vercel.app/)): bilingual KA/EN heating-element catalogue, **309 products in 9 categories**; Angular SSR on Express, schema.org JSON-LD, Angular 17 → 20; **Lighthouse 97–100 performance, 100 SEO**.',
       '**Akhali Sakhli** ([akhalisakhli.com](https://akhalisakhli.com/)): responsive Angular website for a real-estate platform, live.',
     ],
   },
