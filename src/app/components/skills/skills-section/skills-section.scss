@@ -1,99 +1,117 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "The toolkit, in motion": one marquee per category. The physics (drift, brake on
+// approach, scroll-velocity boost) lives in the component; this file keeps its contract —
+// the track's column-gap equals the gap inside each copy (the loop wraps by one copy's
+// width) and the viewport clips. Words rest as a solid grey outline (#7b7b7b, 4.7:1); the
+// braked word fills white and shows where the skill is used.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  --rest: #7b7b7b;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
 }
 
-// ---------------------------------------------------------------------------
-// Frame — exactly one viewport; the island floats over it (no clearance).
-// ---------------------------------------------------------------------------
 .sk {
   position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(0.75rem, 2svh, 1.5rem);
-  height: 100svh;
-  padding: 1.25rem;
-  overflow: hidden;
-  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 24px var(--gutter) var(--dock-clear);
+  background: var(--bg);
 }
 
-.sk__head,
-.ticker {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
+// ---------------------------------------------------------------------------
+// Head
+// ---------------------------------------------------------------------------
 .sk__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 4px 16px;
+  margin-bottom: 24px;
 }
 
 .sk__kicker,
 .sk__count {
-  font-size: 0.6875rem;
+  margin: 0;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.sk__title {
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--muted);
 }
 
 .sk__count {
   margin-left: auto;
 }
 
+.sk__title {
+  order: 3;
+  width: 100%;
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
 // ---------------------------------------------------------------------------
-// Ticker — one band per discipline, sharing the height exactly.
+// Bands: the label above, the marquee full width below (labels never truncate).
 // ---------------------------------------------------------------------------
 .ticker {
-  display: grid;
-  grid-template-rows: repeat(var(--bands, 6), minmax(0, 1fr));
-  min-height: 0;
-  container-type: size;
-  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--line);
 }
 
 .band {
-  display: grid;
-  grid-template-columns: 12rem minmax(0, 1fr);
-  min-height: 0;
-  border-top: 1px solid var(--color-border);
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
   transition: opacity 0.5s var(--ease-luxe);
 }
 
-// While a word is being read, every other band recedes.
 .ticker.is-hovering .band:not(.is-hot) {
-  opacity: 0.25;
+  opacity: 0.35;
 }
 
 .band__label {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-content: center;
-  gap: 0.35rem 0.75rem;
-  padding-right: 1rem;
-  border-right: 1px solid var(--color-border);
-  font-size: 0.6875rem;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 4px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
+  color: var(--muted);
+}
+
+.band__index,
+.band__count {
+  font-variant-numeric: tabular-nums;
 }
 
 .band__name {
-  color: var(--color-ink-mid);
+  color: var(--text);
 }
 
 .band__count {
-  grid-column: 2;
+  margin-left: auto;
 }
 
 .band__viewport {
@@ -101,17 +119,18 @@
   align-items: center;
   min-width: 0;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+  mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
 }
 
-// Font size lives on the track so every gap and glyph offset scales in em.
 .band__track {
-  --word-gap: 0.9em;
+  --word-gap: 0.6em;
 
   display: flex;
   flex: none;
   column-gap: var(--word-gap);
-  font-size: min(10.5cqh, 6.2cqi);
+  font-size: clamp(36px, 4.8vw, 72px);
   will-change: transform;
 }
 
@@ -130,30 +149,28 @@
   gap: var(--word-gap);
 }
 
-// Small square separator after every word (including the last, so the seam matches).
 .band__copy li::after {
   content: '';
   flex: none;
-  width: 0.1em;
-  height: 0.1em;
-  background: rgb(255 255 255 / 22%);
+  width: 0.08em;
+  height: 0.08em;
+  border-radius: 999px;
+  background: var(--rest);
 }
 
-// Massive stroke-only words; the hot word fills pure white.
 .word {
   position: relative;
   padding: 0;
   border: 0;
   background: none;
-  font-family: var(--font-display);
-  font-weight: 800;
+  font-family: inherit;
   font-size: 1em;
+  font-weight: 700;
   line-height: 1.05;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  letter-spacing: -0.04em;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(255 255 255 / 15%);
+  -webkit-text-stroke: 1.25px var(--rest);
   cursor: default;
   transition:
     color 0.45s var(--ease-luxe),
@@ -161,23 +178,23 @@
 }
 
 .word.is-hot {
-  color: var(--color-white);
+  color: var(--text);
   -webkit-text-stroke-color: transparent;
 }
 
 .word:focus-visible {
-  outline: 1px solid var(--color-border-strong);
-  outline-offset: 0.12em;
+  outline: 2px solid var(--text);
+  outline-offset: 0.1em;
 }
 
-// Monochrome devicon that slides out of the gap to the left of the word.
+// The devicon slides out of the gap to the word's left when it's braked on.
 .word__glyph {
   position: absolute;
   right: 100%;
   top: 50%;
-  margin-right: 0.22em;
-  font-size: 0.42em;
-  color: var(--color-accent);
+  margin-right: 0.2em;
+  font-size: 0.4em;
+  color: var(--text);
   -webkit-text-stroke: 0;
   opacity: 0;
   transform: translate(-0.5em, -50%);
@@ -192,8 +209,39 @@
   transform: translate(0, -50%);
 }
 
+// Phones: the braked word's detail, inline under its band.
+.band__detail {
+  display: grid;
+  gap: 2px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  animation: detail-in 0.4s var(--ease-luxe) both;
+}
+
+@keyframes detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.detail__name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.detail__line {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
 // ---------------------------------------------------------------------------
-// Glass card — position fed by the rAF lerp (--card-x / --card-y).
+// Desktop card — position fed by the component's lerp (--card-x / --card-y).
 // ---------------------------------------------------------------------------
 .card {
   --card-x: 0px;
@@ -203,16 +251,13 @@
   left: 0;
   top: 0;
   z-index: 5;
+  display: none;
   width: 21rem;
-  padding: 1rem 1.1rem 1.1rem;
-  border-radius: 1.1rem;
-  border: 1px solid var(--color-border-strong);
-  background: rgb(18 18 18 / 60%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 10%),
-    0 36px 80px -32px rgb(0 0 0 / 90%);
-  backdrop-filter: blur(18px) saturate(120%);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  padding: 16px 18px 18px;
+  border-radius: 20px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: #111;
+  box-shadow: 0 36px 80px -32px rgb(0 0 0 / 90%);
   pointer-events: none;
   transform: translate3d(var(--card-x), var(--card-y), 0);
   transform-origin: 50% 100%;
@@ -232,15 +277,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .card__category {
-  font-size: 0.6875rem;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
+  color: var(--muted);
 }
 
 .card__rating {
@@ -256,171 +301,77 @@
 }
 
 .card__rating i.is-on {
-  background: var(--color-white);
+  background: var(--text);
 }
 
 .card__name {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin: 0.65rem 0 0.85rem;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.5rem;
-  line-height: 1.1;
+  margin: 10px 0 12px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--color-white);
-}
-
-.card__name i {
-  font-size: 1.1rem;
-  color: var(--color-accent);
 }
 
 .card__row {
   display: grid;
   grid-template-columns: 4.5rem minmax(0, 1fr);
-  gap: 0.75rem;
-  padding-top: 0.6rem;
-  margin-top: 0.6rem;
-  border-top: 1px solid var(--color-border);
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  color: var(--color-ink-mid);
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 20px;
+  color: #c8c8c8;
 }
 
 .card__label {
-  padding-top: 0.15em;
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
+  color: var(--muted);
 }
 
 // ---------------------------------------------------------------------------
-// Tablet — slimmer label column.
+// Tablet and up
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .band {
-    grid-template-columns: 8.5rem minmax(0, 1fr);
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
   }
 
-  .band__track {
-    font-size: min(9.5cqh, 8cqi);
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Phones — labels float over each band, the card becomes a bottom sheet.
-// ---------------------------------------------------------------------------
-@include bp.phone {
+  // The island floats top-centre from here up: the section starts below it.
   .sk {
-    padding: 0.75rem 0.75rem var(--dock-clear);
-  }
-
-  .sk__head {
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-  }
-
-  .sk__title {
-    width: 100%;
-    order: 3;
-    font-size: 1.35rem;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
   }
 
   .band {
-    position: relative;
-    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 0;
   }
 
-  .band__label {
-    position: absolute;
-    top: 0.45rem;
-    left: 0;
-    z-index: 1;
-    display: flex;
-    gap: 0.5rem;
-    padding: 0;
-    border: 0;
-    font-size: 0.5625rem;
-  }
-
-  .band__count {
+  .band__detail {
     display: none;
   }
 
-  .band__viewport {
-    padding-top: 0.9rem;
-    mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
-  }
-
-  .band__track {
-    font-size: min(8.5cqh, 13cqi);
-  }
-
-  .word {
-    cursor: pointer;
-  }
-
   .card {
-    inset: auto 0.75rem 0.75rem;
+    display: block;
+  }
+}
+
+@include bp.desktop-up {
+  .sk__title {
+    order: 0;
     width: auto;
-    pointer-events: auto;
-    transform: translateY(1.25rem);
-    transform-origin: 50% 100%;
-    transition:
-      opacity 0.25s ease,
-      transform 0.55s var(--ease-luxe),
-      scale 0.55s var(--ease-luxe);
-  }
-
-  .card.is-visible {
-    transform: none;
-  }
-}
-
-// Short desktop screens: grow instead of crushing the bands.
-@include bp.tablet-up-short {
-  .sk {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .ticker {
-    grid-template-rows: none;
-    grid-auto-rows: 6rem;
-    container-type: inline-size;
-  }
-
-  .band__track {
-    font-size: 3.5rem;
-  }
-}
-
-// Reduced motion: no auto-scroll; each band becomes a plain horizontal scroller.
-// ---------------------------------------------------------------------------
-// Touch ergonomics — every word gets a 44px-tall hit area, short ones (e.g. "C")
-// a 44px-wide one too.
-// ---------------------------------------------------------------------------
-@include bp.touch {
-  .word::after {
-    content: '';
-    position: absolute;
-    inset: -2px -10px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .band__viewport {
-    overflow-x: auto;
-    mask-image: none;
-  }
-
   .band,
   .word,
   .word__glyph,
   .card {
     transition: none;
+  }
+
+  .band__detail {
+    animation: none;
   }
 }

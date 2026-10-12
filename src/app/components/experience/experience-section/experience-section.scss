@@ -1,562 +1,398 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "Ledger": one full-width row per role. A big year span is the strong left column; the
+// role and "company · employment type" sit beside it; a row opens in place. The time rule
+// above draws the previewed (hovered / focused) or open role's span against the career.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
 }
 
-// Expo-out: fast departure, long luxurious settle. Used for every triptych motion.
-$ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
-
-// ---------------------------------------------------------------------------
-// Frame — exactly one viewport; the island floats over it (no clearance).
-// ---------------------------------------------------------------------------
-// Strip math: --count (set from the data) panels share the row — (count − 1) closed
-// strips at --strip each, and the open panel takes 1fr of what's left. At 1440px with
-// five roles that's 4 × 80px of strips and a ~1.08k-wide open panel; nothing scrolls.
 .xp {
-  --strip: clamp(3.75rem, 5.6vw, 6.25rem);
-
-  position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(0.75rem, 2svh, 1.5rem);
-  height: 100svh;
-  padding: 1.25rem;
-  overflow: hidden;
-  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 24px var(--gutter) var(--dock-clear);
+  background: var(--bg);
 }
 
-// Structural, stroke-only year span behind the panels.
-.xp__watermark {
-  position: absolute;
-  left: 50%;
-  top: 56%;
-  z-index: -1;
-  translate: -50% -50%;
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 18.5vw;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(255 255 255 / 5%);
-  pointer-events: none;
-  user-select: none;
-}
-
-.xp__head,
-.triptych {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
+// ---------------------------------------------------------------------------
+// Head: kicker + title, the career range on the right.
+// ---------------------------------------------------------------------------
 .xp__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 4px 16px;
 }
 
 .xp__kicker,
 .xp__range {
-  font-size: 0.6875rem;
+  margin: 0;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.xp__title {
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--muted);
 }
 
 .xp__range {
   margin-left: auto;
 }
 
-// ---------------------------------------------------------------------------
-// Triptych
-// ---------------------------------------------------------------------------
-.triptych {
-  display: flex;
-  min-height: 0;
-  container-type: size;
-  border-block: 1px solid var(--color-border);
-}
-
-.panel {
-  position: relative;
-  flex: 0 0 var(--strip);
-  min-width: 0;
-  overflow: hidden;
-  background: rgb(255 255 255 / 2.5%);
-  transition:
-    flex-grow 1.1s $ease-luxe,
-    flex-basis 1.1s $ease-luxe,
-    background 0.6s ease;
-}
-
-.panel + .panel {
-  border-left: 1px solid var(--color-border);
-}
-
-.panel.is-active {
-  flex: 1 1 0;
-  background: radial-gradient(90% 70% at 0% 0%, rgb(255 255 255 / 4%), transparent 70%);
-}
-
-// Closed strip ---------------------------------------------------------------
-.panel__strip {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.5rem 0.5rem;
-  border: 0;
-  background: transparent;
-  color: var(--color-ink-dim);
-  font: inherit;
-  cursor: pointer;
-  transition:
-    opacity 0.4s ease,
-    color 0.4s ease,
-    background 0.4s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .panel:not(.is-active) .panel__strip:hover {
-    color: var(--color-white);
-    background: rgb(255 255 255 / 3.5%);
-  }
-}
-
-.panel.is-active .panel__strip {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.panel__strip:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: -6px;
-}
-
-.strip__index {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9375rem;
-  color: var(--color-accent);
-}
-
-.strip__role {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  writing-mode: vertical-rl;
-  rotate: 180deg;
-  text-align: center;
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(0.95rem, 1.35vw, 1.3rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.strip__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-// Open detail ----------------------------------------------------------------
-// Laid out at its final width from the start (container width minus every closed
-// strip), so nothing reflows while the panel widens around it.
-.panel__detail {
-  position: absolute;
-  inset: 0 auto 0 0;
-  z-index: 1;
-  width: calc(100cqi - (var(--count, 3) - 1) * var(--strip));
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 3cqh, 2rem);
-  padding: clamp(1.25rem, 4cqh, 3rem) clamp(1.5rem, 3cqi, 3rem);
-  outline: none;
-}
-
-.panel:not(.is-active) .panel__detail {
-  pointer-events: none;
-}
-
-.panel__detail:focus-visible {
-  outline: 1px solid var(--color-border-strong);
-  outline-offset: -1px;
-}
-
-// Staggered entrance: slide in from the side while fading up.
-.rise {
-  opacity: 0;
-  transform: translate(20px, 8px);
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
-.panel.is-active .rise {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 0.8s $ease-luxe calc(var(--d, 0) * 70ms + 220ms),
-    transform 1s $ease-luxe calc(var(--d, 0) * 70ms + 220ms);
-}
-
-.detail__top {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: clamp(0.75rem, 2cqh, 1.25rem);
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.detail__body {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(2rem, 5cqi, 5rem);
-  align-items: end;
-}
-
-.detail__role {
-  font-weight: 800;
-  font-size: min(6.4cqi, 11cqh);
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  color: var(--color-white);
-}
-
-.detail__summary {
-  max-width: 36rem;
-  margin-top: clamp(1rem, 3cqh, 1.75rem);
-  font-size: clamp(0.9375rem, 1.35cqi, 1.125rem);
-  line-height: 1.6;
-  color: var(--color-ink-mid);
-}
-
-.detail__chips,
-.detail__bullets,
-.detail__stack {
+.xp__title {
+  order: 3;
+  width: 100%;
   margin: 0;
+  font-family: inherit;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+// ---------------------------------------------------------------------------
+// Time rule
+// ---------------------------------------------------------------------------
+.rule {
+  position: relative;
+  height: 36px;
+  margin-top: 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rule__tick {
+  position: absolute;
+  bottom: 10px;
+  translate: -50% 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.rule__tick::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  width: 1px;
+  height: 6px;
+  background: var(--line);
+}
+
+.rule__span {
+  position: absolute;
+  bottom: -2px;
+  left: calc(var(--from) * 1%);
+  width: calc((var(--to) - var(--from)) * 1%);
+  height: 3px;
+  background: var(--text);
+  opacity: 0;
+  transition:
+    left 600ms var(--ease-luxe),
+    width 600ms var(--ease-luxe),
+    opacity 200ms ease-out;
+}
+
+.rule__span.is-on {
+  opacity: 1;
+}
+
+// End caps: even a span as long as the rule reads as a span, not a border.
+.rule__span::before,
+.rule__span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--text);
+  translate: 0 -50%;
+}
+
+.rule__span::before {
+  left: 0;
+}
+
+.rule__span::after {
+  right: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Ledger rows
+// ---------------------------------------------------------------------------
+.ledger {
+  margin: 8px 0 0;
   padding: 0;
   list-style: none;
 }
 
-.detail__chips {
-  counter-reset: chip;
+.row {
+  border-bottom: 1px solid var(--line);
 }
 
-.detail__chips li {
-  counter-increment: chip;
+.row__heading {
+  margin: 0;
+  font: inherit;
+}
+
+// Phones: years above the role, the +/– on the right.
+.row__head {
   display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr);
-  padding: clamp(0.6rem, 1.8cqh, 1rem) 0;
-  border-top: 1px solid var(--color-border);
-  font-size: clamp(0.9375rem, 1.3cqi, 1.0625rem);
-  line-height: 1.4;
-  color: var(--color-ink);
-}
-
-.detail__chips li::before {
-  content: counter(chip, decimal-leading-zero);
-  padding-top: 0.2em;
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  color: var(--color-ink-dim);
-}
-
-.detail__foot {
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) 24px;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.detail__stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.detail__stack li {
-  padding: 0.35rem 0.8rem;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  color: var(--color-ink-mid);
-}
-
-.detail__nav {
-  display: flex;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.detail__nav button {
-  display: grid;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--color-white);
+  column-gap: 16px;
+  width: 100%;
+  padding: 16px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
   cursor: pointer;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.5s $ease-luxe;
+}
+
+.row__years {
+  grid-column: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  transition: color 200ms ease-out;
+}
+
+.row__title {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.row__role {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.row__org {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+// +/– drawn with two hairlines; the vertical one folds away when open.
+.row__toggle {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  justify-self: end;
+}
+
+.row__toggle::before,
+.row__toggle::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1.5px;
+  translate: 0 -50%;
+  background: currentColor;
+  transition: rotate 300ms var(--ease-luxe);
+}
+
+.row__toggle::after {
+  rotate: 90deg;
+}
+
+.row.is-open .row__toggle::after {
+  rotate: 0deg;
+}
+
+.row.is-open .row__years {
+  color: var(--text);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .detail__nav button:hover {
-    background: var(--color-white);
-    color: #0a0a0a;
+  .row__head:hover .row__years {
+    color: var(--text);
   }
 }
 
-.detail__nav button:active {
-  transform: scale(0.92);
+.row__head:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
 }
 
-.detail__nav button:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: 3px;
+// Opening: the row's body grows from 0fr to 1fr (in-flow height, so no measuring).
+.row__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows 500ms var(--ease-luxe),
+    visibility 0s linear 500ms;
+  visibility: hidden;
+}
+
+.row.is-open .row__body {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 500ms var(--ease-luxe),
+    visibility 0s;
+}
+
+.row__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.row__inner > :last-child {
+  margin-bottom: 24px;
+}
+
+.row__date,
+.row__stack {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+.row__lead {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--text);
+}
+
+.row__points {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 60ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  line-height: 24px;
+  color: #c8c8c8;
+}
+
+.row__points li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.row__points li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 // ---------------------------------------------------------------------------
-// Tablet — single-column detail.
+// Tablet and up: years become the strong left column; the body aligns under the role.
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .detail__body {
-    grid-template-columns: minmax(0, 1fr);
-    align-content: end;
-    gap: 1.5rem;
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
   }
-}
 
-// ---------------------------------------------------------------------------
-// Below desktop the head row can't keep the top-centred island's spot empty, so
-// the title drops to its own line at the left, clear of it.
-// ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .xp__head {
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-  }
-
-  .xp__title {
-    width: 100%;
-    order: 3;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Phone — the row becomes a vertical accordion fitted to 100svh: (count − 1)
-// closed 44px bands + one open panel that takes the remaining height.
-// ---------------------------------------------------------------------------
-@include bp.phone {
+  // The island floats top-centre from here up: the section starts below it.
   .xp {
-    --strip: 2.75rem;
-
-    padding: 0.75rem 0.75rem var(--dock-clear);
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
   }
 
+  .row__head,
+  .row__body {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr) 24px;
+    column-gap: 32px;
+  }
+
+  .row__head {
+    align-items: baseline;
+    padding: 14px 0;
+  }
+
+  .row__years {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(28px, 3.2vw, 48px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: none;
+  }
+
+  .row__title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .row__role {
+    font-size: clamp(20px, 1.9vw, 28px);
+    line-height: 1.25;
+  }
+
+  .row__toggle {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .row__inner {
+    grid-column: 2;
+  }
+}
+
+// The section head shares its row with the floating island from here: title inline.
+@include bp.desktop-up {
   .xp__title {
-    font-size: 1.35rem;
-  }
-
-  .xp__watermark {
-    font-size: 30vw;
-    top: 60%;
-    rotate: -90deg;
-  }
-
-  .triptych {
-    flex-direction: column;
-  }
-
-  .panel + .panel {
-    border-left: 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .panel__strip {
-    flex-direction: row;
-    padding: 0 1rem;
-  }
-
-  .strip__role {
-    writing-mode: horizontal-tb;
-    rotate: none;
-    text-align: left;
-    font-size: 0.8125rem;
-    // Long titles take a second line (two fit the 44px strip) instead of an ellipsis.
-    white-space: normal;
-    line-height: 1.2;
-  }
-
-  .strip__meta span:first-child {
-    display: none;
-  }
-
-  .panel__detail {
-    inset: 0 0 auto 0;
+    order: 0;
     width: auto;
-    height: calc(100cqh - (var(--count, 3) - 1) * var(--strip));
-    gap: 0.9rem;
-    padding: 1rem;
-  }
-
-  .detail__top {
-    font-size: 0.625rem;
-  }
-
-  // On narrow phones the duties can outgrow the fitted panel; they scroll inside it
-  // instead of running under the stack pills.
-  .detail__body {
-    align-content: start;
-    gap: 1rem;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  .detail__role {
-    font-size: min(10cqi, 7cqh);
-  }
-
-  .detail__summary {
-    margin-top: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.55;
-  }
-
-  .detail__chips li {
-    grid-template-columns: 1.75rem minmax(0, 1fr);
-    padding: 0.55rem 0;
-    font-size: 0.875rem;
-  }
-
-  .detail__foot {
-    align-items: center;
-  }
-
-  // One swipeable row of pills beside the arrows, so readable-size pills don't stack
-  // up and squeeze the duties above them.
-  .detail__stack {
-    flex: 1;
-    min-width: 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    mask-image: linear-gradient(to right, #000 85%, transparent);
-  }
-
-  .detail__stack li {
-    flex: none;
-    padding: 0.25rem 0.6rem;
-    white-space: nowrap;
-  }
-
-  .detail__nav button {
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-}
-
-// Very short phones: keep the fit by dropping the footer (stack pills + arrows;
-// the tappable bands already switch roles).
-@include bp.phone-shorter-than(701px) {
-  .detail__foot {
-    display: none;
-  }
-
-  .detail__summary {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .detail__chips li {
-    padding: 0.35rem 0;
-    font-size: 0.8125rem;
-    line-height: 1.35;
-  }
-}
-
-// Short desktop screens: grow instead of crushing the detail.
-@include bp.tablet-up-short {
-  .xp {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .triptych {
-    height: 34rem;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Touch ergonomics — 44px role bands (the 1px divider sat inside the band) and
-// prev/next back at their full 44px (they sit on the panel's clipped edge, so an
-// invisible hit area would be cut off).
-// ---------------------------------------------------------------------------
-@include bp.phone {
-  .xp {
-    --strip: calc(2.75rem + 1px);
-  }
-
-  .detail__nav button {
-    width: 2.75rem;
-    height: 2.75rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .panel,
-  .panel__strip,
-  .rise,
-  .panel.is-active .rise {
+  .rule__span,
+  .row__years,
+  .row__toggle::before,
+  .row__toggle::after,
+  .row__body,
+  .row.is-open .row__body {
     transition: none;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Readable on phones and tablets: text people read or tap is at least 14px
-// (the small uppercase labels and counters stay as designed).
-// ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .strip__role,
-  .detail__stack li {
-    font-size: 0.875rem;
   }
 }
