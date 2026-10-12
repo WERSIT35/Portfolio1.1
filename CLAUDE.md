@@ -7,7 +7,7 @@ This file provides strict guidance to Claude Code (`claude.ai/code`) when workin
 ## 1. Project Overview & Role
 - **Project:** Bespoke personal portfolio for Otar Davitashvili (Applied AI & Full-Stack Engineer).
 - **Stack:** Angular 22 (Standalone components, modern control flow, SSR/hydration via `@angular/ssr`), Tailwind CSS / SCSS.
-- **Data Sources:** Primary content is defined in `Data.md` at the repo root and `Otar Davitashvili Resume.pdf`. Do not invent, embellish, or alter these facts.
+- **Data Sources:** Primary content is defined in `Data.md` at the repo root (a copy of `src/app/data/site-data.ts`); the CV is generated from `scripts/cv/content.mjs`. Do not invent, embellish, or alter these facts.
 
 ---
 
