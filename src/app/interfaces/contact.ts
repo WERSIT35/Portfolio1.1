@@ -13,4 +13,6 @@ export interface Contact {
   location: string;
   /** Availability status, shown once by the island ("Open to freelance"). */
   availability: string;
+  /** Spoken languages with proficiency, as on the résumé. */
+  languages: string[];
 }

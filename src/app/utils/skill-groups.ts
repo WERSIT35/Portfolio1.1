@@ -38,11 +38,25 @@ const CATEGORY_BY_SKILL: Record<string, string> = {
   'CI/CD (GitHub Actions)': 'Cloud & DevOps',
   AWS: 'Cloud & DevOps',
   NGINX: 'Cloud & DevOps',
-  'Applied AI / Claude': 'Applied AI & Security',
-  'HMAC / Security': 'Applied AI & Security',
-  'Parity Testing': 'Applied AI & Security',
+  k3s: 'Cloud & DevOps',
+  Redux: 'Frontend',
+  Accessibility: 'Frontend',
+  Flutter: 'Frontend',
+  '.NET': 'Backend & APIs',
+  SQL: 'Data',
+  'Applied AI / Claude': 'Applied AI',
+  'Claude Code': 'Applied AI',
+  'OpenAI SDK': 'Applied AI',
+  'HMAC / Security': 'Security & Testing',
+  'JWT / OAuth / TOTP MFA': 'Security & Testing',
+  'Helmet / CORS / Rate limiting': 'Security & Testing',
+  'Parity Testing': 'Security & Testing',
+  'Browser Automation': 'Security & Testing',
+  'E2E Testing': 'Security & Testing',
   C: 'Embedded Systems',
   'Embedded Systems (STM32)': 'Embedded Systems',
+  MQTT: 'Embedded Systems',
+  'lwIP (TCP/IP)': 'Embedded Systems',
 };
 
 const CATEGORY_ORDER = [
@@ -50,7 +64,8 @@ const CATEGORY_ORDER = [
   'Backend & APIs',
   'Data',
   'Cloud & DevOps',
-  'Applied AI & Security',
+  'Applied AI',
+  'Security & Testing',
   'Embedded Systems',
 ];
 

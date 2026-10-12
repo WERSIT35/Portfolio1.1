@@ -4,7 +4,7 @@ import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
 
 // Hero copy: fixed statements, everything else is read from site-data.
-const ROLE = 'Full-Stack Engineer · Applied AI';
+const ROLE = 'Full-Stack Engineer';
 const CORE_STACK = ['Angular', 'React', 'Node.js', 'PostgreSQL', 'Docker', 'Claude API'];
 
 // The edge's cursor drift: lerp per 60fps frame, range as a fraction of the viewport width
