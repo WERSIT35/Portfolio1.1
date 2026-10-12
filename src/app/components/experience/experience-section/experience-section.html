@@ -1,92 +1,73 @@
 <section id="experience" appSpySection tabindex="-1" class="xp" aria-labelledby="xp-title">
-  <p class="xp__watermark" aria-hidden="true">{{ span }}</p>
-
   <header class="xp__head">
     <p class="xp__kicker">02 / Experience</p>
     <h2 id="xp-title" class="xp__title">Professional trajectory</h2>
     <p class="xp__range">{{ range }}</p>
   </header>
 
-  <div
-    class="triptych"
-    role="group"
-    aria-label="Roles"
-    [style.--count]="roles.length"
-    (keydown)="onTabKeydown($event)"
-  >
+  <!-- Time rule: the previewed (or open) role's span, drawn against the whole career. -->
+  <div class="rule" aria-hidden="true">
+    @for (tick of ticks; track tick.year) {
+      <span class="rule__tick" [style.left.%]="tick.at">{{ tick.year }}</span>
+    }
+    <span
+      class="rule__span"
+      [class.is-on]="span() !== null"
+      [style.--from]="span()?.from ?? 0"
+      [style.--to]="span()?.to ?? 0"
+    ></span>
+  </div>
+
+  <ol class="ledger" (pointerleave)="hot.set(null)">
     @for (role of roles; track role.id; let i = $index) {
-      <article class="panel" [class.is-active]="active() === i">
-        <!-- Closed strip: a disclosure button. It stays in place (invisible) while its panel is open. -->
-        <button
-          type="button"
-          class="panel__strip"
-          [id]="'xp-tab-' + i"
-          [attr.aria-expanded]="active() === i"
-          [attr.aria-controls]="'xp-panel-' + i"
-          [attr.tabindex]="active() === i ? -1 : 0"
-          (click)="select(i)"
-          (mouseenter)="onStripEnter(i)"
-          (mouseleave)="onStripLeave()"
-        >
-          <span class="strip__index">{{ role.index }}</span>
-          <span class="strip__role">{{ role.role }}</span>
-          <span class="strip__meta">
-            <span>{{ role.company }}</span>
-            <span>{{ role.years }}</span>
-          </span>
-        </button>
+      <li
+        class="row"
+        [class.is-open]="open() === i"
+        (pointerenter)="$event.pointerType === 'mouse' && hot.set(i)"
+      >
+        <h3 class="row__heading">
+          <button
+            #head
+            type="button"
+            class="row__head"
+            [id]="'xp-head-' + role.id"
+            [attr.aria-expanded]="open() === i"
+            [attr.aria-controls]="'xp-body-' + role.id"
+            (click)="toggle(i)"
+            (focus)="hot.set(i)"
+            (blur)="hot.set(null)"
+            (keydown)="onKeydown($event, i)"
+          >
+            <span class="row__years">{{ role.years }}</span>
+            <span class="row__title">
+              <span class="row__role">{{ role.role }}</span>
+              <span class="row__org">{{ role.org }}</span>
+            </span>
+            <span class="row__toggle" aria-hidden="true"></span>
+          </button>
+        </h3>
 
         <div
-          #detail
-          class="panel__detail"
+          class="row__body"
           role="region"
-          tabindex="-1"
-          [id]="'xp-panel-' + i"
-          [attr.aria-labelledby]="'xp-tab-' + i"
-          [attr.inert]="active() === i ? null : ''"
+          [id]="'xp-body-' + role.id"
+          [attr.aria-labelledby]="'xp-head-' + role.id"
+          [attr.inert]="open() === i ? null : ''"
         >
-          <div class="detail__top rise" style="--d: 0">
-            <span>{{ role.index }} — {{ role.company }}@if (role.employment) { · {{ role.employment }}}</span>
-            <span>{{ role.date }}</span>
-          </div>
-
-          <div class="detail__body">
-            <div class="detail__lead">
-              <h3 class="detail__role rise" style="--d: 1">{{ role.role }}</h3>
-              <p class="detail__summary rise" style="--d: 2">{{ role.lead }}</p>
-            </div>
-
-            <div class="detail__facts">
-              <ul class="detail__chips rise" style="--d: 3">
+          <div class="row__inner">
+            <p class="row__date">{{ role.date }}</p>
+            <p class="row__lead">{{ role.lead }}</p>
+            @if (role.points.length) {
+              <ul class="row__points">
                 @for (point of role.points; track point) {
                   <li>{{ point }}</li>
                 }
               </ul>
-            </div>
-          </div>
-
-          <div class="detail__foot rise" style="--d: 4">
-            <ul class="detail__stack" aria-label="Stack">
-              @for (tech of role.stack; track tech) {
-                <li>{{ tech }}</li>
-              }
-            </ul>
-
-            <div class="detail__nav">
-              <button type="button" (click)="step(-1)" aria-label="Previous role">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-                  <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-              <button type="button" (click)="step(1)" aria-label="Next role">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-            </div>
+            }
+            <p class="row__stack"><span class="sr-only">Stack: </span>{{ role.stack }}</p>
           </div>
         </div>
-      </article>
+      </li>
     }
-  </div>
+  </ol>
 </section>

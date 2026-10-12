@@ -117,6 +117,17 @@
   animation: island-label-in 0.45s var(--ease-out-expo) both;
 }
 
+// Status mode (hero, case studies): a static white dot before the availability text.
+.island__status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-white);
+  vertical-align: 0.1em;
+}
+
 @keyframes island-label-in {
   from {
     opacity: 0;
@@ -312,9 +323,11 @@
     bottom: var(--island-bottom);
   }
 
+  // Closed width follows the measured label (brand + toggle 2 × 2.75rem, padding, border),
+  // never narrower than 13rem: the pill morphs as the label changes and never clips it.
   .island {
     flex-wrap: wrap;
-    width: 13rem;
+    width: min(calc(100vw - 2rem), max(13rem, calc(var(--label-w, 0px) + 6.1rem + 2px)));
     height: auto;
     padding: 0.3rem;
     border-radius: 1.5rem;

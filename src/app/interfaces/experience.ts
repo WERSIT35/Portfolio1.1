@@ -1,7 +1,8 @@
 export interface Experience {
   id: number;
   role: string;
-  company: string;
+  /** Employer; omitted for independent work (e.g. freelance), where there is none. */
+  company?: string;
   /** e.g. 'Full-time', 'Freelance', 'Contract'; omitted when not stated. */
   employment?: string;
   /** 'Mon YYYY – Mon YYYY' or 'Mon YYYY – Present'. */

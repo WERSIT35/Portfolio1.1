@@ -54,12 +54,16 @@ export class DynamicIsland {
     () => !this.dismissed() && (this.pinned() || this.hovered() || this.focusWithin()),
   );
 
-  protected readonly labels = [...new Set(['Prologue', ...NAV_ITEMS.map((item) => item.label)])];
+  // Outside the named sections (the hero, a case study) the pill shows the availability
+  // status instead of a section name.
+  private readonly status = CONTACT.availability;
+  protected readonly labels = [...new Set([this.status, ...NAV_ITEMS.map((item) => item.label)])];
 
   protected readonly activeId = computed(() => this.activeSectionId() ?? 'top');
   protected readonly activeLabel = computed(
-    () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? 'Prologue',
+    () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? this.status,
   );
+  protected readonly isStatus = computed(() => this.activeLabel() === this.status);
 
   constructor() {
     const destroyRef = inject(DestroyRef);

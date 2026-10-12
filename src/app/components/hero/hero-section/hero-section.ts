@@ -1,130 +1,136 @@
-import { Component, DestroyRef, ElementRef, afterNextRender, inject, viewChild } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CONTACT, EXPERIENCES, PROJECTS, SKILLS } from '../../../data/site-data';
-import { CountUpDirective } from '../../../directives/count-up.directive';
-import { ImgLoadedDirective } from '../../../directives/img-loaded.directive';
-import { MagneticDirective } from '../../../directives/magnetic.directive';
-import { SpotlightDirective } from '../../../directives/spotlight.directive';
+import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
-import { groupSkills } from '../../../utils/skill-groups';
 
-// Bento plane parallax: the whole grid leans a hair toward the cursor and drifts
-// against it. Lerped like the Certifications deck tilt, but far more restrained.
-const PLANE_FOLLOW = 0.08; // lerp per 60fps frame
-const PLANE_TILT_DEG = 1.2;
-const PLANE_DRIFT_PX = 6;
-const PLANE_EPSILON = 0.0005;
+// Hero copy: fixed statements, everything else is read from site-data.
+const ROLE = 'Full-Stack Engineer';
+const CORE_STACK = ['Angular', 'React', 'Node.js', 'PostgreSQL', 'Docker', 'Claude API'];
 
-// Core stack: the groups a recruiter scans for, strongest skills first.
-const STACK_GROUPS = ['Frontend', 'Backend & APIs', 'Data', 'Cloud & DevOps', 'Applied AI & Security'];
-const STACK_PER_GROUP = 4;
-// Skills the intro pitch names; they lead their rows so the stack echoes the pitch.
-const PITCH_SKILLS = ['Angular', 'Node.js (Express)', 'Fastify', 'Applied AI / Claude'];
+// The edge's cursor drift: lerp per 60fps frame, range as a fraction of the viewport width
+// either way (matches --drift-max in the styles), and the settle threshold in px.
+const DRIFT_FOLLOW = 0.08;
+const DRIFT_RANGE = 0.025;
+const DRIFT_EPSILON = 0.1;
+
+const tbilisiTime = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Tbilisi',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    RouterLink,
-    CountUpDirective,
-    ImgLoadedDirective,
-    MagneticDirective,
-    SpotlightDirective,
-    SpySectionDirective,
-  ],
+  imports: [RouterLink, SpySectionDirective],
   templateUrl: './hero-section.html',
   styleUrl: './hero-section.scss',
 })
 export class HeroSection {
+  private readonly host = inject(ElementRef<HTMLElement>);
   protected readonly contact = CONTACT;
-  protected readonly projectCount = PROJECTS.length;
+  protected readonly role = ROLE;
+  // One line of plain text; non-breaking spaces keep multi-word items ("Claude API") whole.
+  protected readonly stackLine = CORE_STACK.map((item) => item.replace(/ /g, '\u00a0')).join(', ');
 
-  /** Roles still running ("… – Present"); engineering first, since it's the headline. */
-  protected readonly currentRoles = EXPERIENCES.filter((role) => /present/i.test(role.date)).sort(
-    (a, b) => Number(/engineer|developer/i.test(b.role)) - Number(/engineer|developer/i.test(a.role)),
-  );
-  protected readonly skillCount = SKILLS.name.length;
+  /** The running engineering role (one line in the hero; the full history lives in Experience). */
+  protected readonly current = EXPERIENCES.find(
+    (job) => /present/i.test(job.date) && /engineer|developer/i.test(job.role),
+  )!;
 
   /**
-   * Per group: skills named in the pitch first, then by rating (ties keep data order).
-   * Parentheticals are trimmed so each row scans as plain keywords.
+   * ["Freelance", "since 2022"]: who it's for (employer, or the employment type for independent
+   * work) and the start year, so the colophon adds facts instead of repeating the role headline.
+   * Joined with " · " in the colophon.
    */
-  protected readonly stackGroups = groupSkills(SKILLS)
-    .filter((group) => STACK_GROUPS.includes(group.category))
-    .map((group) => ({
-      category: group.category,
-      items: group.items
-        .map((item, order) => ({ ...item, order, pitch: PITCH_SKILLS.includes(item.name) ? 1 : 0 }))
-        .sort((x, y) => y.pitch - x.pitch || y.rating - x.rating || x.order - y.order)
-        .slice(0, STACK_PER_GROUP)
-        .map((item) => item.name.replace(/\s*\(.*\)/, '')),
-    }));
+  protected readonly currentParts = [
+    this.current.company ?? this.current.employment,
+    `since ${this.current.date.match(/\d{4}/)?.[0]}`,
+  ].filter(Boolean);
 
-  private readonly bento = viewChild.required<ElementRef<HTMLElement>>('bento');
-  // Normalised pointer position over the hero (-1…1) and its lerped follower.
-  private readonly plane = { x: 0, y: 0, tx: 0, ty: 0 };
-  private frame = 0;
-  private lastFrame = 0;
-  private parallax = false;
+  /** Projects that are out in the world: live, or running in production. */
+  protected readonly shippedCount = PROJECTS.filter(
+    (project) => project.status === 'live' || project.status === 'in-production',
+  ).length;
+
+  /** Local time in Tbilisi (HH:mm). Null on the server: the time only exists in a browser. */
+  protected readonly time = signal<string | null>(null);
 
   constructor() {
     const destroyRef = inject(DestroyRef);
 
     afterNextRender(() => {
-      this.parallax =
-        matchMedia('(hover: hover) and (pointer: fine)').matches &&
-        !matchMedia('(prefers-reduced-motion: reduce)').matches;
-      destroyRef.onDestroy(() => cancelAnimationFrame(this.frame));
+      let timer: ReturnType<typeof setTimeout>;
+      // Ticks on each minute boundary, so the display never lags the real clock.
+      const tick = () => {
+        this.time.set(tbilisiTime.format(new Date()));
+        timer = setTimeout(tick, 60_000 - (Date.now() % 60_000));
+      };
+      tick();
+      destroyRef.onDestroy(() => clearTimeout(timer));
+
+      this.followCursorWithEdge(destroyRef);
     });
   }
 
-  // ---------------------------------------------------------------------------
-  // Plane parallax
-  // ---------------------------------------------------------------------------
-  protected onPointerMove(event: PointerEvent): void {
-    if (!this.parallax || event.pointerType !== 'mouse') return;
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    this.plane.tx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.plane.ty = ((event.clientY - rect.top) / rect.height) * 2 - 1;
-    this.start();
-  }
+  /**
+   * The slab's edge drifts toward the cursor (±DRIFT_RANGE of the viewport, lerped), and the
+   * name's inversion follows it. Mouse only, never with reduced motion; the loop runs only
+   * while the edge is moving and the hero is on screen.
+   */
+  private followCursorWithEdge(destroyRef: DestroyRef): void {
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canHover || reduced) return;
 
-  protected onPointerLeave(): void {
-    this.plane.tx = 0;
-    this.plane.ty = 0;
-    this.start();
-  }
+    // Observe the host, not a template node (HMR replays rebuild template DOM).
+    const el = this.host.nativeElement;
+    let target = 0;
+    let value = 0;
+    let frame = 0;
+    let last = 0;
+    let visible = true;
 
-  private start(): void {
-    if (this.frame) return;
-    this.lastFrame = performance.now();
-    this.frame = requestAnimationFrame((t) => this.tick(t));
-  }
+    const step = (now: number) => {
+      const k = Math.min(now - last, 64) / 16.667;
+      last = now;
+      value += (target - value) * (1 - Math.pow(1 - DRIFT_FOLLOW, k));
+      if (Math.abs(target - value) < DRIFT_EPSILON) value = target;
+      el.style.setProperty('--drift', `${value.toFixed(2)}px`);
+      frame = value === target ? 0 : requestAnimationFrame(step);
+    };
+    const start = () => {
+      if (frame || !visible) return;
+      last = performance.now();
+      frame = requestAnimationFrame(step);
+    };
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      target = (event.clientX / innerWidth - 0.5) * 2 * DRIFT_RANGE * innerWidth;
+      start();
+    };
+    const onLeave = () => {
+      target = 0;
+      start();
+    };
 
-  private tick(now: number): void {
-    const k = Math.min(now - this.lastFrame, 64) / 16.667;
-    this.lastFrame = now;
-    const follow = 1 - Math.pow(1 - PLANE_FOLLOW, k);
-    const p = this.plane;
-    p.x += (p.tx - p.x) * follow;
-    p.y += (p.ty - p.y) * follow;
+    el.addEventListener('pointermove', onMove, { passive: true });
+    el.addEventListener('pointerleave', onLeave);
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (!visible) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    io.observe(el);
 
-    const settled = Math.abs(p.tx - p.x) < PLANE_EPSILON && Math.abs(p.ty - p.y) < PLANE_EPSILON;
-    if (settled) {
-      p.x = p.tx;
-      p.y = p.ty;
-    }
-    const el = this.bento().nativeElement;
-    if (p.x === 0 && p.y === 0) {
-      el.style.transform = '';
-    } else {
-      el.style.transform =
-        `perspective(1800px) ` +
-        `translate3d(${(-p.x * PLANE_DRIFT_PX).toFixed(2)}px, ${(-p.y * PLANE_DRIFT_PX).toFixed(2)}px, 0) ` +
-        `rotateX(${(-p.y * PLANE_TILT_DEG).toFixed(3)}deg) rotateY(${(p.x * PLANE_TILT_DEG).toFixed(3)}deg)`;
-    }
-    this.frame = settled ? 0 : requestAnimationFrame((t) => this.tick(t));
+    destroyRef.onDestroy(() => {
+      cancelAnimationFrame(frame);
+      io.disconnect();
+      el.removeEventListener('pointermove', onMove);
+      el.removeEventListener('pointerleave', onLeave);
+    });
   }
 }

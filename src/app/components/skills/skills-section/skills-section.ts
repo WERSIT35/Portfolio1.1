@@ -9,7 +9,14 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { SKILLS } from '../../../data/site-data';
+import {
+  CERTIFICATIONS,
+  EDUCATION_ITEMS,
+  EXPERIENCES,
+  PROJECTS,
+  REPOSITORIES,
+  SKILLS,
+} from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
 import { groupSkills } from '../../../utils/skill-groups';
 
@@ -39,6 +46,52 @@ interface BandMotion {
 }
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+// ---------------------------------------------------------------------------
+// Evidence: where each skill actually appears (project and role stacks). Matching is by
+// alias — the full name, and each part around "(", ")" or "/" ("Node.js (Express)" is also
+// "Node.js" and "Express") — or a prefix at a word boundary ("Angular" in "Angular SSR",
+// "REST API" in "REST API Design") or before a model number ("STM32" in "STM32F767").
+// No match, no evidence: nothing is invented.
+// ---------------------------------------------------------------------------
+const normal = (text: string) => text.toLowerCase().replace(/\s+/g, ' ').trim();
+const aliases = (name: string) =>
+  [
+    ...new Set([
+      normal(name),
+      // Parts around brackets, kept whole ("CI/CD") and also split at "/".
+      ...name.split(/[()]/).map(normal),
+      ...name.split(/[()/]/).map(normal),
+    ]),
+  ].filter(Boolean);
+const isPrefix = (long: string, short: string) =>
+  short.length >= 3 &&
+  long.startsWith(short) &&
+  (long.length === short.length || /[\s.\-/]/.test(long[short.length]) || /\d/.test(short));
+const matches = (skill: string, stackItem: string) => {
+  const item = normal(stackItem);
+  // A stack item shorter than the skill counts only if it's a phrase ("REST API" for
+  // "REST API Design"); a single word ("Claude") is too generic to stand for "Claude Code".
+  return aliases(skill).some(
+    (a) => item === a || isPrefix(item, a) || (item.includes(' ') && isPrefix(a, item)),
+  );
+};
+const EVIDENCE_SOURCES = [
+  ...PROJECTS.map((p) => ({ name: p.projName, stack: p.stack })),
+  ...EXPERIENCES.map((e) => ({ name: e.company ?? e.role, stack: e.stack })),
+  ...CERTIFICATIONS.map((c) => ({ name: c.imageName[0] ?? c.name, stack: c.skills })),
+  // Degree coursework (certificate paths are already covered by CERTIFICATIONS).
+  ...EDUCATION_ITEMS.filter((e) => /^(BSc|MSc)\b/.test(e.degree)).map((e) => ({
+    name: `${e.degree.replace(/\s*—.*$/, '')} coursework`,
+    stack: e.subjects,
+  })),
+  // Public repositories that aren't already a project on the site.
+  ...REPOSITORIES.map((r) => ({ name: `GitHub · ${r.name}`, stack: r.stack })),
+];
+const evidenceFor = (skill: string) =>
+  EVIDENCE_SOURCES.filter((src) => src.stack.some((item) => matches(skill, item))).map(
+    (src) => src.name,
+  );
 const ease = (dt: number, tau: number) => 1 - Math.exp(-dt / tau);
 
 @Component({
@@ -55,6 +108,7 @@ export class SkillsSection {
     items: group.items.map((item) => ({
       ...item,
       glyph: item.icon.startsWith('devicon-') ? item.icon : null,
+      evidence: evidenceFor(item.name),
     })),
   }));
   protected readonly total = this.bands.reduce((sum, band) => sum + band.items.length, 0);
@@ -75,6 +129,8 @@ export class SkillsSection {
     return { ...band.items[s.item], category: band.category };
   });
   protected readonly cardVisible = signal(false);
+  /** Keyboard: one tab stop per band (its current word); arrows move it along the band. */
+  protected readonly roving = signal<number[]>(this.bands.map(() => 0));
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly host = viewChild.required<ElementRef<HTMLElement>>('host');
@@ -142,10 +198,10 @@ export class SkillsSection {
       );
       visibility.observe(hostEl);
 
-      // Phones: tapping outside a word or the card dismisses the sheet.
+      // Phones: tapping outside the bands dismisses the inline detail.
       const onPointerDown = (event: PointerEvent) => {
         const target = event.target as HTMLElement;
-        if (this.isCompact() && !target.closest('.word, .card')) this.release();
+        if (this.isCompact() && !target.closest('.band')) this.release();
       };
       document.addEventListener('pointerdown', onPointerDown);
 
@@ -187,6 +243,45 @@ export class SkillsSection {
     } else {
       this.engage(band, item, event.currentTarget as HTMLElement);
     }
+  }
+
+  /** Phones: a tap on the band (not on a word) brakes it on the word nearest its centre. */
+  protected onBandTap(band: number, event: MouseEvent): void {
+    if (!this.isCompact() || (event.target as HTMLElement).closest('.word')) return;
+    const viewport = (event.currentTarget as HTMLElement).querySelector('.band__viewport');
+    if (!viewport) return;
+    const vp = viewport.getBoundingClientRect();
+    const centre = vp.left + vp.width / 2;
+    const distance = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      return Math.abs(r.left + r.width / 2 - centre);
+    };
+    const words = Array.from(viewport.querySelectorAll<HTMLElement>('.word'));
+    const nearest = words.reduce<HTMLElement | null>(
+      (best, word) => (!best || distance(word) < distance(best) ? word : best),
+      null,
+    );
+    if (nearest) this.engage(band, Number(nearest.dataset['item']), nearest);
+  }
+
+  /** ←/→ step along the band (Home/End jump); focus follows, so the detail follows too. */
+  protected onWordKeydown(event: KeyboardEvent, band: number, item: number): void {
+    const last = this.bands[band].items.length - 1;
+    const moves: Record<string, number> = {
+      ArrowRight: Math.min(item + 1, last),
+      ArrowLeft: Math.max(item - 1, 0),
+      Home: 0,
+      End: last,
+    };
+    const next = moves[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    this.roving.update((r) => r.map((v, b) => (b === band ? next : v)));
+    this.host()
+      .nativeElement.querySelector<HTMLElement>(
+        `.word[data-band="${band}"][data-item="${next}"][data-copy="0"]`,
+      )
+      ?.focus();
   }
 
   protected release(): void {
@@ -286,7 +381,11 @@ export class SkillsSection {
     const w = card.offsetWidth;
     const h = card.offsetHeight;
 
-    const x = clamp(word.left - bounds.left + word.width / 2 - w / 2, EDGE_PX, bounds.width - w - EDGE_PX);
+    const x = clamp(
+      word.left - bounds.left + word.width / 2 - w / 2,
+      EDGE_PX,
+      bounds.width - w - EDGE_PX,
+    );
     const above = word.top - bounds.top - h - CARD_GAP_PX;
     const y = above >= EDGE_PX ? above : word.bottom - bounds.top + CARD_GAP_PX;
 

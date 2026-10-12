@@ -1,7 +1,7 @@
 <section #host id="projects" appSpySection tabindex="-1" class="pj" aria-labelledby="pj-title">
   <header class="pj__head">
     <p class="pj__kicker">03 / Projects</p>
-    <h2 id="pj-title" class="pj__title">Selected works</h2>
+    <h2 id="pj-title" class="pj__title">Selected work</h2>
     <p class="pj__count">{{ count }} entries</p>
   </header>
 
@@ -31,52 +31,92 @@
           class="row__link row__link--toggle"
           [attr.aria-expanded]="open() === i"
           [attr.aria-controls]="'pj-media-' + i"
-          (click)="open.set(i)"
+          (click)="openRow(i)"
         >
           <ng-container *ngTemplateOutlet="rowLine; context: { $implicit: row }" />
         </button>
+        <!-- Desktop: the live site, as its own link (never nested in the row's link). -->
+        @if (row.live) {
+          <a
+            class="row__visit"
+            [href]="row.live"
+            target="_blank"
+            rel="noopener"
+            [attr.aria-label]="'Visit the live ' + row.projName + ' site (opens in a new tab)'"
+            >Live ↗</a
+          >
+        }
 
         <!-- Phones only: the expanded accordion body. -->
         <div class="row__media" [id]="'pj-media-' + i" [attr.inert]="open() === i ? null : ''">
-          <div class="strip">
-            @for (src of row.desktop; track src) {
-              <img
-                class="strip__desktop"
-                [src]="src"
-                [attr.srcset]="shotSrcset(src)"
-                sizes="88vw"
-                [width]="shotSize(src).width"
-                [height]="shotSize(src).height"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-            }
-            @for (src of row.mobile; track src) {
-              <span class="strip__phone">
+          <div class="row__media-inner">
+            <div class="strip" (scroll)="onStripScroll($event)">
+              @for (src of row.desktop; track src; let k = $index) {
                 <img
+                  class="strip__desktop"
                   [src]="src"
+                  [attr.srcset]="shotSrcset(src)"
+                  sizes="88vw"
                   [width]="shotSize(src).width"
                   [height]="shotSize(src).height"
-                  alt=""
+                  [alt]="row.projName + ' — screen ' + (k + 1) + ' of ' + row.desktop.length"
                   loading="lazy"
                   decoding="async"
                 />
-              </span>
-            }
-            @if (row.kind === 'spec') {
-              <div class="strip__spec">
-                <p class="spec__label">// stack</p>
-                <p class="spec__stack">{{ row.stack.join(' · ') }}</p>
-              </div>
-            }
+              }
+              @for (src of row.mobile; track src; let k = $index) {
+                <span class="strip__phone">
+                  <img
+                    [src]="src"
+                    [width]="shotSize(src).width"
+                    [height]="shotSize(src).height"
+                    [alt]="
+                      row.projName + ' — mobile screen ' + (k + 1) + ' of ' + row.mobile.length
+                    "
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+              }
+              @if (row.kind === 'spec') {
+                <div class="strip__spec">
+                  <p class="spec__label">// stack</p>
+                  <p class="spec__stack">{{ row.stack.join(' · ') }}</p>
+                </div>
+              }
+            </div>
+            <div class="row__actions">
+              @if (row.slides > 1) {
+                <p class="strip__count" aria-hidden="true">
+                  {{ (open() === i ? page() : 0) + 1 }} / {{ row.slides }}
+                </p>
+              }
+              <a class="row__cta" [routerLink]="['/work', row.slug]">
+                Open case study
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+              @if (row.live) {
+                <a
+                  class="row__cta"
+                  [href]="row.live"
+                  target="_blank"
+                  rel="noopener"
+                  [attr.aria-label]="
+                    'Visit the live ' + row.projName + ' site (opens in a new tab)'
+                  "
+                  >Live ↗</a
+                >
+              }
+            </div>
           </div>
-          <a class="row__cta" [routerLink]="['/work', row.slug]">
-            Open case study
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
         </div>
       </li>
     }
@@ -89,8 +129,10 @@
       <span class="row__category">{{ row.category }}</span>
       <span class="row__stack">{{ row.stackLine }}</span>
     </span>
-    <span class="row__year">{{ row.year }}</span>
-    <span class="row__status" [attr.data-status]="row.status">{{ row.statusLabel }}</span>
+    <span class="row__when">
+      <span class="row__year">{{ row.year }}</span>
+      <span class="row__status" [attr.data-status]="row.status">{{ row.statusLabel }}</span>
+    </span>
   </ng-template>
 
   <!-- Desktop: glass lens trailing the cursor (decorative; the rows carry the content). -->

@@ -3,10 +3,10 @@ import { ViewportScroller, isPlatformBrowser } from '@angular/common';
 
 /**
  * Drop-in ViewportScroller for the router's anchor scrolling. The built-in one measures
- * an anchor with getBoundingClientRect(), which for a `position: sticky` section (the
- * Contact curtain is pinned to the bottom of the viewport) reports where it is stuck —
- * already on screen — so the page never moves. This one measures sticky sections at
- * their in-flow position and also honours the target's `scroll-margin-top`.
+ * an anchor with getBoundingClientRect(), which the stages' scroll-driven transforms skew
+ * (and which, for a `position: sticky` section, reports where it is stuck). This one
+ * measures sections at their in-flow layout position and also honours the target's
+ * `scroll-margin-top`.
  *
  * Scrolling is left to the CSS `scroll-behavior` on <html>, which is smooth unless the
  * user prefers reduced motion.
