@@ -300,7 +300,7 @@ function build(v) {
     ),
   );
 
-  children.push(sectionTitle('Certifications'));
+  children.push(sectionTitle('Courses & certifications'));
   v.certs.forEach((key, i) => {
     const [issuer, names, year] = CERTS[key];
     children.push(

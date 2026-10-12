@@ -19,20 +19,20 @@ export const PERSON = {
 };
 
 const LUMINA_LINKS =
-  '[provider-flame.vercel.app](https://provider-flame.vercel.app/) · [github.com/WERSIT35/Provider](https://github.com/WERSIT35/Provider)';
+  '[Live demo](https://provider-flame.vercel.app/) · [GitHub](https://github.com/WERSIT35/Provider)';
 
 export const EXPERIENCE = {
   lumina: {
     role: 'Founder & Lead Engineer',
     org: 'Lumina Games',
     dates: 'Apr 2026 – Present',
-    meta: `Independent iGaming venture, not yet incorporated · GLI-certified · ${LUMINA_LINKS}`,
+    meta: `Independent venture, not yet incorporated · GLI-certified · Pre-launch (demo live, RGS not yet hosted) · ${LUMINA_LINKS}`,
     bullets: [
-      'Designed and built a **server-authoritative slot provider platform** end to end: Fastify/TypeScript RGS, operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K** (6×5 pays-anywhere, tumbles, free spins, multipliers, buy-feature, ante bet).',
-      'Wrote one **shared maths engine** that runs unchanged in the browser, the RGS and a seeded, sharded RTP tool; validated three RTP profiles (96.38%, 94.40%, 92.38%) with **30M seeded rounds per mode plus a 200M independent run**, all passing.',
+      'Designed and built, as sole engineer, a **server-authoritative slot provider platform**: Fastify/TypeScript RGS, operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K** (6×5 pays-anywhere, tumbles, free spins, multipliers, buy-feature, ante bet).',
+      'Wrote one **shared maths engine** that runs unchanged in the browser, the RGS and a seeded, sharded RTP tool; validated three RTP profiles (96.38%, 94.40%, 92.38%) with **30M seeded rounds per mode**, confirmed on a second 200M-round seed (pooled base RTP 96.36% ± 0.07% vs 96.38% declared).',
       'Secured casino integration with an **HMAC-signed operator API** (raw-byte signatures, nonce replay protection, timestamp-skew checks, rate limiting) and seamless-wallet webhooks with idempotent debits and lost-debit rollback, proven end to end against a demo casino.',
-      'Made every round auditable: deterministic seeded RNG, **hash-chained, Ed25519-signed append-only ledgers** protected by Postgres triggers, and signed round exports with an offline verifier.',
-      'Ran it with team-grade discipline: a security findings register (8 findings, 2 High, all fixed), a 57-test abuse suite and **300+ automated tests** in GitHub Actions with real-browser checks, plus 45 design docs (GDD, ADRs, threat model).',
+      'Made every round auditable and traceable: seeded RNG, **hash-chained, Ed25519-signed append-only ledgers** behind Postgres triggers, signed round exports, W3C tracing through to wallet webhooks, Prometheus metrics.',
+      'Ran an internal security review: 8 findings (2 High: a concurrent-round race, reusable idempotency keys), each fixed with a regression test in a **57-test abuse suite**; 300+ tests in CI; 45 design docs.',
     ],
   },
   betlive: {
@@ -41,10 +41,9 @@ export const EXPERIENCE = {
     dates: 'Sep 2024 – Present',
     meta: 'Full-time · iGaming operator',
     bullets: [
-      'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts in 5 of 8 months, #1 twice**.',
+      'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts by monthly volume in 5 of 8 months, #1 twice**.',
       'Work out how players abuse promotions, then find and document **bonus-abuse and fraud cases** using back-office tools, **SQL scripts and Power BI**.',
-      'Test new website features and find **critical bugs**.',
-      'Use browser automation to examine workflows and support operational reviews.',
+      'Test new website features to find **critical bugs**; use browser automation in operational reviews.',
     ],
   },
   freelance: {
@@ -53,7 +52,7 @@ export const EXPERIENCE = {
     dates: 'Sep 2022 – Present',
     meta: 'Freelance, alongside employment',
     bullets: [
-      '**Elite Weddings** ([elitewe.com.ge](https://elitewe.com.ge/)): bilingual EN/KA wedding-agency platform on Angular and a framework-free Node.js backend with hand-written JWT, scrypt and RFC 6238 TOTP; layered inquiry anti-abuse (honeypot, rate limits, daily caps, CAPTCHA); Docker on k3s with network policies and cert-manager TLS.',
+      '**Elite Weddings** ([elitewe.com.ge](https://elitewe.com.ge/)): bilingual EN/KA wedding-agency platform on Angular and a framework-free Node.js backend (plain node:http) with hand-written JWT, scrypt and RFC 6238 TOTP; layered inquiry anti-abuse (honeypot, rate limits, daily caps, CAPTCHA); Docker on k3s with network policies and cert-manager TLS.',
       '**HeatFlow / Tenebi** ([tns-khaki.vercel.app](https://tns-khaki.vercel.app/)): bilingual KA/EN catalogue of **309 products in 9 categories** for a heating-element shop; Angular SSR and prerendering on Express with schema.org Product JSON-LD and per-page SEO; migrated from Angular 17 to 20; scores **Lighthouse 97–100 performance and 100 SEO**.',
       '**Akhali Sakhli** ([akhalisakhli.com](https://akhalisakhli.com/)): responsive Angular website for a real-estate platform, live.',
     ],
@@ -132,7 +131,7 @@ export const SKILLS = {
   ],
   infra: [
     'Infra & quality',
-    'Docker, Kubernetes / k3s, Nginx, Caddy, GitHub Actions, Vitest, end-to-end & parity testing',
+    'Docker, Kubernetes / k3s, Nginx, Caddy, GitHub Actions, Vitest, end-to-end & parity testing, observability (W3C tracing, Prometheus)',
   ],
   embedded: ['Embedded', 'C, STM32 (bare-metal & HAL), I²C, SPI, UART, DMA, lwIP, MQTT'],
   ai: ['Applied AI', 'OpenAI API (gpt-image-1, gpt-4o-mini), Claude & Claude Code'],
@@ -196,19 +195,19 @@ export const VARIANTS = [
     slug: 'Founding-Engineer',
     headline: 'Founding Engineer · Full-Stack Products, Secure Platforms & Applied AI',
     summary:
-      'Founding-style engineer who takes products from idea to running system and leads the people who build them. Single-handedly built a complete, GLI-certified slot provider platform (Fastify RGS, signed operator API, wallet integration, 300+ tests), full-stack Angular and Node.js platforms for clients, and an AI image app with server-verified in-app purchases. Previously led a 5-person STM32 product team.',
+      'Founding-style engineer who takes products from idea to running system and leads the people who build them. As sole engineer, built a GLI-certified slot provider platform (Fastify RGS, signed operator API, wallet integration, 300+ tests), full-stack Angular and Node.js platforms for clients, and an AI image app with server-verified in-app purchases. Previously led a 5-person STM32 product team.',
     core: 'Product engineering end to end · Node.js · TypeScript · Angular · Flutter · Secure APIs & auth (HMAC, JWT, OAuth, TOTP) · PostgreSQL & MongoDB · Docker, Kubernetes & CI · Applied AI (OpenAI, Claude) · STM32 firmware · Team leadership & mentoring',
     experience: BASE_ORDER,
     overrides: {
       lumina: {
         bullets: [
-          'Designed and built a complete **B2B game platform** for casino operators: Fastify/TypeScript RGS (game server), operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K**.',
+          'Designed and built, as sole engineer, a **B2B game platform** for casino operators: Fastify/TypeScript RGS (game server), operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K**.',
         ],
         keepFrom: 1,
       },
       betlive: {
         bullets: [
-          'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts in 5 of 8 months, #1 twice**.',
+          'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts by monthly volume in 5 of 8 months, #1 twice**.',
           'Work out how players abuse promotions, then find and document **bonus-abuse and fraud cases** using back-office tools, **SQL scripts and Power BI**.',
           'Test new website features and find **critical bugs**; use browser automation to examine workflows and support operational reviews.',
         ],
