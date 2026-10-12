@@ -5,7 +5,10 @@
     <p class="ct__meta">&copy; {{ year }} {{ contact.name }} {{ contact.surname }}</p>
   </header>
 
-  <p class="ct__lede">{{ contact.availability }} · {{ contact.location }} (GMT+4)</p>
+  <p class="ct__lede">
+    {{ contact.availability }} · {{ contact.location }} (GMT+4)<br />
+    Speaks {{ contact.languages.join(', ') }}
+  </p>
 
   <!-- The address on one line, sized from its width in ems (rendered on the server, so it
        never shifts); on desktop the letters lean toward the cursor. -->

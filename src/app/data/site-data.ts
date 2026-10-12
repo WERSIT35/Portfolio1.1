@@ -4,6 +4,7 @@ import { Projects } from '../interfaces/projects';
 import { Education } from '../interfaces/education';
 import { Skills } from '../interfaces/skills';
 import { Contact } from '../interfaces/contact';
+import { Repository } from '../interfaces/repository';
 
 export const EXPERIENCES: Experience[] = [
   {
@@ -13,8 +14,8 @@ export const EXPERIENCES: Experience[] = [
     employment: 'Full-time',
     date: 'Sep 2024 – Present',
     summary:
-      'Monitor real-time financial transactions across a high-volume iGaming platform, detecting fraud patterns, bonus abuse, and suspicious user behavior. Perform SQL-based transaction analysis to trace anomalies and support platform integrity. Collaborate cross-functionally with risk, payments, and technical teams.',
-    stack: ['AML compliance', 'Fraud detection', 'SQL analysis', 'Risk management', 'Transaction monitoring'],
+      'Monitor real-time financial transactions across a high-volume iGaming platform, detecting fraud patterns, bonus abuse, and suspicious user behavior. Perform SQL analysis and investigate transaction anomalies in support of AML and game-control operations. Use browser automation to examine relevant workflows and support operational review.',
+    stack: ['SQL analysis', 'Browser Automation', 'AML compliance', 'Fraud detection', 'Transaction monitoring'],
   },
   {
     id: 2,
@@ -22,7 +23,7 @@ export const EXPERIENCES: Experience[] = [
     employment: 'Freelance',
     date: 'Sep 2022 – Present',
     summary:
-      'Designed and developed responsive web applications using Angular (v13+) and Node.js. Built reusable components, services, and modules to streamline development. Implemented REST API integrations and collaborated with international clients using agile workflows.',
+      'Owned end-to-end development of full-stack systems spanning Angular frontends, Node.js services, REST APIs, and database-backed workflows. Built modular, production-oriented features with attention to secure APIs, data integrity, and automated validation.',
     stack: ['Angular', 'Node.js', 'Express.js', 'REST API', 'Component Architecture'],
   },
   {
@@ -32,8 +33,8 @@ export const EXPERIENCES: Experience[] = [
     employment: 'Contract',
     date: 'Dec 2025 – Jun 2026',
     summary:
-      'Developed and maintained web-based applications supporting internal operations and client services. Built responsive interfaces using Angular and integrated frontend components with backend APIs. Actively participated in Agile development processes and code reviews.',
-    stack: ['Angular', 'Component Architecture', 'JavaScript', 'API Integration'],
+      'Developed four core platform features in a modular Angular codebase using Standalone Components, Signals, and RxJS. Implemented lazy loading and code splitting while integrating REST APIs for focused, maintainable feature delivery. Worked cross-functionally to align frontend implementation with product and engineering needs.',
+    stack: ['Angular', 'Standalone Components', 'Signals', 'RxJS', 'API Integration'],
   },
   {
     id: 4,
@@ -284,6 +285,24 @@ export const EDUCATION_ITEMS: Education[] = [
   },
 ];
 
+export const REPOSITORIES: Repository[] = [
+  {
+    name: 'public-vending-machine-oop',
+    url: 'https://github.com/WERSIT35/public-vending-machine-oop',
+    stack: ['Java', 'Object-Oriented Programming'],
+  },
+  {
+    name: 'OV5640_F767ZI',
+    url: 'https://github.com/WERSIT35/OV5640_F767ZI',
+    stack: ['C', 'STM32F767ZI', 'DMA', 'UART', 'Python'],
+  },
+  {
+    name: 'stm32l031-mpu6050-oled',
+    url: 'https://github.com/WERSIT35/stm32l031-mpu6050-oled',
+    stack: ['C', 'STM32L031K6', 'I2C', 'Bare-metal'],
+  },
+];
+
 export const SKILLS: Skills = {
   name: [
     'Angular', 'React', 'TypeScript', 'JavaScript', 'RxJS', 'SCSS',
@@ -304,6 +323,8 @@ export const SKILLS: Skills = {
     'Helmet / CORS / Rate limiting',
     'MQTT',
     'lwIP (TCP/IP)',
+    'Browser Automation',
+    'E2E Testing',
   ],
   color: [
     '#DD0031', '#61DAFB', '#3178C6', '#F0DB4F', '#B7178C', '#CC6699',
@@ -312,6 +333,8 @@ export const SKILLS: Skills = {
     '#EA1B22', '#E34F26', '#239120', '#FFCA28',
     '#F2545B', '#6E56CF', '#D97757', '#A8B9CC',
     '#03234B',
+    '#ffffff',
+    '#ffffff',
     '#ffffff',
     '#ffffff',
     '#ffffff',
@@ -350,6 +373,8 @@ export const SKILLS: Skills = {
     '',
     '',
     '',
+    '',
+    '',
   ],
   learned: [
     ['Freelance Production Work', 'PetC'],
@@ -380,6 +405,8 @@ export const SKILLS: Skills = {
     ['Applied AI Collaboration Work'],
     ['STM32 Ethernet MQTT Controller'],
     ['STM32 Ethernet MQTT Controller'],
+    [],
+    [],
     [],
     [],
     [],
@@ -434,8 +461,10 @@ export const SKILLS: Skills = {
     [],
     [],
     [],
+    [],
+    [],
   ],
-  rating: [5, 5, 5, 5, 4, 5, 5, 4, 4, 4, 5, 5, 3, 4, 4, 4, 4, 4, 4, 4, 5, 3, 4, 4, 4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  rating: [5, 5, 5, 5, 4, 5, 5, 4, 4, 4, 5, 5, 3, 4, 4, 4, 4, 4, 4, 4, 5, 3, 4, 4, 4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 
 export const PROJECTS: Projects[] = [
@@ -513,7 +542,7 @@ export const PROJECTS: Projects[] = [
     ],
     img: [],
     link: 'https://provider-flame.vercel.app/',
-    github: 'https://github.com/WERSIT35/Provider',
+    github: '',
     iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #151720, #3f6f4b);',
     role: 'Full-stack game systems engineer',
@@ -522,6 +551,7 @@ export const PROJECTS: Projects[] = [
     featured: true,
     stack: [
       'Fastify', 'Node.js', 'TypeScript', 'PostgreSQL', 'HMAC', 'REST API Design', 'HTML5',
+      'Parity Testing', 'E2E Testing',
     ],
     problem:
       'The project needed a believable slot-provider MVP where the server owns outcomes, the client stays presentation-focused, every request is cryptographically verifiable, and the math profile can be repeatedly simulated before any certification conversation.',
@@ -625,7 +655,7 @@ export const PROJECTS: Projects[] = [
       '/assets/projects/TatooGen/Pic5Web.webp',
     ],
     link: '',
-    github: '',
+    github: 'https://github.com/WERSIT35/tattoo-generator-app',
     iflink: false,
     gradient: 'background-image: linear-gradient(90deg, #0e0f12, #2a2530);',
     role: 'Full-stack mobile engineer',
@@ -669,7 +699,7 @@ export const PROJECTS: Projects[] = [
     ],
     img: [],
     link: '',
-    github: '',
+    github: 'https://github.com/WERSIT35/stm32-f767-ethernet-mqtt-demo',
     iflink: false,
     gradient: 'background-image: linear-gradient(90deg, #101014, #2f3336);',
     role: 'Embedded systems engineer',
@@ -742,7 +772,7 @@ export const PROJECTS: Projects[] = [
       '/assets/projects/PetC/Pic6Mob.webp',
     ],
     link: '#',
-    github: 'https://github.com/WERSIT35/BetPilot',
+    github: '',
     iflink: false,
     gradient: 'background-image: linear-gradient(90deg, #0f1722, #2a3e5f);',
     role: 'Angular engineer',
@@ -787,7 +817,7 @@ export const PROJECTS: Projects[] = [
       '/assets/projects/heatFlow/3.webp', '/assets/projects/heatFlow/4.webp',
     ],
     link: 'https://tns-khaki.vercel.app/',
-    github: 'https://github.com/WERSIT35/Artisan-Marketplace',
+    github: 'https://github.com/WERSIT35/Tns',
     iflink: true,
     gradient: 'background-image: linear-gradient(90deg, #221411,#643C2E);',
     role: 'Frontend delivery',
@@ -824,4 +854,5 @@ export const CONTACT: Contact = {
   linkedin: 'https://www.linkedin.com/in/otar-davitashvili/',
   location: 'Tbilisi, Georgia',
   availability: 'Open to freelance',
+  languages: ['Georgian (native)', 'English (full professional)', 'Russian (professional working)'],
 };

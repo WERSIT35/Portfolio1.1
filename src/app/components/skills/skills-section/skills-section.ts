@@ -14,6 +14,7 @@ import {
   EDUCATION_ITEMS,
   EXPERIENCES,
   PROJECTS,
+  REPOSITORIES,
   SKILLS,
 } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
@@ -84,6 +85,8 @@ const EVIDENCE_SOURCES = [
     name: `${e.degree.replace(/\s*—.*$/, '')} coursework`,
     stack: e.subjects,
   })),
+  // Public repositories that aren't already a project on the site.
+  ...REPOSITORIES.map((r) => ({ name: `GitHub · ${r.name}`, stack: r.stack })),
 ];
 const evidenceFor = (skill: string) =>
   EVIDENCE_SOURCES.filter((src) => src.stack.some((item) => matches(skill, item))).map(

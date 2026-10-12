@@ -51,6 +51,8 @@ const CATEGORY_BY_SKILL: Record<string, string> = {
   'JWT / OAuth / TOTP MFA': 'Security & Testing',
   'Helmet / CORS / Rate limiting': 'Security & Testing',
   'Parity Testing': 'Security & Testing',
+  'Browser Automation': 'Security & Testing',
+  'E2E Testing': 'Security & Testing',
   C: 'Embedded Systems',
   'Embedded Systems (STM32)': 'Embedded Systems',
   MQTT: 'Embedded Systems',
