@@ -128,7 +128,7 @@ export const CERTIFICATIONS: Certifications[] = [
       '/assets/education/Certification/AWS/certificate_of_completion_introduction_to_aws_solutions.pdf',
     date: 'Certificate',
     issuer: 'w3schools',
-    issued: '2024',
+    issued: 'Sep 20, 2023',
     skills: ['AWS Core Services', 'Cloud Basics', 'Architecture Fundamentals'],
     timeSpent: '~30 hours',
     tasksMade: [
