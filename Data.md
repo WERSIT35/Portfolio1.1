@@ -33,7 +33,7 @@ export const EXPERIENCES: Experience[] = [
     employment: 'Contract',
     date: 'Dec 2025 – Jun 2026',
     summary:
-      'Developed four core platform features in a modular Angular codebase using Standalone Components, Signals, and RxJS. Implemented lazy loading and code splitting while integrating REST APIs for focused, maintainable feature delivery. Worked cross-functionally to align frontend implementation with product and engineering needs.',
+      'Built the core frontend features of a social platform for pet owners: user profiles, an Instagram-style stories viewer, search, scrolling feeds, QR-code pages and forms, in a modular Angular codebase using Standalone Components, Signals, and RxJS. Implemented lazy loading and code splitting while integrating REST APIs for focused, maintainable feature delivery. Worked cross-functionally to align frontend implementation with product and engineering needs.',
     stack: ['Angular', 'Standalone Components', 'Signals', 'RxJS', 'API Integration'],
   },
   {
@@ -43,7 +43,7 @@ export const EXPERIENCES: Experience[] = [
     employment: 'Full-time',
     date: 'Jan 2024 – Mar 2026',
     summary:
-      'Led an engineering team in building embedded system prototypes using STM32 microcontrollers. Managed development cycles from planning to implementation, utilizing GPIO, UART, I2C, and SPI interfaces.',
+      'Trained a 5-person team with no prior coding experience and led it in building STM32-based prototypes: house detection systems and pneumatic mechanisms. Managed development cycles from planning to implementation, utilizing GPIO, UART, I2C, and SPI interfaces.',
     stack: ['Embedded Systems', 'STM32', 'C', 'Hardware Interfaces', 'Team Leadership'],
   },
   {
