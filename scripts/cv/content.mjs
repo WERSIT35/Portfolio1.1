@@ -26,7 +26,7 @@ export const EXPERIENCE = {
     role: 'Founder & Lead Engineer',
     org: 'Lumina Games',
     dates: 'Apr 2026 – Present',
-    meta: `Part-time venture, not yet incorporated · GLI-certified · Pre-launch (demo live, RGS not yet hosted) · ${LUMINA_LINKS}`,
+    meta: `Part-time venture, not yet incorporated · Pre-launch (demo live, RGS not yet hosted) · ${LUMINA_LINKS}`,
     bullets: [
       'Designed and built, as sole engineer, a **server-authoritative slot provider platform**: Fastify/TypeScript RGS, operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K** (6×5 pays-anywhere, tumbles, free spins, multipliers, buy-feature, ante bet).',
       'Wrote one **shared maths engine** that runs unchanged in the browser, the RGS and a seeded, sharded RTP tool; validated three RTP profiles (96.38%, 94.40%, 92.38%) with **30M seeded rounds per mode**, confirmed on a second 200M-round seed (pooled base RTP 96.36% ± 0.07% vs 96.38% declared).',
@@ -185,7 +185,7 @@ export const VARIANTS = [
     slug: 'iGaming',
     headline: 'Founding Engineer · iGaming Platforms, Risk & Integrity',
     summary:
-      'Founding-style engineer who builds complete products and leads the teams behind them. Built Lumina Games, a GLI-certified, server-authoritative slot provider platform (RGS, game maths, signed operator API, seamless wallet), while investigating AML, fraud and bonus abuse operator-side at Betlive. Trained and led a 5-person STM32 team from zero coding experience; delivers Angular and Node.js platforms for clients.',
+      'Founding-style engineer who builds complete products and leads the teams behind them. Built Lumina Games, a server-authoritative slot provider platform (RGS, game maths, signed operator API, seamless wallet), while investigating AML, fraud and bonus abuse operator-side at Betlive. Trained and led a 5-person STM32 team from zero coding experience; delivers Angular and Node.js platforms for clients.',
     core: 'RGS & game maths · RTP simulation · Operator & seamless-wallet integration · AML, fraud & bonus-abuse detection · Secure APIs · Node.js · TypeScript · Angular · PostgreSQL · Docker & Kubernetes · STM32 · Team leadership & mentoring',
     experience: BASE_ORDER,
     projects: ['shello', 'tatoogen', 'stm32'],
@@ -196,7 +196,7 @@ export const VARIANTS = [
     slug: 'Founding-Engineer',
     headline: 'Founding Engineer · Full-Stack Products, Secure Platforms & Applied AI',
     summary:
-      'Founding-style engineer who takes products from idea to running system and leads the people who build them. As sole engineer, built a GLI-certified slot provider platform (Fastify RGS, signed operator API, wallet integration, 300+ tests), full-stack Angular and Node.js platforms for clients, and an AI image app with server-verified in-app purchases. Trained and led a 5-person STM32 team from zero coding experience.',
+      'Founding-style engineer who takes products from idea to running system and leads the people who build them. As sole engineer, built a slot provider platform (Fastify RGS, signed operator API, wallet integration, 300+ tests), full-stack Angular and Node.js platforms for clients, and an AI image app with server-verified in-app purchases. Trained and led a 5-person STM32 team from zero coding experience.',
     core: 'Product engineering end to end · Node.js · TypeScript · Angular · Flutter · Secure APIs & auth (HMAC, JWT, OAuth, TOTP) · PostgreSQL & MongoDB · Docker, Kubernetes & CI · Applied AI (OpenAI, Claude) · STM32 firmware · Team leadership & mentoring',
     experience: BASE_ORDER,
     overrides: {
