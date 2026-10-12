@@ -73,7 +73,7 @@ export const EXPERIENCE = {
     dates: 'Jan 2024 – Mar 2026',
     meta: 'Part-time · Industrial technology company',
     bullets: [
-      '**Led and mentored a 5-person team** taking STM32-based embedded prototypes into industrial products.',
+      '**Led and mentored a 5-person team** building STM32-based embedded prototypes for industrial use.',
       'Ran development cycles from planning to implementation, hands-on in C (GPIO, UART, I²C, SPI).',
     ],
   },
