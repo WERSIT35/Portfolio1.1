@@ -11,8 +11,8 @@
    anything new; the user rejected "correct but boxy" designs and dislikes wasted space.
 2. Once a concept is approved, build it straight through: branch → verify → commit → PR → merge
    (the user's standing instruction: "Merge when you finish the task fully, don't stop").
-3. **Facts only** from `src/app/data/site-data.ts` (= `Data.md`), the résumé (`Otar Davitashvili Resume.pdf`) and the
-   public GitHub profile (WERSIT35). Never invent or embellish. Conflicts go to the user (see §4).
+3. **Facts only** from `src/app/data/site-data.ts` (= `Data.md`), the public GitHub repos (WERSIT35) and the
+   user's confirmed answers. Never invent or embellish. Conflicts go to the user (see §4).
 4. After editing `site-data.ts`, regenerate `Data.md` with `cp src/app/data/site-data.ts Data.md`.
 5. Commits end with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`; PR bodies end with
    `🤖 Generated with [Claude Code](https://claude.com/claude-code)`. No model names elsewhere.
@@ -93,9 +93,9 @@ Gotchas:
 - **CV:** built by `scripts/cv/` (see its README) in two variants, iGaming and Founding-Engineer, both 2 pages.
   The site's "Download CV" (`CONTACT.resumeUrl`) serves the Founding-Engineer PDF at
   `public/assets/me/Otar-Davitashvili-CV.pdf`; the old `OTAR DAVITASHVILI.pdf` path holds the same file so old
-  links get the new CV. The repo-root `Otar Davitashvili Resume.pdf` is the OLD résumé (freelance 09/2024,
-  "Banana X"): superseded, never use it as a source. Lumina Games' "GLI-certified" comes from the user; no
-  reference number yet.
+  links get the new CV. The old repo-root `Otar Davitashvili Resume.pdf` (freelance 09/2024, "Banana X") was
+  deleted on 2026-10-12 at the user's request; git history has it. Lumina Games' "GLI-certified" comes from
+  the user; no reference number yet.
 - W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
   set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
