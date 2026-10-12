@@ -41,7 +41,7 @@ export const EXPERIENCE = {
     dates: 'Sep 2024 – Present',
     meta: 'Full-time · iGaming operator',
     bullets: [
-      'Monitor real-time transactions on a high-volume iGaming platform to detect **money laundering, fraud** and suspicious account behaviour.',
+      'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts in 5 of 8 months, #1 twice**.',
       'Work out how players abuse promotions, then find and document **bonus-abuse and fraud cases** using back-office tools, **SQL scripts and Power BI**.',
       'Test new website features and find **critical bugs**.',
       'Use browser automation to examine workflows and support operational reviews.',
@@ -208,7 +208,7 @@ export const VARIANTS = [
       },
       betlive: {
         bullets: [
-          'Monitor real-time transactions on a high-volume iGaming platform to detect **money laundering, fraud** and suspicious account behaviour.',
+          'Monitor real-time transactions for money laundering, fraud and suspicious behaviour: **up to 3,300 reviewed items a month**, **top 3 of 11–12 analysts in 5 of 8 months, #1 twice**.',
           'Work out how players abuse promotions, then find and document **bonus-abuse and fraud cases** using back-office tools, **SQL scripts and Power BI**.',
           'Test new website features and find **critical bugs**; use browser automation to examine workflows and support operational reviews.',
         ],
