@@ -24,7 +24,7 @@ const CATEGORY_BY_SKILL: Record<string, string> = {
   HTML5: 'Frontend',
   'Node.js (Express)': 'Backend & APIs',
   Fastify: 'Backend & APIs',
-  'Java (Spring Boot)': 'Backend & APIs',
+  Java: 'Backend & APIs',
   FastAPI: 'Backend & APIs',
   'REST API Design': 'Backend & APIs',
   'C#': 'Backend & APIs',

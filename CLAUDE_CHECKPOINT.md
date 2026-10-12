@@ -95,11 +95,23 @@ Gotchas:
 - W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
   set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
-- FastAPI, MySQL, Firebase, NGINX have no project evidence (kept by request).
+- FastAPI and MySQL have no project evidence (kept by request). Firebase (TatooGen) and NGINX (Shello,
+  GiftShop-app) now do.
 - Lean Tech and Icecat are on the site but not on the résumé (kept).
-- The slot provider project is **Lumina Games** (game: **Vault 20k**), never "Provider" / "Banana X" (user
-  correction, 2026-10-12). Slug `lumina-games`; the old `/work/provider-banana-x-engine` redirects. Check the
-  résumé PDFs for the old name when the CV is next updated.
+- The slot provider project is **Lumina Games** (game: **Vault 20K**, the repo's casing), never "Provider" /
+  "Banana X" (user correction, 2026-10-12). Slug `lumina-games`; the old `/work/provider-banana-x-engine`
+  redirects. Check the résumé PDFs for the old name when the CV is next updated.
+- Akhali Sakhli and PetC have no repo; their entries are unverified. PetC ran Dec 2025 – Jun 2026 (user
+  confirmed); its status stays "in production" (the platform, not the engagement).
+- Kept but unproven by the repos: Shello "pre-order import" (owner fact) and the `lessons` texts.
+
+**Repo facts audit (2026-10-12):** every PROJECTS entry was checked against its GitHub repo (one agent per
+repo) and corrected; repos are the source of truth. Case pages show `approach` instead of `highlights` when
+both exist, so put anything a reader must see into `approach`. Repo-side issues for the user (not the site):
+Provider's public `SECURITY_INCIDENT.md` (API-token exposure: rotate) and committed `tmp-server-*.log`;
+TatooGen README/home screen still say "DALL-E 3" (also visible in its Pic1Web screenshot); Tns README and
+CLAUDE.md deploy URL are stale; the stm32-f767 MQTT repo commits a 146 MB `Debug/`; several repos have no
+README (GiftShop-app, public-vending-machine-oop, otar.davitashvili.final, the RS-485 repo).
 
 **Next work, in order:**
 1. Phone polish: Experience rule when all rows are collapsed (pick a default row), Skills tap hint, Education
