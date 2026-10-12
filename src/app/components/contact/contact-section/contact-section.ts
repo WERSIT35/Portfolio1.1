@@ -21,16 +21,12 @@ const PULL = 0.2; // fraction of the cursor offset a letter at the centre follow
 const MAX_PULL_EM = 0.07; // no letter travels further than this
 const REST_EPSILON = 0.02;
 const COPIED_MS = 2000;
-// Safety margin on the fitted font size.
-const FIT_MARGIN = 0.98;
-
-const tbilisiClock = new Intl.DateTimeFormat('en-GB', {
-  timeZone: 'Asia/Tbilisi',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-  hourCycle: 'h23',
-});
+// The address's width in ems for Geist Bold at -0.04em tracking, per character. The server
+// renders the email at its fitted size from this (no layout shift); the browser then
+// measures the real width once and corrects by a few percent at most.
+const EM_PER_CHAR = 0.569;
+// One-shot ripple on tap (touch): each letter lifts and settles, staggered.
+const RIPPLE_STAGGER_MS = 22;
 
 interface Letter {
   cx: number;
@@ -54,60 +50,44 @@ export class ContactSection {
   protected readonly contact = CONTACT;
   protected readonly year = new Date().getFullYear();
   protected readonly telHref = 'tel:' + CONTACT.phone.replace(/[^\d+]/g, '');
-
-  /**
-   * The address in three parts — local / @domain / .tld. Desktop sets the last two on
-   * one row (split at the @); phones stack all three so the type can grow.
-   */
-  protected readonly parts = (() => {
-    const email = CONTACT.email;
-    const at = email.indexOf('@');
-    const dot = email.lastIndexOf('.');
-    return [email.slice(0, at), email.slice(at, dot), email.slice(dot)].map((part) => [...part]);
-  })();
-
-  /** Tbilisi time with seconds; null on the server (renders --:--:--). */
-  protected readonly time = signal<string | null>(null);
+  protected readonly letters = [...CONTACT.email];
+  /** Estimated width of the address in ems, so the CSS can size it before any script runs. */
+  protected readonly mailEm = signal(+(CONTACT.email.length * EM_PER_CHAR).toFixed(3));
   protected readonly copied = signal(false);
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly zone = viewChild.required<ElementRef<HTMLElement>>('zone');
   private readonly mail = viewChild.required<ElementRef<HTMLElement>>('mail');
   private readonly chars = viewChildren<ElementRef<HTMLElement>>('ch');
 
-  private letters: Letter[] = [];
+  private springs: Letter[] = [];
   private fontPx = 0;
   private frame = 0;
   private lastFrame = 0;
   private magnetic = false;
+  private touch = false;
+  private reducedMotion = false;
   private copiedTimer: ReturnType<typeof setTimeout> | undefined;
 
   constructor() {
     const destroyRef = inject(DestroyRef);
 
     afterNextRender(() => {
-      // Live clock, aligned to the second boundary so the seconds tick on the beat.
-      const tick = () => this.time.set(tbilisiClock.format(new Date()));
-      tick();
-      let interval: ReturnType<typeof setInterval> | undefined;
-      const align = setTimeout(() => {
-        tick();
-        interval = setInterval(tick, 1000);
-      }, 1000 - (Date.now() % 1000));
-
-      // Fit the email to its row. Observe the host (never template nodes — HMR can swap them).
-      const fit = () => this.fit();
-      const sizes = new ResizeObserver(fit);
-      sizes.observe(this.elementRef.nativeElement);
-      document.fonts?.ready.then(fit);
-
+      this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.magnetic =
-        matchMedia('(hover: hover) and (pointer: fine)').matches &&
-        !matchMedia('(prefers-reduced-motion: reduce)').matches;
+        matchMedia('(hover: hover) and (pointer: fine)').matches && !this.reducedMotion;
+      this.touch = matchMedia('(pointer: coarse)').matches;
+
+      // Correct the estimated width once the real font is in (observe the host, never
+      // template nodes — HMR can swap them).
+      const correct = () => this.correctWidth();
+      document.fonts?.ready.then(correct);
+      const sizes = new ResizeObserver(() => {
+        this.fontPx = parseFloat(getComputedStyle(this.mail().nativeElement).fontSize);
+        if (this.springs.length) this.measureLetters();
+      });
+      sizes.observe(this.elementRef.nativeElement);
 
       destroyRef.onDestroy(() => {
-        clearTimeout(align);
-        clearInterval(interval);
         clearTimeout(this.copiedTimer);
         sizes.disconnect();
         cancelAnimationFrame(this.frame);
@@ -116,8 +96,16 @@ export class ContactSection {
   }
 
   // ---------------------------------------------------------------------------
-  // Copy email
+  // Copy
   // ---------------------------------------------------------------------------
+  /** Touch: tapping the address copies it (the "Open in mail app" link keeps mailto). */
+  protected onMailClick(event: MouseEvent): void {
+    if (!this.touch) return;
+    event.preventDefault();
+    void this.copy();
+    this.ripple();
+  }
+
   protected async copy(): Promise<void> {
     const email = this.contact.email;
     try {
@@ -138,8 +126,18 @@ export class ContactSection {
     this.copiedTimer = setTimeout(() => this.copied.set(false), COPIED_MS);
   }
 
+  private ripple(): void {
+    if (this.reducedMotion) return;
+    this.chars().forEach((ref, i) =>
+      ref.nativeElement.animate(
+        [{ transform: 'none' }, { transform: 'translateY(-0.12em)' }, { transform: 'none' }],
+        { duration: 520, delay: i * RIPPLE_STAGGER_MS, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      ),
+    );
+  }
+
   // ---------------------------------------------------------------------------
-  // Magnetic letters
+  // Magnetic letters (desktop)
   // ---------------------------------------------------------------------------
   protected onZoneEnter(event: PointerEvent): void {
     if (!this.magnetic || event.pointerType !== 'mouse') return;
@@ -148,10 +146,10 @@ export class ContactSection {
   }
 
   protected onZoneMove(event: PointerEvent): void {
-    if (!this.magnetic || event.pointerType !== 'mouse' || !this.letters.length) return;
+    if (!this.magnetic || event.pointerType !== 'mouse' || !this.springs.length) return;
     const radius = FIELD_RADIUS_EM * this.fontPx;
     const max = MAX_PULL_EM * this.fontPx;
-    for (const l of this.letters) {
+    for (const l of this.springs) {
       const dx = event.clientX - l.cx;
       const dy = event.clientY - l.cy;
       const falloff = Math.exp(-(dx * dx + dy * dy) / (radius * radius));
@@ -161,7 +159,7 @@ export class ContactSection {
   }
 
   protected onZoneLeave(): void {
-    for (const l of this.letters) {
+    for (const l of this.springs) {
       l.tx = 0;
       l.ty = 0;
     }
@@ -170,10 +168,10 @@ export class ContactSection {
 
   /** Letter centres at rest (current rect minus the offset it's been pulled by). */
   private measureLetters(): void {
-    const els = this.chars();
-    this.letters = els.map((ref, i) => {
+    this.fontPx = parseFloat(getComputedStyle(this.mail().nativeElement).fontSize);
+    this.springs = this.chars().map((ref, i) => {
       const r = ref.nativeElement.getBoundingClientRect();
-      const prev = this.letters[i];
+      const prev = this.springs[i];
       const x = prev?.x ?? 0;
       const y = prev?.y ?? 0;
       return {
@@ -202,7 +200,7 @@ export class ContactSection {
     const els = this.chars();
     let moving = false;
 
-    this.letters.forEach((l, i) => {
+    this.springs.forEach((l, i) => {
       l.vx = (l.vx + (l.tx - l.x) * SPRING_STIFFNESS * k) * damping;
       l.vy = (l.vy + (l.ty - l.y) * SPRING_STIFFNESS * k) * damping;
       l.x += l.vx * k;
@@ -227,23 +225,16 @@ export class ContactSection {
   }
 
   // ---------------------------------------------------------------------------
-  // Fit: the address block (whatever its row layout) fills the row's width without
-  // overflowing its height. Its size scales linearly with the font size.
+  // Width: replace the estimate with the measured width (in ems) once Geist has loaded.
   // ---------------------------------------------------------------------------
-  private fit(): void {
-    const zone = this.zone().nativeElement;
+  private correctWidth(): void {
     const mail = this.mail().nativeElement;
-    const current = parseFloat(getComputedStyle(mail).fontSize);
-    // Layout size, not the rect: the curtain scales the whole stage while it's covered.
-    const width = mail.offsetWidth;
-    const height = mail.offsetHeight;
-    if (!current || !width || !height) return;
-
-    const byWidth = (zone.clientWidth / width) * current;
-    const byHeight = (zone.clientHeight / height) * current;
-    this.fontPx = Math.floor(Math.min(byWidth, byHeight) * FIT_MARGIN);
-    mail.style.setProperty('--mail-size', `${this.fontPx}px`);
-    if (this.letters.length) this.measureLetters();
+    const size = parseFloat(getComputedStyle(mail).fontSize);
+    // Layout size, not the rect: the scroll-driven stage transitions scale the stage.
+    const width = mail.scrollWidth;
+    if (!size || !width) return;
+    const em = +(width / size).toFixed(3);
+    if (Math.abs(em - this.mailEm()) > 0.01) this.mailEm.set(em);
   }
 }
 

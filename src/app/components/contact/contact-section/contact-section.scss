@@ -1,266 +1,177 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "The next step": a contained closing section — heading, one line of availability, the
+// email as one solid display line (letters lean toward the cursor on desktop; a tap copies
+// it on touch), then the ways to reach me.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
 }
 
-$ease-close: cubic-bezier(0.4, 0, 0.2, 1);
-
-// ---------------------------------------------------------------------------
-// Frame — exactly one viewport. It sits pinned beneath the page (see the
-// .stage--curtain rules in styles.scss) and is uncovered as Education lifts.
-// ---------------------------------------------------------------------------
 .ct {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: clamp(0.75rem, 2svh, 1.5rem);
-  height: 100svh;
-  padding: 1.25rem 1.25rem 0;
-  overflow: hidden;
-  isolation: isolate;
-  background: #0c0c0c;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px var(--gutter) var(--dock-clear);
+  background: var(--bg);
 }
 
-// One cold spotlight low behind the address.
-.ct::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(55% 45% at 38% 58%, rgb(255 255 255 / 4.5%), transparent 70%);
-}
-
-.ct__head,
-.ct__zone,
-.actions {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
+// ---------------------------------------------------------------------------
+// Head
+// ---------------------------------------------------------------------------
 .ct__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 4px 16px;
 }
 
 .ct__kicker,
 .ct__meta {
-  font-size: 0.6875rem;
+  margin: 0;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.ct__title {
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--muted);
 }
 
 .ct__meta {
   margin-left: auto;
-  font-variant-numeric: tabular-nums;
+}
+
+.ct__title {
+  order: 3;
+  width: 100%;
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.ct__lede {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: #c8c8c8;
 }
 
 // ---------------------------------------------------------------------------
-// The address — Cabinet Extrabold, fitted in JS (--mail-size) so the widest line
-// spans the row. Outline at rest, pure white on hover / focus.
+// The address: one line, sized from its width in ems against the zone's width, capped.
 // ---------------------------------------------------------------------------
 .ct__zone {
-  display: grid;
-  align-items: center;
-  min-height: 0;
+  container-type: inline-size;
+  padding-block: 8px;
 }
 
 .mail {
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: start;
-  justify-items: start;
-  width: max-content;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--mail-size, min(13vw, 24svh));
-  line-height: 0.86;
-  letter-spacing: -0.045em;
+  display: inline-flex;
+  font-size: min(120px, calc(100cqi / var(--mail-em, 10)));
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--text);
   text-decoration: none;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(255 255 255 / 15%);
-  transition:
-    color 0.28s $ease-close,
-    -webkit-text-stroke-color 0.28s $ease-close;
+}
+
+// Each letter carries its own spring offset (inline `translate`, written by the component).
+.mail__ch {
+  display: inline-block;
+  will-change: translate;
 }
 
 .mail:focus-visible {
-  color: var(--color-white);
-  -webkit-text-stroke-color: rgb(255 255 255 / 0%);
-  transition:
-    color 0.6s var(--ease-luxe),
-    -webkit-text-stroke-color 0.6s var(--ease-luxe);
+  outline: 2px solid var(--text);
+  outline-offset: 6px;
+  border-radius: 4px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .mail:hover {
-    color: var(--color-white);
-    -webkit-text-stroke-color: rgb(255 255 255 / 0%);
-    transition:
-      color 0.6s var(--ease-luxe),
-      -webkit-text-stroke-color 0.6s var(--ease-luxe);
+// Touch only: how the address behaves, plus the mail-app path.
+.ct__touch {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+.ct__tap.is-copied {
+  color: var(--text);
+}
+
+.ct__mailto {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+@media (pointer: coarse) {
+  .ct__touch {
+    display: flex;
   }
 }
 
-.mail:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: 0.08em;
-}
-
-.mail__part {
-  white-space: nowrap;
-}
-
-// Desktop: local part on row one; the domain steps in on row two (split at the @),
-// an asymmetric stagger rather than a centred block.
-.mail__part:nth-child(1) {
-  grid-column: 1 / -1;
-}
-
-.mail__part:nth-child(2) {
-  padding-left: 0.55em;
-}
-
-.mail__ch {
-  display: inline-block;
-}
-
 // ---------------------------------------------------------------------------
-// Action row — 1px-ruled cells along the bottom edge, clock in the corner.
+// Actions: real 44px targets, hairline-separated.
 // ---------------------------------------------------------------------------
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  border-top: 1px solid var(--color-border);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
 }
 
 .act {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  padding: clamp(1rem, 2.6svh, 1.5rem) clamp(1rem, 1.8vw, 1.75rem);
+  gap: 6px;
+  min-height: 52px;
+  padding: 0;
   border: 0;
-  border-right: 1px solid var(--color-border);
-  background: transparent;
+  border-bottom: 1px solid var(--line);
+  background: none;
   font: inherit;
-  font-size: 0.75rem;
+  font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--text);
+  text-align: left;
   text-decoration: none;
-  color: var(--color-ink-mid);
   cursor: pointer;
-  transition:
-    color 0.28s $ease-close,
-    background-color 0.28s $ease-close;
+  transition: color 150ms ease-out;
 }
 
-.act:first-child {
-  padding-left: 0;
-}
-
-.act:focus-visible {
-  color: var(--color-white);
-  background-color: rgb(255 255 255 / 4%);
-  transition:
-    color 0.45s var(--ease-luxe),
-    background-color 0.45s var(--ease-luxe);
+.act.is-copied {
+  color: var(--muted);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .act:hover {
-    color: var(--color-white);
-    background-color: rgb(255 255 255 / 4%);
-    transition:
-      color 0.45s var(--ease-luxe),
-      background-color 0.45s var(--ease-luxe);
+    color: var(--muted);
   }
 }
 
-.act:first-child:focus-visible {
-  background-color: transparent;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .act:first-child:hover {
-    background-color: transparent;
-  }
-}
-
-.act:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: -1px;
-}
-
-.act__hint {
-  color: var(--color-ink-dim);
-  letter-spacing: 0.06em;
-}
-
-.act--phone {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.08em;
-}
-
-// Both labels share one grid cell, so the button keeps the wider width and the
-// swap is a quick crossfade rather than a layout jump.
-.act__swap {
-  display: grid;
-}
-
-.act__idle,
-.act__done {
-  grid-area: 1 / 1;
-  transition: opacity 0.12s linear;
-}
-
-.act__done {
-  opacity: 0;
-  color: var(--color-white);
-}
-
-.act--copy.is-copied .act__idle {
-  opacity: 0;
-}
-
-.act--copy.is-copied .act__done {
-  opacity: 1;
-}
-
-.clock {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-left: auto;
-  padding-left: clamp(1rem, 1.8vw, 1.75rem);
-  font-size: 0.75rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.clock__label {
-  color: var(--color-ink-dim);
-}
-
-.clock__time {
-  min-width: 8ch;
-  color: var(--color-white);
-  letter-spacing: 0.08em;
+.act:focus-visible,
+.ct__mailto:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 
 .sr-only {
@@ -273,109 +184,40 @@ $ease-close: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ---------------------------------------------------------------------------
-// Phones — same curtain; actions become a ruled 2-column grid above the dock band.
+// Tablet and up
 // ---------------------------------------------------------------------------
-@include bp.phone {
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
+  }
+
+  // The island floats top-centre from here up: the section starts below it.
   .ct {
-    padding: 0.75rem 0.75rem var(--dock-clear);
+    gap: 32px;
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
   }
 
-  .ct__head {
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-  }
-
-  .ct__title {
-    order: 3;
-    width: 100%;
-    font-size: 1.35rem;
-  }
-
-  // Thin strokes blur on phone screens: solid graphite instead of an outline.
-  // Three stepped rows (local / @domain / .tld) so the type can grow.
-  .mail {
-    grid-template-columns: auto;
-    color: #3a3a3a;
-    -webkit-text-stroke: 0;
-  }
-
-  .mail__part:nth-child(1) {
-    grid-column: auto;
-  }
-
-  .mail__part:nth-child(2) {
-    padding-left: 0.3em;
-  }
-
-  .mail__part:nth-child(3) {
-    padding-left: 0.9em;
+  .ct__lede {
+    font-size: 18px;
+    line-height: 28px;
   }
 
   .actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 40px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
-  .act,
-  .act:first-child {
-    justify-content: space-between;
-    padding: 0.85rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.6875rem;
-  }
-
-  .act:nth-child(2n) {
-    border-right: 0;
-  }
-
-  .clock {
-    justify-content: space-between;
-    margin: 0;
-    padding: 0.85rem 0.75rem;
-    gap: 0.4rem;
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-  }
-
-  .clock__label:last-child {
-    display: none;
+  .act {
+    border-bottom: 0;
   }
 }
 
-@include bp.tablet-up-short {
-  .ct {
-    height: auto;
-    min-height: 100svh;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Touch ergonomics — action cells are at least 44px tall.
-// ---------------------------------------------------------------------------
-@include bp.phone {
-  .act,
-  .act:first-child {
-    min-height: 2.75rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mail {
-    color: var(--color-white);
-    -webkit-text-stroke: 0;
-    transition: none;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Readable on phones and tablets: text people read or tap is at least 14px
-// (the small uppercase labels and counters stay as designed).
-// ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .act,
-  .act:first-child {
-    font-size: 0.875rem;
-    letter-spacing: 0.06em;
+@include bp.desktop-up {
+  .ct__title {
+    order: 0;
+    width: auto;
   }
 }

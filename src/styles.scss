@@ -279,126 +279,14 @@ html.has-snap {
 }
 
 // ---------------------------------------------------------------------------
-// Curtain finale: Contact (.stage--curtain) is pinned beneath the page, and the
-// stage before it (.stage--lift) slides up and off it like a lifted sheet,
-// casting a heavy shadow onto it. Painting order is explicit: every stage sits
-// above the curtain even though the curtain comes last in the DOM.
+// The closing section (Contact) is contained, not a full-viewport stage.
 // ---------------------------------------------------------------------------
 app-home-page {
   display: block;
-  // Lets the curtain animate on the lifting stage's view timeline.
-  timeline-scope: --curtain;
 }
 
-.stage {
-  z-index: 1;
-}
-
-.stage--lift {
-  view-timeline-name: --curtain;
-  border-radius: var(--radius-tile);
-  // Rounded bottom edge clips the stills; the shadow (outside the box) isn't clipped.
-  overflow: clip;
-  box-shadow:
-    0 2.5rem 5rem 0.5rem rgb(0 0 0 / 85%),
-    0 0.75rem 1.5rem rgb(0 0 0 / 60%);
-}
-
-.stage--lift::before {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.stage--curtain {
-  position: sticky;
-  bottom: 0;
-  z-index: 0;
-  border-radius: 0;
-  // Keeps the travelling shade (translated below the box at the start) from adding scroll area.
-  overflow: clip;
-}
-
-.stage--curtain::before {
-  content: none;
-}
-
-// Contact shadow: a black band that rides exactly on the lifting edge (the sheet's
-// bottom sits at (1 - progress) × 100svh, so a linear translate on the same
-// timeline tracks it). A box-shadow alone can't darken a surface that's already black.
-.stage--curtain::after {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 2;
-  height: 45svh;
-  background: linear-gradient(
-    180deg,
-    rgb(0 0 0 / 95%) 0%,
-    rgb(0 0 0 / 60%) 25%,
-    rgb(0 0 0 / 20%) 60%,
-    transparent 100%
-  );
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes curtain-shade {
-  from {
-    transform: translateY(100svh);
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 0;
-  }
-}
-
-// While it's covered the curtain rests slightly sunk and dark; it rises and
-// clears exactly as the sheet above it leaves the viewport.
-@keyframes curtain-rise {
-  from {
-    transform: translateY(-6%) scale(0.96);
-  }
-}
-
-@keyframes curtain-veil {
-  from {
-    opacity: 0.85;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    // The lifting sheet leaves cleanly instead of sinking back.
-    .stage--lift > .stage__inner,
-    .stage--lift > .stage__inner::after {
-      animation: none;
-    }
-
-    .stage--curtain > .stage__inner,
-    .stage--curtain > .stage__inner::after {
-      animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-      animation-fill-mode: both;
-      animation-timeline: --curtain;
-      animation-range: exit 0% exit 100%;
-    }
-
-    .stage--curtain > .stage__inner {
-      animation-name: curtain-rise;
-    }
-
-    .stage--curtain > .stage__inner::after {
-      animation-name: curtain-veil;
-    }
-
-    .stage--curtain::after {
-      animation: curtain-shade linear both;
-      animation-timeline: --curtain;
-      animation-range: exit 0% exit 100%;
-    }
-  }
+.stage--auto {
+  min-height: 0;
 }
 
 // Film grain over everything; purely decorative.

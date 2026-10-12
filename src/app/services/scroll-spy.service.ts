@@ -41,9 +41,13 @@ export class ScrollSpyService {
     this.updateActiveSection();
   }
 
+  /**
+   * The last visible section in page order wins: a stage that's leaving sinks (and shifts
+   * down) behind the next one, so where two overlap the later one is the sheet on top.
+   */
   private updateActiveSection(): void {
     const sections = document.querySelectorAll<HTMLElement>('[data-spy-section]');
-    for (const section of Array.from(sections)) {
+    for (const section of Array.from(sections).reverse()) {
       if (this.visibleSectionIds.has(section.id)) {
         this.activeSectionId.set(section.id);
         return;

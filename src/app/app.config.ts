@@ -14,7 +14,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
     ),
-    // Anchor scrolling that understands the sticky Contact curtain (see SectionScroller).
+    // Anchor scrolling that measures sections at their layout position (see SectionScroller).
     { provide: ViewportScroller, useClass: SectionScroller },
     provideClientHydration(),
   ],
