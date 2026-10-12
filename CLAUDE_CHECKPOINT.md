@@ -90,17 +90,21 @@ Gotchas:
 ## 4. Open items
 
 **Waiting on the user (don't change without an answer):**
-- Résumé PDFs (repo root and `public/assets/me/OTAR DAVITASHVILI.pdf`, the "Download CV" file) say freelance
-  09/2024; the user confirmed **Sep 2022** (the site is right). The user updates the CV, then swap the files.
+- **CV:** built by `scripts/cv/` (see its README) in two variants, iGaming and Founding-Engineer, both 2 pages.
+  The site's "Download CV" (`CONTACT.resumeUrl`) serves the Founding-Engineer PDF at
+  `public/assets/me/Otar-Davitashvili-CV.pdf`; the old `OTAR DAVITASHVILI.pdf` path holds the same file so old
+  links get the new CV. The repo-root `Otar Davitashvili Resume.pdf` is the OLD résumé (freelance 09/2024,
+  "Banana X"): superseded, never use it as a source. Lumina Games' "GLI-certified" comes from the user; no
+  reference number yet.
 - W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
   set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
 - FastAPI and MySQL have no project evidence (kept by request). Firebase (TatooGen) and NGINX (Shello,
   GiftShop-app) now do.
-- Lean Tech and Icecat are on the site but not on the résumé (kept).
+- Lean Tech and Icecat were missing from the old résumé; both are on the site and in the new CVs.
 - The slot provider project is **Lumina Games** (game: **Vault 20K**, the repo's casing), never "Provider" /
   "Banana X" (user correction, 2026-10-12). Slug `lumina-games`; the old `/work/provider-banana-x-engine`
-  redirects. Check the résumé PDFs for the old name when the CV is next updated.
+  redirects.
 - Akhali Sakhli and PetC have no repo; their entries are unverified. PetC ran Dec 2025 – Jun 2026 (user
   confirmed); its status stays "in production" (the platform, not the engagement).
 - Kept but unproven by the repos: Shello "pre-order import" (owner fact) and the `lessons` texts.

@@ -1,0 +1,9 @@
+{
+  "name": "cv",
+  "private": true,
+  "description": "Builds the CV variants (DOCX via docx-js, PDF via Word) from content.mjs. Not part of the app build.",
+  "type": "module",
+  "dependencies": {
+    "docx": "^9.10.0"
+  }
+}
