@@ -1,7 +1,8 @@
 # CLAUDE_CHECKPOINT — resume point
 
 > Last updated: 2026-10-12. Read this file **and** `CLAUDE.md` before touching code.
-> `main` is clean and deployed (Vercel). Last merged: case-study "Dossier" redesign (`/work/:slug`).
+> `main` is clean and deployed (Vercel). Last merged: #39 (CV without the GLI claim). The 2026-10-12 session
+> shipped the case-study redesign (#28), the repo facts audit (#30), the CV generator and its refreshes (#31–#39).
 
 ---
 
@@ -90,13 +91,6 @@ Gotchas:
 ## 4. Open items
 
 **Waiting on the user (don't change without an answer):**
-- **CV:** built by `scripts/cv/` (see its README) in two variants, iGaming and Founding-Engineer, both 2 pages.
-  The site's "Download CV" (`CONTACT.resumeUrl`) serves the Founding-Engineer PDF at
-  `public/assets/me/Otar-Davitashvili-CV.pdf`; the old `OTAR DAVITASHVILI.pdf` path holds the same file so old
-  links get the new CV. The old repo-root `Otar Davitashvili Resume.pdf` (freelance 09/2024, "Banana X") was
-  deleted on 2026-10-12 at the user's request; git history has it.
-  Lumina Games has NO GLI certification (user confirmed 2026-10-12: "this is not production"); never
-  claim it. RTP is validated in-house only.
 - W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
   set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
@@ -119,6 +113,10 @@ CLAUDE.md deploy URL are stale; the stm32-f767 MQTT repo commits a 146 MB `Debug
 README (GiftShop-app, public-vending-machine-oop, otar.davitashvili.final, the RS-485 repo).
 
 **Next work, in order:**
+0. Provider repo (offered, not done, needs the user's go-ahead): its public `CHECKPOINT.md` and
+   `website/index.html` still claim GLI certification; change to "RTP validated in-house; GLI planned". Optionally
+   add the RGS load test (a copy is kept at `scripts/cv/evidence/lumina-rgs-load-test.ts`; it runs inside
+   the Provider repo's `platform/`) so the CV's numbers are reproducible.
 1. Phone polish: Experience rule when all rows are collapsed (pick a default row), Skills tap hint, Education
    "Expected" label at the screen edge, BTU logo, Contact gap.
 2. Mobile performance (Lighthouse perf ~55) and SEO (case studies now set their own title + description).
@@ -127,3 +125,34 @@ README (GiftShop-app, public-vending-machine-oop, otar.davitashvili.final, the R
 4. Delete the now-unused `components/shared/{glass-card,badge-chip,metric-tile}` (and `count-up` directive if
    still unused) — removal was blocked by a permission prompt in the Dossier session; needs the user's OK.
 5. Delete the orphan `pr-assets/*` screenshot branches once the user no longer needs them.
+6. Optional: the site's own headline still says "Full-Stack Engineer" (`src/index.html` title, hero); the CVs
+   position the user as "Founding Engineer". Pitch before changing the hero.
+
+---
+
+## 5. CV (`scripts/cv/`, see its README)
+
+Two variants from one content file (`content.mjs`): **iGaming** ("Founding Engineer · iGaming Platforms, Risk &
+Integrity", for targeted applications) and **Founding-Engineer** (general; the site's "Download CV"). Both must stay
+exactly 2 pages (A4, Segoe UI, one teal accent, ATS-safe: no letter-spaced headings, real tab stops).
+`node build.mjs` → `export-pdf.ps1` (Word) → copy the Founding-Engineer PDF to
+`public/assets/me/Otar-Davitashvili-CV.pdf` **and** `public/assets/me/OTAR DAVITASHVILI.pdf` (old URL). The built
+files and `Otar-Davitashvili-LinkedIn-and-Cover-Letter.md` live in the repo root, gitignored (public repo).
+
+Facts on the CV and where they come from (never add numbers without a source; the user asked for "good numbers"
+once and was refused):
+- Lumina Games: part-time venture, not incorporated, pre-launch (demo live, RGS not hosted). **No GLI
+  certification, never claim it.** RTP: `qa/rtp-certification-report*.md` in the Provider repo (30M seeded rounds per
+  mode; second seed 200M; pooled base 96.359% ± 0.073). Security: `qa/security/findings-register.md` (internal
+  review, 8 findings, 2 High). Load test (2026-10-12, i7-12700K, one Node process, in-memory, sandbox wallet, real
+  HTTP, N sessions spinning back to back): ~1,150 spins/s plateau from 10 sessions, p99 13 ms at 10, 0 errors over
+  69k spins, `/admin/v1/reports/reconciliation` diff 0.
+- Betlive: from the user's 8 monthly team reports (own rows only; never store colleagues' names): up to 3,300
+  items/month, top 3 of 11–12 by monthly volume in 5 of 8 months, #1 twice.
+- HeatFlow: Lighthouse measured 2026-10-12 (mobile perf 97, desktop 100, SEO 100). Other client sites scored
+  44–75 on performance and are not cited.
+- Lean Tech: no clients; the user trained a 5-person team from zero coding experience; they built house
+  detection systems and pneumatic mechanism prototypes.
+- PetC: user built profiles, Instagram-style stories, search, scrolling feeds, QR-code pages, forms.
+- An external AI review scored an earlier draft 6/10; its valid points were fixed (#36). The remaining gap is real
+  production use (operators, traffic), which only the user can add.

@@ -19,3 +19,6 @@ embedded fonts next to each DOCX and prints the page count (both variants must s
   `public/assets/me/Otar-Davitashvili-CV.pdf` and `public/assets/me/OTAR DAVITASHVILI.pdf` (old URL).
 - ATS rules the layout follows: single column, real text, standard tab stops for the right-aligned
   dates, no letter-spaced headings (they extract as "E X P E R I E N C E").
+
+`evidence/lumina-rgs-load-test.ts` is the load test behind the Lumina Games numbers (run it inside the Provider repo's
+`platform/`, see its header).
