@@ -842,7 +842,7 @@ export const PROJECTS: Projects[] = [
     slug: 'petc-platform',
     projName: 'PetC Platform',
     subname: 'Production-Grade Angular Application',
-    date: 'Dec 2025-Present',
+    date: 'Dec 2025 – Jun 2026',
     about:
       'PetC Platform is a production-grade Angular application focused on shipping high-impact features with long-term maintainability. The frontend architecture uses Standalone Components, Signals, Lazy Loading, and modular boundaries to improve team velocity and reduce coupling between feature areas. Delivery work included feature stabilization, cleaner route-level loading strategy, and performance improvements through intentional code splitting aligned with real product usage.',
     numOfPage: 0,

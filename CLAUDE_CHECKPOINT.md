@@ -101,8 +101,8 @@ Gotchas:
 - The slot provider project is **Lumina Games** (game: **Vault 20K**, the repo's casing), never "Provider" /
   "Banana X" (user correction, 2026-10-12). Slug `lumina-games`; the old `/work/provider-banana-x-engine`
   redirects. Check the résumé PDFs for the old name when the CV is next updated.
-- Akhali Sakhli and PetC have no repo; their entries are unverified. PetC: the experience says
-  "Dec 2025 – Jun 2026" but the project says "Dec 2025-Present" / in production — ask which is right.
+- Akhali Sakhli and PetC have no repo; their entries are unverified. PetC ran Dec 2025 – Jun 2026 (user
+  confirmed); its status stays "in production" (the platform, not the engagement).
 - Kept but unproven by the repos: Shello "pre-order import" (owner fact) and the `lessons` texts.
 
 **Repo facts audit (2026-10-12):** every PROJECTS entry was checked against its GitHub repo (one agent per
