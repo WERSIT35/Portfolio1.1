@@ -1,59 +1,50 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "On the record": an issuer wall over a ledger of certificates. Highlighting a mark (hover,
+// focus or tap) dims the other issuers' rows; hovering a row lights its mark and, on desktop,
+// brings its certificate into the preview. A row opens the certificate at full size.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
 }
 
-// ---------------------------------------------------------------------------
-// Frame — exactly one viewport; the island floats over it (no clearance).
-// ---------------------------------------------------------------------------
 .cx {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(0.75rem, 2svh, 1.5rem);
-  height: 100svh;
-  padding: 1.25rem;
-  overflow: hidden;
-  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 24px var(--gutter) var(--dock-clear);
+  background: var(--bg);
 }
 
-// One soft top-light behind the deck: the "gallery spot".
-.cx::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(38% 55% at 64% 42%, rgb(255 255 255 / 5%), transparent 70%);
-}
-
-.cx__head,
-.cx__body {
-  width: min(100%, 110rem);
-  margin-inline: auto;
-}
-
+// ---------------------------------------------------------------------------
+// Head
+// ---------------------------------------------------------------------------
 .cx__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 4px 16px;
 }
 
 .cx__kicker,
 .cx__count {
-  font-size: 0.6875rem;
+  margin: 0;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  line-height: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.cx__title {
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--muted);
 }
 
 .cx__count {
@@ -61,350 +52,215 @@
   font-variant-numeric: tabular-nums;
 }
 
-.cx__count-now {
-  color: var(--color-white);
+.cx__title {
+  order: 3;
+  width: 100%;
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 .cx__body {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
-  gap: clamp(2rem, 4vw, 5rem);
-  min-height: 0;
-  border-top: 1px solid var(--color-border);
-  padding-top: clamp(1rem, 3svh, 2rem);
+  gap: 32px;
+  margin-top: 32px;
 }
 
 // ---------------------------------------------------------------------------
-// Detail column — each line rises out of a mask when the card changes.
+// The wall
 // ---------------------------------------------------------------------------
-.detail {
+.wall {
   display: grid;
-  align-content: center;
-  gap: clamp(0.6rem, 1.6svh, 1rem);
-  max-width: 32rem;
-  min-height: 0;
-}
-
-.line {
-  animation: line-in 0.9s var(--ease-luxe) backwards;
-  animation-delay: calc(var(--l, 0) * 70ms);
-}
-
-@keyframes line-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.9rem);
-    clip-path: inset(0 0 100% 0);
-  }
-}
-
-.detail__issuer span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-mid);
-}
-
-// Grid children size to the column, never to their text, so long issuer names,
-// descriptions and tags wrap inside it at every width.
-.detail > * {
-  min-width: 0;
-}
-
-.detail__issuer-name {
-  min-width: 0;
-}
-
-.detail__desc,
-.detail__issuer-name {
-  overflow-wrap: anywhere;
-}
-
-.detail__title {
-  font-weight: 800;
-  font-size: clamp(1.8rem, 3.3vw, 3.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  color: var(--color-white);
-}
-
-.detail__meta {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-.detail__desc {
-  font-size: clamp(0.9rem, 1vw, 1rem);
-  line-height: 1.6;
-  color: var(--color-ink-mid);
-}
-
-.detail__skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
-.detail__skills li {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  padding: 0.3rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  color: var(--color-ink-mid);
+.wall li + li {
+  border-left: 1px solid var(--line);
 }
 
-.detail__actions {
+.mark {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 16px 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.3s ease-out;
+}
+
+.wall li:first-child .mark {
+  padding-left: 0;
+}
+
+.mark__logo {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  // Strictly monochrome: the issuers' marks in greyscale until lit.
+  filter: grayscale(1) brightness(1.4);
+  opacity: 0.7;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.4s var(--ease-luxe);
+}
+
+.mark__name {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  transition: color 0.3s ease-out;
+}
+
+.mark__count {
+  font-size: clamp(28px, 8vw, 40px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.mark.is-on .mark__logo {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.mark.is-on .mark__name {
+  color: var(--text);
+}
+
+.mark.is-dim {
+  opacity: 0.35;
+}
+
+.mark:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+}
+
+// Desktop only.
+.preview {
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// The ledger
+// ---------------------------------------------------------------------------
+.ledger {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  border-bottom: 1px solid var(--line);
+  transition: opacity 0.3s ease-out;
+}
+
+.row.is-dim {
+  opacity: 0.3;
+}
+
+.row__open {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 16px;
+  grid-template-areas:
+    'index title arrow'
+    '. meta .';
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 6px;
+  width: 100%;
+  min-height: 44px;
+  padding: 16px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row__index {
+  grid-area: index;
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.row__title {
+  grid-area: title;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  transition: transform 0.4s var(--ease-luxe);
+}
+
+.row__meta {
+  grid-area: meta;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-top: 0.5rem;
-}
-
-.action {
-  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.1rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  background: transparent;
-  font: inherit;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-white);
-  text-decoration: none;
-  cursor: pointer;
+  gap: 4px 6px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+.row__meta app-issuer-logo {
+  margin-right: 2px;
+  filter: grayscale(1) brightness(1.4);
+  opacity: 0.8;
+}
+
+.row__arrow {
+  grid-area: arrow;
+  align-self: center;
+  color: var(--muted);
   transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
+    transform 150ms ease-out,
+    color 150ms ease-out;
 }
 
-.action--primary {
-  background: var(--color-white);
-  border-color: var(--color-white);
-  color: #0a0a0a;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .action:hover {
-    background: var(--color-white);
-    border-color: var(--color-white);
-    color: #0a0a0a;
-  }
+.row__open:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .action--primary:hover {
-    background: var(--color-accent);
+  .mark:hover .mark__logo {
+    opacity: 1;
+  }
+
+  .row__open:hover .row__title {
+    transform: translateX(6px);
+  }
+
+  .row__open:hover .row__arrow {
+    color: var(--text);
+    transform: translate(2px, -2px);
   }
 }
 
-.action:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: 3px;
-}
-
 // ---------------------------------------------------------------------------
-// Deck
-// ---------------------------------------------------------------------------
-.stage3d {
-  position: relative;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 1rem;
-  min-height: 0;
-}
-
-.deck {
-  // Plate width: as large as fits the deck box at the certificates' ~1.35:1 ratio.
-  --pw: min(82cqw, calc(70cqh * 1.35));
-
-  position: relative;
-  min-height: 0;
-  container-type: size;
-  perspective: 1600px;
-  perspective-origin: 50% 35%;
-  // Vertical page scroll and pinch-zoom stay native; horizontal drags page the deck.
-  touch-action: pan-y pinch-zoom;
-  user-select: none;
-  cursor: grab;
-  outline: none;
-}
-
-.deck:active {
-  cursor: grabbing;
-}
-
-.deck:focus-visible {
-  outline: 1px solid var(--color-border-strong);
-  outline-offset: 6px;
-  border-radius: var(--radius-tile);
-}
-
-// Default (server render / reduced motion) stack from --d; the spring loop takes over
-// with inline transforms once the page is interactive.
-.plate {
-  position: absolute;
-  inset: 0;
-  width: var(--pw);
-  height: calc(var(--pw) / 1.35);
-  margin: auto;
-  transform: translate3d(0, calc(var(--d, 0) * 22px), calc(var(--d, 0) * -90px))
-    scale(calc(1 - var(--d, 0) * 0.055));
-  transform-origin: 50% 60%;
-  z-index: calc(100 - var(--d, 0) * 10);
-}
-
-.plate__glass {
-  position: relative;
-  height: 100%;
-  padding: clamp(0.5rem, 2cqmin, 1rem);
-  overflow: hidden;
-  border-radius: 1.25rem;
-  border: 1px solid var(--color-border-strong);
-  // Smoked glass without backdrop-filter: Chrome mis-orders backdrop-filtered layers
-  // inside 3D-transformed stacks (a back plate painted over the front one).
-  background:
-    linear-gradient(160deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 1%) 45%),
-    rgb(16 16 16 / 94%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 14%),
-    inset 0 0 0 1px rgb(255 255 255 / 3%),
-    0 60px 120px -50px rgb(0 0 0 / 95%);
-}
-
-.plate__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 0.6rem;
-  pointer-events: none;
-  filter: grayscale(1) brightness(0.7) contrast(1.05);
-  transition: filter 0.8s var(--ease-luxe);
-}
-
-.plate.is-front .plate__img {
-  filter: grayscale(1) brightness(0.95) contrast(1.05);
-}
-
-// Only the active front plate warms to full colour — on hover or keyboard focus.
-.deck.is-lit .plate.is-front .plate__img,
-.deck:focus-visible .plate.is-front .plate__img {
-  filter: none;
-}
-
-// Glass catching light: a soft highlight that tracks the (lerped) pointer.
-.plate__glare {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      45% 55% at var(--glare-x, 50%) var(--glare-y, 30%),
-      rgb(255 255 255 / 20%),
-      transparent 70%
-    ),
-    linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 5%) 48%, transparent 60%);
-  mix-blend-mode: screen;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease-luxe);
-}
-
-.deck.is-lit .plate.is-front .plate__glare,
-.deck:focus-visible .plate.is-front .plate__glare {
-  opacity: 1;
-}
-
-// ---------------------------------------------------------------------------
-// Controls
-// ---------------------------------------------------------------------------
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.controls__arrow {
-  display: grid;
-  place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--color-white);
-  cursor: pointer;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    opacity 0.3s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .controls__arrow:hover:not(:disabled) {
-    background: var(--color-white);
-    color: #0a0a0a;
-  }
-}
-
-.controls__arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-.controls__arrow:focus-visible,
-.controls__dots button:focus-visible {
-  outline: 1px solid var(--color-white);
-  outline-offset: 3px;
-}
-
-.controls__dots {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.controls__dots button {
-  width: 1.4rem;
-  height: 1rem;
-  padding: 0;
-  border: 0;
-  background: linear-gradient(rgb(255 255 255 / 20%), rgb(255 255 255 / 20%)) center / 100% 3px no-repeat;
-  cursor: pointer;
-  transition: background-size 0.5s var(--ease-luxe);
-}
-
-.controls__dots button.is-on {
-  background-image: linear-gradient(var(--color-white), var(--color-white));
-}
-
-.controls__hint {
-  position: absolute;
-  right: 0;
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
-}
-
-// ---------------------------------------------------------------------------
-// Lightbox — native <dialog> in the top layer.
+// Lightbox
 // ---------------------------------------------------------------------------
 .lightbox {
   width: 100vw;
@@ -415,7 +271,8 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--color-ink);
+  color: var(--text);
+  font-family: var(--font-geist);
 }
 
 .lightbox[open] {
@@ -425,7 +282,7 @@
 }
 
 .lightbox::backdrop {
-  background: rgb(5 5 5 / 82%);
+  background: rgb(5 5 5 / 86%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -439,240 +296,220 @@
 .lightbox__figure {
   display: grid;
   justify-items: center;
-  gap: 1rem;
+  gap: 16px;
   margin: 0;
-  padding: 1rem;
-  animation: lightbox-zoom 0.7s var(--ease-luxe) both;
+  padding: 72px 16px 24px;
+  animation: lightbox-zoom 0.6s var(--ease-luxe) both;
 }
 
 @keyframes lightbox-zoom {
   from {
     opacity: 0;
-    transform: scale(0.94) translateY(12px);
+    transform: scale(0.96) translateY(12px);
   }
 }
 
 .lightbox__figure img {
-  max-width: min(92vw, 1400px);
-  max-height: 78dvh;
+  max-width: min(92vw, 1200px);
+  max-height: 66dvh;
   object-fit: contain;
-  border-radius: 0.75rem;
-  border: 1px solid var(--color-border-strong);
-  box-shadow: 0 60px 140px -50px rgb(0 0 0 / 95%);
+  border: 1px solid var(--line);
+  border-radius: 12px;
 }
 
-.lightbox__figure figcaption {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  gap: 0.4rem 1.25rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-dim);
+.lightbox__caption {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  max-width: 64ch;
+  text-align: center;
 }
 
 .lightbox__issuer {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  align-self: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.lightbox__figure strong {
-  font-family: var(--font-display);
-  font-size: 1rem;
+.lightbox__issuer app-issuer-logo {
+  filter: grayscale(1) brightness(1.4);
+}
+
+.lightbox__title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
   letter-spacing: -0.01em;
-  text-transform: none;
-  color: var(--color-white);
+}
+
+.lightbox__desc {
+  font-size: 14px;
+  line-height: 21px;
+  color: #c8c8c8;
+}
+
+.lightbox__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 24px;
+}
+
+.lightbox__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(255 255 255 / 30%);
+}
+
+.lightbox__links a:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
 }
 
 .lightbox__close {
   position: fixed;
-  top: calc(env(safe-area-inset-top, 0px) + 1.25rem);
-  right: 1.25rem;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  right: 16px;
   display: grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-border-strong);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
   border-radius: 999px;
   background: rgb(18 18 18 / 70%);
-  color: var(--color-white);
+  color: var(--text);
   cursor: pointer;
-  backdrop-filter: blur(12px);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .lightbox__close:hover {
-    background: var(--color-white);
+    background: var(--text);
     color: #0a0a0a;
   }
 }
 
 .lightbox__close:focus-visible {
-  outline: 1px solid var(--color-white);
+  outline: 2px solid var(--text);
   outline-offset: 3px;
 }
 
 // ---------------------------------------------------------------------------
-// Tablet
+// Tablet and up
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .cx__body {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 2rem;
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
   }
 
-  .detail__desc {
-    display: none;
+  // The island floats top-centre from here up: the section starts below it.
+  .cx {
+    padding: calc(var(--island-top) + var(--island-h) + 16px) var(--gutter) 48px;
+  }
+
+  .cx__body {
+    margin-top: 40px;
+  }
+
+  .mark {
+    padding: 20px 24px;
+  }
+
+  .row__open {
+    grid-template-columns: 40px minmax(0, 1fr) auto 16px;
+    grid-template-areas: 'index title meta arrow';
+    column-gap: 16px;
+    padding: 20px 0;
+  }
+
+  .row__title {
+    font-size: clamp(20px, 1.75vw, 26px);
+  }
+
+  .row__meta {
+    justify-content: flex-end;
+    text-align: right;
   }
 }
 
 // ---------------------------------------------------------------------------
-// Below desktop the head row can't keep the top-centred island's spot empty, so
-// the title drops to its own line at the left, clear of it.
+// Desktop: the wall and the paper on the left, the ledger on the right.
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .cx__head {
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
+@include bp.desktop-up {
+  .cx__title {
+    order: 0;
+    width: auto;
   }
 
-  .cx__title {
+  .cx__body {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: 56px;
+    align-items: start;
+  }
+
+  .side {
+    display: grid;
+    gap: 32px;
+  }
+
+  .preview {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    margin: 0;
+  }
+
+  .preview__img {
+    position: absolute;
+    inset: 0 0 28px;
     width: 100%;
-    order: 3;
+    height: calc(100% - 28px);
+    object-fit: contain;
+    object-position: left center;
+    filter: grayscale(1);
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+    transition:
+      opacity 0.35s ease-out,
+      transform 0.6s var(--ease-luxe);
+  }
+
+  .preview__img.is-on {
+    opacity: 1;
+    transform: none;
+  }
+
+  .preview__caption {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 }
 
-// ---------------------------------------------------------------------------
-// Phones — deck on top, compact detail below; everything inside 100svh.
-// ---------------------------------------------------------------------------
-@include bp.phone {
-  .cx {
-    padding: 0.75rem 0.75rem var(--dock-clear);
-  }
-
-  .cx__title {
-    font-size: 1.35rem;
-  }
-
-  .cx__body {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 0.75rem;
-    padding-top: 0.75rem;
-  }
-
-  .stage3d {
-    order: -1;
-    gap: 0.6rem;
-  }
-
-  .deck {
-    --pw: min(88cqw, calc(78cqh * 1.35));
-  }
-
-  .detail {
-    gap: 0.45rem;
-    max-width: none;
-  }
-
-  .detail__title {
-    font-size: 1.5rem;
-  }
-
-  .detail__desc,
-  .controls__hint {
-    display: none;
-  }
-
-  .action {
-    padding: 0.55rem 0.9rem;
-  }
-
-  .controls {
-    justify-content: space-between;
-  }
-}
-
-// Touch, at any width: eight 22px dots can't all be 44px targets. Swipe + 44px arrows
-// page the deck, and the head already reads "03 / 08", so the dots step aside.
-@include bp.touch {
-  .action {
-    min-height: 2.75rem;
-  }
-
-  .controls__dots {
-    display: none;
-  }
-
-  .controls__arrow {
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-}
-
-@include bp.phone-shorter-than(721px) {
-  .detail__skills {
-    display: none;
-  }
-}
-
-// Short desktop screens: grow instead of crushing the deck.
-@include bp.tablet-up-short {
-  .cx {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .stage3d {
-    height: 30rem;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Reduced motion — a flat carousel: plates crossfade in place, no 3D, no peel.
-// ---------------------------------------------------------------------------
 @media (prefers-reduced-motion: reduce) {
-  .plate {
-    transform: none !important;
-    opacity: 0 !important;
-    visibility: visible !important;
-    transition: opacity 0.5s ease;
-  }
-
-  .plate.is-front {
-    opacity: 1 !important;
-  }
-
-  .line,
+  .mark,
+  .mark__logo,
+  .row,
+  .row__title,
+  .row__arrow,
+  .preview__img,
   .lightbox[open],
   .lightbox__figure {
-    animation: none;
-  }
-
-  .plate__img,
-  .plate__glare {
     transition: none;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Readable on phones and tablets: text people read or tap is at least 14px
-// (the small uppercase labels and counters stay as designed).
-// ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .action,
-  .detail__issuer,
-  .detail__meta,
-  .detail__skills li {
-    font-size: 0.875rem;
-  }
-
-  // Tighter tracking keeps both actions on one row at the larger size.
-  .action {
-    letter-spacing: 0.06em;
+    animation: none;
   }
 }
