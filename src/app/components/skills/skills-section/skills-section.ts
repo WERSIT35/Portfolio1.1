@@ -9,7 +9,13 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { CERTIFICATIONS, EXPERIENCES, PROJECTS, SKILLS } from '../../../data/site-data';
+import {
+  CERTIFICATIONS,
+  EDUCATION_ITEMS,
+  EXPERIENCES,
+  PROJECTS,
+  SKILLS,
+} from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
 import { groupSkills } from '../../../utils/skill-groups';
 
@@ -49,19 +55,35 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 // ---------------------------------------------------------------------------
 const normal = (text: string) => text.toLowerCase().replace(/\s+/g, ' ').trim();
 const aliases = (name: string) =>
-  [...new Set([normal(name), ...name.split(/[()/]/).map(normal)])].filter(Boolean);
+  [
+    ...new Set([
+      normal(name),
+      // Parts around brackets, kept whole ("CI/CD") and also split at "/".
+      ...name.split(/[()]/).map(normal),
+      ...name.split(/[()/]/).map(normal),
+    ]),
+  ].filter(Boolean);
 const isPrefix = (long: string, short: string) =>
   short.length >= 3 &&
   long.startsWith(short) &&
   (long.length === short.length || /[\s.\-/]/.test(long[short.length]) || /\d/.test(short));
 const matches = (skill: string, stackItem: string) => {
   const item = normal(stackItem);
-  return aliases(skill).some((a) => item === a || isPrefix(item, a) || isPrefix(a, item));
+  // A stack item shorter than the skill counts only if it's a phrase ("REST API" for
+  // "REST API Design"); a single word ("Claude") is too generic to stand for "Claude Code".
+  return aliases(skill).some(
+    (a) => item === a || isPrefix(item, a) || (item.includes(' ') && isPrefix(a, item)),
+  );
 };
 const EVIDENCE_SOURCES = [
   ...PROJECTS.map((p) => ({ name: p.projName, stack: p.stack })),
   ...EXPERIENCES.map((e) => ({ name: e.company ?? e.role, stack: e.stack })),
   ...CERTIFICATIONS.map((c) => ({ name: c.imageName[0] ?? c.name, stack: c.skills })),
+  // Degree coursework (certificate paths are already covered by CERTIFICATIONS).
+  ...EDUCATION_ITEMS.filter((e) => /^(BSc|MSc)\b/.test(e.degree)).map((e) => ({
+    name: `${e.degree.replace(/\s*—.*$/, '')} coursework`,
+    stack: e.subjects,
+  })),
 ];
 const evidenceFor = (skill: string) =>
   EVIDENCE_SOURCES.filter((src) => src.stack.some((item) => matches(skill, item))).map(

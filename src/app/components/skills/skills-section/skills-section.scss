@@ -130,7 +130,7 @@
   display: flex;
   flex: none;
   column-gap: var(--word-gap);
-  font-size: clamp(36px, 4.8vw, 72px);
+  font-size: clamp(36px, 4.2vw, 64px);
   will-change: transform;
 }
 
@@ -344,7 +344,7 @@
   }
 
   .band {
-    padding: 10px 0;
+    padding: 8px 0;
   }
 
   .band__detail {

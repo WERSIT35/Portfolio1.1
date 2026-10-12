@@ -86,11 +86,14 @@
     @if (detail(); as s) {
       <div class="card__top">
         <span class="card__category">{{ s.category }}</span>
-        <span class="card__rating" [attr.aria-label]="'Proficiency ' + s.rating + ' of 5'">
-          @for (dot of dots; track dot) {
-            <i [class.is-on]="dot <= s.rating"></i>
-          }
-        </span>
+        <!-- No recorded self-rating (0): no dots, rather than an invented number. -->
+        @if (s.rating) {
+          <span class="card__rating" [attr.aria-label]="'Proficiency ' + s.rating + ' of 5'">
+            @for (dot of dots; track dot) {
+              <i [class.is-on]="dot <= s.rating"></i>
+            }
+          </span>
+        }
       </div>
       <p class="card__name">{{ s.name }}</p>
       @if (s.evidence.length) {
