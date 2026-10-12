@@ -15,6 +15,7 @@ NG_ALLOWED_HOSTS=localhost PORT=4100 node dist/Portfolio/server/server.mjs
 | `cover.mjs <outDir> [baseUrl]` | Hero: screenshots + luminance under the letters that cross the photo. |
 | `xp.mjs <outDir> [baseUrl]` | Experience ledger layout + interactions. |
 | `certifications.mjs` | Certifications wall/ledger/lightbox with mouse, keyboard and touch. |
+| `case-study.mjs <outDir> [baseUrl]` | Case study: chapter rail, next-case lens (mouse, keyboard, none on touch), lightbox arrows/Esc, next-case navigation. |
 
 Lighthouse: `npx lighthouse http://localhost:4100/ --only-categories=accessibility,best-practices [--preset=desktop] --chrome-flags="--headless=new"`.
 

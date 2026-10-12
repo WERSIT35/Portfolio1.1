@@ -1,365 +1,1058 @@
 @use 'breakpoints' as bp;
 
+// ---------------------------------------------------------------------------
+// "Dossier" — the Cover language for a case study: Geist, monochrome, hairlines, edge to
+// edge. Signature: the chapter rail fills as you read and the current number turns ink.
+// Hovers echo the projects index: plates light up from greyscale, the next case's name
+// turns white and inverts where it crosses the trailing lens.
+// ---------------------------------------------------------------------------
 :host {
+  --bg: #0a0a0a;
+  --line: rgb(255 255 255 / 12%);
+  --text: #fafafa;
+  --muted: #a1a1a1;
+  --body: #c8c8c8;
+  // Grey at rest: 4.7:1 on the ground (AA at any size).
+  --rest: #7b7b7b;
+  --gutter: 16px;
+  --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-edge: cubic-bezier(0.7, 0, 0.2, 1);
+
   display: block;
+  font-family: var(--font-geist);
+  color: var(--text);
+  background: var(--bg);
 }
 
-.detail {
-  max-width: 72rem;
-  margin-inline: auto;
-  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 4rem) clamp(4rem, 8vw, 7rem);
-}
-
-.detail__back {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  gap: 0.4rem;
-  margin-bottom: 2.5rem;
-  padding: 0.55rem 1rem 0.55rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: color-mix(in srgb, white 3%, transparent);
-  color: var(--color-ink-dim);
-  font-size: 0.875rem;
-  text-decoration: none;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .detail__back:hover {
-    color: var(--color-ink);
-    border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 50%, transparent);
-    transform: translateX(-2px);
-  }
-}
-
-.detail__header {
-  margin-bottom: 2.5rem;
-}
-
-.detail__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.detail__status {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  color: var(--color-ink-dim);
-}
-
-.detail__status[data-status='live'] {
-  color: var(--color-accent);
-  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
-}
-
-.detail__year {
-  font-size: 0.8125rem;
-  color: var(--color-ink-dim);
-}
-
-.detail__title {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  color: var(--color-ink);
-  margin: 0 0 0.85rem;
-}
-
-.detail__subname {
-  max-width: 42rem;
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  color: var(--color-ink-dim);
-  margin: 0;
-}
-
-.detail__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.75rem;
-}
-
-.detail__link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  gap: 0.4rem;
-  padding: 0.65rem 1.15rem;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  border: 1px solid var(--color-border);
-  color: var(--color-ink);
-  background: color-mix(in srgb, white 3%, transparent);
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .detail__link:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--project-accent, var(--color-accent)) 55%, transparent);
-  }
-}
-
-.detail__link--primary {
-  background: var(--project-accent, var(--color-accent));
-  color: #0a0a0a;
-  border-color: transparent;
-}
-
-.detail__cover {
-  border-radius: 1.25rem;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  margin-bottom: 3rem;
-  max-height: 32rem;
-}
-
-.detail__cover img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-height: 32rem;
-  object-fit: cover;
-}
-
-.detail__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 20rem;
-  gap: clamp(2rem, 4vw, 3.5rem);
-  align-items: start;
-}
-
-.detail__prose,
-.detail__sidebar,
-.detail__facts {
-  min-width: 0;
-}
-
-.detail__prose {
-  max-width: 42rem;
-}
-
-.detail__prose section {
-  margin-bottom: 2.75rem;
-}
-
-.detail__prose section:last-child {
-  margin-bottom: 0;
-}
-
-.detail__prose h2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.375rem;
-  letter-spacing: -0.01em;
-  color: var(--color-ink);
-  margin: 0 0 1rem;
-}
-
-.detail__prose p {
-  font-size: 1.0625rem;
-  line-height: 1.85;
-  color: var(--color-ink-mid);
-  margin: 0;
-}
-
-.detail__prose ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.detail__prose li {
+.cs {
   position: relative;
-  padding-left: 1.25rem;
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--color-ink-mid);
+  padding: 24px var(--gutter) 0;
 }
 
-.detail__prose li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.65em;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--project-accent, var(--color-accent));
-}
-
-.detail__lessons {
-  padding-left: 1.1rem;
-  border-left: 2px solid var(--project-accent, var(--color-accent));
-  font-style: italic;
-  color: var(--color-ink) !important;
-}
-
-.detail__sidebar {
-  position: sticky;
-  top: 6rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.detail__facts-label {
-  font-size: 0.75rem;
+.kicker,
+.bar__case,
+.bar__when,
+.bar__back,
+.fact dt,
+.chapter__name,
+.plate__label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
-  margin: 0 0 1rem;
+  color: var(--muted);
 }
 
-// One tile per row in the narrow sidebar and on phones; two or more once there's room.
-.detail__metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.75rem), 1fr));
-  gap: 0.6rem;
+a {
+  color: inherit;
 }
 
-.detail__stack {
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+// ---------------------------------------------------------------------------
+// Bar
+// ---------------------------------------------------------------------------
+.bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0 24px;
+  margin-bottom: 24px;
 }
 
-.detail__gallery,
-.detail__embed {
-  margin-top: 4rem;
-}
-
-.detail__gallery h2,
-.detail__embed h2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.375rem;
-  letter-spacing: -0.01em;
-  color: var(--color-ink);
-  margin: 0 0 1.5rem;
-}
-
-.detail__gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-  gap: 1rem;
-}
-
-.detail__gallery-grid img {
-  display: block;
-  width: 100%;
-  height: 14rem;
-  object-fit: cover;
-  border-radius: 1rem;
-  border: 1px solid var(--color-border);
-}
-
-.detail__gallery-placeholder,
-.detail__embed-placeholder {
-  min-height: 12rem;
-  border-radius: 1rem;
-  border: 1px dashed var(--color-border);
-}
-
-.detail__embed-frame {
-  position: relative;
-  border-radius: 1.25rem;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  aspect-ratio: 16 / 10;
-}
-
-.detail__embed-frame iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-@include bp.below-desktop {
-  .detail__body {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .detail__sidebar {
-    position: static;
-  }
-}
-
-@include bp.phone {
-  // <main> reserves the docked island's band (styles.scss); this is just breathing room.
-  .detail {
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
-  }
-
-  .detail__back {
-    margin-bottom: 1.75rem;
-  }
-
-  .detail__header {
-    margin-bottom: 1.75rem;
-  }
-
-  .detail__cover {
-    margin-bottom: 2rem;
-  }
-
-  .detail__prose section {
-    margin-bottom: 2rem;
-  }
-
-  .detail__gallery,
-  .detail__embed {
-    margin-top: 2.5rem;
-  }
-}
-
-.detail-missing {
-  max-width: 40rem;
-  margin: 6rem auto;
-  padding: 0 1.5rem;
-  text-align: center;
-  color: var(--color-ink-dim);
-}
-
-.detail-missing a {
-  display: inline-block;
-  margin-top: 1rem;
-  color: var(--color-accent);
+.bar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--text);
   text-decoration: none;
 }
 
+.bar__back span {
+  transition: translate 0.4s var(--ease-luxe);
+}
+
+.bar__case {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar__when {
+  display: none;
+}
+
 // ---------------------------------------------------------------------------
-// Readable on phones and tablets: text people read or tap is at least 14px
-// (the small uppercase labels and counters stay as designed).
+// Cover. Phones: name, then a full-bleed slab it crosses at the bottom line.
 // ---------------------------------------------------------------------------
-@include bp.below-desktop {
-  .detail__status,
-  .detail__year {
-    font-size: 0.875rem;
+.cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cover__name {
+  position: relative;
+  z-index: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: clamp(40px, 12.5vw, 64px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: #fff;
+  mix-blend-mode: difference;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  pointer-events: none;
+}
+
+.cover__slab {
+  position: relative;
+  grid-row: 2;
+  display: block;
+  margin: -0.55em calc(-1 * var(--gutter)) 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #1a1a1a;
+  font-size: clamp(40px, 12.5vw, 64px);
+  cursor: zoom-in;
+  clip-path: inset(0 0 0 0);
+}
+
+.cover__slab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  filter: grayscale(1) contrast(1.05);
+  transition:
+    filter 0.6s ease,
+    scale 1.2s var(--ease-luxe);
+}
+
+// No screens: a light spec plate, so the name inverts to ink over it like over a photo.
+.cover__slab--spec {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 20px var(--gutter);
+  background: #e8e8e8;
+  color: #0a0a0a;
+  text-align: right;
+  cursor: default;
+}
+
+.cover__slab--spec .plate__label {
+  color: #555;
+}
+
+.plate__value {
+  margin: 0;
+  font-size: clamp(36px, 11vw, 112px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.plate__stack {
+  max-width: 32ch;
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: #444;
+}
+
+.cover__sub {
+  grid-row: 3;
+  margin: 20px 0 0;
+  max-width: 40ch;
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+.cover__links {
+  grid-row: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 28px;
+  margin: 8px 0 0;
+}
+
+.cover__links a,
+.next__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: rgb(255 255 255 / 30%);
+  transition: text-decoration-color 0.3s ease;
+}
+
+// ---------------------------------------------------------------------------
+// Colophon. Phones: label/value rows.
+// ---------------------------------------------------------------------------
+.colophon {
+  display: grid;
+  margin: 32px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fact dt {
+  padding-top: 3px;
+}
+
+.fact dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--text);
+}
+
+// ---------------------------------------------------------------------------
+// Chapters + rail
+// ---------------------------------------------------------------------------
+.chapters {
+  --progress: 0;
+
+  position: relative;
+  margin-top: 48px;
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
+}
+
+.chapters__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 1px;
+  background: var(--text);
+  transform: scaleY(var(--progress));
+  transform-origin: top;
+  transition: transform 0.25s linear;
+}
+
+.chapter {
+  padding: 4px 0 40px;
+}
+
+.chapter__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px;
+  font: inherit;
+}
+
+.chapter__num {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--rest);
+  transition: color 0.4s var(--ease-luxe);
+}
+
+.chapter.is-active .chapter__num {
+  color: var(--text);
+}
+
+.chapter.is-active .chapter__name {
+  color: var(--text);
+}
+
+.prose {
+  max-width: 62ch;
+  margin: 0;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+.steps {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--body);
+  transition: color 0.25s ease;
+}
+
+.steps__n {
+  font-size: 12px;
+  line-height: 23px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.quote {
+  max-width: 30ch;
+  margin: 0;
+}
+
+.quote p {
+  margin: 0;
+  font-size: clamp(22px, 6vw, 40px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.quote p::before {
+  content: '“';
+}
+
+.quote p::after {
+  content: '”';
+}
+
+// ---------------------------------------------------------------------------
+// Plates. Phones: a swipe strip of fixed height; tablet up: a justified contact sheet.
+// ---------------------------------------------------------------------------
+.plates {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.plates__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.sheet {
+  --row: 220px;
+
+  display: flex;
+  gap: 10px;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 var(--gutter) 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.sheet::-webkit-scrollbar {
+  display: none;
+}
+
+.plate {
+  --ratio: 1.6;
+
+  position: relative;
+  flex: none;
+  height: var(--row);
+  aspect-ratio: var(--ratio);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #141414;
+  scroll-snap-align: start;
+  cursor: zoom-in;
+}
+
+.plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  filter: grayscale(1) brightness(0.85);
+  transition:
+    filter 0.5s ease,
+    scale 0.8s var(--ease-luxe);
+}
+
+// The arrow is decoration, kept out of the button's name.
+.plate__tag::after {
+  content: ' ↗' / '';
+}
+
+.plate__tag {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgb(10 10 10 / 72%);
+  font-size: 12px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  opacity: 0;
+  translate: 0 4px;
+  transition:
+    opacity 0.3s ease,
+    translate 0.4s var(--ease-luxe);
+}
+
+// ---------------------------------------------------------------------------
+// Next case
+// ---------------------------------------------------------------------------
+.next {
+  position: relative;
+  margin-top: 48px;
+  padding: 24px 0 40px;
+  border-top: 1px solid var(--line);
+}
+
+.next__kicker {
+  margin-bottom: 12px;
+}
+
+.next__link {
+  display: grid;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.next__name {
+  position: relative;
+  z-index: 6;
+  font-size: clamp(36px, 11vw, 64px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  transition:
+    color 0.4s var(--ease-luxe),
+    translate 0.6s var(--ease-luxe);
+}
+
+.next__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+.next__arrow {
+  font-size: 18px;
+  color: var(--text);
+  transition: translate 0.4s var(--ease-luxe);
+}
+
+.next__all {
+  margin-top: 12px;
+}
+
+// The lens only exists where there's a hovering pointer (tablet up).
+.lens {
+  --lens-x: 0px;
+  --lens-y: 0px;
+  --lens-tilt: 0deg;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  display: none;
+  width: 26rem;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: #111;
+  box-shadow: 0 40px 90px -35px rgb(0 0 0 / 90%);
+  pointer-events: none;
+  transform: translate3d(var(--lens-x), var(--lens-y), 0) rotate(var(--lens-tilt));
+  opacity: 0;
+  scale: 0.86;
+  transform-origin: 30% 100%;
+  transition:
+    opacity 0.3s ease,
+    scale 0.6s var(--ease-luxe);
+}
+
+.lens.is-visible {
+  opacity: 1;
+  scale: 1;
+}
+
+.lens__screen {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.lens__screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.lens__spec {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #e8e8e8;
+  color: #0a0a0a;
+}
+
+.lens__spec .plate__label {
+  color: #555;
+}
+
+.lens__value {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  overflow-wrap: anywhere;
+}
+
+.lens__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 0;
+  padding-inline: 4px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lens__caption span:first-child {
+  color: var(--text);
+}
+
+.lens__caption span:last-child {
+  flex: none;
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Lightbox (colour, full size)
+// ---------------------------------------------------------------------------
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-geist);
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+  animation: lightbox-fade 0.4s ease both;
+}
+
+.lightbox::backdrop {
+  background: rgb(5 5 5 / 88%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.lightbox__figure {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 72px 16px 96px;
+  animation: lightbox-zoom 0.5s var(--ease-luxe) both;
+}
+
+.lightbox__figure img {
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 1400px);
+  max-height: 74dvh;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.lightbox__figure.is-phone img {
+  border-radius: 20px;
+}
+
+.lightbox__caption {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.lightbox__close,
+.lightbox__nav {
+  position: fixed;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgb(18 18 18 / 70%);
+  font: inherit;
+  font-size: 18px;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.lightbox__close {
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  right: 16px;
+}
+
+// Phones: both arrows sit at the bottom, in thumb reach.
+.lightbox__nav {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+
+.lightbox__nav--prev {
+  left: calc(50% - 56px);
+}
+
+.lightbox__nav--next {
+  right: calc(50% - 56px);
+}
+
+@keyframes lightbox-fade {
+  from {
+    opacity: 0;
   }
+}
+
+@keyframes lightbox-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Load: the slab wipes in, the name rises. (Reduced motion skips both.)
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: no-preference) {
+  .cover__slab {
+    animation: wipe-in 1000ms var(--ease-edge) 80ms both;
+  }
+
+  .cover__name {
+    animation: rise 700ms var(--ease-luxe) both;
+  }
+}
+
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tablet and up
+// ---------------------------------------------------------------------------
+@include bp.tablet-up {
+  :host {
+    --gutter: max(32px, 4vw);
+  }
+
+  // The island floats top-centre from here up: the page starts below it.
+  .cs {
+    padding-top: calc(var(--island-top) + var(--island-h) + 16px);
+  }
+
+  .bar {
+    margin-bottom: 32px;
+  }
+
+  .bar__when {
+    display: block;
+    min-width: 9rem;
+    text-align: right;
+  }
+
+  // 12 columns: the slab owns 3 → 12, so even a short name crosses into it.
+  .cover {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+
+  .cover__name {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: end;
+    max-width: 12ch;
+    padding-bottom: 0.08em;
+    font-size: clamp(56px, 8.2vw, 152px);
+    line-height: 0.9;
+  }
+
+  .cover__slab {
+    grid-column: 3 / -1;
+    grid-row: 1;
+    margin: 0 calc(-1 * var(--gutter)) 0 0;
+    aspect-ratio: auto;
+    height: clamp(340px, 60vh, 640px);
+    border-radius: 0;
+  }
+
+  .cover__slab--spec {
+    padding: 28px var(--gutter) 28px 28px;
+  }
+
+  .cover__sub {
+    grid-column: 1 / 8;
+    grid-row: 2;
+    margin-top: 28px;
+    font-size: 19px;
+    line-height: 28px;
+  }
+
+  .cover__links {
+    grid-column: 9 / -1;
+    grid-row: 2;
+    justify-content: flex-end;
+    align-self: start;
+    margin-top: 20px;
+  }
+
+  // One band: facts flow across, stack takes two cells.
+  .colophon {
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    column-gap: 24px;
+    margin-top: 48px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fact {
+    display: block;
+    padding: 16px 0 20px;
+    border-bottom: 0;
+  }
+
+  .fact--wide {
+    grid-column: span 2;
+  }
+
+  .fact dt {
+    padding: 0;
+    margin-bottom: 8px;
+  }
+
+  // The rail runs down the left of the number column; the body reads on the right.
+  .chapters {
+    margin-top: 80px;
+    padding-left: 0;
+  }
+
+  .chapter {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    padding: 0 0 72px;
+  }
+
+  .chapter__head {
+    grid-column: 1 / 5;
+    position: sticky;
+    top: calc(var(--island-top) + var(--island-h) + 24px);
+    align-self: start;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding-left: 24px;
+  }
+
+  .chapter__num {
+    font-size: clamp(40px, 4vw, 64px);
+  }
+
+  .chapter__body {
+    grid-column: 5 / -1;
+  }
+
+  .prose {
+    font-size: 19px;
+    line-height: 31px;
+  }
+
+  .steps li {
+    grid-template-columns: 40px minmax(0, 1fr);
+    padding: 16px 0;
+    font-size: 17px;
+    line-height: 26px;
+  }
+
+  .steps__n {
+    line-height: 26px;
+  }
+
+  .quote {
+    max-width: 36ch;
+  }
+
+  .quote p {
+    font-size: clamp(24px, 2.4vw, 36px);
+  }
+
+  .plates {
+    margin-top: 8px;
+    padding-top: 32px;
+  }
+
+  // Justified rows: each plate grows by its aspect ratio; the filler keeps the last row honest.
+  .sheet {
+    --row: clamp(180px, 19vw, 300px);
+
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .sheet::after {
+    content: '';
+    flex-grow: 999;
+  }
+
+  .plate {
+    flex: var(--ratio) 1 calc(var(--row) * var(--ratio));
+    height: auto;
+    aspect-ratio: var(--ratio);
+    max-height: calc(var(--row) * 1.25);
+  }
+
+  .next {
+    margin-top: 72px;
+    padding: 32px 0 64px;
+  }
+
+  .next__link {
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .next__name {
+    font-size: clamp(56px, 8vw, 136px);
+    line-height: 0.92;
+    color: var(--rest);
+  }
+
+  .next__all {
+    position: absolute;
+    top: 24px;
+    right: 0;
+    margin: 0;
+  }
+
+  .lens {
+    display: block;
+  }
+
+  // Hot (mouse / keyboard): white, steps right, inverts where it crosses the lens.
+  .next.is-hot .next__name {
+    color: #fff;
+    mix-blend-mode: difference;
+    translate: 16px 0;
+  }
+
+  .next.is-hot .next__arrow {
+    translate: 6px 0;
+  }
+
+  .lightbox__nav {
+    top: 50%;
+    bottom: auto;
+    translate: 0 -50%;
+  }
+
+  .lightbox__nav--prev {
+    left: 24px;
+  }
+
+  .lightbox__nav--next {
+    right: 24px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hover (fine pointers) — keyboard focus gets the same treatment.
+// ---------------------------------------------------------------------------
+@media (hover: hover) and (pointer: fine) {
+  .bar__back:hover span {
+    translate: -4px 0;
+  }
+
+  .cover__slab:hover img {
+    filter: grayscale(0.15) contrast(1.05);
+    scale: 1.02;
+  }
+
+  .cover__links a:hover,
+  .next__all:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .steps li:hover {
+    color: var(--text);
+  }
+
+  .plate:hover img {
+    filter: none;
+    scale: 1.03;
+  }
+
+  .plate:hover .plate__tag {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .lightbox__close:hover,
+  .lightbox__nav:hover {
+    background: var(--text);
+    color: #0a0a0a;
+  }
+}
+
+.bar__back:focus-visible span {
+  translate: -4px 0;
+}
+
+.cover__slab:focus-visible img {
+  filter: grayscale(0.15) contrast(1.05);
+}
+
+.plate:focus-visible img {
+  filter: none;
+}
+
+.plate:focus-visible .plate__tag {
+  opacity: 1;
+  translate: 0 0;
+}
+
+// Touch: the tag is always shown so the plates read as tappable.
+@include bp.touch {
+  .plate__tag {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapters__fill,
+  .chapter__num,
+  .plate img,
+  .plate__tag,
+  .cover__slab img,
+  .next__name,
+  .next__arrow,
+  .lens,
+  .lightbox[open],
+  .lightbox__figure {
+    transition: none;
+    animation: none;
+  }
+
+  .next.is-hot .next__name {
+    translate: none;
+  }
+
+  .plate:hover img,
+  .cover__slab:hover img {
+    scale: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Not found
+// ---------------------------------------------------------------------------
+.missing {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding: 96px var(--gutter);
+}
+
+.missing h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.missing a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
 }

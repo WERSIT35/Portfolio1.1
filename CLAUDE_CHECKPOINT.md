@@ -1,7 +1,7 @@
 # CLAUDE_CHECKPOINT — resume point
 
 > Last updated: 2026-10-12. Read this file **and** `CLAUDE.md` before touching code.
-> `main` is clean and deployed (Vercel). Last merged: PR #25 (Certifications redesign).
+> `main` is clean and deployed (Vercel). Last merged: case-study "Dossier" redesign (`/work/:slug`).
 
 ---
 
@@ -41,6 +41,7 @@
 | 05 Certifications | issuer wall (counts) over a ledger; row hover lights its mark + desktop preview; lightbox |
 | 06 Education | degree records over one year rule |
 | 07 Contact | contained closing stage, email sized to fit, magnetic letters, tap-to-copy |
+| `/work/:slug` "Dossier" | name crosses a greyscale slab (or a light spec plate when there are no screens); chapter rail fills as you read; plates in colour in a lightbox; next case keeps the index hover (white + difference blend over a trailing lens) |
 
 Scroll spy picks the **last** visible section (stages overlap while one sinks behind the next).
 Contact is `.stage--auto` (`min-height: 0`).
@@ -96,13 +97,16 @@ Gotchas:
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
 - FastAPI, MySQL, Firebase, NGINX have no project evidence (kept by request).
 - Lean Tech and Icecat are on the site but not on the résumé (kept).
+- The slot provider project is **Lumina Games** (game: **Vault 20k**), never "Provider" / "Banana X" (user
+  correction, 2026-10-12). Slug `lumina-games`; the old `/work/provider-banana-x-engine` redirects. Check the
+  résumé PDFs for the old name when the CV is next updated.
 
 **Next work, in order:**
-1. **Case-study pages** (`/work/:slug`, `src/app/pages/project-detail/`): still the old design (glass cards, "At a glance" boxes).
-   Pitch a Cover-language concept in chat first.
-2. Phone polish: Experience rule when all rows are collapsed (pick a default row), Skills tap hint, Education
+1. Phone polish: Experience rule when all rows are collapsed (pick a default row), Skills tap hint, Education
    "Expected" label at the screen edge, BTU logo, Contact gap.
-3. Mobile performance (Lighthouse perf ~55) and SEO.
-4. Island brand link: `aria-label="Back to top"` doesn't contain its visible "OD" (Lighthouse
+2. Mobile performance (Lighthouse perf ~55) and SEO (case studies now set their own title + description).
+3. Island brand link: `aria-label="Back to top"` doesn't contain its visible "OD" (Lighthouse
    label-content-name-mismatch, unscored).
+4. Delete the now-unused `components/shared/{glass-card,badge-chip,metric-tile}` (and `count-up` directive if
+   still unused) — removal was blocked by a permission prompt in the Dossier session; needs the user's OK.
 5. Delete the orphan `pr-assets/*` screenshot branches once the user no longer needs them.
