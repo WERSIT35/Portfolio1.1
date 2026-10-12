@@ -6,8 +6,8 @@
 /out-tsc
 /bazel-out
 
-# Node
-/node_modules
+# Node (also the tool folders under scripts/)
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Personal CV files built by scripts/cv (the site serves public/assets/me/Otar-Davitashvili-CV.pdf)
+/Otar-Davitashvili-CV-*
+/Otar-Davitashvili-LinkedIn-and-Cover-Letter.md

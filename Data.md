@@ -942,7 +942,7 @@ export const CONTACT: Contact = {
   name: 'Otar',
   surname: 'Davitashvili',
   image: '/assets/profile/ProfilePic.webp',
-  resumeUrl: '/assets/me/OTAR%20DAVITASHVILI.pdf',
+  resumeUrl: '/assets/me/Otar-Davitashvili-CV.pdf',
   phone: '+995 557 282 616',
   X: '',
   instagram: '',
