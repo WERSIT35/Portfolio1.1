@@ -89,9 +89,10 @@ Gotchas:
 ## 4. Open items
 
 **Waiting on the user (don't change without an answer):**
-- Freelance start: site says Sep 2022, résumé says 09/2024 (kept the site's; suggested updating the CV).
-- W3Schools AWS certificate image shows "Oto Your family name" and "Issued September 20, 2023"; the data says 2024.
-  Needs a re-issued certificate (surname set on W3Schools) and the correct year.
+- Résumé PDFs (repo root and `public/assets/me/OTAR DAVITASHVILI.pdf`, the "Download CV" file) say freelance
+  09/2024; the user confirmed **Sep 2022** (the site is right). The user updates the CV, then swap the files.
+- W3Schools AWS certificate image shows "Oto Your family name": needs a re-issued certificate with the surname
+  set. (Date confirmed: Sep 20, 2023, fixed in data.)
 - MSc (BTU) start year unknown; shown as "Expected 2026" only.
 - FastAPI, MySQL, Firebase, NGINX have no project evidence (kept by request).
 - Lean Tech and Icecat are on the site but not on the résumé (kept).

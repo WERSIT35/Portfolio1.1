@@ -64,7 +64,7 @@ export const CERTIFICATIONS: Certifications[] = [
     name: 'FreeCodeCamp',
     imageName: ['Front-End Development Libraries'],
     image: ['/assets/education/Certification/FreecodeCamp/libraries.webp'],
-    issuerLogo: '/assets/education/Universities/fcc.svg',
+    issuerId: 'freecodecamp',
     description:
       'Front-End Development Libraries certification focused on practical component-driven frontend implementation with real project delivery patterns.',
     date: 'Certificate',
@@ -83,7 +83,7 @@ export const CERTIFICATIONS: Certifications[] = [
     name: 'FreeCodeCamp',
     imageName: ['JavaScript Algorithms and Data Structures'],
     image: ['/assets/education/Certification/FreecodeCamp/js.webp'],
-    issuerLogo: '/assets/education/Universities/fcc.svg',
+    issuerId: 'freecodecamp',
     description:
       'JavaScript Algorithms and Data Structures certification validating problem-solving and language fundamentals.',
     date: 'Certificate',
@@ -102,7 +102,7 @@ export const CERTIFICATIONS: Certifications[] = [
     name: 'FreeCodeCamp',
     imageName: ['Responsive Web Design'],
     image: ['/assets/education/Certification/FreecodeCamp/responsive.webp'],
-    issuerLogo: '/assets/education/Universities/fcc.svg',
+    issuerId: 'freecodecamp',
     description:
       'Responsive Web Design certification focused on adaptive layout systems and semantic frontend structure.',
     date: 'Certificate',
@@ -121,14 +121,14 @@ export const CERTIFICATIONS: Certifications[] = [
     name: 'w3schools',
     imageName: ['Introduction to AWS Solutions'],
     image: ['/assets/education/Certification/AWS/AWS.webp'],
-    issuerLogo: '/assets/education/Universities/w3.webp',
+    issuerId: 'w3schools',
     description:
       'Introduction to AWS Solutions certificate supporting cloud deployment and infrastructure foundations.',
     certificateUrl:
       '/assets/education/Certification/AWS/certificate_of_completion_introduction_to_aws_solutions.pdf',
     date: 'Certificate',
     issuer: 'w3schools',
-    issued: '2024',
+    issued: 'Sep 20, 2023',
     skills: ['AWS Core Services', 'Cloud Basics', 'Architecture Fundamentals'],
     timeSpent: '~30 hours',
     tasksMade: [
@@ -145,6 +145,7 @@ export const CERTIFICATIONS: Certifications[] = [
       '/assets/education/Certification/Claude/claude-cowork-card.webp',
       '/assets/education/Certification/Claude/claude-cowork.webp',
     ],
+    issuerId: 'anthropic',
     description:
       'Applied-AI collaboration certification covering structured, production-oriented workflows for pairing with Claude on real engineering tasks.',
     date: 'Certificate',
@@ -165,6 +166,7 @@ export const CERTIFICATIONS: Certifications[] = [
       '/assets/education/Certification/Claude/ai-fluency-card.webp',
       '/assets/education/Certification/Claude/ai-fluency.webp',
     ],
+    issuerId: 'anthropic',
     description:
       'AI Fluency Framework & Foundations certification covering core principles for effective, responsible collaboration with generative AI systems.',
     date: 'Certificate',
@@ -185,6 +187,7 @@ export const CERTIFICATIONS: Certifications[] = [
       '/assets/education/Certification/Claude/claude-code-in-action-card.webp',
       '/assets/education/Certification/Claude/claude-code-in-action.webp',
     ],
+    issuerId: 'anthropic',
     description:
       'Claude Code in Action certification covering agentic, terminal-based development workflows using Claude Code as a primary engineering collaborator.',
     date: 'Certificate',
@@ -202,7 +205,7 @@ export const CERTIFICATIONS: Certifications[] = [
     name: 'freeCodeCamp',
     imageName: ['Foundational C# with Microsoft'],
     image: ['/assets/education/Certification/FreecodeCamp/Csharp.webp'],
-    issuerLogo: '/assets/education/Universities/fcc.svg',
+    issuerId: 'freecodecamp',
     certificateUrl:
       'https://freecodecamp.org/certification/wersit35/foundational-c-sharp-with-microsoft',
     description:
