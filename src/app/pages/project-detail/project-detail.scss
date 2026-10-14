@@ -197,7 +197,7 @@ button:focus-visible {
 .next__all {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   min-height: 44px;
   font-size: 15px;
   font-weight: 500;
@@ -225,7 +225,7 @@ button:focus-visible {
 }
 
 .fact dt {
-  padding-top: 3px;
+  padding-top: 4px;
 }
 
 .fact dd {
@@ -369,7 +369,7 @@ button:focus-visible {
   --row: 220px;
 
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin: 0 calc(-1 * var(--gutter));
   padding: 0 var(--gutter) 4px;
   overflow-x: auto;
@@ -420,7 +420,7 @@ button:focus-visible {
   position: absolute;
   left: 10px;
   bottom: 8px;
-  padding: 2px 8px;
+  padding: 4px 8px;
   border-radius: 999px;
   background: rgb(10 10 10 / 72%);
   font-size: 12px;
@@ -472,7 +472,7 @@ button:focus-visible {
 .next__meta {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 14px;
   line-height: 22px;
   color: var(--muted);
@@ -610,7 +610,7 @@ button:focus-visible {
 .lightbox__figure {
   display: grid;
   justify-items: center;
-  gap: 14px;
+  gap: 16px;
   margin: 0;
   padding: 72px 16px 96px;
   animation: lightbox-zoom 0.5s var(--ease-luxe) both;
@@ -826,7 +826,7 @@ button:focus-visible {
     top: calc(var(--island-top) + var(--island-h) + 24px);
     align-self: start;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     margin: 0;
     padding-left: 24px;
   }

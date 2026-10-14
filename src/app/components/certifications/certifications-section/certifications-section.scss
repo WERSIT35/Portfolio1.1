@@ -183,7 +183,7 @@
     '. meta .';
   align-items: baseline;
   column-gap: 8px;
-  row-gap: 6px;
+  row-gap: 8px;
   width: 100%;
   min-height: 44px;
   padding: 16px 0;
@@ -218,14 +218,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 6px;
+  gap: 4px 8px;
   font-size: 13px;
   line-height: 18px;
   color: var(--muted);
 }
 
 .row__meta app-issuer-logo {
-  margin-right: 2px;
+  margin-right: 4px;
   filter: grayscale(1) brightness(1.4);
   opacity: 0.8;
 }
@@ -320,7 +320,7 @@
 .lightbox__caption {
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 8px;
   max-width: 64ch;
   text-align: center;
 }

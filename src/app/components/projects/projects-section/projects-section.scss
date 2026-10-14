@@ -91,7 +91,7 @@
   align-items: baseline;
   column-gap: 12px;
   width: 100%;
-  padding: 14px 0;
+  padding: 16px 0;
   border: 0;
   background: none;
   font: inherit;
@@ -145,7 +145,7 @@
 }
 
 .row__meta {
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .row__stack {
@@ -365,8 +365,8 @@
 
 .lens__dots {
   display: flex;
-  gap: 5px;
-  padding: 8px 10px;
+  gap: 4px;
+  padding: 8px 8px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -450,14 +450,14 @@
 .lens__spec ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin: 0 0 16px;
   padding: 0;
   list-style: none;
 }
 
 .lens__spec li {
-  padding: 4px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--line);
   border-radius: 999px;
   font-size: 13px;
@@ -563,7 +563,7 @@
   .row__meta {
     grid-column: 3;
     display: grid;
-    gap: 2px;
+    gap: 4px;
     font-size: 14px;
     line-height: 20px;
   }
@@ -576,7 +576,7 @@
     grid-column: 4;
     grid-row: 1;
     display: grid;
-    gap: 2px;
+    gap: 4px;
     margin: 0;
     justify-self: start;
     font-size: 14px;
@@ -715,7 +715,7 @@
 @include bp.tablet-up {
   .row__result {
     grid-row: 2;
-    margin-top: 2px;
+    margin-top: 4px;
     font-size: 15px;
   }
 

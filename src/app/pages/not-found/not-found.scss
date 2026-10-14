@@ -1,0 +1,79 @@
+@use 'breakpoints' as bp;
+
+// Same ink, type and buttons as the hero: a dead end that still looks like the site.
+:host {
+  display: block;
+  font-family: 'Geist', system-ui, sans-serif;
+  color: #fafafa;
+}
+
+.nf {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 24px;
+  min-height: 100svh;
+  padding: calc(var(--island-top) + var(--island-h) + 32px) max(16px, 4vw) max(48px, var(--dock-clear));
+}
+
+.nf__kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a1a1a1;
+}
+
+.nf__code {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(120px, 34vw, 420px);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+}
+
+.nf__line {
+  margin: 0;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 500;
+}
+
+.nf__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fafafa;
+  text-decoration: none;
+  transition: border-color 150ms ease-out;
+}
+
+.btn--primary {
+  border-color: #fafafa;
+  background: #fafafa;
+  color: #0a0a0a;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(.btn--primary):hover {
+    border-color: rgb(255 255 255 / 32%);
+  }
+}
+
+.btn:focus-visible {
+  outline: 2px solid #fafafa;
+  outline-offset: 3px;
+}

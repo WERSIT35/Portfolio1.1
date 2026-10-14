@@ -2,6 +2,8 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  OnInit,
+  RESPONSE_INIT,
   afterNextRender,
   computed,
   effect,
@@ -74,11 +76,20 @@ const specOf = (p: Projects) => {
   templateUrl: './project-detail.html',
   styleUrl: './project-detail.scss',
 })
-export class ProjectDetail {
+export class ProjectDetail implements OnInit {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly document = inject(DOCUMENT);
+  /** Server only: the response being rendered, so an unknown slug can answer 404. */
+  private readonly responseInit = inject(RESPONSE_INIT, { optional: true });
+
+  ngOnInit(): void {
+    if (this.position() < 0) {
+      if (this.responseInit) this.responseInit.status = 404;
+      this.meta.updateTag({ name: 'robots', content: 'noindex' });
+    }
+  }
 
   /** One canonical <link> per page, updated in place (works on the server and in the browser). */
   private setCanonical(url: string): void {

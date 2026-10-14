@@ -9,7 +9,13 @@ export const serverRoutes: ServerRoute[] = [
     getPrerenderParams: async () => PROJECTS.map((project) => ({ slug: project.slug })),
   },
   {
-    path: '**',
+    path: '',
     renderMode: RenderMode.Prerender,
+  },
+  {
+    // Unknown URLs: the styled not-found page with a real 404 status (not a soft 200 home).
+    path: '**',
+    renderMode: RenderMode.Server,
+    status: 404,
   },
 ];

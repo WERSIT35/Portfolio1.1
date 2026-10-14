@@ -244,7 +244,7 @@
     align-items: center;
     gap: 16px;
     width: min(380px, 30vw);
-    padding: 10px 16px 10px 10px;
+    padding: 8px 16px 8px 8px;
     border-radius: var(--radius);
     background: #fff;
     color: #0a0a0a;
@@ -273,7 +273,7 @@
 
   .feature__text {
     display: grid;
-    gap: 2px;
+    gap: 4px;
     min-width: 0;
   }
 
