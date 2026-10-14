@@ -40,6 +40,7 @@
           <a
             class="row__visit"
             [href]="row.live"
+            (click)="trackEvent('live_click', { project: row.slug })"
             target="_blank"
             rel="noopener"
             [attr.aria-label]="'Visit the live ' + row.projName + ' site (opens in a new tab)'"
@@ -124,6 +125,7 @@
                 <a
                   class="row__cta"
                   [href]="row.live"
+                  (click)="trackEvent('live_click', { project: row.slug })"
                   target="_blank"
                   rel="noopener"
                   [attr.aria-label]="

@@ -55,6 +55,7 @@ export class ContactSection {
   /** Estimated width of the address in ems, so the CSS can size it before any script runs. */
   protected readonly mailEm = signal(+(CONTACT.email.length * EM_PER_CHAR).toFixed(3));
   protected readonly copied = signal(false);
+  protected readonly trackEvent = trackEvent;
 
   // Contact form ------------------------------------------------------------------
   protected readonly sending = signal(false);

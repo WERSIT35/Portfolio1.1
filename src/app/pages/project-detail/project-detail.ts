@@ -17,6 +17,7 @@ import { PROJECTS } from '../../data/site-data';
 import { Projects } from '../../interfaces/projects';
 import { projectStatusLabel } from '../../utils/project-status';
 import { PROJECT_DIAGRAMS } from '../../utils/project-diagrams';
+import { trackEvent } from '../../utils/analytics';
 import { SITE_URL, personJsonLd, projectJsonLd, setJsonLd } from '../../utils/seo';
 import { desktopShots, shotSize, shotSrcset } from '../../utils/project-media';
 
@@ -93,6 +94,7 @@ export class ProjectDetail {
   slug = input<string>();
 
   protected readonly shotSize = shotSize;
+  protected readonly trackEvent = trackEvent;
   protected readonly shotSrcset = shotSrcset;
 
   private readonly position = computed(() => PROJECTS.findIndex((p) => p.slug === this.slug()));

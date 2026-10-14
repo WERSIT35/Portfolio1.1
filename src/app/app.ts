@@ -1,6 +1,7 @@
 import { Component, afterNextRender, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DynamicIsland } from './components/layout/dynamic-island/dynamic-island';
+import { startAnalytics } from './utils/analytics';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,10 @@ export class App {
 
   constructor() {
     afterNextRender(() => {
-      const show = () => this.grain.set(true);
+      const show = () => {
+        this.grain.set(true);
+        startAnalytics();
+      };
       const idle = () =>
         'requestIdleCallback' in window
           ? requestIdleCallback(show, { timeout: 2000 })

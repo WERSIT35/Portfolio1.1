@@ -16,6 +16,7 @@ import { desktopShots, mobileShots, shotSize, shotSrcset } from '../../../utils/
 import { projectStatusLabel } from '../../../utils/project-status';
 
 import { PROJECT_DIAGRAMS } from '../../../utils/project-diagrams';
+import { trackEvent } from '../../../utils/analytics';
 
 type LensKind = 'both' | 'desktop' | 'mobile' | 'spec';
 
@@ -39,6 +40,7 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 })
 export class ProjectsSection {
   protected readonly shotSize = shotSize;
+  protected readonly trackEvent = trackEvent;
   protected readonly shotSrcset = shotSrcset;
 
   protected readonly rows = PROJECTS.map((project, i) => {

@@ -43,7 +43,11 @@
       @if (p.live || p.github) {
         <p class="cover__links">
           @if (p.live) {
-            <a [href]="p.live" target="_blank" rel="noopener"
+            <a
+              [href]="p.live"
+              target="_blank"
+              rel="noopener"
+              (click)="trackEvent('live_click', { project: p.slug, from: 'case-study' })"
               >Live site <span aria-hidden="true">↗</span></a
             >
           }

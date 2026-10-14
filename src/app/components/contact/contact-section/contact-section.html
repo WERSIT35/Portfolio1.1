@@ -41,13 +41,20 @@
   </div>
 
   <nav class="actions" aria-label="Contact options">
-    <a class="act act--primary" [href]="'mailto:' + contact.email"
+    <a
+      class="act act--primary"
+      [href]="'mailto:' + contact.email"
+      (click)="trackEvent('email_click', { from: 'contact' })"
       >Email me <span aria-hidden="true">→</span></a
     >
     <button type="button" class="act" [class.is-copied]="copied()" (click)="copy()">
       {{ copied() ? 'Copied ✓' : 'Copy email' }}
     </button>
-    <a class="act" [href]="contact.resumeUrl" download
+    <a
+      class="act"
+      [href]="contact.resumeUrl"
+      download
+      (click)="trackEvent('cv_download', { from: 'contact' })"
       >Download CV <span aria-hidden="true">↓</span></a
     >
     <a class="act" [href]="contact.linkedin" target="_blank" rel="noopener"

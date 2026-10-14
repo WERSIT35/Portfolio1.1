@@ -1,5 +1,6 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
 import { shotSize } from '../../../utils/project-media';
+import { trackEvent } from '../../../utils/analytics';
 import { RouterLink } from '@angular/router';
 import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
@@ -29,6 +30,7 @@ const tbilisiTime = new Intl.DateTimeFormat('en-GB', {
   styleUrl: './hero-section.scss',
 })
 export class HeroSection {
+  protected readonly trackEvent = trackEvent;
   private readonly host = inject(ElementRef<HTMLElement>);
   protected readonly contact = CONTACT;
   protected readonly role = ROLE;
