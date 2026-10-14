@@ -94,10 +94,11 @@ export class DynamicIsland {
         hostEl.style.setProperty('--panel-w', `${Math.ceil(panel.width)}px`);
         hostEl.style.setProperty('--panel-h', `${Math.ceil(panel.height)}px`);
       };
+      // The observer's first callback runs right after layout, before paint, so the sizes
+      // land in the first frame without forcing a synchronous layout during hydration.
       const sizes = new ResizeObserver(measure);
       sizes.observe(this.labelText().nativeElement);
       sizes.observe(this.panelInner().nativeElement);
-      measure();
 
       destroyRef.onDestroy(() => {
         document.removeEventListener('pointerdown', onPointerDown);

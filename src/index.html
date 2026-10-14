@@ -17,6 +17,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://portfolio1-1-mu.vercel.app/assets/og/home.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- The hero's Geist weights: fetched with the HTML, so the first layout already has them
+       instead of re-laying out the page as each face swaps in. -->
+  <link rel="preload" href="/fonts/geist/Geist-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/geist/Geist-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/geist/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <!-- Skills-marquee icon font: far below the fold, so it must not block first paint. -->
   <link rel="stylesheet" href="/fonts/devicon/devicon.css" media="print" onload="this.media='all'" data-beasties-skip>
   <noscript><link rel="stylesheet" href="/fonts/devicon/devicon.css" data-beasties-skip></noscript>
