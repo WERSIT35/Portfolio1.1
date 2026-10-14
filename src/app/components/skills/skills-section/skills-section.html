@@ -13,6 +13,8 @@
         role="group"
         [attr.aria-label]="band.category"
         (click)="onBandTap(b, $event)"
+        (pointerenter)="onBandHover(b, $event, true)"
+        (pointerleave)="onBandHover(b, $event, false)"
       >
         <p class="band__label" aria-hidden="true">
           <span class="band__index">{{ band.index }}</span>

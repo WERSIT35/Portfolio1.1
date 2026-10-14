@@ -41,7 +41,12 @@
             <span class="row__years">{{ role.years }}</span>
             <span class="row__title">
               <span class="row__role">{{ role.role }}</span>
-              <span class="row__org">{{ role.org }}</span>
+              <span class="row__org">
+                {{ role.org }}
+                @if (role.employment) {
+                  <span class="badge">{{ role.employment }}</span>
+                }
+              </span>
             </span>
             <span class="row__toggle" aria-hidden="true"></span>
           </button>
@@ -54,6 +59,7 @@
           [attr.aria-labelledby]="'xp-head-' + role.id"
           [attr.inert]="open() === i ? null : ''"
         >
+          <p class="row__aside">{{ role.date }}</p>
           <div class="row__inner">
             <p class="row__date">{{ role.date }}</p>
             <p class="row__lead">{{ role.lead }}</p>

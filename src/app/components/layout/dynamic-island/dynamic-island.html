@@ -1,6 +1,7 @@
 <nav
   class="island"
   [class.is-open]="expanded()"
+  [class.has-cta]="showCta()"
   [appMagnetic]="0.12"
   aria-label="Primary"
   (mouseenter)="onEnter()"
@@ -28,6 +29,15 @@
       }
     </span>
   </div>
+
+  @if (showCta()) {
+    <a
+      class="island__cta"
+      [href]="'mailto:' + contact.email"
+      (click)="trackEvent('email_click', { from: 'pill' })"
+      >Email me</a
+    >
+  }
 
   <div id="island-panel" class="island__panel" [attr.inert]="expanded() ? null : ''">
     <div #panelInner class="island__panel-inner">

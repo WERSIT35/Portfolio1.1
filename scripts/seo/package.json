@@ -1,0 +1,9 @@
+{
+  "name": "portfolio-seo",
+  "private": true,
+  "type": "module",
+  "description": "Generates sitemap.xml, robots.txt and the link-preview (OG) images from site-data.ts",
+  "devDependencies": {
+    "playwright-core": "1.49.1"
+  }
+}

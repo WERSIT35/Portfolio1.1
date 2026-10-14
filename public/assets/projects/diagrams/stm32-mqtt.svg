@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" font-family="Geist, Satoshi, -apple-system, sans-serif">
+  <rect width="480" height="270" fill="#0a0a0a"/>
+  <g fill="none" stroke="#fff" stroke-opacity="0.07"><path d="M0 54H480M0 108H480M0 162H480M0 216H480M96 0V270M192 0V270M288 0V270M384 0V270"/></g>
+  <text x="20" y="30" fill="#9a9a9a" font-size="10" letter-spacing="1.4">STM32 ETHERNET MQTT NODE · ARCHITECTURE</text>
+  <g fill="#121212" stroke="#fff" stroke-opacity="0.45">
+    <rect x="20" y="58" width="150" height="124" rx="10"/>
+    <rect x="200" y="58" width="104" height="62" rx="10"/>
+    <rect x="336" y="58" width="124" height="124" rx="10"/>
+    <rect x="20" y="206" width="150" height="46" rx="10"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="1.4"><path d="M170 89H200"/><path d="M304 89H336"/><path d="M95 182V206"/></g>
+  <g fill="#fff"><path d="M194 85l6 4-6 4z"/><path d="M330 85l6 4-6 4z"/><path d="M91 200l4 6 4-6z"/></g>
+  <g fill="#ededed" font-size="13" font-weight="700">
+    <text x="32" y="82">NUCLEO-F767ZI</text>
+    <text x="212" y="82">LAN8742A</text>
+    <text x="348" y="82">Mosquitto</text>
+    <text x="32" y="234">On-board LED</text>
+  </g>
+  <g fill="#9a9a9a" font-size="10" letter-spacing="0.4">
+    <text x="32" y="102">C · STM32 HAL</text>
+    <text x="32" y="118">lwIP TCP/IP · no RTOS</text>
+    <text x="32" y="134">DHCP address</text>
+    <text x="32" y="150">lwIP MQTT client</text>
+    <text x="32" y="166">publish every 3 s</text>
+    <text x="212" y="100">Ethernet PHY</text>
+    <text x="212" y="114">RMII</text>
+    <text x="348" y="100">local broker</text>
+    <text x="348" y="128">PUB home/stm32/test</text>
+    <text x="348" y="144">SUB home/stm32/cmd</text>
+    <text x="348" y="166">LED_ON · LED_OFF</text>
+    <text x="32" y="246">switched over MQTT</text>
+  </g>
+</svg>

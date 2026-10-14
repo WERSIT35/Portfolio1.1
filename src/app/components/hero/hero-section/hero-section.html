@@ -47,15 +47,20 @@
     </h1>
 
     <div class="colophon">
+      <p class="tagline rise" style="--i: 2">Full-stack web platforms to STM32 firmware.</p>
       <p class="role rise" style="--i: 3">{{ role }}</p>
+      <p class="pitch rise" style="--i: 3">
+        I build Angular and Node.js platforms end to end, and write the STM32 firmware when a
+        product touches hardware.
+      </p>
 
       <ul class="facts rise" style="--i: 4">
         <li>
           <a class="fact-link" routerLink="/" fragment="projects">
-            <span class="fact-num">{{ shippedCount }}</span>
-            shipped
+            <span class="fact-num">{{ projectCount }}</span>
+            projects ·
             <span class="nowrap">
-              projects<svg
+              {{ liveCount }} live<svg
                 class="arrow"
                 viewBox="0 0 16 16"
                 width="16"
@@ -83,7 +88,12 @@
             <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" />
           </svg>
         </a>
-        <a class="btn btn--secondary" [href]="contact.resumeUrl" download>
+        <a
+          class="btn btn--secondary"
+          [href]="contact.resumeUrl"
+          download
+          (click)="trackEvent('cv_download', { from: 'hero' })"
+        >
           Download CV
           <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
             <path
@@ -97,4 +107,19 @@
       </div>
     </div>
   </div>
+
+  <!-- Selected work: a real thumbnail of project 01, pinned to the slab's lower corner. -->
+  <a class="feature rise" style="--i: 6" [routerLink]="['/work', featured.slug]">
+    <span class="feature__thumb">
+      <img [src]="featuredSmall" alt="" [width]="featuredSize.width" [height]="featuredSize.height" loading="lazy" decoding="async" />
+    </span>
+    <span class="feature__text">
+      <span class="feature__kicker">Selected work · {{ featured.index }}</span>
+      <span class="feature__name">{{ featured.projName }}</span>
+      <span class="feature__line">{{ featured.line }}</span>
+    </span>
+    <span class="feature__arrow" aria-hidden="true">
+      <svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
+    </span>
+  </a>
 </section>

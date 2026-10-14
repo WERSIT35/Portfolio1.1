@@ -62,7 +62,7 @@ export const EXPERIENCE = {
     role: 'Angular Developer',
     org: 'PetC',
     dates: 'Dec 2025 – Jun 2026',
-    meta: 'Contract · Remote · Social platform for pet owners with vet and grooming services · ~30-person team',
+    meta: 'Startup · Remote · Social platform for pet owners with vet and grooming services · ~30-person team',
     bullets: [
       'Built the core frontend features: **user profiles, an Instagram-style stories viewer, search, scrolling feeds, QR-code pages and forms** (Angular Standalone Components, Signals, RxJS, REST APIs, lazy-loaded routes).',
     ],

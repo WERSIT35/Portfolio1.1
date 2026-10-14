@@ -8,7 +8,8 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { CONTACT } from '../../../data/site-data';
+import { CONTACT, CONTACT_FORM_ENDPOINT } from '../../../data/site-data';
+import { trackEvent } from '../../../utils/analytics';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
 
 // Heavy "metal" spring for the letters (per 60fps frame, dt-normalised). Tuned offline:
@@ -54,6 +55,58 @@ export class ContactSection {
   /** Estimated width of the address in ems, so the CSS can size it before any script runs. */
   protected readonly mailEm = signal(+(CONTACT.email.length * EM_PER_CHAR).toFixed(3));
   protected readonly copied = signal(false);
+  protected readonly trackEvent = trackEvent;
+
+  // Contact form ------------------------------------------------------------------
+  protected readonly sending = signal(false);
+  protected readonly status = signal('');
+
+  protected async onSubmit(event: SubmitEvent): Promise<void> {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+
+    if (String(data.get('company') ?? '')) {
+      this.status.set('Thanks — message sent.'); // honeypot hit: pretend success, send nothing
+      return;
+    }
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !message) {
+      this.status.set('Please add your name, a valid email and a message.');
+      (form.querySelector<HTMLElement>(':invalid, [name="name"]') ?? form).focus();
+      return;
+    }
+
+    trackEvent('contact_form_submit');
+    if (!CONTACT_FORM_ENDPOINT) {
+      // No endpoint configured yet: hand the message to the visitor's mail app.
+      const body = `${message}\n\n— ${name} (${email})`;
+      location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
+        `Portfolio enquiry from ${name}`,
+      )}&body=${encodeURIComponent(body)}`;
+      this.status.set('Opening your mail app with the message ready to send.');
+      return;
+    }
+
+    this.sending.set(true);
+    this.status.set('');
+    try {
+      const res = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: data,
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      this.status.set('Thanks — message sent.');
+    } catch {
+      this.status.set(`Couldn't send right now. Email me directly at ${CONTACT.email}.`);
+    } finally {
+      this.sending.set(false);
+    }
+  }
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly mail = viewChild.required<ElementRef<HTMLElement>>('mail');

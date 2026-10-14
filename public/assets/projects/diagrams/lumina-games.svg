@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" font-family="Geist, Satoshi, -apple-system, sans-serif">
+  <rect width="480" height="270" fill="#0a0a0a"/>
+  <g fill="none" stroke="#fff" stroke-opacity="0.07"><path d="M0 54H480M0 108H480M0 162H480M0 216H480M96 0V270M192 0V270M288 0V270M384 0V270"/></g>
+  <text x="20" y="30" fill="#9a9a9a" font-size="10" letter-spacing="1.4">LUMINA GAMES · ARCHITECTURE</text>
+  <g fill="#121212" stroke="#fff" stroke-opacity="0.45">
+    <rect x="20" y="58" width="112" height="62" rx="10"/>
+    <rect x="184" y="58" width="128" height="96" rx="10"/>
+    <rect x="356" y="58" width="104" height="62" rx="10"/>
+    <rect x="184" y="186" width="128" height="62" rx="10"/>
+    <rect x="20" y="186" width="112" height="62" rx="10"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="1.4">
+    <path d="M132 89H184"/><path d="M356 89H312"/><path d="M248 154V186"/>
+    <path d="M76 186V150H184" stroke-dasharray="4 4"/>
+  </g>
+  <g fill="#fff"><path d="M178 85l6 4-6 4z"/><path d="M318 85l-6 4 6 4z"/><path d="M244 180l4 6 4-6z"/></g>
+  <g fill="#ededed" font-size="13" font-weight="700">
+    <text x="32" y="82">Canvas client</text>
+    <text x="196" y="82">Fastify RGS</text>
+    <text x="368" y="82">Operator</text>
+    <text x="196" y="210">Round ledger</text>
+    <text x="32" y="210">RTP parity tool</text>
+  </g>
+  <g fill="#9a9a9a" font-size="10" letter-spacing="0.4">
+    <text x="32" y="100">6×5 board · tumbles</text>
+    <text x="196" y="102">shared math engine</text>
+    <text x="196" y="118">seeded RNG</text>
+    <text x="196" y="134">launch tokens</text>
+    <text x="368" y="100">HMAC + nonce API</text>
+    <text x="368" y="138">seamless wallet</text>
+    <text x="368" y="152">webhooks</text>
+    <text x="196" y="228">hash-chained</text>
+    <text x="196" y="242">Ed25519-signed</text>
+    <text x="32" y="228">30M-round seeded</text>
+    <text x="32" y="242">simulations</text>
+  </g>
+</svg>

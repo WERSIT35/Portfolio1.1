@@ -30,7 +30,7 @@ export const EXPERIENCES: Experience[] = [
     id: 3,
     role: 'Angular Developer',
     company: 'PetC',
-    employment: 'Contract',
+    employment: 'Startup',
     date: 'Dec 2025 – Jun 2026',
     summary:
       'Built the core frontend features of a social platform for pet owners: user profiles, an Instagram-style stories viewer, search, scrolling feeds, QR-code pages and forms, in a modular Angular codebase using Standalone Components, Signals, and RxJS. Implemented lazy loading and code splitting while integrating REST APIs for focused, maintainable feature delivery. Worked cross-functionally to align frontend implementation with product and engineering needs.',
@@ -40,7 +40,7 @@ export const EXPERIENCES: Experience[] = [
     id: 4,
     role: 'System Team Lead',
     company: 'Lean Tech',
-    employment: 'Full-time',
+    employment: 'Part-time',
     date: 'Jan 2024 – Mar 2026',
     summary:
       'Trained a 5-person team with no prior coding experience and led it in building STM32-based prototypes: house detection systems and pneumatic mechanisms. Managed development cycles from planning to implementation, utilizing GPIO, UART, I2C, and SPI interfaces.',
@@ -396,7 +396,7 @@ export const SKILLS: Skills = {
     ['Release Pipelines & Automation'],
     ['Cloud Deployment Practice'],
     ['Production Deployment Strategies'],
-    ['Lumina Games', 'Elite Weddings', 'TatooGen'],
+    ['Lumina Games', 'Elite Weddings', 'TattooGen'],
     ['Relational Data Modeling'],
     ['Product Data Storage'],
     ['University of Georgia Coursework'],
@@ -503,7 +503,7 @@ export const PROJECTS: Projects[] = [
     gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
     role: 'Full-stack engineer',
     year: 2026,
-    status: 'in-development',
+    status: 'live',
     featured: true,
     stack: [
       'Angular SSR', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Kubernetes', 'NGINX',
@@ -556,6 +556,7 @@ export const PROJECTS: Projects[] = [
     role: 'Full-stack game systems engineer',
     year: 2026,
     status: 'in-development',
+    result: 'Load test: ~1,150 spins/s at p99 13 ms, 0 errors over 69k spins',
     featured: true,
     stack: [
       'Fastify', 'Node.js', 'TypeScript', 'PostgreSQL', 'Zod', 'Vitest', 'HMAC', 'Ed25519',
@@ -642,12 +643,12 @@ export const PROJECTS: Projects[] = [
     demoEmbedUrl: 'https://elitewe.com.ge/',
   },
   {
-    slug: 'tatoogen',
-    projName: 'TatooGen',
+    slug: 'tattoogen',
+    projName: 'TattooGen',
     subname: 'AI Tattoo Design Generator — Flutter + Node.js + OpenAI gpt-image-1',
     date: '2026',
     about:
-      'TatooGen is a cross-platform Flutter app that turns a guided quiz and a design form (style, placement, size, complexity) into AI-generated tattoo concepts. The Flutter client uses Riverpod, GoRouter and Dio; the Node.js/Express backend rewrites each spec with gpt-4o-mini before generating with gpt-image-1, runs jobs asynchronously on Postgres, and gates every call behind Firebase auth + App Check, per-user rate limits and a server-verified credits system.',
+      'TattooGen is a cross-platform Flutter app that turns a guided quiz and a design form (style, placement, size, complexity) into AI-generated tattoo concepts. The Flutter client uses Riverpod, GoRouter and Dio; the Node.js/Express backend rewrites each spec with gpt-4o-mini before generating with gpt-image-1, runs jobs asynchronously on Postgres, and gates every call behind Firebase auth + App Check, per-user rate limits and a server-verified credits system.',
     numOfPage: 7,
     duration: 'Flutter + Node.js + gpt-image-1',
     highlights: [
@@ -728,6 +729,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded systems engineer',
     year: 2026,
     status: 'prototype',
+    result: 'Publishes over MQTT every 3 s; LED switched remotely over Ethernet',
     featured: false,
     stack: ['C', 'STM32F767', 'STM32 HAL', 'lwIP', 'MQTT', 'Mosquitto', 'Ethernet'],
     metrics: [
@@ -764,6 +766,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded firmware engineer',
     year: 2026,
     status: 'prototype',
+    result: '≈5–7 fps artificial horizon from a 1 KB framebuffer on a Cortex-M0+',
     featured: false,
     stack: ['C', 'STM32L031K6', 'I2C', 'Bare-metal', 'SSD1306', 'MPU-6050', 'Keil µVision'],
     metrics: [
@@ -797,6 +800,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded firmware engineer',
     year: 2026,
     status: 'prototype',
+    result: '320×240 RGB565 frames over DCMI + DMA2 to a checksummed UART link',
     featured: false,
     stack: ['C', 'STM32 HAL', 'STM32F767ZI', 'DCMI', 'DMA', 'I²C/SCCB', 'UART', 'Python'],
     metrics: [
@@ -870,6 +874,7 @@ export const PROJECTS: Projects[] = [
     role: 'Angular engineer',
     year: 2025,
     status: 'in-production',
+    result: 'Core frontend for a ~30-person startup team',
     featured: true,
     stack: ['Angular', 'Standalone Components', 'Signals', 'RxJS'],
     problem:
@@ -916,6 +921,7 @@ export const PROJECTS: Projects[] = [
     role: 'Solo developer — frontend, SSR & SEO',
     year: 2024,
     status: 'live',
+    result: '309 products in 9 categories · Lighthouse 97–100 performance, 100 SEO',
     featured: true,
     stack: ['Angular 20', 'Angular SSR', 'Express', 'TypeScript', 'SCSS'],
     problem:
@@ -951,7 +957,7 @@ export const CONTACT: Contact = {
   github: 'https://github.com/WERSIT35',
   linkedin: 'https://www.linkedin.com/in/otar-davitashvili/',
   location: 'Tbilisi, Georgia',
-  availability: 'Open to freelance',
+  availability: 'Open to freelance & full-time',
   languages: [
     'Georgian (native)',
     'English (full professional)',

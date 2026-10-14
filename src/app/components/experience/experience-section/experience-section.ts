@@ -39,6 +39,7 @@ interface LedgerRole {
   id: number;
   role: string;
   org: string;
+  employment: string;
   date: string;
   years: string;
   lead: string;
@@ -54,7 +55,8 @@ const ROLES: LedgerRole[] = EXPERIENCES.map((job) => {
   return {
     id: job.id,
     role: job.role,
-    org: [job.company, job.employment].filter(Boolean).join(' · '),
+    org: job.company ?? '',
+    employment: job.employment ?? '',
     date: job.date,
     years: yearSpan(job.date),
     lead,

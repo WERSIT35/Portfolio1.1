@@ -4,4 +4,7 @@
   <router-outlet />
 </main>
 
-<div class="grain" aria-hidden="true"></div>
+<!-- Decorative film grain: mounted only after the page has loaded and gone idle. -->
+@if (grain()) {
+  <div class="grain" aria-hidden="true"></div>
+}

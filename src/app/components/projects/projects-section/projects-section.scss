@@ -12,7 +12,7 @@
   --text: #fafafa;
   --muted: #a1a1a1;
   // Names at rest: 4.7:1 on the ground (AA for any size).
-  --rest: #7b7b7b;
+  --rest: #b3b3b3;
   --gutter: 16px;
   --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
@@ -87,11 +87,11 @@
 
 .row__link {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 20px;
+  grid-template-columns: 28px minmax(0, 1fr) 64px 20px;
   align-items: baseline;
   column-gap: 12px;
   width: 100%;
-  padding: 14px 0;
+  padding: 16px 0;
   border: 0;
   background: none;
   font: inherit;
@@ -145,7 +145,7 @@
 }
 
 .row__meta {
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .row__stack {
@@ -164,7 +164,7 @@
 // +/– for the phone accordion.
 .row__link--toggle::after {
   content: '+';
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 1;
   justify-self: end;
   font-size: 20px;
@@ -349,7 +349,7 @@
 }
 
 .lens[data-kind='spec'] {
-  width: 21rem;
+  width: 26rem;
 }
 
 .lens__body {
@@ -365,8 +365,8 @@
 
 .lens__dots {
   display: flex;
-  gap: 5px;
-  padding: 8px 10px;
+  gap: 4px;
+  padding: 8px 8px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -450,14 +450,14 @@
 .lens__spec ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin: 0 0 16px;
   padding: 0;
   list-style: none;
 }
 
 .lens__spec li {
-  padding: 4px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--line);
   border-radius: 999px;
   font-size: 13px;
@@ -563,7 +563,7 @@
   .row__meta {
     grid-column: 3;
     display: grid;
-    gap: 2px;
+    gap: 4px;
     font-size: 14px;
     line-height: 20px;
   }
@@ -576,7 +576,7 @@
     grid-column: 4;
     grid-row: 1;
     display: grid;
-    gap: 2px;
+    gap: 4px;
     margin: 0;
     justify-self: start;
     font-size: 14px;
@@ -643,5 +643,89 @@
 
   .row.is-hot .row__name {
     translate: none;
+  }
+}
+
+// Phones: a small desaturated thumbnail in every row (the cursor lens is desktop-only).
+.row__thumb {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  align-self: center;
+  overflow: hidden;
+  width: 64px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #111;
+}
+
+.row__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  filter: grayscale(1);
+}
+
+.row.is-open .row__thumb {
+  visibility: hidden;
+}
+
+.lens__diagram,
+.strip__diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.lens__diagram {
+  margin-bottom: 12px;
+}
+
+.strip__diagram {
+  flex: none;
+  width: 88vw;
+  scroll-snap-align: center;
+}
+
+@include bp.tablet-up {
+  .row__thumb {
+    display: none;
+  }
+}
+
+// The phone strip scrolls sideways, so it takes keyboard focus; show where focus is.
+.strip:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+
+// One measured result under the name (only projects with real numbers have one).
+.row__result {
+  grid-column: 2;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text);
+}
+
+@include bp.tablet-up {
+  .row__result {
+    grid-row: 2;
+    margin-top: 4px;
+    font-size: 15px;
+  }
+
+  .row__index,
+  .row__meta,
+  .row__when {
+    grid-row: 1 / span 2;
+  }
+
+  .row__name {
+    grid-row: 1;
   }
 }

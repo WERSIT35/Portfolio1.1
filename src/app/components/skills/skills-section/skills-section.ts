@@ -43,6 +43,8 @@ interface BandMotion {
   dir: 1 | -1;
   copyWidth: number;
   braking: boolean;
+  /** Pointer resting anywhere on the band: the row stops so it can be read. */
+  paused: boolean;
 }
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -143,6 +145,7 @@ export class SkillsSection {
     dir: b % 2 === 0 ? -1 : 1,
     copyWidth: 0,
     braking: false,
+    paused: false,
   }));
 
   private rawVelocity = 0;
@@ -284,6 +287,13 @@ export class SkillsSection {
       ?.focus();
   }
 
+  /** Mouse over a band pauses that row (touch keeps tap-to-inspect). */
+  protected onBandHover(band: number, event: PointerEvent, over: boolean): void {
+    if (event.pointerType !== 'mouse') return;
+    this.motion[band].paused = over;
+    this.start();
+  }
+
   protected release(): void {
     for (const m of this.motion) m.braking = false;
     this.hot.set(null);
@@ -336,8 +346,8 @@ export class SkillsSection {
 
     const tracks = this.tracks();
     this.motion.forEach((m, b) => {
-      const target = m.braking ? 0 : m.dir * (BASE_SPEED + boost);
-      m.speed += (target - m.speed) * ease(dt, m.braking ? BRAKE_TAU : RESUME_TAU);
+      const target = m.braking || m.paused ? 0 : m.dir * (BASE_SPEED + boost);
+      m.speed += (target - m.speed) * ease(dt, m.braking || m.paused ? BRAKE_TAU : RESUME_TAU);
       if (!m.copyWidth) return;
       m.offset += (m.speed * dt) / 1000;
       this.wrap(m);

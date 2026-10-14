@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CONTACT } from '../../../data/site-data';
+import { trackEvent } from '../../../utils/analytics';
 import { MagneticDirective } from '../../../directives/magnetic.directive';
 import { ScrollSpyService } from '../../../services/scroll-spy.service';
 
@@ -64,6 +65,11 @@ export class DynamicIsland {
     () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? this.status,
   );
   protected readonly isStatus = computed(() => this.activeLabel() === this.status);
+  /** Past the hero (and before Contact, which has its own button): a one-tap "Email me". */
+  protected readonly showCta = computed(
+    () => !this.isStatus() && this.activeId() !== 'contact' && !this.expanded(),
+  );
+  protected readonly trackEvent = trackEvent;
 
   constructor() {
     const destroyRef = inject(DestroyRef);
@@ -88,10 +94,11 @@ export class DynamicIsland {
         hostEl.style.setProperty('--panel-w', `${Math.ceil(panel.width)}px`);
         hostEl.style.setProperty('--panel-h', `${Math.ceil(panel.height)}px`);
       };
+      // The observer's first callback runs right after layout, before paint, so the sizes
+      // land in the first frame without forcing a synchronous layout during hydration.
       const sizes = new ResizeObserver(measure);
       sizes.observe(this.labelText().nativeElement);
       sizes.observe(this.panelInner().nativeElement);
-      measure();
 
       destroyRef.onDestroy(() => {
         document.removeEventListener('pointerdown', onPointerDown);

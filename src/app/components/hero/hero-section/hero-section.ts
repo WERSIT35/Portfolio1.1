@@ -1,4 +1,6 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
+import { shotSize } from '../../../utils/project-media';
+import { trackEvent } from '../../../utils/analytics';
 import { RouterLink } from '@angular/router';
 import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
@@ -28,6 +30,7 @@ const tbilisiTime = new Intl.DateTimeFormat('en-GB', {
   styleUrl: './hero-section.scss',
 })
 export class HeroSection {
+  protected readonly trackEvent = trackEvent;
   private readonly host = inject(ElementRef<HTMLElement>);
   protected readonly contact = CONTACT;
   protected readonly role = ROLE;
@@ -48,6 +51,22 @@ export class HeroSection {
     this.current.company ?? this.current.employment,
     `since ${this.current.date.match(/\d{4}/)?.[0]}`,
   ].filter(Boolean);
+
+  /** Honest counter: every project, and how many are live right now (computed from data). */
+  protected readonly projectCount = PROJECTS.length;
+  protected readonly liveCount = PROJECTS.filter((project) => project.status === 'live').length;
+
+  /** Project 01 previews in the white card with its first desktop screenshot. */
+  protected readonly featured = {
+    slug: PROJECTS[0].slug,
+    index: '01',
+    projName: PROJECTS[0].projName,
+    line: PROJECTS[0].subname.split(' — ')[0],
+    thumb: PROJECTS[0].img.find((src) => !/Mob\./.test(src)) ?? '',
+  };
+  protected readonly featuredSize = shotSize(this.featured.thumb);
+  /** The card is 112px wide: the 800w sibling is plenty (phones hide the card, so lazy). */
+  protected readonly featuredSmall = this.featured.thumb.replace(/\.webp$/, '-800w.webp');
 
   /** Projects that are out in the world: live, or running in production. */
   protected readonly shippedCount = PROJECTS.filter(

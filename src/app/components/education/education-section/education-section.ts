@@ -22,6 +22,10 @@ interface DegreeRecord {
   years: string;
   status: 'Completed' | 'In progress';
   coursework: string;
+  /** The degree's own description from the data, as plain text. */
+  summary: string;
+  cover: string;
+  coverAlt: string;
   /** Timeline: a bar from start to end, or a single marker when only the end is known. */
   start: number | null;
   end: number;
@@ -41,6 +45,12 @@ const DEGREES: DegreeRecord[] = EDUCATION_ITEMS.filter((item) => DEGREE.test(ite
       years: start ? `${start}—${end}` : `Expected ${end}`,
       status: inProgress ? 'In progress' : 'Completed',
       coursework: item.subjects.join(' · '),
+      summary: item.description
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+      cover: item.coverImage,
+      coverAlt: item.coverAlt,
       start,
       end,
     };

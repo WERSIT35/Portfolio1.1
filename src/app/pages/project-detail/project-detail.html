@@ -43,7 +43,11 @@
       @if (p.live || p.github) {
         <p class="cover__links">
           @if (p.live) {
-            <a [href]="p.live" target="_blank" rel="noopener"
+            <a
+              [href]="p.live"
+              target="_blank"
+              rel="noopener"
+              (click)="trackEvent('live_click', { project: p.slug, from: 'case-study' })"
               >Live site <span aria-hidden="true">↗</span></a
             >
           }
@@ -91,6 +95,28 @@
                   }
                 </ol>
               }
+              @case ('facts') {
+                <dl class="decisions">
+                  @for (f of chapter.facts; track f.label) {
+                    <div>
+                      <dt>{{ f.label }}</dt>
+                      <dd>{{ f.value }}</dd>
+                    </div>
+                  }
+                </dl>
+              }
+              @case ('figure') {
+                <figure class="diagram">
+                  <img
+                    [src]="chapter.src"
+                    [alt]="p.projName + ' architecture diagram'"
+                    width="480"
+                    height="270"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              }
               @case ('quote') {
                 <blockquote class="quote">
                   <p>{{ chapter.text }}</p>
@@ -105,6 +131,8 @@
       }
     </div>
 
+    <!-- Below the fold: server-rendered, hydrated only when it nears the viewport. -->
+    @defer (hydrate on viewport) {
     <!-- Plates: a contact sheet in greyscale; each opens in colour. -->
     @if (plates().length) {
       <section class="plates" aria-labelledby="plates-title">
@@ -192,6 +220,7 @@
         </p>
       </div>
     </section>
+    }
 
     <!-- The screens at full size, in their own colours. -->
     <dialog

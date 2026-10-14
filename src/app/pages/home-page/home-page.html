@@ -1,7 +1,21 @@
 <div class="stage"><div class="stage__inner"><app-hero-section /></div></div>
-<div class="stage"><div class="stage__inner"><app-experience-section /></div></div>
-<div class="stage"><div class="stage__inner"><app-projects-section /></div></div>
-<div class="stage"><div class="stage__inner"><app-skills-section /></div></div>
-<div class="stage"><div class="stage__inner"><app-certifications-section /></div></div>
-<div class="stage"><div class="stage__inner"><app-education-section /></div></div>
-<div class="stage stage--auto"><div class="stage__inner"><app-contact-section /></div></div>
+<!-- Below the fold: rendered on the server (content and SEO intact), hydrated only when the
+     section nears the viewport, so the first load runs a fraction of the JavaScript. -->
+<div class="stage"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-experience-section /> }
+</div></div>
+<div class="stage"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-projects-section /> }
+</div></div>
+<div class="stage"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-skills-section /> }
+</div></div>
+<div class="stage"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-certifications-section /> }
+</div></div>
+<div class="stage"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-education-section /> }
+</div></div>
+<div class="stage stage--auto"><div class="stage__inner">
+  @defer (hydrate on viewport) { <app-contact-section /> }
+</div></div>

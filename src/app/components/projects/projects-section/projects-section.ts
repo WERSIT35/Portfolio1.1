@@ -15,6 +15,9 @@ import { SpySectionDirective } from '../../../directives/spy-section.directive';
 import { desktopShots, mobileShots, shotSize, shotSrcset } from '../../../utils/project-media';
 import { projectStatusLabel } from '../../../utils/project-status';
 
+import { PROJECT_DIAGRAMS } from '../../../utils/project-diagrams';
+import { trackEvent } from '../../../utils/analytics';
+
 type LensKind = 'both' | 'desktop' | 'mobile' | 'spec';
 
 // Lens trailing physics (per 60fps frame): lower follow = heavier lag.
@@ -37,6 +40,7 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 })
 export class ProjectsSection {
   protected readonly shotSize = shotSize;
+  protected readonly trackEvent = trackEvent;
   protected readonly shotSrcset = shotSrcset;
 
   protected readonly rows = PROJECTS.map((project, i) => {
@@ -63,6 +67,9 @@ export class ProjectsSection {
       desktop,
       mobile,
       kind,
+      diagram: PROJECT_DIAGRAMS[project.slug] ?? null,
+      // Phones: a small thumbnail inside the row (first screen, else the diagram).
+      thumb: desktop[0] ?? mobile[0] ?? PROJECT_DIAGRAMS[project.slug] ?? null,
     };
   });
 

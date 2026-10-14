@@ -40,6 +40,7 @@
           <a
             class="row__visit"
             [href]="row.live"
+            (click)="trackEvent('live_click', { project: row.slug })"
             target="_blank"
             rel="noopener"
             [attr.aria-label]="'Visit the live ' + row.projName + ' site (opens in a new tab)'"
@@ -50,7 +51,13 @@
         <!-- Phones only: the expanded accordion body. -->
         <div class="row__media" [id]="'pj-media-' + i" [attr.inert]="open() === i ? null : ''">
           <div class="row__media-inner">
-            <div class="strip" (scroll)="onStripScroll($event)">
+            <div
+              class="strip"
+              tabindex="0"
+              role="region"
+              [attr.aria-label]="row.projName + ' screens'"
+              (scroll)="onStripScroll($event)"
+            >
               @for (src of row.desktop; track src; let k = $index) {
                 <img
                   class="strip__desktop"
@@ -77,6 +84,17 @@
                     decoding="async"
                   />
                 </span>
+              }
+              @if (row.kind === 'spec' && row.diagram) {
+                <img
+                  class="strip__diagram"
+                  [src]="row.diagram"
+                  [alt]="row.projName + ' architecture diagram'"
+                  width="480"
+                  height="270"
+                  loading="lazy"
+                  decoding="async"
+                />
               }
               @if (row.kind === 'spec') {
                 <div class="strip__spec">
@@ -107,6 +125,7 @@
                 <a
                   class="row__cta"
                   [href]="row.live"
+                  (click)="trackEvent('live_click', { project: row.slug })"
                   target="_blank"
                   rel="noopener"
                   [attr.aria-label]="
@@ -125,6 +144,9 @@
   <ng-template #rowLine let-row>
     <span class="row__index">{{ row.index }}</span>
     <span class="row__name">{{ row.projName }}</span>
+    @if (row.result) {
+      <span class="row__result">{{ row.result }}</span>
+    }
     <span class="row__meta">
       <span class="row__category">{{ row.category }}</span>
       <span class="row__stack">{{ row.stackLine }}</span>
@@ -133,6 +155,9 @@
       <span class="row__year">{{ row.year }}</span>
       <span class="row__status" [attr.data-status]="row.status">{{ row.statusLabel }}</span>
     </span>
+    @if (row.thumb) {
+      <span class="row__thumb" aria-hidden="true"><img [src]="row.thumb" alt="" loading="lazy" decoding="async" /></span>
+    }
   </ng-template>
 
   <!-- Desktop: glass lens trailing the cursor (decorative; the rows carry the content). -->
@@ -147,6 +172,9 @@
       <div class="lens__body">
         @switch (p.kind) {
           @case ('spec') {
+            @if (p.diagram) {
+              <img class="lens__diagram" [src]="p.diagram" alt="" width="480" height="270" decoding="async" />
+            }
             <div class="lens__spec">
               <p class="spec__label">// stack</p>
               <ul>
