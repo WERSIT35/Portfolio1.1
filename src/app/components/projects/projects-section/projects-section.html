@@ -142,6 +142,9 @@
   <ng-template #rowLine let-row>
     <span class="row__index">{{ row.index }}</span>
     <span class="row__name">{{ row.projName }}</span>
+    @if (row.result) {
+      <span class="row__result">{{ row.result }}</span>
+    }
     <span class="row__meta">
       <span class="row__category">{{ row.category }}</span>
       <span class="row__stack">{{ row.stackLine }}</span>

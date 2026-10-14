@@ -244,6 +244,7 @@ export class ProjectDetail {
     if (p.stack.length) chapters.push({ name: 'Stack', kind: 'text', text: p.stack.join(' · ') });
     const live = liveUrl(p);
     const outcome = [
+      p.result ? `${p.result}.` : '',
       `${projectStatusLabel(p.status)} · ${p.year}.`,
       live ? `Live at ${live.replace(/^https?:\/\//, '').replace(/\/$/, '')}.` : '',
       p.lessons ?? '',

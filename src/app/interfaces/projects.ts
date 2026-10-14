@@ -22,6 +22,8 @@ export interface Projects {
   status: 'live' | 'in-production' | 'in-development' | 'prototype';
   featured: boolean;
   stack: string[];
+  /** One line, real numbers only (CV / repo evidence). Shown in the list and as the Outcome lead. */
+  result?: string;
   problem?: string;
   approach?: string[];
   metrics?: ProjectMetric[];

@@ -556,6 +556,7 @@ export const PROJECTS: Projects[] = [
     role: 'Full-stack game systems engineer',
     year: 2026,
     status: 'in-development',
+    result: 'Load test: ~1,150 spins/s at p99 13 ms, 0 errors over 69k spins',
     featured: true,
     stack: [
       'Fastify', 'Node.js', 'TypeScript', 'PostgreSQL', 'Zod', 'Vitest', 'HMAC', 'Ed25519',
@@ -728,6 +729,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded systems engineer',
     year: 2026,
     status: 'prototype',
+    result: 'Publishes over MQTT every 3 s; LED switched remotely over Ethernet',
     featured: false,
     stack: ['C', 'STM32F767', 'STM32 HAL', 'lwIP', 'MQTT', 'Mosquitto', 'Ethernet'],
     metrics: [
@@ -764,6 +766,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded firmware engineer',
     year: 2026,
     status: 'prototype',
+    result: '≈5–7 fps artificial horizon from a 1 KB framebuffer on a Cortex-M0+',
     featured: false,
     stack: ['C', 'STM32L031K6', 'I2C', 'Bare-metal', 'SSD1306', 'MPU-6050', 'Keil µVision'],
     metrics: [
@@ -797,6 +800,7 @@ export const PROJECTS: Projects[] = [
     role: 'Embedded firmware engineer',
     year: 2026,
     status: 'prototype',
+    result: '320×240 RGB565 frames over DCMI + DMA2 to a checksummed UART link',
     featured: false,
     stack: ['C', 'STM32 HAL', 'STM32F767ZI', 'DCMI', 'DMA', 'I²C/SCCB', 'UART', 'Python'],
     metrics: [
@@ -870,6 +874,7 @@ export const PROJECTS: Projects[] = [
     role: 'Angular engineer',
     year: 2025,
     status: 'in-production',
+    result: 'Core frontend for a ~30-person startup team',
     featured: true,
     stack: ['Angular', 'Standalone Components', 'Signals', 'RxJS'],
     problem:
@@ -916,6 +921,7 @@ export const PROJECTS: Projects[] = [
     role: 'Solo developer — frontend, SSR & SEO',
     year: 2024,
     status: 'live',
+    result: '309 products in 9 categories · Lighthouse 97–100 performance, 100 SEO',
     featured: true,
     stack: ['Angular 20', 'Angular SSR', 'Express', 'TypeScript', 'SCSS'],
     problem:
