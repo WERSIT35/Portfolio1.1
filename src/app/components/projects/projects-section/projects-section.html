@@ -78,6 +78,17 @@
                   />
                 </span>
               }
+              @if (row.kind === 'spec' && row.diagram) {
+                <img
+                  class="strip__diagram"
+                  [src]="row.diagram"
+                  [alt]="row.projName + ' architecture diagram'"
+                  width="480"
+                  height="270"
+                  loading="lazy"
+                  decoding="async"
+                />
+              }
               @if (row.kind === 'spec') {
                 <div class="strip__spec">
                   <p class="spec__label">// stack</p>
@@ -133,6 +144,9 @@
       <span class="row__year">{{ row.year }}</span>
       <span class="row__status" [attr.data-status]="row.status">{{ row.statusLabel }}</span>
     </span>
+    @if (row.thumb) {
+      <span class="row__thumb" aria-hidden="true"><img [src]="row.thumb" alt="" loading="lazy" decoding="async" /></span>
+    }
   </ng-template>
 
   <!-- Desktop: glass lens trailing the cursor (decorative; the rows carry the content). -->
@@ -147,6 +161,9 @@
       <div class="lens__body">
         @switch (p.kind) {
           @case ('spec') {
+            @if (p.diagram) {
+              <img class="lens__diagram" [src]="p.diagram" alt="" width="480" height="270" decoding="async" />
+            }
             <div class="lens__spec">
               <p class="spec__label">// stack</p>
               <ul>

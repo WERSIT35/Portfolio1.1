@@ -396,3 +396,55 @@
     transition: none;
   }
 }
+
+// Employment type as a badge, not a grey suffix.
+.row__org {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.row__aside {
+  display: none;
+}
+
+@include bp.tablet-up {
+  // Closed rows: the year numerals recede so the role titles lead.
+  .row:not(.is-open) .row__years {
+    color: #5c5c5c;
+  }
+
+  // The open row's date sits under its years, so the left column is no longer empty.
+  .row__aside {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding-top: 4px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+
+  .row__date {
+    display: none;
+  }
+}

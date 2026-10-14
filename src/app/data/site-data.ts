@@ -396,7 +396,7 @@ export const SKILLS: Skills = {
     ['Release Pipelines & Automation'],
     ['Cloud Deployment Practice'],
     ['Production Deployment Strategies'],
-    ['Lumina Games', 'Elite Weddings', 'TatooGen'],
+    ['Lumina Games', 'Elite Weddings', 'TattooGen'],
     ['Relational Data Modeling'],
     ['Product Data Storage'],
     ['University of Georgia Coursework'],
@@ -642,12 +642,12 @@ export const PROJECTS: Projects[] = [
     demoEmbedUrl: 'https://elitewe.com.ge/',
   },
   {
-    slug: 'tatoogen',
-    projName: 'TatooGen',
+    slug: 'tattoogen',
+    projName: 'TattooGen',
     subname: 'AI Tattoo Design Generator — Flutter + Node.js + OpenAI gpt-image-1',
     date: '2026',
     about:
-      'TatooGen is a cross-platform Flutter app that turns a guided quiz and a design form (style, placement, size, complexity) into AI-generated tattoo concepts. The Flutter client uses Riverpod, GoRouter and Dio; the Node.js/Express backend rewrites each spec with gpt-4o-mini before generating with gpt-image-1, runs jobs asynchronously on Postgres, and gates every call behind Firebase auth + App Check, per-user rate limits and a server-verified credits system.',
+      'TattooGen is a cross-platform Flutter app that turns a guided quiz and a design form (style, placement, size, complexity) into AI-generated tattoo concepts. The Flutter client uses Riverpod, GoRouter and Dio; the Node.js/Express backend rewrites each spec with gpt-4o-mini before generating with gpt-image-1, runs jobs asynchronously on Postgres, and gates every call behind Firebase auth + App Check, per-user rate limits and a server-verified credits system.',
     numOfPage: 7,
     duration: 'Flutter + Node.js + gpt-image-1',
     highlights: [

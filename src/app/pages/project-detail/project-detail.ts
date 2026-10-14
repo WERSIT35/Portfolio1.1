@@ -10,11 +10,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { PROJECTS } from '../../data/site-data';
 import { Projects } from '../../interfaces/projects';
 import { projectStatusLabel } from '../../utils/project-status';
+import { PROJECT_DIAGRAMS } from '../../utils/project-diagrams';
 import { desktopShots, shotSize, shotSrcset } from '../../utils/project-media';
 
 // ---------------------------------------------------------------------------
@@ -26,9 +28,11 @@ import { desktopShots, shotSize, shotSrcset } from '../../utils/project-media';
 
 interface Chapter {
   name: string;
-  kind: 'text' | 'list' | 'quote';
+  kind: 'text' | 'list' | 'quote' | 'facts' | 'figure';
   text?: string;
   items?: string[];
+  facts?: { label: string; value: string }[];
+  src?: string;
 }
 
 interface Fact {
@@ -50,6 +54,8 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /** A real live URL only ('#' and empty links are placeholders). */
+const SITE_URL = 'https://portfolio1-1-mu.vercel.app';
+
 const liveUrl = (p: Projects) => (p.iflink && p.link && p.link !== '#' ? p.link : null);
 
 /** The spec plate: the first metric, set large (its first clause when it has several). */
@@ -71,6 +77,18 @@ export class ProjectDetail {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly document = inject(DOCUMENT);
+
+  /** One canonical <link> per page, updated in place (works on the server and in the browser). */
+  private setCanonical(url: string): void {
+    let link = this.document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+    }
+    link.setAttribute('href', url);
+  }
 
   slug = input<string>();
 
@@ -147,9 +165,21 @@ export class ProjectDetail {
     effect(() => {
       const p = this.current()[0];
       this.title.setTitle(
-        p ? `${p.projName} — Otar Davitashvili` : 'Project not found — Otar Davitashvili',
+        p
+          ? `${p.projName} — case study · Otar Davitashvili`
+          : 'Project not found — Otar Davitashvili',
       );
-      if (p) this.meta.updateTag({ name: 'description', content: `${p.projName}: ${p.subname}.` });
+      if (p) {
+        const pageTitle = `${p.projName} — case study · Otar Davitashvili`;
+        const description = `${p.projName}: ${p.subname}. ${p.statusLabel}, ${p.year}.`;
+        const url = `${SITE_URL}/work/${p.slug}`;
+        this.meta.updateTag({ name: 'description', content: description });
+        this.meta.updateTag({ property: 'og:title', content: pageTitle });
+        this.meta.updateTag({ property: 'og:description', content: description });
+        this.meta.updateTag({ property: 'og:url', content: url });
+        if (p.cover) this.meta.updateTag({ property: 'og:image', content: `${SITE_URL}${p.cover}` });
+        this.setCanonical(url);
+      }
       // A new case starts unread, with nothing open.
       this.progress.set(0);
       this.activeChapter.set(0);
@@ -202,12 +232,25 @@ export class ProjectDetail {
   }
 
   private chaptersOf(p: Projects): Chapter[] {
+    // Fixed order: problem → what I built → decisions → stack → outcome. Empty ones are skipped,
+    // and nothing is invented: every chapter reads straight from the project's data.
     const chapters: Chapter[] = [{ name: 'Overview', kind: 'text', text: p.about }];
     if (p.problem) chapters.push({ name: 'Problem', kind: 'text', text: p.problem });
-    if (p.approach?.length) chapters.push({ name: 'Approach', kind: 'list', items: p.approach });
-    else if (p.highlights.length)
-      chapters.push({ name: 'Highlights', kind: 'list', items: p.highlights });
-    if (p.lessons) chapters.push({ name: 'Lessons', kind: 'quote', text: p.lessons });
+    const built = p.approach?.length ? p.approach : p.highlights;
+    if (built.length) chapters.push({ name: 'What I built', kind: 'list', items: built });
+    const diagram = PROJECT_DIAGRAMS[p.slug];
+    if (diagram) chapters.push({ name: 'Architecture', kind: 'figure', src: diagram });
+    if (p.metrics?.length) chapters.push({ name: 'Key decisions', kind: 'facts', facts: p.metrics });
+    if (p.stack.length) chapters.push({ name: 'Stack', kind: 'text', text: p.stack.join(' · ') });
+    const live = liveUrl(p);
+    const outcome = [
+      `${projectStatusLabel(p.status)} · ${p.year}.`,
+      live ? `Live at ${live.replace(/^https?:\/\//, '').replace(/\/$/, '')}.` : '',
+      p.lessons ?? '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+    chapters.push({ name: 'Outcome', kind: 'text', text: outcome });
     return chapters;
   }
 

@@ -12,7 +12,7 @@
   --text: #fafafa;
   --muted: #a1a1a1;
   // Names at rest: 4.7:1 on the ground (AA for any size).
-  --rest: #7b7b7b;
+  --rest: #b3b3b3;
   --gutter: 16px;
   --ease-luxe: cubic-bezier(0.19, 1, 0.22, 1);
 
@@ -87,7 +87,7 @@
 
 .row__link {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 20px;
+  grid-template-columns: 28px minmax(0, 1fr) 64px 20px;
   align-items: baseline;
   column-gap: 12px;
   width: 100%;
@@ -164,7 +164,7 @@
 // +/– for the phone accordion.
 .row__link--toggle::after {
   content: '+';
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 1;
   justify-self: end;
   font-size: 20px;
@@ -349,7 +349,7 @@
 }
 
 .lens[data-kind='spec'] {
-  width: 21rem;
+  width: 26rem;
 }
 
 .lens__body {
@@ -643,5 +643,56 @@
 
   .row.is-hot .row__name {
     translate: none;
+  }
+}
+
+// Phones: a small desaturated thumbnail in every row (the cursor lens is desktop-only).
+.row__thumb {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  align-self: center;
+  overflow: hidden;
+  width: 64px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #111;
+}
+
+.row__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  filter: grayscale(1);
+}
+
+.row.is-open .row__thumb {
+  visibility: hidden;
+}
+
+.lens__diagram,
+.strip__diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.lens__diagram {
+  margin-bottom: 12px;
+}
+
+.strip__diagram {
+  flex: none;
+  width: 88vw;
+  scroll-snap-align: center;
+}
+
+@include bp.tablet-up {
+  .row__thumb {
+    display: none;
   }
 }

@@ -5,9 +5,11 @@
     <p class="ct__meta">&copy; {{ year }} {{ contact.name }} {{ contact.surname }}</p>
   </header>
 
+  <p class="ct__open">
+    Open to freelance — web platforms in Angular and Node.js, and STM32 firmware.
+  </p>
   <p class="ct__lede">
-    {{ contact.availability }} · {{ contact.location }} (GMT+4)<br />
-    Speaks {{ contact.languages.join(', ') }}
+    {{ contact.location }} (GMT+4) · Speaks {{ contact.languages.join(', ') }}
   </p>
 
   <!-- The address on one line, sized from its width in ems (rendered on the server, so it
@@ -39,6 +41,9 @@
   </div>
 
   <nav class="actions" aria-label="Contact options">
+    <a class="act act--primary" [href]="'mailto:' + contact.email"
+      >Email me <span aria-hidden="true">→</span></a
+    >
     <button type="button" class="act" [class.is-copied]="copied()" (click)="copy()">
       {{ copied() ? 'Copied ✓' : 'Copy email' }}
     </button>

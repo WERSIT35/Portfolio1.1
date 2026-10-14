@@ -1056,3 +1056,43 @@ button:focus-visible {
   min-height: 44px;
   font-size: 15px;
 }
+
+// Key decisions: label / value rows, same hairlines as the rest of the dossier.
+.decisions {
+  display: grid;
+  margin: 0;
+}
+
+.decisions > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.decisions dt {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a1a1a1;
+}
+
+.decisions dd {
+  margin: 0;
+  font-size: 16px;
+  color: #ededed;
+}
+
+.diagram {
+  margin: 0;
+}
+
+.diagram img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 16px;
+}

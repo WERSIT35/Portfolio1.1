@@ -91,6 +91,28 @@
                   }
                 </ol>
               }
+              @case ('facts') {
+                <dl class="decisions">
+                  @for (f of chapter.facts; track f.label) {
+                    <div>
+                      <dt>{{ f.label }}</dt>
+                      <dd>{{ f.value }}</dd>
+                    </div>
+                  }
+                </dl>
+              }
+              @case ('figure') {
+                <figure class="diagram">
+                  <img
+                    [src]="chapter.src"
+                    [alt]="p.projName + ' architecture diagram'"
+                    width="480"
+                    height="270"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              }
               @case ('quote') {
                 <blockquote class="quote">
                   <p>{{ chapter.text }}</p>

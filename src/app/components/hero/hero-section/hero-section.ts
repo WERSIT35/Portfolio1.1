@@ -49,6 +49,19 @@ export class HeroSection {
     `since ${this.current.date.match(/\d{4}/)?.[0]}`,
   ].filter(Boolean);
 
+  /** Honest counter: every project, and how many are live right now (computed from data). */
+  protected readonly projectCount = PROJECTS.length;
+  protected readonly liveCount = PROJECTS.filter((project) => project.status === 'live').length;
+
+  /** Project 01 previews in the white card with its first desktop screenshot. */
+  protected readonly featured = {
+    slug: PROJECTS[0].slug,
+    index: '01',
+    projName: PROJECTS[0].projName,
+    line: PROJECTS[0].subname.split(' — ')[0],
+    thumb: PROJECTS[0].img.find((src) => !/Mob\./.test(src)) ?? '',
+  };
+
   /** Projects that are out in the world: live, or running in production. */
   protected readonly shippedCount = PROJECTS.filter(
     (project) => project.status === 'live' || project.status === 'in-production',

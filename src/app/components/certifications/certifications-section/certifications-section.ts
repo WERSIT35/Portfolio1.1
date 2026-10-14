@@ -9,7 +9,13 @@ const yearOf = (issued: string) => Number(issued.match(/\d{4}/)?.[0] ?? 0);
 
 // Newest first; ties keep their data order.
 const CERTS = CERTIFICATIONS.map((cert, order) => ({ cert, order }))
-  .sort((a, b) => yearOf(b.cert.issued) - yearOf(a.cert.issued) || a.order - b.order)
+  // Anthropic first (most relevant to the work), then newest first.
+  .sort(
+    (a, b) =>
+      Number(/anthropic/i.test(b.cert.issuer)) - Number(/anthropic/i.test(a.cert.issuer)) ||
+      yearOf(b.cert.issued) - yearOf(a.cert.issued) ||
+      a.order - b.order,
+  )
   .map(({ cert }, i) => ({
     id: cert.id,
     index: String(i + 1).padStart(2, '0'),
