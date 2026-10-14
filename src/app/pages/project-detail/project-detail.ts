@@ -17,6 +17,7 @@ import { PROJECTS } from '../../data/site-data';
 import { Projects } from '../../interfaces/projects';
 import { projectStatusLabel } from '../../utils/project-status';
 import { PROJECT_DIAGRAMS } from '../../utils/project-diagrams';
+import { SITE_URL, personJsonLd, projectJsonLd, setJsonLd } from '../../utils/seo';
 import { desktopShots, shotSize, shotSrcset } from '../../utils/project-media';
 
 // ---------------------------------------------------------------------------
@@ -54,7 +55,6 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /** A real live URL only ('#' and empty links are placeholders). */
-const SITE_URL = 'https://portfolio1-1-mu.vercel.app';
 
 const liveUrl = (p: Projects) => (p.iflink && p.link && p.link !== '#' ? p.link : null);
 
@@ -177,7 +177,11 @@ export class ProjectDetail {
         this.meta.updateTag({ property: 'og:title', content: pageTitle });
         this.meta.updateTag({ property: 'og:description', content: description });
         this.meta.updateTag({ property: 'og:url', content: url });
-        if (p.cover) this.meta.updateTag({ property: 'og:image', content: `${SITE_URL}${p.cover}` });
+        const image = `${SITE_URL}/assets/og/${p.slug}.png`;
+        this.meta.updateTag({ property: 'og:image', content: image });
+        this.meta.updateTag({ name: 'twitter:image', content: image });
+        setJsonLd(this.document, 'ld-person', personJsonLd());
+        setJsonLd(this.document, 'ld-page', projectJsonLd(p));
         this.setCanonical(url);
       }
       // A new case starts unread, with nothing open.

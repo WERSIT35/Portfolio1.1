@@ -7,6 +7,8 @@ import { CertificationsSection } from '../../components/certifications/certifica
 import { EducationSection } from '../../components/education/education-section/education-section';
 import { ContactSection } from '../../components/contact/contact-section/contact-section';
 
+import { personJsonLd, setJsonLd } from '../../utils/seo';
+
 const SNAP_CLASS = 'has-snap';
 
 @Component({
@@ -30,6 +32,7 @@ export class HomePage implements OnDestroy {
   constructor() {
     // Only the home page snaps between full-viewport stages; detail pages scroll freely.
     this.renderer.addClass(this.document.documentElement, SNAP_CLASS);
+    setJsonLd(this.document, 'ld-person', personJsonLd());
   }
 
   ngOnDestroy(): void {
