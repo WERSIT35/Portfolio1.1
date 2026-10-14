@@ -486,9 +486,11 @@ a:focus-visible {
 // Motion: the name rises, the slab's edge wipes in, then the colophon follows.
 // Phones: the band's bottom edge rises as the hero scrolls away.
 // ---------------------------------------------------------------------------
+// The name and portrait are fully visible on the first frame (they are the LCP), then settle:
+// the motion reads the same, but nothing waits on an animation to be painted.
 @keyframes name-rise {
   from {
-    transform: translateY(105%);
+    transform: translateY(14%);
   }
 }
 
@@ -501,13 +503,13 @@ a:focus-visible {
 
 @keyframes wipe-down {
   from {
-    clip-path: inset(0 0 100% 0);
+    transform: scale(1.06);
   }
 }
 
 @keyframes wipe-in {
   from {
-    clip-path: inset(0 0 0 100%);
+    transform: scale(1.06) translateX(2%);
   }
 }
 

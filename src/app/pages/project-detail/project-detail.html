@@ -127,6 +127,8 @@
       }
     </div>
 
+    <!-- Below the fold: server-rendered, hydrated only when it nears the viewport. -->
+    @defer (hydrate on viewport) {
     <!-- Plates: a contact sheet in greyscale; each opens in colour. -->
     @if (plates().length) {
       <section class="plates" aria-labelledby="plates-title">
@@ -214,6 +216,7 @@
         </p>
       </div>
     </section>
+    }
 
     <!-- The screens at full size, in their own colours. -->
     <dialog

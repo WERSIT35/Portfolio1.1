@@ -46,7 +46,7 @@
         (click)="onTap($event, d.id)"
       >
         <p class="record__inst">
-          <img class="record__logo" [src]="d.logo" alt="" width="40" height="40" />
+          <img class="record__logo" [src]="d.logo" alt="" width="40" height="40" loading="lazy" decoding="async" />
           {{ d.institution }}
         </p>
         <h3 class="record__degree" [id]="'edu-degree-' + d.id">{{ d.degree }}</h3>

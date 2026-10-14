@@ -63,6 +63,8 @@ export class HeroSection {
     thumb: PROJECTS[0].img.find((src) => !/Mob\./.test(src)) ?? '',
   };
   protected readonly featuredSize = shotSize(this.featured.thumb);
+  /** The card is 112px wide: the 800w sibling is plenty (phones hide the card, so lazy). */
+  protected readonly featuredSmall = this.featured.thumb.replace(/\.webp$/, '-800w.webp');
 
   /** Projects that are out in the world: live, or running in production. */
   protected readonly shippedCount = PROJECTS.filter(
