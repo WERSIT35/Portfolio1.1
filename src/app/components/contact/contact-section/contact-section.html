@@ -59,5 +59,35 @@
     <a class="act" [href]="telHref">{{ contact.phone }}</a>
   </nav>
 
+  <!-- Short form. Posts to the form endpoint when one is configured; otherwise it opens the
+       visitor's mail app with the message pre-filled, so it works either way. -->
+  <form class="form" (submit)="onSubmit($event)" novalidate aria-labelledby="ct-form-title">
+    <h3 id="ct-form-title" class="form__title">Or leave a message</h3>
+    <div class="form__row">
+      <label class="field">
+        <span class="field__label">Name</span>
+        <input name="name" type="text" autocomplete="name" required maxlength="120" />
+      </label>
+      <label class="field">
+        <span class="field__label">Email</span>
+        <input name="email" type="email" autocomplete="email" required maxlength="200" />
+      </label>
+    </div>
+    <label class="field">
+      <span class="field__label">Message</span>
+      <textarea name="message" rows="4" required maxlength="4000"></textarea>
+    </label>
+    <!-- Honeypot: invisible to people, filled by bots; any value drops the submission. -->
+    <label class="form__trap" aria-hidden="true">
+      Company <input name="company" type="text" tabindex="-1" autocomplete="off" />
+    </label>
+    <div class="form__foot">
+      <button type="submit" class="act act--primary" [disabled]="sending()">
+        {{ sending() ? 'Sending…' : 'Send message' }}
+      </button>
+      <p class="form__status" role="status" aria-live="polite">{{ status() }}</p>
+    </div>
+  </form>
+
   <span class="sr-only" aria-live="polite">{{ copied() ? 'Email copied' : '' }}</span>
 </section>

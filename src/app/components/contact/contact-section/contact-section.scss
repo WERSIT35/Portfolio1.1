@@ -264,3 +264,104 @@
     margin-bottom: 4px;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Short form: same hairlines and type as the action row.
+// ---------------------------------------------------------------------------
+.form {
+  display: grid;
+  gap: 16px;
+  max-width: 48rem;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.form__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.form__row {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field__label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a1a1a1;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 3%);
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  transition: border-color 150ms ease-out;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  border-color: rgb(255 255 255 / 40%);
+}
+
+.form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.form__foot .act--primary {
+  min-height: 48px;
+  border: 0;
+  cursor: pointer;
+}
+
+.form__foot .act--primary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.form__status {
+  margin: 0;
+  font-size: 15px;
+  color: #c8c8c8;
+}
+
+@include bp.tablet-up {
+  .form__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

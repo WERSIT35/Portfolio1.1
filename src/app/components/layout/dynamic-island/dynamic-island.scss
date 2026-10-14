@@ -343,6 +343,14 @@
       box-shadow var(--island-close) var(--ease-close);
   }
 
+  // With "Email me" showing, the closed pill makes room for it too (never clipping the label).
+  .island.has-cta:not(.is-open) {
+    width: min(
+      calc(100vw - 2rem),
+      max(13rem, calc(var(--label-w, 0px) + 6.1rem + 2px + 6.25rem))
+    );
+  }
+
   .island.is-open {
     transition:
       width 0.6s var(--ease-luxe),
@@ -458,6 +466,42 @@
 
   .island__dot,
   .island__label-word {
+    animation: none;
+  }
+}
+
+// "Email me" after the hero: the one filled control in the pill.
+.island__cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--island-h) - 0.6rem);
+  margin-right: 0.15rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #0a0a0a;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  animation: island-cta-in 0.35s var(--ease-luxe) both;
+}
+
+.island__cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@keyframes island-cta-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .island__cta {
     animation: none;
   }
 }

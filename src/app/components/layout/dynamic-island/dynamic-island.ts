@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CONTACT } from '../../../data/site-data';
+import { trackEvent } from '../../../utils/analytics';
 import { MagneticDirective } from '../../../directives/magnetic.directive';
 import { ScrollSpyService } from '../../../services/scroll-spy.service';
 
@@ -64,6 +65,11 @@ export class DynamicIsland {
     () => NAV_ITEMS.find((item) => item.id === this.activeId())?.label ?? this.status,
   );
   protected readonly isStatus = computed(() => this.activeLabel() === this.status);
+  /** Past the hero (and before Contact, which has its own button): a one-tap "Email me". */
+  protected readonly showCta = computed(
+    () => !this.isStatus() && this.activeId() !== 'contact' && !this.expanded(),
+  );
+  protected readonly trackEvent = trackEvent;
 
   constructor() {
     const destroyRef = inject(DestroyRef);

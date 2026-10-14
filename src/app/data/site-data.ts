@@ -965,3 +965,9 @@ export const CONTACT: Contact = {
     'German (conversational)',
   ],
 };
+
+/**
+ * Contact form endpoint (e.g. a Formspree form URL: https://formspree.io/f/<id>).
+ * TODO(oto): create the form and paste its URL. Empty = the form opens the mail app instead.
+ */
+export const CONTACT_FORM_ENDPOINT = '';
