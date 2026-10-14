@@ -40,7 +40,7 @@ export const EXPERIENCES: Experience[] = [
     id: 4,
     role: 'System Team Lead',
     company: 'Lean Tech',
-    employment: 'Full-time',
+    employment: 'Part-time',
     date: 'Jan 2024 – Mar 2026',
     summary:
       'Trained a 5-person team with no prior coding experience and led it in building STM32-based prototypes: house detection systems and pneumatic mechanisms. Managed development cycles from planning to implementation, utilizing GPIO, UART, I2C, and SPI interfaces.',
