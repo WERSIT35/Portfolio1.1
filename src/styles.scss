@@ -375,3 +375,10 @@ app-home-page {
     scroll-behavior: auto;
   }
 }
+
+// Off-screen stages skip style, layout and paint until they near the viewport (first stage
+// excluded: it is the first paint). `auto` remembers each stage's real height once rendered.
+.stage + .stage {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100svh;
+}

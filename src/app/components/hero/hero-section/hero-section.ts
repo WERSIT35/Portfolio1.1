@@ -1,4 +1,5 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
+import { shotSize } from '../../../utils/project-media';
 import { RouterLink } from '@angular/router';
 import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
 import { SpySectionDirective } from '../../../directives/spy-section.directive';
@@ -61,6 +62,7 @@ export class HeroSection {
     line: PROJECTS[0].subname.split(' — ')[0],
     thumb: PROJECTS[0].img.find((src) => !/Mob\./.test(src)) ?? '',
   };
+  protected readonly featuredSize = shotSize(this.featured.thumb);
 
   /** Projects that are out in the world: live, or running in production. */
   protected readonly shippedCount = PROJECTS.filter(

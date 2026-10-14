@@ -329,3 +329,42 @@
     transition: none;
   }
 }
+
+// Each degree's own description and campus photo (from the data) fill the record, so the
+// two columns read as a pair instead of one full column and one half-empty one.
+.record__summary {
+  margin: 0;
+  max-width: 40rem;
+  font-size: 15px;
+  line-height: 24px;
+  color: #c8c8c8;
+}
+
+.record__cover {
+  display: none;
+  margin: 8px 0 0;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 16px;
+  aspect-ratio: 16 / 6;
+}
+
+.record__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.8);
+}
+
+@include bp.tablet-up {
+  .record {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .record__cover {
+    display: block;
+    margin-top: auto;
+  }
+}

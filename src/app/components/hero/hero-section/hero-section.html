@@ -106,7 +106,7 @@
   <!-- Selected work: a real thumbnail of project 01, pinned to the slab's lower corner. -->
   <a class="feature rise" style="--i: 6" [routerLink]="['/work', featured.slug]">
     <span class="feature__thumb">
-      <img [src]="featured.thumb" alt="" width="1600" height="760" decoding="async" />
+      <img [src]="featured.thumb" alt="" [width]="featuredSize.width" [height]="featuredSize.height" decoding="async" />
     </span>
     <span class="feature__text">
       <span class="feature__kicker">Selected work · {{ featured.index }}</span>

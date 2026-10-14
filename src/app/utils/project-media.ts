@@ -1,3 +1,4 @@
+import { SHOT_SIZES } from './shot-sizes';
 import { Projects } from '../interfaces/projects';
 
 const isMobileShot = (src: string): boolean => /Mob\.[a-z]+$/i.test(src);
@@ -16,7 +17,7 @@ const DESKTOP_SHOT = { width: 1600, height: 760 };
 const MOBILE_SHOT = { width: 380, height: 820 };
 
 export function shotSize(src: string): { width: number; height: number } {
-  return isMobileShot(src) ? MOBILE_SHOT : DESKTOP_SHOT;
+  return SHOT_SIZES[src] ?? (isMobileShot(src) ? MOBILE_SHOT : DESKTOP_SHOT);
 }
 
 // Desktop shots are 1600px wide with an -800w sibling (scripts/optimize-images.mjs), so

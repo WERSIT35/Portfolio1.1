@@ -56,10 +56,14 @@
             d.status
           }}</span>
         </p>
+        <p class="record__summary">{{ d.summary }}</p>
         <p class="record__course">
           <span class="record__label">Coursework</span>
           {{ d.coursework }}
         </p>
+        <figure class="record__cover">
+          <img [src]="d.cover" [alt]="d.coverAlt" width="1152" height="639" loading="lazy" decoding="async" />
+        </figure>
       </article>
     }
   </div>

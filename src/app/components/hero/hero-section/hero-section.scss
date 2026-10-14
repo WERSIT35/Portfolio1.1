@@ -532,7 +532,7 @@ a:focus-visible {
   }
 
   .slab picture {
-    animation: wipe-down 1000ms var(--ease-edge) 100ms both;
+    animation: wipe-down 1000ms var(--ease-edge) both;
   }
 
   @supports (animation-timeline: view()) {

@@ -427,7 +427,7 @@
 @include bp.tablet-up {
   // Closed rows: the year numerals recede so the role titles lead.
   .row:not(.is-open) .row__years {
-    color: #5c5c5c;
+    color: #6b6b6b;
   }
 
   // The open row's date sits under its years, so the left column is no longer empty.

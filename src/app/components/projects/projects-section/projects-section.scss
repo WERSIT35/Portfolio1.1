@@ -696,3 +696,9 @@
     display: none;
   }
 }
+
+// The phone strip scrolls sideways, so it takes keyboard focus; show where focus is.
+.strip:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}

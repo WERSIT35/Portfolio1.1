@@ -30,7 +30,7 @@ export const EXPERIENCES: Experience[] = [
     id: 3,
     role: 'Angular Developer',
     company: 'PetC',
-    employment: 'Contract',
+    employment: 'Startup',
     date: 'Dec 2025 – Jun 2026',
     summary:
       'Built the core frontend features of a social platform for pet owners: user profiles, an Instagram-style stories viewer, search, scrolling feeds, QR-code pages and forms, in a modular Angular codebase using Standalone Components, Signals, and RxJS. Implemented lazy loading and code splitting while integrating REST APIs for focused, maintainable feature delivery. Worked cross-functionally to align frontend implementation with product and engineering needs.',
@@ -503,7 +503,7 @@ export const PROJECTS: Projects[] = [
     gradient: 'background-image: linear-gradient(90deg, #1f2329, #444b55);',
     role: 'Full-stack engineer',
     year: 2026,
-    status: 'in-development',
+    status: 'live',
     featured: true,
     stack: [
       'Angular SSR', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Kubernetes', 'NGINX',
@@ -951,7 +951,7 @@ export const CONTACT: Contact = {
   github: 'https://github.com/WERSIT35',
   linkedin: 'https://www.linkedin.com/in/otar-davitashvili/',
   location: 'Tbilisi, Georgia',
-  availability: 'Open to freelance',
+  availability: 'Open to freelance & full-time',
   languages: [
     'Georgian (native)',
     'English (full professional)',

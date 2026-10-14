@@ -50,7 +50,13 @@
         <!-- Phones only: the expanded accordion body. -->
         <div class="row__media" [id]="'pj-media-' + i" [attr.inert]="open() === i ? null : ''">
           <div class="row__media-inner">
-            <div class="strip" (scroll)="onStripScroll($event)">
+            <div
+              class="strip"
+              tabindex="0"
+              role="region"
+              [attr.aria-label]="row.projName + ' screens'"
+              (scroll)="onStripScroll($event)"
+            >
               @for (src of row.desktop; track src; let k = $index) {
                 <img
                   class="strip__desktop"
