@@ -15,7 +15,7 @@
   --gutter: 16px;
   --name-size: clamp(44px, 15vw, 96px);
   // Phones: the photo band takes whatever height the text and actions leave, never less.
-  --band-min: 28svh;
+  --band-min: 24svh;
   // Tablet/desktop: where the slab starts, and how far its edge may drift either way.
   --edge: 58vw;
   --drift-max: 2.5vw;
@@ -104,6 +104,21 @@
   text-transform: uppercase;
 }
 
+// Phones: the band is mostly face, so an inverted label would land on hair. It sits on a
+// small frosted chip instead, legible over anything.
+@include bp.phone {
+  .label {
+    justify-self: start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 72%);
+    color: #0a0a0a;
+    mix-blend-mode: normal;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 // Fixed-width digits; hidden (not removed) until the browser fills in the real time.
 .clock {
   font-variant-numeric: tabular-nums;
@@ -113,11 +128,12 @@
   visibility: hidden;
 }
 
-// Phones: pulled up by half a line, so the first line straddles the band's bottom edge.
+// Phones: below the band. A band this short ends at the chin, and a name straddling it
+// would invert over skin and beard (illegible); the straddle is a tablet/desktop move.
 .name {
   position: relative;
   grid-row: 2;
-  margin: calc(-0.5 * 0.9 * var(--name-size)) 0 0;
+  margin: 16px 0 0;
   font-family: inherit;
   font-size: var(--name-size);
   font-weight: 700;
@@ -142,9 +158,16 @@
   grid-row: 3;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 16px;
   min-width: 0;
+}
+
+// Phones: the tagline already says it; the role line would only push the actions under the dock.
+@include bp.phone {
+  .role {
+    display: none;
+  }
 }
 
 .role {
@@ -389,15 +412,9 @@ a:focus-visible {
 // Tablet and up: the slab stands on the right, full height, bleeding off three edges.
 // ---------------------------------------------------------------------------
 // Very narrow phones can't set the two actions side by side; the band gives up height instead.
-// A strip that thin shows the chin and neck at its edge, so the name sits below it rather than
-// straddling it (inverted over mid-grey skin it would be illegible).
 @media (max-width: 359px) {
   :host {
     --band-min: 13svh;
-  }
-
-  .name {
-    margin-top: 8px;
   }
 }
 
@@ -454,6 +471,7 @@ a:focus-visible {
 
   // The colophon never runs under the slab, wherever the edge drifts.
   .colophon {
+    gap: 16px;
     max-width: calc(var(--edge) - var(--drift-max) - var(--gutter) - 32px);
     margin-top: 24px;
   }
@@ -557,5 +575,13 @@ a:focus-visible {
     .slab {
       animation: none;
     }
+  }
+}
+
+// Short phones (Safari with its toolbars up): the pitch restates the tagline, so it gives way
+// before the actions would slide under the dock.
+@include bp.phone-shorter-than(720px) {
+  .pitch {
+    display: none;
   }
 }
