@@ -529,10 +529,10 @@ export const PROJECTS: Projects[] = [
   {
     slug: 'lumina-games',
     projName: 'Lumina Games',
-    subname: 'Server-Authoritative Slot Provider — Vault 20K, Classic 5x3 + Relic Forge (in development), Fastify RGS + Canvas Clients',
+    subname: 'Server-Authoritative Slot Provider — Vault 20K, Moth & Lantern + Relic Forge (in development), Fastify RGS + Canvas Clients',
     date: 'Apr 2026 – Oct 2026',
     about:
-      'Lumina Games is a server-authoritative slot provider platform with two playable titles, Vault 20K and Classic 5x3, and a third, Relic Forge, in development. Every math engine runs unchanged in the browser, the Fastify/TypeScript RGS and the seeded RTP parity tool, so all three resolve spins identically; a game registry runs every engine in its own isolated VM context. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks and rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres memory-first write-through persistence that was crash-tested with kill -9 under 500-player load without losing a round. The canvas client renders a 6x5 symbols-pay-anywhere board (8-match minimum) with tumbles, free spins, retriggers, multiplier progression, ante bet and buy-free-spins, across three RTP profiles validated in-house with 30M-round seeded simulations. The second title, Classic 5x3, is a 5x3 fixed-line game whose RTP is computed exactly from its reel counts (96.02%) and checked with a 100M-spin run. Relic Forge (in development) runs on the same RGS: a cluster-pays cascade with a per-player meter kept across sessions and a relic-draft bonus whose choices are balanced to near-equal expected value, so the picks change the volatility, not the return.',
+      'Lumina Games is a server-authoritative slot provider platform with two playable titles, Vault 20K and Moth & Lantern, and a third, Relic Forge, in development. Every math engine runs unchanged in the browser, the Fastify/TypeScript RGS and the seeded RTP parity tool, so all three resolve spins identically; a game registry runs every engine in its own isolated VM context. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks and rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres memory-first write-through persistence that was crash-tested with kill -9 under 500-player load without losing a round. The canvas client renders a 6x5 symbols-pay-anywhere board (8-match minimum) with tumbles, free spins, retriggers, multiplier progression, ante bet and buy-free-spins, across three RTP profiles validated in-house with 30M-round seeded simulations. The second title, Moth & Lantern, is a 5x3 fixed-line game whose RTP is computed exactly from its reel counts (96.02%) and checked with a 100M-spin run. Relic Forge (in development) runs on the same RGS: a cluster-pays cascade with a per-player meter kept across sessions and a relic-draft bonus whose choices are balanced to near-equal expected value, so the picks change the volatility, not the return.',
     numOfPage: 2,
     duration: 'Fastify + Node.js + Canvas + Slot Math Simulation',
     highlights: [
@@ -544,7 +544,7 @@ export const PROJECTS: Projects[] = [
       'Demo casino with seamless-wallet webhooks, idempotent debits and lost-debit rollback, tested end to end across two servers',
       'Separate provider and operator admin consoles: scrypt + TOTP 2FA, RBAC, tenant scoping, Round Inspector and disputes',
       'Vault 20K profile wiring with multiple RTP modes: 96.38%, 94.40%, and 92.38%',
-      'Second title, Classic 5x3 (20 lines, wild, scatter free spins): exact RTP 96.02% from reel counts, 100M-spin run measured 95.97%',
+      'Second title, Moth & Lantern (20 lines, wild, scatter free spins): exact RTP 96.02% from reel counts, 100M-spin run measured 95.97%',
       'Multi-game registry: each engine isolated in its own VM context, proven byte-identical over 10M seeded rounds',
       'Crash-tested with kill -9 three times under 500-player load: 0 lost rounds, 0 unrefunded debits, 0 double payments',
       '2-hour soak at 500 players on a 2 GB server: 1,047,354 rounds with memory flat (RSS +8.4%)',
@@ -577,7 +577,7 @@ export const PROJECTS: Projects[] = [
       'Signed the operator API with HMAC over raw bytes, plus nonce replay protection, skew checks and rate limiting; players enter through signed launch tokens',
       'Recorded deterministic seeded-RNG rounds to a hash-chained, Ed25519-signed append-only audit ledger on Postgres',
       'Modeled Vault 20K RTP profiles through math/game-rules-v2.json',
-      'Added a game registry so a second title, Classic 5x3, runs on the same RGS with its own isolated engine, exact RTP calculator and canvas client',
+      'Added a game registry so a second title, Moth & Lantern, runs on the same RGS with its own isolated engine, exact RTP calculator and canvas client',
       'Made money flow crash-safe: round intents committed before the casino debit and recovered on boot, proven with kill -9 under load',
       'Implemented tumble sequencing with multiplier progression, free spins, retriggers, and buy-free-spins flow',
       'Rendered the gameplay client with canvas for dark, glassy, animated slot visuals',
@@ -588,7 +588,7 @@ export const PROJECTS: Projects[] = [
       'Extended the RGS to stateful games for a third title, Relic Forge, then built its equal-EV relic-draft table by backward induction and calibrated it against Monte Carlo play',
     ],
     metrics: [
-      { label: 'Games', value: 'Vault 20K + Classic 5x3' },
+      { label: 'Games', value: 'Vault 20K + Moth & Lantern' },
       { label: 'Crash test', value: '0 lost rounds (kill -9)' },
       { label: 'Simulation', value: '30M + 200M + 100M rounds' },
       { label: 'Request integrity', value: 'HMAC + nonce' },
