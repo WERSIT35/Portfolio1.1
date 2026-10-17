@@ -28,12 +28,12 @@ export const EXPERIENCE = {
     dates: 'Apr 2026 – Present',
     meta: `Part-time venture, not yet incorporated · Pre-launch (demo live, RGS not yet hosted) · ${LUMINA_LINKS}`,
     bullets: [
-      'Designed and built, as sole engineer, a **server-authoritative slot provider platform**: Fastify/TypeScript RGS, operator control plane, provider and operator admin consoles, and the canvas client for the first title, **Vault 20K** (6×5 pays-anywhere, tumbles, free spins, multipliers, buy-feature, ante bet).',
+      'Designed and built, as sole engineer, a **server-authoritative slot provider platform**: Fastify/TypeScript RGS, operator control plane, provider and operator admin consoles, and the canvas clients for **Vault 20K** (6×5 pays-anywhere, tumbles, free spins, multipliers, buy-feature, ante bet) and **Classic 5x3**.',
       'Wrote one **shared maths engine** that runs unchanged in the browser, the RGS and a seeded, sharded RTP tool; validated three RTP profiles (96.38%, 94.40%, 92.38%) with **30M seeded rounds per mode**, confirmed on a second 200M-round seed (pooled base RTP 96.36% ± 0.07% vs 96.38% declared).',
       'Secured casino integration with an **HMAC-signed operator API** (raw-byte signatures, nonce replay protection, timestamp-skew checks, rate limiting) and seamless-wallet webhooks with idempotent debits and lost-debit rollback, proven end to end against a demo casino.',
       'Made every round auditable and traceable: seeded RNG, **hash-chained, Ed25519-signed append-only ledgers** behind Postgres triggers, signed round exports, W3C tracing through to wallet webhooks, Prometheus metrics.',
       'Ran an internal security review: 8 findings (2 High: a concurrent-round race, reusable idempotency keys), each fixed with a regression test in a **57-test abuse suite**; 300+ tests in CI; 45 design docs.',
-      'Load-tested over real HTTP on one Node process: **~1,150 spins/s, p99 13 ms** at 10 concurrent sessions, **0 errors over 69k spins**, ledger and wallet reconciled to the cent.',
+      'Crash-tested at **500 concurrent players**: kill -9 three times mid-load lost **0 rounds** and left **0 unrefunded debits**; memory stayed flat over a **1M-round** soak.',
     ],
   },
   betlive: {
