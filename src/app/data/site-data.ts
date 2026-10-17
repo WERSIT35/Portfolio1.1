@@ -529,10 +529,10 @@ export const PROJECTS: Projects[] = [
   {
     slug: 'lumina-games',
     projName: 'Lumina Games',
-    subname: 'Server-Authoritative Slot Provider — Vault 20K, Fastify RGS + Canvas Client',
+    subname: 'Server-Authoritative Slot Provider — Vault 20K + Relic Forge (in development), Fastify RGS + Canvas Client',
     date: 'Apr 2026 – Oct 2026',
     about:
-      'Lumina Games is a server-authoritative slot provider platform built around its first title, Vault 20K. A single shared math engine runs unchanged in the browser, the Fastify/TypeScript RGS and the seeded RTP parity tool, so all three resolve spins identically. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks and rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres memory-first write-through persistence. The canvas client renders a 6x5 symbols-pay-anywhere board (8-match minimum) with tumbles, free spins, retriggers, multiplier progression, ante bet and buy-free-spins, across three RTP profiles validated in-house with 30M-round seeded simulations.',
+      'Lumina Games is a server-authoritative slot provider platform built around its first title, Vault 20K. A single shared math engine runs unchanged in the browser, the Fastify/TypeScript RGS and the seeded RTP parity tool, so all three resolve spins identically. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks and rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres memory-first write-through persistence. The canvas client renders a 6x5 symbols-pay-anywhere board (8-match minimum) with tumbles, free spins, retriggers, multiplier progression, ante bet and buy-free-spins, across three RTP profiles validated in-house with 30M-round seeded simulations. A second title, Relic Forge (in development), runs on the same RGS: a cluster-pays cascade with a per-player meter kept across sessions and a relic-draft bonus whose choices are balanced to near-equal expected value, so the picks change the volatility, not the return.',
     numOfPage: 2,
     duration: 'Fastify + Node.js + Canvas + Slot Math Simulation',
     highlights: [
@@ -547,6 +547,8 @@ export const PROJECTS: Projects[] = [
       'Tumble flow with animated drop, explode visuals, free spins, retriggers, and multiplier progression',
       'Seeded, sharded RTP parity tool: 30M rounds per mode plus a 200M independent run, all three profiles PASS',
       'Security findings register (2 High fixed) backed by a 57-test abuse suite in CI',
+      'Multi-game RGS: Relic Forge adds per-session feature state, per-player state across sessions and server-validated player choices, while Vault 20K replays byte-identically over 10M seeded rounds',
+      'Relic Forge equal-EV drafts: backward induction over 2,338 draft states, calibrated against simulated play; pick strategies land within ~1% of the bonus EV (internal 10M-round run: 96.34% RTP)',
     ],
     img: ['/assets/projects/LuminaGames/Pic1Web.webp', '/assets/projects/LuminaGames/Pic1Mob.webp'],
     link: 'https://provider-flame.vercel.app/',
@@ -577,6 +579,7 @@ export const PROJECTS: Projects[] = [
       'Built a demo casino with seamless-wallet webhooks, idempotent debits and lost-debit rollback to prove the integration end to end',
       'Shipped separate provider and operator admin consoles with scrypt + TOTP 2FA, RBAC and tenant scoping',
       'Kept a security findings register (2 High fixed) backed by a 57-test abuse suite in CI',
+      'Extended the RGS to stateful games for a second title, Relic Forge, then built its equal-EV relic-draft table by backward induction and calibrated it against Monte Carlo play',
     ],
     metrics: [
       { label: 'Layout', value: '6x5 reels' },
