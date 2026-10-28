@@ -15,15 +15,15 @@
   </g>
   <g fill="#fff"><path d="M178 85l6 4-6 4z"/><path d="M318 85l-6 4 6 4z"/><path d="M244 180l4 6 4-6z"/></g>
   <g fill="#ededed" font-size="13" font-weight="700">
-    <text x="32" y="82">Canvas client</text>
+    <text x="32" y="82">Game clients</text>
     <text x="196" y="82">Fastify RGS</text>
     <text x="368" y="82">Operator</text>
     <text x="196" y="210">Round ledger</text>
-    <text x="32" y="210">RTP parity tool</text>
+    <text x="32" y="210">RTP tools</text>
   </g>
   <g fill="#9a9a9a" font-size="10" letter-spacing="0.4">
-    <text x="32" y="100">6×5 board · tumbles</text>
-    <text x="196" y="102">shared math engine</text>
+    <text x="32" y="100">5 titles · one shell</text>
+    <text x="196" y="102">per-game engines</text>
     <text x="196" y="118">seeded RNG</text>
     <text x="196" y="134">launch tokens</text>
     <text x="368" y="100">HMAC + nonce API</text>
@@ -31,7 +31,7 @@
     <text x="368" y="152">webhooks</text>
     <text x="196" y="228">hash-chained</text>
     <text x="196" y="242">Ed25519-signed</text>
-    <text x="32" y="228">30M-round seeded</text>
+    <text x="32" y="228">10M–200M seeded</text>
     <text x="32" y="242">simulations</text>
   </g>
 </svg>
