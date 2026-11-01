@@ -257,7 +257,17 @@
 }
 
 @include bp.tablet-up {
+  // Pointer-driven state (set by the component, mouse only): --rx/--ry tilt in deg, --mx/--my the
+  // magnetic pull in px, --gx/--gy the glare position, --line-shift how far the cut-off line scrolls.
   .feature {
+    --rx: 0deg;
+    --ry: 0deg;
+    --mx: 0px;
+    --my: 0px;
+    --gx: 50%;
+    --gy: 50%;
+    --line-shift: 0px;
+
     position: absolute;
     right: var(--gutter);
     bottom: 48px;
@@ -268,12 +278,40 @@
     gap: 16px;
     width: min(380px, 30vw);
     padding: 8px 16px 8px 8px;
+    overflow: hidden;
+    isolation: isolate;
     border-radius: var(--radius);
     background: #fff;
     color: #0a0a0a;
     text-decoration: none;
-    box-shadow: 0 24px 60px -24px rgb(0 0 0 / 55%);
-    transition: transform 200ms ease-out;
+    // A tight, layered lift instead of one wide blur (the old 60px shadow read as a frame).
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 18%),
+      0 10px 24px -14px rgb(0 0 0 / 50%);
+    transform: perspective(900px) translate3d(var(--mx), var(--my), 0) rotateX(var(--rx))
+      rotateY(var(--ry));
+    transition:
+      transform 700ms var(--ease-spring),
+      box-shadow 400ms var(--ease-out-expo);
+  }
+
+  .feature.is-tracking {
+    // The component lerps every frame while the cursor is near; a transition would lag behind.
+    transition: box-shadow 400ms var(--ease-out-expo);
+  }
+
+  .feature__glare {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      220px circle at var(--gx) var(--gy),
+      rgb(10 10 10 / 7%),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 300ms ease-out;
   }
 
   .feature__thumb {
@@ -292,6 +330,10 @@
     object-fit: cover;
     object-position: 50% 0%;
     filter: grayscale(1);
+    transition:
+      filter 500ms ease-out,
+      transform 900ms var(--ease-out-expo),
+      object-position 1400ms var(--ease-luxe);
   }
 
   .feature__text {
@@ -309,39 +351,165 @@
   }
 
   .feature__name {
+    justify-self: start;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 400ms var(--ease-out-expo);
   }
 
   .feature__line {
     overflow: hidden;
     font-size: 13px;
     white-space: nowrap;
-    text-overflow: ellipsis;
     color: #444;
+    // A soft fade instead of an ellipsis, so the hover scroll can reveal the rest.
+    mask-image: linear-gradient(90deg, #000 calc(100% - 20px), transparent);
+  }
+
+  .feature__line-in {
+    display: inline-block;
+    transition: transform 300ms ease-out;
   }
 
   .feature__arrow {
+    position: relative;
     display: grid;
     place-items: center;
     width: 40px;
     height: 40px;
+    overflow: hidden;
     border-radius: 999px;
     background: #0a0a0a;
     color: #fff;
+    transition:
+      transform 500ms var(--ease-spring),
+      background-color 200ms ease-out;
+  }
+
+  .feature__arrow svg {
+    grid-area: 1 / 1;
+    transition: transform 400ms var(--ease-out-expo);
+  }
+
+  // The second arrow waits off to the left and slides in as the first leaves to the right.
+  .feature__arrow svg + svg {
+    transform: translateX(-28px);
   }
 
   .feature:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
   }
+
+  // Hover and keyboard focus share one "engaged" state.
+  .feature:is(:hover, :focus-visible) {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 18%),
+      0 22px 40px -18px rgb(0 0 0 / 60%);
+
+    .feature__glare {
+      opacity: 1;
+    }
+
+    .feature__thumb img {
+      filter: none;
+      transform: scale(1.06);
+      object-position: 50% 35%;
+    }
+
+    .feature__name {
+      background-size: 100% 1px;
+    }
+
+    .feature__line {
+      mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 16px), transparent);
+    }
+
+    .feature__line-in {
+      transform: translateX(calc(-1 * var(--line-shift)));
+      transition: transform var(--line-ms, 1200ms) linear 250ms;
+    }
+
+    .feature__arrow {
+      transform: rotate(-45deg) scale(1.08);
+    }
+
+    .feature__arrow svg {
+      transform: translateX(28px);
+    }
+
+    .feature__arrow svg + svg {
+      transform: none;
+    }
+  }
+
+  .feature:active .feature__arrow {
+    transform: rotate(-45deg) scale(0.94);
+  }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .feature:hover {
-    transform: translateY(-2px);
+// Entrance: the card unfolds from its right edge after the name lands, then its contents follow.
+@keyframes feature-in {
+  from {
+    clip-path: inset(0 0 0 100% round var(--radius));
+    transform: translateX(24px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius));
+  }
+}
+
+@keyframes feature-part-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+@keyframes feature-thumb-in {
+  from {
+    transform: scale(1.3);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: bp.$tablet) {
+  .feature {
+    animation: feature-in 800ms var(--ease-out-expo) 450ms backwards;
+  }
+
+  .feature__thumb img {
+    animation: feature-thumb-in 1200ms var(--ease-out-expo) 450ms backwards;
+  }
+
+  .feature__text > *,
+  .feature__arrow {
+    animation: feature-part-in 500ms var(--ease-out-expo) backwards;
+  }
+
+  .feature__kicker {
+    animation-delay: 650ms;
+  }
+
+  .feature__name {
+    animation-delay: 700ms;
+  }
+
+  .feature__line {
+    animation-delay: 750ms;
+  }
+
+  .feature__arrow {
+    animation-delay: 800ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature,
+  .feature * {
+    transition: none !important;
   }
 }
 
