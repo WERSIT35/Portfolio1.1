@@ -1,5 +1,4 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal } from '@angular/core';
-import { shotSize } from '../../../utils/project-media';
 import { trackEvent } from '../../../utils/analytics';
 import { RouterLink } from '@angular/router';
 import { CONTACT, EXPERIENCES, PROJECTS } from '../../../data/site-data';
@@ -64,15 +63,19 @@ export class HeroSection {
   protected readonly projectCount = PROJECTS.length;
   protected readonly liveCount = PROJECTS.filter((project) => project.status === 'live').length;
 
-  /** Project 01 previews in the white card with its first desktop screenshot. */
+  /** The flagship (Lumina Games) previews in the white card with its first desktop screenshot. */
+  private readonly flagshipIndex = Math.max(
+    0,
+    PROJECTS.findIndex((project) => project.slug === 'lumina-games'),
+  );
+  private readonly flagship = PROJECTS[this.flagshipIndex];
   protected readonly featured = {
-    slug: PROJECTS[0].slug,
-    index: '01',
-    projName: PROJECTS[0].projName,
-    line: PROJECTS[0].subname.split(' — ')[0],
-    thumb: PROJECTS[0].img.find((src) => !/Mob\./.test(src)) ?? '',
+    slug: this.flagship.slug,
+    index: String(this.flagshipIndex + 1).padStart(2, '0'),
+    projName: this.flagship.projName,
+    line: this.flagship.subname.split(' — ')[0],
+    thumb: this.flagship.img.find((src) => !/Mob\./.test(src)) ?? '',
   };
-  protected readonly featuredSize = shotSize(this.featured.thumb);
   /** The card is 112px wide: the 800w sibling is plenty (phones hide the card, so lazy). */
   protected readonly featuredSmall = this.featured.thumb.replace(/\.webp$/, '-800w.webp');
 
