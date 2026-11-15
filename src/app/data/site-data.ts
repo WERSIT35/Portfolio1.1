@@ -21,7 +21,7 @@ export const EXPERIENCES: Experience[] = [
     id: 2,
     role: 'Freelance Full-Stack Engineer',
     employment: 'Freelance',
-    date: 'Sep 2022 – Present',
+    date: 'Sep 2024 – Present',
     summary:
       'Owned end-to-end development of full-stack systems spanning Angular frontends, Node.js services, REST APIs, and database-backed workflows. Built modular, production-oriented features with attention to secure APIs, data integrity, and automated validation.',
     stack: ['Angular', 'Node.js', 'Express.js', 'REST API', 'Component Architecture'],
@@ -529,14 +529,14 @@ export const PROJECTS: Projects[] = [
   {
     slug: 'lumina-games',
     projName: 'Lumina Games',
-    subname: 'Server-Authoritative Slot Provider — Five Titles, Fastify RGS + Canvas Clients',
+    subname: 'Server-Authoritative Slot Provider — Fastify RGS + Canvas Clients',
     date: 'Apr 2026 – Oct 2026',
     about:
-      'Lumina Games is a server-authoritative slot provider with five titles, all playable in the demo lobby: Vault 20K, Moth & Lantern, Relic Forge, Glasshouse and Clockwork Menagerie. Each game has its own maths engine, and that same engine runs unchanged in the browser, in the Fastify/TypeScript RGS and in the seeded RTP tools, so a spin resolves identically everywhere; a game registry runs every engine in its own isolated VM context. All five games share one player interface, the Lumina Shell (spin, bet, autoplay with stop conditions, menus, big wins, per-market switches), while each keeps its own board, art and sound. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks, rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres write-through persistence crash-tested with kill -9 under 500-player load without losing a round. Vault 20K, the flagship, is a 6x5 pays-anywhere game with tumbles, multiplier plates, free spins, ante bet and buy feature, now in its Colchis Treasury look: art generated with Gemini and cut into symbols, every board effect drawn frame by frame from art, and a scatter coin that turns as it lands. The math is checked at scale: Moth & Lantern\'s RTP is exact from its reel counts, and the other titles are measured with seeded simulations of 10M to 200M rounds. Pre-launch: not yet licensed for real-money play.',
+      'Lumina Games is a server-authoritative slot provider with five titles built: two are public in the demo lobby, Vault 20K and Clockwork Menagerie, while Moth & Lantern, Relic Forge and Glasshouse are being reworked. Each game has its own maths engine, and that same engine runs unchanged in the browser, in the Fastify/TypeScript RGS and in the seeded RTP tools, so a spin resolves identically everywhere; a game registry runs every engine in its own isolated VM context. All five games share one player interface, the Lumina Shell (spin, bet, autoplay with stop conditions, menus, big wins, per-market switches), while each keeps its own board, art and sound. Casinos integrate through an HMAC-signed operator API (signatures over raw request bytes, nonce replay protection, timestamp skew checks, rate limiting), launch tokens and a seamless-wallet webhook flow, proven end to end against a runnable demo casino. Every round comes from a deterministic seeded RNG and is written to a hash-chained, Ed25519-signed, append-only ledger, with optional Postgres write-through persistence crash-tested with kill -9 under 500-player load without losing a round. Vault 20K, the flagship, is a 6x5 pays-anywhere game with tumbles, multiplier plates, free spins, ante bet and buy feature, now in its Colchis Treasury look: art generated with Gemini and cut into symbols, every board effect drawn frame by frame from art, and a scatter coin that turns as it lands. The math is checked at scale: Moth & Lantern\'s RTP is exact from its reel counts, and the other titles are measured with seeded simulations of 10M to 200M rounds. Pre-launch: not yet licensed for real-money play.',
     numOfPage: 2,
     duration: 'Fastify + Node.js + Canvas + Slot Math Simulation',
     highlights: [
-      'Five titles playable in the demo lobby: Vault 20K, Moth & Lantern, Relic Forge, Glasshouse and Clockwork Menagerie',
+      'Five titles built on one RGS; two public in the demo lobby (Vault 20K, Clockwork Menagerie), three being reworked',
       'Each game\'s maths engine runs unchanged in the browser, the Fastify RGS and the seeded RTP tools',
       'One player interface for every game (Lumina Shell): same controls, readouts, autoplay stop conditions and big-win ladder, each game skinning only its own slots',
       'Vault 20K (6x5, pays anywhere, tumbles, multiplier plates, max 20,000x): three RTP profiles, 96.38%, 94.40% and 92.38%',
@@ -601,7 +601,7 @@ export const PROJECTS: Projects[] = [
       'Kept a security findings register (2 High fixed) backed by a 57-test abuse suite in CI',
     ],
     metrics: [
-      { label: 'Games', value: '5 titles, one RGS' },
+      { label: 'Games', value: '2 live, 5 built, one RGS' },
       { label: 'Crash test', value: '0 lost rounds (kill -9)' },
       { label: 'Simulation', value: '30M + 200M + 100M rounds' },
       { label: 'Request integrity', value: 'HMAC + nonce' },
@@ -834,15 +834,15 @@ export const PROJECTS: Projects[] = [
   {
     slug: 'akhali-sakhli',
     projName: 'Akhali Sakhli',
-    subname: 'Real Estate Platform Website',
+    subname: 'Architecture & Construction Company Website',
     date: 'Client Delivery',
     about:
-      'Akhali Sakhli is a real estate platform website focused on clear property presentation, responsive browsing, and conversion-friendly structure. The delivery emphasized clean sectioning, maintainable Angular components, and consistent page behavior across mobile and desktop views.',
+      'Akhali Sakhli is the website of a Tbilisi architecture, construction and renovation company. It presents their services (project design, construction, interior design, renovation and landscape design) and finished projects, with a gallery, news, contact forms, maps and a project cost calculator, so visitors can price a project and reach the team quickly. The delivery emphasized clean sectioning, maintainable Angular components, and consistent page behavior across mobile and desktop views.',
     numOfPage: 4,
     duration: 'Angular Frontend Delivery',
     highlights: [
-      'Responsive property-focused layouts for desktop and mobile',
-      'Structured content hierarchy for faster listing exploration',
+      'Service pages for design, construction, interior, renovation and landscape work',
+      'Project gallery, news, contact forms, maps and a project cost calculator',
       'Reusable Angular UI sections for maintainable page growth',
       'Improved readability and information flow for conversion paths',
     ],
