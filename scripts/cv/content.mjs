@@ -50,7 +50,7 @@ export const EXPERIENCE = {
   freelance: {
     role: 'Freelance Full-Stack Engineer',
     org: '',
-    dates: 'Sep 2022 – Present',
+    dates: 'Sep 2024 – Present',
     meta: 'Freelance, alongside employment',
     bullets: [
       '**Elite Weddings** ([elitewe.com.ge](https://elitewe.com.ge/)): bilingual EN/KA wedding-agency platform on Angular and a framework-free Node.js backend (plain node:http) with hand-written JWT, scrypt and RFC 6238 TOTP; layered inquiry anti-abuse (honeypot, rate limits, daily caps, CAPTCHA); Docker on k3s with network policies and cert-manager TLS.',
