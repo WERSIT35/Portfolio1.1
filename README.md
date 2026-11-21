@@ -1,59 +1,44 @@
-# Portfolio
+# Portfolio — Otar Davitashvili
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+My personal portfolio and case-study site, built with **Angular 22 + SSR**.
 
-## Development server
+**🌐 Live:** [portfolio1-1-mu.vercel.app](https://portfolio1-1-mu.vercel.app/)
 
-To start a local development server, run:
+![Portfolio preview](public/assets/og-card.png)
 
-```bash
-ng serve
-```
+## Highlights
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Angular 22, all standalone:** signals, the new `@if` / `@for` / `@defer` control flow, and SSR with hydration through `@angular/ssr`
+- **Runs on data:** every project, job, certificate and skill lives in a single typed file (`src/app/data/site-data.ts`), and each case study gets its own route (`/work/:slug`)
+- **Performance:** the hero renders before anything else, fonts are subset to Latin, the gallery hydrates only when it scrolls into view, and below-the-fold images load lazily. `scripts/optimize-images.mjs` (sharp) builds the WebP/AVIF images.
+- **SEO:** each route has its own meta tags and Open Graph cards, plus a sitemap, robots.txt and redirects for renamed projects
+- **Accessibility:** contrast meets AA, the HTML is semantic, and reduced motion is respected
+- **CV generator:** `scripts/cv` builds a PDF CV from the same facts the site shows
 
-## Code scaffolding
+## Stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Angular 22 · TypeScript · Tailwind CSS 4 / SCSS · Express (SSR server) · Vercel (hosting, Analytics, Speed Insights)
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Run locally
 
 ```bash
-ng build
+npm install
+npm start                 # dev server on http://localhost:4200
+npm run build             # production build (browser + server)
+npm run serve:ssr:Portfolio
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Project structure
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```
+src/app/
+  components/   hero, projects, experience, skills, education, certifications, contact
+  pages/        home, project-detail (/work/:slug), not-found
+  data/         site-data.ts — single source of truth for all content
+  interfaces/   typed models for the data
+scripts/        image optimisation, CV build, SEO and visual-audit helpers
 ```
 
-## Running end-to-end tests
+## License
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The code is MIT licensed, see [LICENSE](LICENSE). The content (text, photos, CV) is © Otar Davitashvili.
